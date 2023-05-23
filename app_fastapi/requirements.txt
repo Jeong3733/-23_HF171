@@ -1,0 +1,26 @@
+fastapi
+uvicorn
+pydantic
+requests
+cryptography
+pymysql
+
+# 문서 내 정보 추출
+python-pptx
+pdfminer
+PyPDF2
+fitz
+beautifulsoup4
+kiwipiepy
+pdfminer.six
+PyMuPDF
+tqdm
+
+# img2txt
+google-cloud-vision
+pytesseract
+Pillow
+
+transformers
+torch
+numpy
