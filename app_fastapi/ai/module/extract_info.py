@@ -1,3 +1,4 @@
+from docx import Document
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 
@@ -83,43 +84,6 @@ class PPT_Info_Extract(ExtractInfo):
             for shape in slide.shapes:
                 self._group_check(shape)
 
-        # self.last()
-        # self.preprocessing()
-
-    def last(self):
-        res = []
-        for text_ls in self.text_dict['page'].values():
-            ls = []
-            for text in text_ls:
-                # print(text)
-                pattern = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$\-@\.&+:/?=]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
-                links = re.findall(pattern, text)
-                if links:
-                    for link in links:
-                        self.link_list.append(link)
-                    text = re.sub(pattern=pattern, repl='', string=text)
-                if text:
-                    ls.append(text)
-                    self.text_dict['total'].append(text)
-            t = self.tp.preprocessing(' '.join(ls))
-            if t:
-                res.append(t)
-        self.text_info = '\n'.join(res)
-
-    def preprocessing(self):
-        self.pre_text = ' '.join([t for t in self.text_info.split('\n') if t])
-
-        self.pre_text = self.kiwi.space(self.pre_text)
-        self.pre_text = BeautifulSoup(self.pre_text, 'html.parser').text
-        self.pre_text = re.sub(
-            r'[^ ㄱ-ㅣ가-힣]', '', self.pre_text)  # 특수기호 제거, 정규 표현식
-
-        clean_words = []
-        for token, pos, _, _ in self.kiwi.analyze(self.pre_text)[0][0]:
-            if pos.startswith('N'):
-                clean_words.append(token)
-        self.pre_text = ' '.join(clean_words)
-
     def _group_check(self, shape):
         # 그룹 모형
         if shape.shape_type == MSO_SHAPE_TYPE.GROUP:
@@ -135,20 +99,23 @@ class PPT_Info_Extract(ExtractInfo):
         else:
             # yes image
             if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
-                image_blob = shape.image.blob
+                try:
+                    image_blob = shape.image.blob
 
-                # 이미지 중복 체크
-                if image_blob not in self.image_blob:
-                    ext = shape.image.ext  # - (확장명)
-                    size = shape.image.size
-                    if ext in ['png', 'jpeg', 'jpg'] and size[0] >= 200 and size[1] >= 200:
-                        self.img_num += 1
-                        num = str(self.img_num).zfill(3)
-                        save_path = f"{self.fileutil.res_dir}{self.name}/image_{num}.{ext}"
-                        with open(save_path, "wb") as file:
-                            file.write(image_blob)
-                        self.image_blob.append(image_blob)
-                        self.img_dict[self.img_num].append(save_path)
+                    # 이미지 중복 체크
+                    if image_blob not in self.image_blob:
+                        ext = shape.image.ext  # - (확장명)
+                        size = shape.image.size
+                        if ext in ['png', 'jpeg', 'jpg'] and size[0] >= 200 and size[1] >= 200:
+                            self.img_num += 1
+                            num = str(self.img_num).zfill(3)
+                            save_path = f"{self.fileutil.res_dir}{self.name}/image_{num}.{ext}"
+                            with open(save_path, "wb") as file:
+                                file.write(image_blob)
+                            self.image_blob.append(image_blob)
+                            self.img_dict[self.img_num].append(save_path)
+                except:
+                    pass
             # no image
             else:
                 # yes text
@@ -156,6 +123,93 @@ class PPT_Info_Extract(ExtractInfo):
                     if shape.text.strip() != "":
                         self.text_dict['page'][self.page_num].append(
                             shape.text.strip())
+
+
+class DOCX_Info_Extract(ExtractInfo):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def reset(self):
+        super().reset()
+        self.doc = None
+
+    def run(self, file_name):
+        """_summary_
+
+        Args:
+            file_name (str): 문서 이름
+
+        Returns:
+            dict:
+                page_num (int):
+                    text (str): list
+                    img (str): list
+        """
+        self._extract(file_name)
+        res = {}
+        texts = self.text_dict['page']
+        imgs = self.img_dict
+
+        self.text_dict['page'][self.page_num]
+        self.text_dict['page'][self.page_num].append(
+            self._extract_tables())
+        self._extract_images()
+
+        pages = set(list(texts.keys()) + list(imgs.keys()))
+        for page in range(min(pages), max(pages)+1):
+            res[page] = {}
+            res[page]['text'] = texts[page]
+            res[page]['img'] = imgs[page]
+        return res
+
+    def _extract(self, file_name):
+        # path = "deep_learning_intro.pptx"
+        self.reset()
+        self.file_name = file_name
+        self.name, self.ext = os.path.splitext(file_name)
+        path = self.fileutil.orignal_dir + file_name
+        self.doc = Document(path)
+
+        self.text_dict['page'][self.page_num]
+        self.text_dict['page'][self.page_num].append(
+            self._extract_tables())
+        self._extract_images()
+
+    def _extract_text(self):
+        paragraphs = [p.text for p in self.doc.paragraphs]
+        return '\n'.join(paragraphs)
+
+    def _extract_tables(self):
+        tables = []
+        for table in self.doc.tables:
+            data = []
+            for row in table.rows:
+                cells = []
+                for cell in row.cells:
+                    cells.append(cell.text)
+                data.append(' '.join(cells))
+            tables.append(' '.join(data))
+        return '\n'.join(tables)
+
+    def _extract_images(self):
+        for rel in self.doc.part.rels.values():
+            if "image" in rel.reltype:
+                image = rel.target_part.image
+                image_blob = image.blob
+
+                # 이미지 중복 체크
+                if image_blob not in self.image_blob:
+                    ext = image.ext
+                    size = image.px_height, image.px_width
+                    if ext in ['png', 'jpeg', 'jpg'] and size[0] >= 200 and size[1] >= 200:
+                        self.img_num += 1
+                        num = str(self.img_num).zfill(3)
+                        save_path = f"{self.fileutil.res_dir}{self.name}/image_{num}.{ext}"
+
+                        with open(save_path, "wb") as file:
+                            file.write(image_blob)
+                        self.image_blob.append(image_blob)
+                        self.img_dict[self.img_num].append(save_path)
 
 
 if __name__ == '__main__':
@@ -168,8 +222,10 @@ if __name__ == '__main__':
     fileutil = FileUtil()
     fileutil.input_files_update()
 
-    ppt = PPT_Info_Extract()
-    ppt.extract('1 Intro.pptx')
+    # ppt = PPT_Info_Extract()
+    # ppt.extract('1 Intro.pptx')
+    # ppt = DOCX_Info_Extract()
+    # ppt.extract('판넬양식.docx')
     # print(dict(ppt.text_dict['page']))
     # print(dict(ppt.img_dict))
     # print(ppt.run()[10])

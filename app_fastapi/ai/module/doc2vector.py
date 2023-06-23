@@ -1,5 +1,5 @@
 from ai.module.util import FileUtil
-from ai.module.extract_info import PPT_Info_Extract
+from ai.module.extract_info import PPT_Info_Extract, DOCX_Info_Extract
 from ai.module.image_classification import ImageClassification
 from ai.module.img2text import OCR, Captioning
 from ai.module.text_preprocessing import TextPreprocessing
@@ -22,6 +22,7 @@ class Doc2Vector:
         Returns:
             dict: 문서 벡터화
         """
+        ext = path.split('.')[-1]
 
         # (0) 파일 업로드
         print('# (0) 파일 업로드')
@@ -30,7 +31,12 @@ class Doc2Vector:
 
         # (2) 문서 내 텍스트 및 이미지 추출
         print('# (2) 문서 내 텍스트 및 이미지 추출')
-        extractinfo = PPT_Info_Extract()
+        if ext in ['pptx', 'ppt']:
+            extractinfo = PPT_Info_Extract()
+        elif ext in ['docx']:
+            extractinfo = DOCX_Info_Extract()
+        else:
+            return {'status': 'error'}
         infoDict = extractinfo.run(path)
         # print(infoDict)
 
