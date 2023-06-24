@@ -6,14 +6,12 @@ from pptx.enum.shapes import MSO_SHAPE_TYPE
 # from pdfminer.layout import LTTextContainer
 # import PyPDF2
 # import fitz
+import fitz
+from PIL import Image
 
 from collections import defaultdict
-from kiwipiepy import Kiwi
 
-import re
 import os
-import shutil
-from bs4 import BeautifulSoup
 
 from ai.module.util import FileUtil
 
@@ -22,7 +20,6 @@ class ExtractInfo:
     def __init__(self) -> None:
         # self.tp = Text_Preprocessing()
         self.fileutil = FileUtil()
-        self.kiwi = Kiwi()
         self.reset()
 
     def reset(self):
@@ -79,8 +76,8 @@ class PPT_Info_Extract(ExtractInfo):
         path = self.fileutil.orignal_dir + file_name
         self.parsed = Presentation(path)
 
-        for idx, slide in enumerate(self.parsed.slides):
-            self.page_num = idx+1
+        for idx, slide in enumerate(self.parsed.slides, start=1):
+            self.page_num = idx
             for shape in slide.shapes:
                 self._group_check(shape)
 
@@ -210,6 +207,85 @@ class DOCX_Info_Extract(ExtractInfo):
                             file.write(image_blob)
                         self.image_blob.append(image_blob)
                         self.img_dict[self.img_num].append(save_path)
+
+
+# https://neurondai.medium.com/how-to-extract-text-from-a-pdf-using-pymupdf-and-python-caa8487cf9d
+class PDF_Info_Extract(ExtractInfo):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def reset(self):
+        super().reset()
+        self.pdf = None
+
+    def run(self, file_name):
+        """_summary_
+
+        Args:
+            file_name (str): 문서 이름
+
+        Returns:
+            dict:
+                page_num (int):
+                    text (str): list
+                    img (str): list
+        """
+        self._extract(file_name)
+        res = {}
+        texts = self.text_dict['page']
+        imgs = self.img_dict
+
+        pages = set(list(texts.keys()) + list(imgs.keys()))
+        for page in range(min(pages), max(pages)+1):
+            res[page] = {}
+            res[page]['text'] = texts[page]
+            res[page]['img'] = imgs[page]
+        return res
+
+    def _extract(self, file_name):
+        # path = "deep_learning_intro.pptx"
+        self.reset()
+        self.file_name = file_name
+        self.name, self.ext = os.path.splitext(file_name)
+        path = self.fileutil.orignal_dir + file_name
+        self.pdf = fitz.open(path)
+        # print(len(self.pdf))
+        for idx, page_content in enumerate(self.pdf, start=1):
+            self.page_num = idx
+            # 텍스트 추출
+            self._extract_text(page_content)
+            # 이미지 추출
+            self._extract_image(page_content)
+
+    def _extract_text(self, page_content):
+        try:
+            text = page_content.get_text()
+            if text != "":
+                self.text_dict['page'][self.page_num].append(
+                    text.strip())
+        except:
+            pass
+
+    def _extract_image(self, page_content):
+        images_list = page_content.get_images()
+        for img_info in images_list:
+            # Extract image
+            image = self.pdf.extract_image(img_info[0])
+            ext = image['ext']
+            size = int(image['height']), int(image['width'])
+            if ext in ['png', 'jpeg', 'jpg'] and size[0] >= 200 and size[1] >= 200:
+                self.img_num += 1
+                num = str(self.img_num).zfill(3)
+                save_path = f"{self.fileutil.res_dir}{self.name}/image_{num}.{ext}"
+
+                # Store image bytes
+                image_blob = image['image']
+
+                # Save image
+                with open(save_path, 'wb') as file:
+                    file.write(image_blob)
+                self.image_blob.append(image_blob)
+                self.img_dict[self.img_num].append(save_path)
 
 
 if __name__ == '__main__':

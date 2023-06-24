@@ -24,7 +24,7 @@ async def add_file(file_name: str):
         resDict = process.run(file_name)
 
         resDict = util.convert_numpy_to_list(resDict)
-        param = {'paht': file_name, 'file_name': name}
+        param = {'path': file_name, 'file_name': name}
         db.db_add(resDict['text'], name, param, name)
         return JSONResponse(content={'cond': True})
     except:

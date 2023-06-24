@@ -36,6 +36,7 @@ class TextPreprocessing:
             resInfo['page'][page_num] = self._preprocssing(text=text)
 
         resInfo['text'] = self._preprocssing(text=docInfo['text'])
+        print(resInfo['text'])
 
         return resInfo
 

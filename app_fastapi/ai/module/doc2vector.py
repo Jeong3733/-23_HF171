@@ -1,5 +1,7 @@
 from ai.module.util import FileUtil
-from ai.module.extract_info import PPT_Info_Extract, DOCX_Info_Extract
+from ai.module.extract_info import (PPT_Info_Extract,
+                                    DOCX_Info_Extract,
+                                    PDF_Info_Extract)
 from ai.module.image_classification import ImageClassification
 from ai.module.img2text import OCR, Captioning
 from ai.module.text_preprocessing import TextPreprocessing
@@ -35,6 +37,8 @@ class Doc2Vector:
             extractinfo = PPT_Info_Extract()
         elif ext in ['docx']:
             extractinfo = DOCX_Info_Extract()
+        elif ext in ['pdf']:
+            extractinfo = PDF_Info_Extract()
         else:
             return {'status': 'error'}
         infoDict = extractinfo.run(path)
