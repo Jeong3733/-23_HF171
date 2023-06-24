@@ -13,12 +13,12 @@ class TextPreprocessing:
         self.specials = {'\u200b': ' ', '…': ' ... ',
                          '\ufeff': '', 'करना': '', 'है': ''}
 
-    def run(self, docInfo: dict) -> dict:
+    def run(self, doc_info: dict) -> dict:
         """_summary_
 
         Args:
-            docInfo (dict): _description_
-        #  docInfo = {'path': path,
+            doc_info (dict): _description_
+        #  doc_info = {'path': path,
         #            'text': text,
         #            'page': {1: text, 2: text}}
 
@@ -28,14 +28,14 @@ class TextPreprocessing:
         #            'text': text,
         #            'page': {1: text, 2: text}}
         """
-        resInfo = {'path': docInfo['path'],
+        resInfo = {'path': doc_info['path'],
                    'text': '',
                    'page': {}}
 
-        for page_num, text in docInfo['page'].items():
+        for page_num, text in doc_info['page'].items():
             resInfo['page'][page_num] = self._preprocssing(text=text)
 
-        resInfo['text'] = self._preprocssing(text=docInfo['text'])
+        resInfo['text'] = self._preprocssing(text=doc_info['text'])
         print(resInfo['text'])
 
         return resInfo
@@ -90,6 +90,6 @@ class TextPreprocessing:
 if __name__ == '__main__':
     textprepro = TextPreprocessing()
 
-    docInfo = {}
+    doc_info = {}
 
-    docInfo = textprepro.run(docInfo=docInfo)
+    doc_info = textprepro.run(doc_info=doc_info)

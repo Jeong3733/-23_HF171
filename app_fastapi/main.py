@@ -6,7 +6,9 @@ from api import (api_image, api_xai, api_nlp,
 # from unicorn import UnicornMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 # from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+import logging
 
+logging.basicConfig(filename="example.log", level=logging.INFO)
 
 def include_router(app):
     app.include_router(api_image.router, prefix='/image')

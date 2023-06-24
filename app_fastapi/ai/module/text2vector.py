@@ -11,12 +11,12 @@ class Text2Vector:
         self.model = AutoModel.from_pretrained(
             "beomi/KcELECTRA-base-v2022")
 
-    def run(self, docInfo: dict) -> dict:
+    def run(self, doc_info: dict) -> dict:
         """_summary_
 
         Args:
-            docInfo (dict): _description_
-        #  docInfo = {'path': path,
+            doc_info (dict): _description_
+        #  doc_info = {'path': path,
         #            'text': text,
         #            'page': {1: text, 2: text}}
 
@@ -26,17 +26,17 @@ class Text2Vector:
         #             'text': vector,
         #             'page': {1: vector, 2: vector}}
         """
-        resInfo = {'path': docInfo['path'],
+        resInfo = {'path': doc_info['path'],
                    'text': '',
                    'page': {}}
 
-        for page_num, text in docInfo['page'].items():
+        for page_num, text in doc_info['page'].items():
             resInfo['page'][page_num] = self._get_embeddings(
                 texts=[text])
 
-        # print([docInfo['text']])
+        # print([doc_info['text']])
         resInfo['text'] = self._get_embeddings(
-            texts=[docInfo['text']])
+            texts=[doc_info['text']])
         return resInfo
 
     def _get_embeddings(self, texts: list) -> list:
@@ -60,6 +60,6 @@ class Text2Vector:
 if __name__ == '__main__':
     t2v = Text2Vector()
 
-    docInfo = {}
+    doc_info = {}
 
-    docInfo = t2v.run(docInfo=docInfo)
+    doc_info = t2v.run(doc_info=doc_info)

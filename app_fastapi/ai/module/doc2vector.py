@@ -1,112 +1,98 @@
+import os
+import logging
+
 from ai.module.util import FileUtil
-from ai.module.extract_info import (PPT_Info_Extract,
-                                    DOCX_Info_Extract,
-                                    PDF_Info_Extract)
+from ai.module.extract_info import PPTInfoExtract, DOCXInfoExtract, PDFInfoExtract
 from ai.module.image_classification import ImageClassification
 from ai.module.img2text import OCR, Captioning
 from ai.module.text_preprocessing import TextPreprocessing
 from ai.module.text2vector import Text2Vector
 
 
-import os
-
-
 class Doc2Vector:
+    """Class for document vectorization."""
+
     def __init__(self) -> None:
+        """Constructor method."""
         pass
 
     def run(self, path: str) -> dict:
-        """_summary_
+        """Run the document vectorization process.
 
         Args:
-            path (str): 문서 경로
+            path (str): Path to the document.
 
         Returns:
-            dict: 문서 벡터화
+            dict: Document vectorization information.
         """
-        ext = path.split('.')[-1]
+        file_extension = path.split('.')[-1]
 
-        # (0) 파일 업로드
-        print('# (0) 파일 업로드')
-        fileutil = FileUtil()
-        fileutil.input_files_update()
+        # (0) File upload
+        logging.info('# (0) File upload')
+        file_util = FileUtil()
+        file_util.input_files_update()
 
-        # (2) 문서 내 텍스트 및 이미지 추출
-        print('# (2) 문서 내 텍스트 및 이미지 추출')
-        if ext in ['pptx', 'ppt']:
-            extractinfo = PPT_Info_Extract()
-        elif ext in ['docx']:
-            extractinfo = DOCX_Info_Extract()
-        elif ext in ['pdf']:
-            extractinfo = PDF_Info_Extract()
+        # (2) Extract text and images from documents
+        logging.info('# (2) Extract text and images from document')
+        if file_extension in ['pptx', 'ppt']:
+            extract_info = PPTInfoExtract()
+        elif file_extension == 'docx':
+            extract_info = DOCXInfoExtract()
+        elif file_extension == 'pdf':
+            extract_info = PDFInfoExtract()
         else:
             return {'status': 'error'}
-        infoDict = extractinfo.run(path)
-        # print(infoDict)
+        info_dict = extract_info.run(path)
 
-        # infoDict = {1: {'text': [],  # 1번 페이지에서 추출한 텍스트
-        #                 'img': []}}  # 1번 페이지에서 추출한 이미지 경로
-
-        # (3) 이미지 유형 분류 및 이미지2텍스트
-        print('# (3) 이미지 유형 분류')
-        imgclsfc = ImageClassification()
+        # (3) Image type classification and image2text
+        logging.info('# (3) Image type classification')
+        img_classifier = ImageClassification()
         ocr = OCR()
         captioning = Captioning()
 
-        for _, typedata in infoDict.items():
+        for _, typedata in info_dict.items():
             typedata['img2text'] = []
             for img_path in typedata['img']:
-                # 분류 모델 X, img_type 항상 1
-                img_type = imgclsfc.run(img_path=img_path)
+                # Classification model X, img_type always 1
+                img_type = img_classifier.run(img_path=img_path)
 
-                if img_type == 1:   # 1: 표 및 프로세스 (ocr)
+                if img_type == 1:  # 1: table and process (OCR)
                     text = ocr.run(img_path=img_path)
-                elif img_type == 2:  # 2: 그림 (ImageCaptioning)
+                elif img_type == 2:  # 2: Picture (ImageCaptioning)
                     text = captioning.run(img_path=img_path)
                 typedata['img2text'].append(text)
-        # print(infoDict)
 
-        # (4) 텍스트 합치기
-        # infoDict = {1: {'text': [],  # 1번 페이지에서 추출한 텍스트
-        #                 'img': []},  # 1번 페이지에서 추출한 텍스트
-        #                 'img2text': []}}    # 이미지에서 텍스트로 변환한 데이터
-        # docInfo = {'path': path,
-        #            'text': text,
-        #            'page': {1: text, 2: text}}
+        # (4) Combine text
+        doc_info = {'path': path, 'text': '', 'page': {}}
 
-        docInfo = {'path': path,
-                   'text': '',
-                   'page': {}}
+        for page_num, typedata in info_dict.items():
+            page_text = ' '.join(typedata['text']) + ' '.join(typedata['img2text'])
+            doc_info['page'][page_num] = page_text
 
-        for page_num, typedata in infoDict.items():
-            page_text = ' '.join(typedata['text']) + \
-                ' '.join(typedata['img2text'])
-            docInfo['page'][page_num] = page_text
+        for _, text in doc_info['page'].items():
+            doc_info['text'] += text
 
-        for _, text in docInfo['page'].items():
-            docInfo['text'] += text
+        # (5) Text preprocessing
+        logging.info('# (5) Text preprocessing')
+        text_preprocessing = TextPreprocessing()
+        doc_info = text_preprocessing.run(doc_info=doc_info)
 
-        # print(docInfo)
+        # (6) Vectorize BERT documents
+        logging.info('# (6) Vectorize BERT documents')
+        text2vector = Text2Vector()
+        doc_info = text2vector.run(doc_info=doc_info)
 
-        # (5) 텍스트 전처리
-        print('# (5) 텍스트 전처리')
-        textprepro = TextPreprocessing()
-        docInfo = textprepro.run(docInfo=docInfo)
-        # print(docInfo)
+        return doc_info
 
-        # (6) BERT 문서 벡터화
-        print('# (6) BERT 문서 벡터화')
-        t2v = Text2Vector()
-        docInfo = t2v.run(docInfo=docInfo)
 
-        return docInfo
+def main():
+    logging.basicConfig(level=logging.INFO)
+
+    process = Doc2Vector()
+    path = "test.pptx"
+    result = process.run(path)
+    print(result)
 
 
 if __name__ == '__main__':
-    # db 관련
-    process = Doc2Vector()
-
-    # path = "1 Intro.pptx"
-    path = "test.pptx"
-
-    print(process.run(path))
+    main()
