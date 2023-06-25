@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.prototype.data.idClass;
+package com.prototype.app_springboot.data.idClass;
 
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

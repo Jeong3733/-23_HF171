@@ -1,6 +1,7 @@
-package com.prototype.app_springboot.prototype.data.entity;
+package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.prototype.data.type.RoleType;
+import com.prototype.app_springboot.data.type.RoleType;
+import com.prototype.app_springboot.data.type.SocialType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +27,8 @@ public class UserInfo {
 
     private String email;
 
-    private String refreshToken;
+    @Enumerated(EnumType.STRING)
+    private SocialType social;
 
     @Enumerated(EnumType.STRING)
     private RoleType role;
@@ -35,13 +37,13 @@ public class UserInfo {
     private final List<UserFile> fileList = new ArrayList<UserFile>();
 
     @Builder
-    public UserInfo(int user_id, String username, String password, String nickname, String email, String refreshToken, RoleType role) {
+    public UserInfo(int user_id, String username, String password, String nickname, String email, SocialType social, RoleType role) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
-        this.refreshToken = refreshToken;
+        this.social = social;
         this.role = role;
     }
 }

@@ -1,6 +1,6 @@
-package com.prototype.app_springboot.prototype.data.entity;
+package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.prototype.data.idClass.UserFileId;
+import com.prototype.app_springboot.data.idClass.UserFileId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

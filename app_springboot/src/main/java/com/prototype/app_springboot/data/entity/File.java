@@ -1,7 +1,7 @@
-package com.prototype.app_springboot.prototype.data.entity;
+package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.prototype.data.type.ExtensionType;
-import com.prototype.app_springboot.prototype.data.type.ProgressStatusType;
+import com.prototype.app_springboot.data.type.ExtensionType;
+import com.prototype.app_springboot.data.type.ProgressStatusType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

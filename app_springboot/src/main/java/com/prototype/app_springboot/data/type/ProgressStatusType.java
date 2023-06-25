@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.prototype.data.type;
+package com.prototype.app_springboot.data.type;
 
 public enum ProgressStatusType {
     DONE, NOT_STARTED, IN_PROCESS

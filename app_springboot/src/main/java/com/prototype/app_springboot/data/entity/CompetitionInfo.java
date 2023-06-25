@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.prototype.data.entity;
+package com.prototype.app_springboot.data.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
