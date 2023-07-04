@@ -1,8 +1,6 @@
 
-# LangChain Retrieval QA Over Multiple Files with ChromaDB
-# https://youtu.be/3yPBVii7Ct0
-# https://colab.research.google.com/drive/1gyGZn_LZNrYXYXa-pltFExbptIe7DAPe?usp=sharing
-
+# Langchain Summarizer로 쉽게 문서 요약하기
+# https://blog.futuresmart.ai/summarizing-documents-made-easy-with-langchain-summarizer
 
 from langchain import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter # CharacterTextSplitter
