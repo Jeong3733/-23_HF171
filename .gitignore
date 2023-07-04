@@ -1,7 +1,6 @@
 vec_chroma_db
 *.log
 
-
 __pycache__/
 *.py[cod]
 *$py.class
@@ -11,6 +10,7 @@ db.sqlite3
 *.jpg
 *.png
 
+*.mp3
 *.pdf
 *.ppt
 *.pptx
