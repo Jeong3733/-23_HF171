@@ -1,35 +1,3 @@
-vec_chroma_db
-*.log
-
-__pycache__/
-*.py[cod]
-*$py.class
-.DS_Store
-db.sqlite3
-*.jpeg
-*.jpg
-*.png
-
-*.mp3
-*.pdf
-*.ppt
-*.pptx
-*.docx
-*.h5
-.env
-.venv
-.venv*
-venv
-
-database/data/image/*
-activate
-
-!README.md
-!test.pptx
-
-google_cloud_python.json
-
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
