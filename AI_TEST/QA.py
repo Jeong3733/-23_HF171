@@ -30,7 +30,7 @@ class QAChain:
         documents = loader.load()
 
         # splitting the text into
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=200)
         texts = text_splitter.split_documents(documents)
 
         # Embed and store the texts
@@ -60,13 +60,17 @@ class QAChain:
 
         # full example
         query = "사회구조적 특성이 빈집 형성에 끼친 영항에 대해 설명해주세요"
-        print("성공했겠지")
+        # print("성공했겠지")
         llm_response = qa_chain(query)
         process_llm_response(llm_response)
 
+import time
 def main():
+    start = time.time() # 시작
+
     qa = QAChain()
     qa.run()
+    print(f"{time.time()-start:.4f} sec") # 종료와 함께 수행시간 출력
     
 if __name__ == '__main__':
     main()
