@@ -3,7 +3,7 @@ package com.prototype.app_springboot.service;
 import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.repository.UserInfoRepository;
 import com.prototype.app_springboot.data.dto.UserJoinDto;
-import com.prototype.app_springboot.data.type.RoleType;
+import com.prototype.app_springboot.data.type.SystemRoleType;
 import com.prototype.app_springboot.data.type.SocialType;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +27,7 @@ public class UserInfoService {
                 .password(encpassword)
                 .email(userJoinDto.getEmail())
                 .nickname(userJoinDto.getNickname())
-                .role(RoleType.USER)
+                .role(SystemRoleType.USER)
                 .social(SocialType.NONE)
                 .build();
 
