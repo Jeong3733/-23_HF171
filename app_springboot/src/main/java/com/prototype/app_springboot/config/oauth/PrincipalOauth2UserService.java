@@ -7,10 +7,9 @@ import com.prototype.app_springboot.config.oauth.provider.NaverUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.Oauth2UserInfo;
 import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.repository.UserInfoRepository;
-import com.prototype.app_springboot.data.type.RoleType;
+import com.prototype.app_springboot.data.type.SystemRoleType;
 import com.prototype.app_springboot.data.type.SocialType;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -67,7 +66,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .password(password)
                     .email(email)
                     .nickname(nickname)
-                    .role(RoleType.USER)
+                    .role(SystemRoleType.USER)
                     .social(provider)
                     .build();
             userInfoRepository.save(userEntity);

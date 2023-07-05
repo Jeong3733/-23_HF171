@@ -1,21 +1,21 @@
 package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.data.type.ExtensionType;
 import com.prototype.app_springboot.data.type.ProgressStatusType;
+import com.prototype.app_springboot.data.type.UploadType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class File {
+public class FileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int file_id;
@@ -23,33 +23,37 @@ public class File {
     private String file_title;
 
     @Enumerated(EnumType.STRING)
-    private ExtensionType file_extension;
+    private UploadType file_extension;
 
     private String path;
 
-    private Timestamp upload_datetime;
+    private LocalDateTime upload_datetime;
 
     @Enumerated(EnumType.STRING)
     private ProgressStatusType progressStatusType;
 
-    @OneToMany(mappedBy = "file")
-    private final List<UserFile> userList = new ArrayList<UserFile>();
+    @OneToMany(mappedBy = "userUploadedFileInfo")
+    private final List<CheckFile> checkUserUploadedFileList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "file")
-    private final List<CheckInfo> checkList = new ArrayList<CheckInfo>();
+    @OneToMany(mappedBy = "standardFileInfo")
+    private final List<CheckFile> checkStandardFileList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "competition_id")
-    private CompetitionInfo competitionInfo;
+    @JoinColumn(name = "user_id")
+    private UserInfo userInfo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private ScheduleInfo scheduleInfo;
 
     @Builder
-    public File(int file_id, String file_title, ExtensionType file_extension, String path, Timestamp upload_datetime, ProgressStatusType progressStatusType, CompetitionInfo competitionInfo) {
+    public FileInfo(int file_id, String file_title, UploadType file_extension, String path, LocalDateTime upload_datetime, ProgressStatusType progressStatusType, UserInfo userInfo) {
         this.file_id = file_id;
         this.file_title = file_title;
         this.file_extension = file_extension;
         this.path = path;
         this.upload_datetime = upload_datetime;
         this.progressStatusType = progressStatusType;
-        this.competitionInfo = competitionInfo;
+        this.userInfo = userInfo;
     }
 }

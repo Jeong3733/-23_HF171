@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,22 +18,27 @@ public class CheckInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int check_id;
 
+    private LocalDateTime check_date;
+
+    private int top_num;
+
+    @OneToMany(mappedBy = "checkInfo")
+    private final List<CheckFile> checkFileList = new ArrayList<CheckFile>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private File file;
-
-    private Timestamp check_date;
-
+    @JoinColumn(name = "db_version")
+    private VectorDbInfo vectorDBInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faiss_version")
-    private Faiss faiss;
+    @JoinColumn(name = "schedule_id")
+    private ScheduleInfo scheduleInfo;
 
     @Builder
-    public CheckInfo(int check_id, File file, Timestamp check_date, Faiss faiss) {
+    public CheckInfo(int check_id, LocalDateTime check_date, int top_num, VectorDbInfo vectorDBInfo, ScheduleInfo scheduleInfo) {
         this.check_id = check_id;
-        this.file = file;
         this.check_date = check_date;
-        this.faiss = faiss;
+        this.top_num = top_num;
+        this.vectorDBInfo = vectorDBInfo;
+        this.scheduleInfo = scheduleInfo;
     }
 }

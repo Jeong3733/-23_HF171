@@ -1,7 +1,6 @@
 package com.prototype.app_springboot.controller.api;
 
-import com.prototype.app_springboot.service.FileService;
-import org.springframework.http.ResponseEntity;
+import com.prototype.app_springboot.service.AmazonS3Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,32 +16,19 @@ import java.nio.file.StandardCopyOption;
 @RestController
 public class FileApiController {
 
-    private final FileService fileService;
+    private final AmazonS3Service amazonS3Service;
 
-    public FileApiController(FileService fileService) {
-        this.fileService = fileService;
+    public FileApiController(AmazonS3Service amazonS3Service) {
+        this.amazonS3Service = amazonS3Service;
     }
 
-    // api 주소 바꾸기
-    @PostMapping("/upload/file")
-    public void sendFile(@RequestParam("file") MultipartFile file) {
-        fileService.send(file);
-    }
-
-    // 테스트용
-    @PostMapping("/store/file")
-    public String getFile(MultipartFile file) {
-        Path testLocation = Paths.get("C:\\Users\\정재욱\\Desktop");
-        Path destinationFile = testLocation.resolve(Paths.get(file.getOriginalFilename())).normalize().toAbsolutePath();
-
-        try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, destinationFile,
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    // TODO : ppt, word, pdf, hwp 이외의 파일 예외 처리하기, 폴더 이름 받는 로직 추가
+    @PostMapping("/competition/files")
+    public void uploadFileToAmazonS3(@RequestParam("files") MultipartFile[] multipartFiles, @RequestParam("competitionName") String competitionName) {
+        if (multipartFiles.length != 0) {
+            amazonS3Service.uploadFileList(multipartFiles, competitionName);
         }
-
-        return "잘됫으";
     }
+
 
 }

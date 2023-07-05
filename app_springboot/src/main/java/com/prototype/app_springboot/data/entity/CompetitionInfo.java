@@ -1,5 +1,6 @@
 package com.prototype.app_springboot.data.entity;
 
+import com.prototype.app_springboot.data.type.CompetitionType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,12 +20,21 @@ public class CompetitionInfo {
 
     private String competition_name;
 
+    private CompetitionType competition_type;
+
     @OneToMany(mappedBy = "competitionInfo")
-    private final List<File> fileList = new ArrayList<File>();
+    private final List<TeamInfo> teamInfoList = new ArrayList<TeamInfo>();
+
+    @OneToMany(mappedBy = "competitionInfo")
+    private final List<UserCompetition> userByCompetitionList = new ArrayList<UserCompetition>();
+
+    @OneToMany(mappedBy = "competitionInfo")
+    private final List<ScheduleInfo> scheduleInfoList = new ArrayList<ScheduleInfo>();
 
     @Builder
-    public CompetitionInfo(int competition_id, String competition_name) {
+    public CompetitionInfo(int competition_id, String competition_name, CompetitionType competition_type) {
         this.competition_id = competition_id;
         this.competition_name = competition_name;
+        this.competition_type = competition_type;
     }
 }

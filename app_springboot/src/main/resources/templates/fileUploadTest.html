@@ -7,9 +7,10 @@
 	</div>
 
 	<div>
-		<form method="POST" enctype="multipart/form-data" action="/upload/file">
+		<form method="POST" enctype="multipart/form-data" action="/competition/files">
 			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td>File to upload:</td><td><input multiple="multiple" type="file" name="files" /></td></tr>
+				<tr><td>competition name:</td><td><input type="text" name="competitionName" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>
 		</form>
