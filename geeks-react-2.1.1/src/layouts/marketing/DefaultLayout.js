@@ -9,7 +9,7 @@ import Footer from 'layouts/marketing/footers/Footer';
 const DefaultLayout = (props) => {
 	return (
 		<Fragment>
-			<NavbarDefault login />
+			<NavbarDefault login/>
 			<main>
 				{props.children}
 				<Outlet />

@@ -17,7 +17,7 @@ const HeroHeader = () => {
 					<Col xl={5} lg={6} md={12}>
 						<div className="py-5 py-lg-0">
 							<h1 className="text-white display-4 fw-bold">
-								Welcome to Geeks UI Learning Application
+								Welcome to TaekGwan Company
 							</h1>
 							<p className="text-white-50 mb-4 lead">
 								Hand-picked Instructor and expertly crafted courses, designed
@@ -27,10 +27,10 @@ const HeroHeader = () => {
 								to="/marketing/courses/course-filter-page/"
 								className="btn btn-dark"
 							>
-								Browse Courses
+								공모전 둘러보기
 							</Link>{' '}
 							<Link to="/authentication/sign-in/" className="btn btn-white">
-								Are You Instructor?
+								무슨 버튼일까요? 🧐
 							</Link>
 						</div>
 					</Col>

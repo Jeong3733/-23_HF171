@@ -1,5 +1,5 @@
 // import node module libraries
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import layouts
 import ScrollToTop from 'layouts/dashboard/ScrollToTop';

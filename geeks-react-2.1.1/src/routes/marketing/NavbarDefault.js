@@ -3,363 +3,28 @@ import { v4 as uuid } from 'uuid';
 const NavbarDefault = [
 	{
 		id: uuid(),
-		menuitem: 'Browse',
+		menuitem: '공모전 둘러보기',
 		link: '#',
 		children: [
 			{
 				id: uuid(),
-				menuitem: 'Web Development',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Bootstrap',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'React',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'GraphQl',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Gatsby',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Grunt',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Svelte',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Meteor',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'HTML5',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Angular',
-						link: '/marketing/course-category/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Design',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Graphic Design',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Illustrator',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'UX / UI Design',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Figma Design',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Adobe XD',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Sketch',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Icon Design',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Photoshop',
-						link: '/marketing/course-category/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Mobile App',
-				link: '/marketing/course-category/'
-			},
-			{
-				id: uuid(),
 				menuitem: 'IT Software',
-				link: '/marketing/course-category/'
+				link: '/competition-filter-page/'
 			},
 			{
 				id: uuid(),
 				menuitem: 'Marketing',
-				link: '/marketing/course-category/'
+				link: '/competition-filter-page/'
 			},
 			{
 				id: uuid(),
 				menuitem: 'Music',
-				link: '/marketing/course-category/'
+				link: '/competition-filter-page/'
 			},
 			{
 				id: uuid(),
 				menuitem: 'Life Style',
-				link: '/marketing/course-category/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Business',
-				link: '/marketing/course-category/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Photography',
-				link: '/marketing/course-category/'
-			}
-		]
-	},
-	{
-		id: uuid(),
-		menuitem: 'Landings',
-		link: '#',
-		children: [
-			{
-				id: uuid(),
-				header: true,
-				header_text: 'LANDINGS'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Home Academy',
-				link: '/marketing/landings/home-academy/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Courses',
-				link: '/marketing/landings/landing-courses/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Lead Course',
-				link: '/marketing/landings/course-lead/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Request Access',
-				link: '/marketing/landings/request-access/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'SaaS',
-				link: '/marketing/landings/landing-sass/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Job Listing',
-				link: '/marketing/landings/landing-job/'
-			}
-		]
-	},
-	{
-		id: uuid(),
-		menuitem: 'Pages',
-		link: '#',
-		children: [
-			{
-				id: uuid(),
-				menuitem: 'Courses',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Course Single',
-						link: '/marketing/courses/course-single/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Course Single v2',
-						link: '/marketing/courses/course-single2/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Course Resume',
-						link: '/marketing/courses/course-resume/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Course Category',
-						link: '/marketing/course-category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Course Checkout',
-						link: '/marketing/courses/course-checkout/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Course List/Grid',
-						link: '/marketing/courses/course-filter-page/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Add New Course',
-						link: '/marketing/instructor/add-new-course/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Paths',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Browse Path',
-						link: '/marketing/courses/course-path/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Path Single',
-						link: '/marketing/courses/course-path-single/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Blog',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Listing',
-						link: '/marketing/blog/listing/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Article',
-						link: '/marketing/blog/article-single/1'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Category',
-						link: '/marketing/blog/category/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Sidebar',
-						link: '/marketing/blog/sidebar/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Career',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Overview',
-						link: '/marketing/pages/career/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Listing',
-						link: '/marketing/pages/career-list/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Opening',
-						link: '/marketing/pages/career-single/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Job',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Home',
-						link: '/marketing/landings/landing-job/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'List',
-						link: '/marketing/jobs/listing/job-list/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Grid',
-						link: '/marketing/jobs/listing/job-list/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Single',
-						link: '/marketing/jobs/listing/helpdesk-software-engineer-web3crypto/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Company List',
-						link: '/marketing/jobs/company-list/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Company Single',
-						link: '/marketing/jobs/company/about/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Specialty',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Coming Soon',
-						link: '/marketing/specialty/coming-soon/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Error 404',
-						link: '/marketing/specialty/404-error/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Maintenance Mode',
-						link: '/marketing/specialty/maintenance-mode/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Terms & Conditions',
-						link: '/marketing/specialty/terms-and-conditions/'
-					}
-				]
+				link: '/competition-filter-page/'
 			},
 			{
 				id: uuid(),
@@ -367,67 +32,26 @@ const NavbarDefault = [
 			},
 			{
 				id: uuid(),
-				menuitem: 'About',
-				link: '/marketing/pages/about/'
+				menuitem: 'Business',
+				link: '/competition-filter-page/'
 			},
 			{
 				id: uuid(),
-				menuitem: 'Help Center',
-				link: '#',
-				children: [
-					{
-						id: uuid(),
-						menuitem: 'Help Center',
-						link: '/marketing/help-center/'
-					},
-					{
-						id: uuid(),
-						menuitem: "FAQ's",
-						link: '/marketing/help-center/faq/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Guide',
-						link: '/marketing/help-center/guide/'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Guide Single',
-						link: '/marketing/help-center/guide-single/getting-started/what-is-this-geeks-app'
-					},
-					{
-						id: uuid(),
-						menuitem: 'Support',
-						link: '/marketing/help-center/support/'
-					}
-				]
-			},
-			{
-				id: uuid(),
-				menuitem: 'Pricing',
-				link: '/marketing/pages/pricing/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Compare Plan',
-				link: '/marketing/pages/compare-plan/'
-			},
-			{
-				id: uuid(),
-				menuitem: 'Contact',
-				link: '/marketing/pages/contact/'
+				menuitem: 'Photography',
+				link: '/competition-filter-page/'
 			}
 		]
 	},
 	{
 		id: uuid(),
-		menuitem: 'Accounts',
+		menuitem: '마이페이지',
 		link: '#',
 		children: [
 			{
 				id: uuid(),
 				header: true,
-				header_text: 'Accounts'
+				header_text: 'Accounts',
+				description: 'Instructor dashboard for manage courses and earning.'
 			},
 			{
 				id: uuid(),

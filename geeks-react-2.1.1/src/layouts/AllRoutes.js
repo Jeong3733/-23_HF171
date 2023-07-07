@@ -220,12 +220,21 @@ import Payouts from 'components/marketing/account-settings/Payouts';
 import Invoice from 'components/marketing/account-settings/Invoice';
 import InvoiceDetails from 'components/marketing/account-settings/InvoiceDetails';
 
+// Custom Pages
+import IndexPage from 'components/marketing/pages/IndexPage';
+
 const AllRoutes = () => {
 	return (
 		<Routes>
 			{/* Routes with DefaultLayout */}
 			<Route element={<DefaultLayout />}>
-				<Route path="/" element={<CourseIndex />} />
+				{/* <Route path="/" element={<CourseIndex />} /> */}
+				<Route path="/" element={<IndexPage />}></Route>
+				<Route
+					path="/competition-filter-page/"
+					element={<CourseFilterPage />}
+				/>
+				
 				<Route
 					path="/marketing/course-category/"
 					element={<CourseCategory />}

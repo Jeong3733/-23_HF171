@@ -1,6 +1,6 @@
 // import node module libraries
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Row, Col, Image, Dropdown, ListGroup } from 'react-bootstrap';
 
@@ -158,8 +158,11 @@ const QuickMenu = () => {
 							<i className="fe fe-settings me-2"></i> Settings
 						</Dropdown.Item>
 						<Dropdown.Divider />
-						<Dropdown.Item className="mb-3">
-							<i className="fe fe-power me-2"></i> Sign Out
+						<Dropdown.Item
+							className="mb-3"
+							// onClick={setLogin(false)}
+						>
+							<i className="fe fe-power me-2"></i> 로그아웃
 						</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
