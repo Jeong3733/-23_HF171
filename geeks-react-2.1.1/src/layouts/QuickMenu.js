@@ -19,10 +19,14 @@ import Avatar1 from 'assets/images/avatar/avatar-1.jpg';
 // import data files
 import NotificationList from 'data/Notification';
 
-const QuickMenu = () => {
+const QuickMenu = ({setLogin}) => {
 	const isDesktop = useMediaQuery({
 		query: '(min-width: 1224px)'
 	});
+
+	function doLogOut() {
+		setLogin(false);
+	}
 
 	const Notifications = () => {
 		return (
@@ -160,7 +164,7 @@ const QuickMenu = () => {
 						<Dropdown.Divider />
 						<Dropdown.Item
 							className="mb-3"
-							// onClick={setLogin(false)}
+							onClick={doLogOut}
 						>
 							<i className="fe fe-power me-2"></i> 로그아웃
 						</Dropdown.Item>

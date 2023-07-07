@@ -17,7 +17,7 @@ import Logo from 'assets/images/brand/logo/logo.svg';
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
 
-const NavbarDefault = ({ headerstyle, login }) => {
+const NavbarDefault = ({ headerstyle, login, setLogin }) => {
 	const isDesktop = useMediaQuery({
 		query: '(min-width: 1224px)'
 	});
@@ -26,6 +26,10 @@ const NavbarDefault = ({ headerstyle, login }) => {
 	});
 
 	const [expandedMenu, setExpandedMenu] = useState(false);
+
+	function doLogin() {
+		setLogin(true)
+	}
 
 	return (
 		<Fragment>
@@ -90,7 +94,7 @@ const NavbarDefault = ({ headerstyle, login }) => {
 							<span className={`ms-auto mt-1  ${login ? 'd-none' : ''}`}>
 								<Nav.Link
 									as={Link}
-									to="#"
+									onClick={doLogin}
 									bsPrefix="btn"
 									className="btn btn-white shadow-sm me-2"
 								>
@@ -115,7 +119,7 @@ const NavbarDefault = ({ headerstyle, login }) => {
 										: 'd-none'
 								}`}
 							>
-								<QuickMenu />
+								<QuickMenu setLogin={setLogin} />
 							</span>
 						</Nav>
 						{/* end of right side quick / shortcut menu  */}
