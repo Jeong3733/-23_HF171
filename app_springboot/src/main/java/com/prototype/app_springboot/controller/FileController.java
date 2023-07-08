@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.controller.api;
+package com.prototype.app_springboot.controller;
 
 import com.prototype.app_springboot.service.AmazonS3Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,19 +6,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
 @RestController
-public class FileApiController {
+public class FileController {
 
     private final AmazonS3Service amazonS3Service;
 
-    public FileApiController(AmazonS3Service amazonS3Service) {
+    public FileController(AmazonS3Service amazonS3Service) {
         this.amazonS3Service = amazonS3Service;
     }
 

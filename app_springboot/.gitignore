@@ -36,6 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### user ###
+### yml ###
 aws.yml
 oauth2.yml
+app.yml

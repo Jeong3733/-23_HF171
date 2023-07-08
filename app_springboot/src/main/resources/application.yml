@@ -1,8 +1,10 @@
 spring:
   config:
     import:
+      - app.yml
       - aws.yml
       - oauth2.yml
+
 
   servlet:
     multipart:
@@ -10,7 +12,7 @@ spring:
       max-request-size: 1GB
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     properties:
       hibernate:
@@ -24,4 +26,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
