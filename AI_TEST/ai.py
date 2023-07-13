@@ -1,15 +1,9 @@
 from langchain.document_loaders import PyMuPDFLoader, DirectoryLoader
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
-
 from langchain.vectorstores import Chroma
-
 from langchain.llms import OpenAI
-
 from langchain.prompts import PromptTemplate
-
 from langchain.chains import RetrievalQA
 from langchain.chains.summarize import load_summarize_chain
 
