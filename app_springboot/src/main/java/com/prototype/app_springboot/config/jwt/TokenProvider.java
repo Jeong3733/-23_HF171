@@ -1,9 +1,10 @@
 package com.prototype.app_springboot.config.jwt;
 
 import com.prototype.app_springboot.config.auth.PrincipalDetails;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -21,47 +20,74 @@ public class TokenProvider {
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration.minutes}")
-    private Long jwtExpirationMinutes;
+    @Value("${app.jwt.accessToken.expiration.seconds}")
+    private Long accessTokenExpirationSeconds;
+
+    @Value("${app.jwt.refreshToken.expiration.minutes}")
+    private Long refreshTokenExpirationMinutes;
 
     public static final String TOKEN_TYPE = "JWT";
 
-    public String generate(Authentication authentication) {
+    /**
+     * Access 토큰 생성
+     * @param authentication
+     * @return
+     */
+    public String generateAccessToken(Authentication authentication) {
         PrincipalDetails user = (PrincipalDetails) authentication.getPrincipal();
 
         byte[] signingKey = jwtSecret.getBytes();
 
         return Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
-                .setId(UUID.randomUUID().toString())
-                .setSubject(user.getUsername())
-                .claim("username", user.getUsername())
+                .setExpiration(Date.from(ZonedDateTime.now().plusSeconds(accessTokenExpirationSeconds).toInstant()))
+                .setSubject(authentication.getName())
                 .claim("nickname", user.getNickname())
                 .compact();
     }
 
-    public Optional<Jws<Claims>> validateTokenAndGetJws(String token) {
-        try {
-            byte[] signingKey = jwtSecret.getBytes();
+    /**
+     * Refresh 토큰 생성
+     * @param authentication
+     * @return
+     */
+    public String generateRefreshToken(Authentication authentication) {
+        byte[] signingKey = jwtSecret.getBytes();
 
-            Jws<Claims> jws = Jwts.parserBuilder()
+        return Jwts.builder()
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(refreshTokenExpirationMinutes).toInstant()))
+                .setSubject(authentication.getName())
+                .compact();
+    }
+
+    public String getUsernameByToken(String token) {
+        byte[] signingKey = jwtSecret.getBytes();
+
+        return Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    /**
+     * 토큰 검증
+     * @param token
+     * @return
+     */
+    public boolean validateToken(String token) {
+        try {
+            log.info("===== JWT Token validating - TokenProvider ======");
+            byte[] signingKey = jwtSecret.getBytes();
+            Jwts.parserBuilder()
                     .setSigningKey(signingKey)
                     .build()
                     .parseClaimsJws(token);
-
-            return Optional.of(jws);
-        } catch (ExpiredJwtException exception) {
-            log.error("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
-        } catch (UnsupportedJwtException exception) {
-            log.error("Request to parse unsupported JWT : {} failed : {}", token, exception.getMessage());
-        } catch (MalformedJwtException exception) {
-            log.error("Request to parse invalid JWT : {} failed : {}", token, exception.getMessage());
-        } catch (SignatureException exception) {
-            log.error("Request to parse JWT with invalid signature : {} failed : {}", token, exception.getMessage());
-        } catch (IllegalArgumentException exception) {
-            log.error("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage());
+            return true;
+        } catch (JwtException exception) {
+            return false;
         }
-        return Optional.empty();
     }
 }

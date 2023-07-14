@@ -48,6 +48,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return user.getUsername();
     }
 
+    @Override
+    public String getName() {
+        return user.getUsername();
+    }
+
     public String getNickname() { return user.getNickname(); }
 
     @Override
@@ -68,11 +73,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String getName() {
-        return null;
     }
 
     @Override

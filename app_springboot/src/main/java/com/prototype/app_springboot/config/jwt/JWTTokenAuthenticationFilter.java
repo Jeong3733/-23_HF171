@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -32,29 +31,27 @@ public class JWTTokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        log.info("===== JWT Authentication Filter : Authenticating... =====");
+        log.info("===== JWT Authentication Filter =====");
+        String token = getJwtFromRequest(request);
         try {
-            getJwtFromRequest(request)
-                    .flatMap(tokenProvider::validateTokenAndGetJws)
-                    .ifPresent(jws -> {
-                        System.out.println(jws.getBody().getSubject());
-                        String username = jws.getBody().getSubject();
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    });
+            if (token != null && tokenProvider.validateToken(token)) {
+                String username = tokenProvider.getUsernameByToken(token);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         } catch (Exception e) {
             log.error("Cannot set user authentication", e);
         }
         chain.doFilter(request, response);
     }
 
-    private Optional<String> getJwtFromRequest(HttpServletRequest request) {
+    private String getJwtFromRequest(HttpServletRequest request) {
         String tokenHeader = request.getHeader(TOKEN_HEADER);
         if (StringUtils.hasText(tokenHeader) && tokenHeader.startsWith(TOKEN_PREFIX)) {
-            return Optional.of(tokenHeader.replace(TOKEN_PREFIX, ""));
+            return tokenHeader.replace(TOKEN_PREFIX, "");
         }
-        return Optional.empty();
+        return null;
     }
 }
 

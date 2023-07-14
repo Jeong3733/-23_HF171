@@ -5,11 +5,11 @@ spring:
       - aws.yml
       - oauth2.yml
 
-
   servlet:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,6 +19,11 @@ spring:
         format_sql: true
 
     show-sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 cloud:
   aws:
