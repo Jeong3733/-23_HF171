@@ -5,7 +5,6 @@ function Login() {
   const navigate = useNavigate();
   return (
     <>
-      <div>Login</div>
       <button
         onClick={() => {
           navigate("/");
