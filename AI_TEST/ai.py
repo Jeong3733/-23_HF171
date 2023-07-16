@@ -108,26 +108,41 @@ class AI:
         """
         # file_path = None
         chunk_size = 1000
-        chunk_overlap = 200
+        encoding_name = 100
+        encoding_name = 'p50k_base'
 
         loader = PyMuPDFLoader(file_path=file_path)
         documents = loader.load()
 
         # splitting the text into
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        # text_splitter = RecursiveCharacterTextSplitter(
+        #     chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+            encoding_name=encoding_name,
+            chunk_size=chunk_size, chunk_overlap=encoding_name,
+            add_start_index=True)
+
         docs = text_splitter.split_documents(documents)
         return docs
 
     def _get_vectordb(self, docs, persist_directory):
         """
-        텍스트를 기존(새로운) 벡터 DB에 저장하는 함수
+        텍스트를 새로운 벡터 DB에 저장하는 함수
         """
 
         vectordb = NewChroma.from_documents(documents=docs,
                                             embedding=self.embedding,
                                             persist_directory=persist_directory)
         vectordb.persist()
+        return vectordb
+
+    def _load_vectordb(self, persist_directory):
+        """
+        기존 벡터 DB에 불러오는 함수
+        """
+
+        vectordb = NewChroma(persist_directory=persist_directory,
+                             embedding_function=self.embedding)
         return vectordb
 
     def _load_retriever(self):
@@ -175,18 +190,18 @@ class DoucmentInit(AI):
     def __init__(self) -> None:
         super().__init__()
 
-    def run(self):
+    def upload(self):
         file_path = None
         file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
-        persist_directory = None
-        persist_directory = 'newTest'
-        format_AnalyticsReport = f"""format"""
+        docVectorDB_directory = None
+        docVectorDB_directory = 'newTest'
+        analyticsReport_format = f"""format"""
 
         docs = self._upload_document(file_path=file_path)
 
         # --- QA Setting ---
         docVectorDB = self._get_vectordb(docs=docs,
-                                         persist_directory=persist_directory)
+                                         persist_directory=docVectorDB_directory)
 
         # --- Summary ---
         llm = OpenAI(temperature=0)
@@ -197,13 +212,16 @@ class DoucmentInit(AI):
         # print(output_summary)
 
         # --- 표절 검사 ---
+
+        # compVectorDB_directory = 'compVectorDB'
+        # compVectorDB = self._load_vectordb(persist_directory=compVectorDB_directory)
         compVectorDB = docVectorDB.copy()
 
-        getVectorDBInfo = compVectorDB.get(
+        getVectorDBInfo = docVectorDB.get(
             include=['embeddings', 'documents', 'metadatas'])
 
-        def analysis(prompt_AnalyticsReport):
-            return len(prompt_AnalyticsReport)
+        def analysis(analyticsReport_prompt):
+            return len(analyticsReport_prompt)
 
         getResultCheck = []
         for checkID, checkDoc, checkVector in zip(getVectorDBInfo['ids'],
@@ -215,27 +233,12 @@ class DoucmentInit(AI):
                 k=4)
 
             for compDoc, compID, score in similarDocuments:
-                prompt_AnalyticsReport = f"""당신은 표절 검사 분석 전문가입니다. 표절 검사를 진행한 결과, 특정 비교 문서와 유사하다는 결과가 나왔습니다.
+                analyticsReport_prompt = f"""당신은 표절 검사 분석 전문가입니다. 표절 검사를 진행한 결과, 특정 비교 문서와 유사하다는 결과가 나왔습니다.
             세 개의 역 따옴표, 세 개의 따옴표, 세 개의 큰 따옴표로 구분된 각 텍스트들은 검사 문서 중 일부분,비교 문서 중 일부분, 분석 결과 보고서 포맷입니다.
-            분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{format_AnalyticsReport}\"\"\""""
-                report = analysis(prompt_AnalyticsReport)
+            분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReport_format}\"\"\""""
+                report = analysis(analyticsReport_prompt)
                 getResultCheck.append((checkID, compID, score, report))
             print(getResultCheck)
-
-
-class Summary(AI):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def run(self, file_path):
-        texts = self._upload_document(file_path=file_path)
-
-        llm = OpenAI(temperature=0)
-        chain = load_summarize_chain(llm,
-                                     chain_type="map_reduce",
-                                     verbose=False)
-        output_summary = chain.run(texts)
-        return output_summary
 
 
 class DocumentQA(AI):
@@ -252,7 +255,7 @@ class DocumentQA(AI):
 
 def main():
     init = DoucmentInit()
-    init.run()
+    init.upload()
 
 
 if __name__ == '__main__':
