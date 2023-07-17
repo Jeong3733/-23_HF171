@@ -1,13 +1,18 @@
 package com.prototype.app_springboot.config.jwt;
 
+import com.prototype.app_springboot.config.auth.PrincipalDetails;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,16 +38,48 @@ public class JWTTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         log.info("===== JWT Authentication Filter =====");
         String token = getJwtFromRequest(request);
+
         try {
             if (token != null && tokenProvider.validateToken(token)) {
-                String username = tokenProvider.getUsernameByToken(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String tokenType = tokenProvider.getTokenTypeByToken(token);
+                log.info("Token Type : " + tokenType);
+                if (tokenType.equals("ACCESS")) {
+                    String username = tokenProvider.getUsernameByToken(token);
+                    PrincipalDetails principalDetails = (PrincipalDetails) userDetailsService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principalDetails, null);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
-        } catch (Exception e) {
-            log.error("Cannot set user authentication", e);
+
+        } catch (ExpiredJwtException exception) {
+            log.error("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("JWT Exception");
+            return;
+        } catch (UnsupportedJwtException exception) {
+            log.error("Request to parse unsupported JWT : {} failed : {}", token, exception.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("JWT Exception");
+            return;
+        } catch (MalformedJwtException exception) {
+            log.error("Request to parse invalid JWT : {} failed : {}", token, exception.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("JWT Exception");
+            return;
+        } catch (SignatureException exception) {
+            log.error("Request to parse JWT with invalid signature : {} failed : {}", token, exception.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("JWT Exception");
+
+            return;
+        } catch (IllegalArgumentException exception) {
+            log.error("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("JWT Exception");
+
+            return;
         }
+
         chain.doFilter(request, response);
     }
 

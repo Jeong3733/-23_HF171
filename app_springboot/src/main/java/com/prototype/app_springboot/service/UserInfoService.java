@@ -17,4 +17,9 @@ public class UserInfoService {
     public void join(UserInfo user) {
         userInfoRepository.save(user);
     }
+
+    @Transactional
+    public UserInfo userInfo(String username) {
+        return userInfoRepository.findByUsername(username);
+    }
 }

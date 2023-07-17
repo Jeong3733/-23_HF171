@@ -1,13 +1,12 @@
 package com.prototype.app_springboot.config.jwt;
 
 import com.prototype.app_springboot.config.auth.PrincipalDetails;
-import io.jsonwebtoken.JwtException;
+import com.prototype.app_springboot.data.type.TokenType;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
@@ -20,44 +19,47 @@ public class TokenProvider {
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.accessToken.expiration.seconds}")
+    @Value("${app.jwt.accessToken.expiration.minutes}")
     private Long accessTokenExpirationSeconds;
 
-    @Value("${app.jwt.refreshToken.expiration.minutes}")
-    private Long refreshTokenExpirationMinutes;
+    @Value("${app.jwt.refreshToken.expiration.days}")
+    private Long refreshTokenExpirationDays;
 
     public static final String TOKEN_TYPE = "JWT";
 
     /**
      * Access 토큰 생성
-     * @param authentication
+     *
+     * @param principalDetails
      * @return
      */
-    public String generateAccessToken(Authentication authentication) {
-        PrincipalDetails user = (PrincipalDetails) authentication.getPrincipal();
-
+    public String generateAccessToken(PrincipalDetails principalDetails) {
         byte[] signingKey = jwtSecret.getBytes();
 
         return Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setExpiration(Date.from(ZonedDateTime.now().plusSeconds(accessTokenExpirationSeconds).toInstant()))
-                .setSubject(authentication.getName())
-                .claim("nickname", user.getNickname())
+                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(accessTokenExpirationSeconds).toInstant()))
+                .setSubject(principalDetails.getUsername())
+                .claim("nickname", principalDetails.getNickname())
+                .claim("type", TokenType.ACCESS)
                 .compact();
     }
 
     /**
      * Refresh 토큰 생성
-     * @param authentication
+     *
+     * @param principalDetails
      * @return
      */
-    public String generateRefreshToken(Authentication authentication) {
+
+    public String generateRefreshToken(PrincipalDetails principalDetails) {
         byte[] signingKey = jwtSecret.getBytes();
 
         return Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(refreshTokenExpirationMinutes).toInstant()))
-                .setSubject(authentication.getName())
+                .setExpiration(Date.from(ZonedDateTime.now().plusDays(refreshTokenExpirationDays).toInstant()))
+                .setSubject(principalDetails.getUsername())
+                .claim("type", TokenType.REFRESH)
                 .compact();
     }
 
@@ -72,22 +74,32 @@ public class TokenProvider {
                 .getSubject();
     }
 
+    public String getTokenTypeByToken(String token) {
+        byte[] signingKey = jwtSecret.getBytes();
+
+        return Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("type")
+                .toString();
+    }
+
     /**
      * 토큰 검증
+     *
      * @param token
      * @return
      */
     public boolean validateToken(String token) {
-        try {
-            log.info("===== JWT Token validating - TokenProvider ======");
-            byte[] signingKey = jwtSecret.getBytes();
-            Jwts.parserBuilder()
-                    .setSigningKey(signingKey)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (JwtException exception) {
-            return false;
-        }
+        log.info("===== JWT Token validating - TokenProvider ======");
+        byte[] signingKey = jwtSecret.getBytes();
+        Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token);
+        return true;
+
     }
 }
