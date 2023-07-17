@@ -1,6 +1,7 @@
 spring:
   config:
     import:
+      - app.yml
       - aws.yml
       - oauth2.yml
 
@@ -8,15 +9,21 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     properties:
       hibernate:
         format_sql: true
 
-    show-sql: true
+    show-sql: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 cloud:
   aws:
@@ -24,4 +31,3 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-

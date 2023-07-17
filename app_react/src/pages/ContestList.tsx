@@ -1,7 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import RouteMain from "./components/RouteMain.tsx";
-// import Main from "./pages/Main.tsx";
 
 function ContestList() {
   const navigate = useNavigate();
