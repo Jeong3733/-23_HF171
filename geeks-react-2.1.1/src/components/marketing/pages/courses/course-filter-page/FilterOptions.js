@@ -3,6 +3,7 @@ import { Form, Card } from 'react-bootstrap';
 
 // import sub components
 import Ratings from 'components/marketing/common/ratings/Ratings';
+import { useState } from 'react';
 
 const FilterOptions = () => {
 	return (
@@ -20,15 +21,6 @@ const FilterOptions = () => {
 						'React',
 						'Javascript',
 						'Angular',
-						'Node',
-						'Angular JS',
-						'GatsBy',
-						'GraphQL',
-						'VueJs',
-						'Bootstrap',
-						'Figma',
-						'Sketch',
-						'HTML5'
 					].map((item, index) => (
 						<Form.Check
 							type="checkbox"
