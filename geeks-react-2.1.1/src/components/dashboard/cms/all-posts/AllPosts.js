@@ -20,7 +20,7 @@ import CommonHeaderTabs from "components/marketing/pages/jobs/company/CommonHead
 // import data files
 import ComapniesListData from "data/marketing/jobs/CompaniesListData";
 
-const AllPosts = () => {
+const Evaluates = () => {
   const data = ComapniesListData[0];
   const test_data = { competiton_id: 1, schedule_id: 1 };
   return (
@@ -113,4 +113,4 @@ const AllPosts = () => {
   );
 };
 
-export default AllPosts;
+export default Evaluates;

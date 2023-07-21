@@ -3,6 +3,10 @@ import React from "react";
 
 import "assets/scss/theme.scss";
 
+// ** Import Layouts
+import DashboardIndex from "layouts/dashboard/DashboardIndex";
+import EvaluateIndex from "layouts/dashboard/DashboardIndex";
+
 import IndexPage from "components/marketing/pages/IndexPage";
 import AddNewCourse from "components/marketing/pages/courses/add-new-course/AddNewCourse";
 import CourseFilterPage from "components/marketing/pages/courses/course-filter-page/CourseFilterPage";
@@ -19,6 +23,7 @@ import Announcements from "components/marketing/pages/jobs/company/Announcements
 import QNA from "components/marketing/pages/jobs/company/Announcements";
 import Submit from "components/marketing/pages/jobs/company/Submit";
 import AllPosts from "components/dashboard/cms/all-posts/AllPosts";
+import Evaluates from "components/dashboard/cms/all-posts/Evaluates";
 
 import CompanyBenifits from "components/marketing/pages/jobs/company/Benifits";
 import CompanyPhotos from "components/marketing/pages/jobs/company/Photos";
@@ -55,10 +60,12 @@ const AllRoutes = () => {
           path="/detail/:competiton_id/announcements/"
           element={<Announcements />}
         />
+
         {/* QA 게시판 */}
         <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
         {/* 제출 */}
         <Route path="/detail/:competiton_id/submit/" element={<Submit />} />
+
         {/* ---------------------------------------- */}
         <Route
           path="/detail/:competiton_id/schedules/:schedule_id/"
@@ -85,14 +92,6 @@ const AllRoutes = () => {
         <Route path="/add-new-competition/" element={<AddNewCourse />} />
 
         {/* ---------------------------------------- */}
-        {/* 4.0 평가 */}
-        <Route path="/evaluate/:competiton_id" element={<CompanyAbout />} />
-        <Route
-          path="/evaluate/:competiton_id/files/:file_id"
-          element={<ComingSoon />}
-        />
-
-        {/* ---------------------------------------- */}
         {/* 5.0 관리 */}
         <Route path="/manage/:competiton_id" element={<AllPosts />} />
         <Route path="/manage/:competiton_id/readme" element={<ComingSoon />} />
@@ -115,6 +114,15 @@ const AllRoutes = () => {
         />
       </Route>
 
+      {/* ---------------------------------------- */}
+      {/* 4.0 평가 */}
+      <Route element={<EvaluateIndex />}>
+        <Route path="/evaluate/:competiton_id" element={<Evaluates />} />
+        <Route
+          path="/evaluate/:competiton_id/files/:file_id"
+          element={<ComingSoon />}
+        />
+      </Route>
       {/* Routes with ChatLayout */}
       <Route element={<ChatLayout />}>
         <Route path="/chat" element={<Chat />} />
