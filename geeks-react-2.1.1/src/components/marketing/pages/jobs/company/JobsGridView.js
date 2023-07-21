@@ -1,19 +1,18 @@
 // import node module libraries
-import { Fragment, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import { Fragment, useState } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
+import { Col, Row } from "react-bootstrap";
 
 // import sub components
-import CourseCard from "../CourseCard";
+import JobListingGridviewCard from "components/marketing/common/cards/JobListingGridviewCard";
 
 // import data files
-import { AllCoursesData } from "data/slider/AllCoursesData";
+import JobsListingData from "data/marketing/jobs/JobsListingData";
 
-const CourseListView = () => {
-  const [Records] = useState(AllCoursesData.slice(0, 500));
-
-  // paging start
+const JobsGridView = () => {
+  const [Records] = useState(JobsListingData);
+  // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
   const RecordsPerPage = 6;
   const pagesVisited = pageNumber * RecordsPerPage;
@@ -24,14 +23,14 @@ const CourseListView = () => {
   const displayRecords = Records.slice(
     pagesVisited,
     pagesVisited + RecordsPerPage
-  ).map((Records, index) => {
+  ).map((record, index) => {
     return (
-      <Col sm={12} md={12} lg={12} key={index}>
-        <CourseCard item={Records} viewby="list" />
+      <Col lg={6} xs={12} className="mb-4" key={index}>
+        <JobListingGridviewCard item={record} />
       </Col>
     );
   });
-  // end of paging
+  // end of paging setup
 
   return (
     <Fragment>
@@ -42,7 +41,6 @@ const CourseListView = () => {
           <Col>No matching records found.</Col>
         )}
       </Row>
-
       <ReactPaginate
         previousLabel={<ChevronLeft size="14px" />}
         nextLabel={<ChevronRight size="14px" />}
@@ -59,4 +57,5 @@ const CourseListView = () => {
     </Fragment>
   );
 };
-export default CourseListView;
+
+export default JobsGridView;

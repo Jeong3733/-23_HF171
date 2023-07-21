@@ -8,35 +8,32 @@ import CompanyBG from "assets/images/background/company-bg.jpg";
 
 const CommonHeaderTabs = (props) => {
   const { test_data } = props;
-  console.log(
-    "/detail/" +
-      test_data.competiton_id +
-      "/schedules/" +
-      test_data.schedule_id +
-      "/qna/"
-  );
   const location = useLocation();
 
   const tabItems = [
     {
       title: "소개글",
-      link: "/detail/" + test_data.competiton_id + "/readme/",
+      link: "/detail/" + test_data.competiton_id + "/readme",
     },
     {
       title: "일정 (" + props.data.totalReviews + ")",
-      link: "/marketing/jobs/company/reviews/",
+      link: "/marketing/jobs/company/reviews",
     },
     {
       title: "공지사항",
-      link: "/detail/" + test_data.competiton_id + "/announcements/",
+      link: "/detail/" + test_data.competiton_id + "/announcements",
     },
     {
       title: "QA 게시판",
-      link: "/detail/" + test_data.competiton_id + "/qna/",
+      link: "/detail/" + test_data.competiton_id + "/qna",
     },
     {
       title: "제출",
-      link: "/detail/" + test_data.competiton_id + "/submit/",
+      link: "/detail/" + test_data.competiton_id + "/submit",
+    },
+    {
+      title: "관리",
+      link: "/manage/" + test_data.competiton_id,
     },
   ];
   return (

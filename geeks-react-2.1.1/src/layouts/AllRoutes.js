@@ -15,9 +15,19 @@ import SignIn from "components/dashboard/authentication/SignIn";
 
 import CompanyAbout from "components/marketing/pages/jobs/company/About";
 import CompanyReviews from "components/marketing/pages/jobs/company/Reviews";
+import Announcements from "components/marketing/pages/jobs/company/Announcements";
+import QNA from "components/marketing/pages/jobs/company/Announcements";
+import Submit from "components/marketing/pages/jobs/company/Submit";
+
 import CompanyBenifits from "components/marketing/pages/jobs/company/Benifits";
 import CompanyPhotos from "components/marketing/pages/jobs/company/Photos";
 import UploadResume from "components/marketing/pages/jobs/upload-resume/UploadResume";
+import JobsList from "components/marketing/pages/jobs/listing/JobsList";
+
+// Study
+import ChatLayout from "./dashboard/ChatLayout"; // ( added in v2.0.0 )
+import Chat from "components/dashboard/chat/Chat";
+import LandingCourses from "components/marketing/landings/landing-courses/LandingCourses";
 
 const AllRoutes = () => {
   return (
@@ -43,20 +53,14 @@ const AllRoutes = () => {
         {/* 공지사항 */}
         <Route
           path="/detail/:competiton_id/announcements/"
-          element={<CompanyReviews />}
+          element={<Announcements />}
         />
         {/* QA 게시판 */}
-        <Route
-          path="/detail/:competiton_id/qna/"
-          element={<CompanyReviews />}
-        />
+        <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
 
         {/* 제출 */}
-        <Route
-          path="/detail/:competiton_id/submit/"
-          element={<CompanyPhotos />}
-        />
-
+        <Route path="/detail/:competiton_id/submit/" element={<Submit />} />
+        {/* ---------------------------------------- */}
         <Route
           path="/detail/:competiton_id/schedules/:schedule_id/"
           element={<CompanyReviews />}
@@ -75,32 +79,28 @@ const AllRoutes = () => {
         />
         <Route
           path="/detail/:competiton_id/schedules/:schedule_id/submit/"
-          element={<UploadResume />}
+          element={<CompanyPhotos />}
         />
-        <Route path="/evaluate/:schedule_id" element={<ComingSoon />} />
-        <Route
-          path="/detail/:competiton_id/:schedule_id"
-          element={<ComingSoon />}
-        />
-        <Route path="/detail/:competiton_id/qna" element={<ComingSoon />} />
-        <Route
-          path="/detail/:competiton_id/announcements"
-          element={<ComingSoon />}
-        />
-        <Route path="/manage/:competiton_id" element={<ComingSoon />} />
+
+        {/* ---------------------------------------- */}
 
         {/* 3.0 공모전 개설 */}
         <Route path="/add-new-competition" element={<ComingSoon />} />
       </Route>
 
-      {/* Routes with AnotherLayout */}
-      <Route element={<ComingSoon />}>
-        {/* 4.0 평가 */}
-        <Route path="/evaluate/:schedule_id" element={<ComingSoon />} />
+      {/* ---------------------------------------- */}
+      {/* 4.0 평가 */}
+      <Route element={<DefaultLayout />}>
+        <Route path="/evaluate/:schedule_id" element={<CompanyAbout />} />
         <Route
           path="/evaluate/:schedule_id/files/:file_id"
           element={<ComingSoon />}
         />
+      </Route>
+
+      {/* ---------------------------------------- */}
+      {/* 5.0 관리 */}
+      <Route element={<ComingSoon />}>
         <Route path="/manage/:competiton_id" element={<ComingSoon />} />
         <Route path="/manage/:competiton_id/readme" element={<ComingSoon />} />
         <Route
@@ -121,6 +121,12 @@ const AllRoutes = () => {
           element={<ComingSoon />}
         />
       </Route>
+
+      {/* Routes with ChatLayout */}
+      <Route element={<ChatLayout />}>
+        <Route path="/chat" element={<Chat />} />
+      </Route>
+      <Route path="/test/" element={<LandingCourses />} />
 
       {/* Routes with NotFound */}
       <Route element={<NotFound />}>
