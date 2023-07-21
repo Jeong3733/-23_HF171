@@ -16,6 +16,8 @@ import MaintenanceMode from "components/marketing/pages/specialty/MaintenanceMod
 import DefaultLayout from "layouts/marketing/DefaultLayout";
 import NotFound from "layouts/marketing/NotFound";
 import SignIn from "components/dashboard/authentication/SignIn";
+import SignUp from "components/dashboard/authentication/SignUp";
+import SignUpSuccess from "components/dashboard/authentication/SignUpSuccess";
 
 import CompanyAbout from "components/marketing/pages/jobs/company/About";
 import CompanyReviews from "components/marketing/pages/jobs/company/Reviews";
@@ -39,6 +41,8 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/authentication/sign-in/" element={<SignIn />} />
+      <Route path="/authentication/sign-up/" element={<SignUp />} />
+      <Route path="/authentication/sign-up-success/" element={<SignUpSuccess />} />
 
       {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>

@@ -5,7 +5,30 @@ import { Form, Card } from 'react-bootstrap';
 import Ratings from 'components/marketing/common/ratings/Ratings';
 import { useState } from 'react';
 
-const FilterOptions = () => {
+const competitionCategories = [
+	{
+		name: "개발"
+	},
+	{
+		name: "교육"
+	},
+	{
+		name: "엔터테인먼트"
+	},
+];
+
+// function onCategoryCheckboxClick(e, idx, selectedFilters, setSelectedFilters) {
+// 	// idx번째 요소만 e.target.checked 설정하고, 나머지 요소들은 그대로 둠
+// 	setSelectedFilters(selectedFilters.map((item, index) => {
+// 		if (idx === index) {
+// 			return e.target.checked;
+// 		}
+// 		return item;
+// 	}));
+// }
+
+const FilterOptions = ({selectedFilters, setSelectedFilters}) => {
+	console.log(selectedFilters);
 	return (
 		<Card>
 			{/* Card header */}
@@ -14,19 +37,29 @@ const FilterOptions = () => {
 			</Card.Header>
 			{/* Card body */}
 			<Card.Body>
+				<span className="dropdown-header px-0 mb-2">적용 필터</span>
+				{/* {
+					selectedFilters.map((item, index) => {
+						// 선택된 상태이면
+						if (item) {
+							return <div>{competitionCategories[index].name}</div>;
+						}
+						return null;
+					})
+				} */}
+			</Card.Body>
+			{/* Card body */}
+			<Card.Body>
 				<span className="dropdown-header px-0 mb-2"> Category</span>
 				<Form>
 					{/* Checkboxes for Courses */}
-					{[
-						'React',
-						'Javascript',
-						'Angular',
-					].map((item, index) => (
+					{competitionCategories.map((item, index) => (
 						<Form.Check
 							type="checkbox"
 							className="mb-1"
-							label={item}
+							label={item.name}
 							key={index}
+							// onClick={(e) => onCategoryCheckboxClick(e, index, selectedFilters, setSelectedFilters)}
 						/>
 					))}
 				</Form>

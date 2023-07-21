@@ -6,6 +6,7 @@ const ReactQuillEditor = (props) => {
   const [state, setState] = useState(props.initialValue);
   function handleChange(value, name) {
     setState(value);
+    console.log(value);
     console.log(name);
   }
   return (
