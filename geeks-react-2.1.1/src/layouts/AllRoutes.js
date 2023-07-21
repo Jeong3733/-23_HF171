@@ -18,6 +18,7 @@ import CompanyReviews from "components/marketing/pages/jobs/company/Reviews";
 import Announcements from "components/marketing/pages/jobs/company/Announcements";
 import QNA from "components/marketing/pages/jobs/company/Announcements";
 import Submit from "components/marketing/pages/jobs/company/Submit";
+import AllPosts from "components/dashboard/cms/all-posts/AllPosts";
 
 import CompanyBenifits from "components/marketing/pages/jobs/company/Benifits";
 import CompanyPhotos from "components/marketing/pages/jobs/company/Photos";
@@ -38,7 +39,6 @@ const AllRoutes = () => {
       <Route element={<DefaultLayout />}>
         {/* <Route path="/" element={<CourseIndex />} /> */}
         <Route path="/" element={<IndexPage />}></Route>
-        <Route path="/add-new-competition/" element={<AddNewCourse />} />
 
         {/* 1.0 전체 공모전 */}
         <Route path="/explore" element={<CourseFilterPage />} />
@@ -57,7 +57,6 @@ const AllRoutes = () => {
         />
         {/* QA 게시판 */}
         <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
-
         {/* 제출 */}
         <Route path="/detail/:competiton_id/submit/" element={<Submit />} />
         {/* ---------------------------------------- */}
@@ -81,27 +80,21 @@ const AllRoutes = () => {
           path="/detail/:competiton_id/schedules/:schedule_id/submit/"
           element={<CompanyPhotos />}
         />
+        {/* ---------------------------------------- */}
+        {/* 3.0 공모전 개설 */}
+        <Route path="/add-new-competition/" element={<AddNewCourse />} />
 
         {/* ---------------------------------------- */}
-
-        {/* 3.0 공모전 개설 */}
-        <Route path="/add-new-competition" element={<ComingSoon />} />
-      </Route>
-
-      {/* ---------------------------------------- */}
-      {/* 4.0 평가 */}
-      <Route element={<DefaultLayout />}>
-        <Route path="/evaluate/:schedule_id" element={<CompanyAbout />} />
+        {/* 4.0 평가 */}
+        <Route path="/evaluate/:competiton_id" element={<CompanyAbout />} />
         <Route
-          path="/evaluate/:schedule_id/files/:file_id"
+          path="/evaluate/:competiton_id/files/:file_id"
           element={<ComingSoon />}
         />
-      </Route>
 
-      {/* ---------------------------------------- */}
-      {/* 5.0 관리 */}
-      <Route element={<ComingSoon />}>
-        <Route path="/manage/:competiton_id" element={<ComingSoon />} />
+        {/* ---------------------------------------- */}
+        {/* 5.0 관리 */}
+        <Route path="/manage/:competiton_id" element={<AllPosts />} />
         <Route path="/manage/:competiton_id/readme" element={<ComingSoon />} />
         <Route
           path="/manage/:competiton_id/:schedule_id"

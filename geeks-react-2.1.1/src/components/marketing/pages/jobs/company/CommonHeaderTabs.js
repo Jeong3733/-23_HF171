@@ -32,6 +32,10 @@ const CommonHeaderTabs = (props) => {
       link: "/detail/" + test_data.competiton_id + "/submit",
     },
     {
+      title: "평가",
+      link: "/evaluate/" + test_data.competiton_id,
+    },
+    {
       title: "관리",
       link: "/manage/" + test_data.competiton_id,
     },
@@ -88,7 +92,11 @@ const CommonHeaderTabs = (props) => {
                     <div>
                       {/* button */}
                       <Link to="#" className="btn btn-outline-primary">
-                        Follow
+                        참여하기
+                      </Link>
+                      {/* button */}
+                      <Link to="#" className="btn btn-outline-primary">
+                        링크 공유
                       </Link>
                     </div>
                   </div>
