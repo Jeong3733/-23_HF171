@@ -5,6 +5,9 @@ import json
 import numpy as np
 
 
+import boto3
+
+
 class FileUtil:
     def __init__(self) -> None:
         # print(os.getcwd())
@@ -81,6 +84,21 @@ class Util:
         elif isinstance(obj, np.ndarray):
             obj = obj.tolist()
         return obj
+
+    def download_from_s3(self):
+        s3_bucket = 'competition-file-list'
+
+        # Create an S3 access object
+        s3 = boto3.client("s3")
+        s3.download_file(
+            Bucket=s3_bucket,
+            Key="test.pdf",
+            Filename="data/downloaded_from_s3.csv"
+        )
+
+    def get_s3bucket_list(self):
+        s3 = boto3.resource("s3")
+        return s3.buckets.all()
 
 
 if __name__ == '__main__':

@@ -48,7 +48,7 @@ const NavbarDefault = ({ headerstyle, login, setLogin }) => {
 							login ? (isDesktop || isLaptop ? 'd-none' : 'd-flex') : 'd-none'
 						}`}
 					>
-						<QuickMenu />
+						<QuickMenu setLogin={setLogin}/>
 					</div>
 					<Navbar.Toggle aria-controls="basic-navbar-nav">
 						<span className="icon-bar top-bar mt-0"></span>

@@ -108,7 +108,7 @@ class AI:
         """
         # file_path = None
         chunk_size = 1000
-        encoding_name = 100
+        chunk_overlap = 100
         encoding_name = 'p50k_base'
 
         loader = PyMuPDFLoader(file_path=file_path)
@@ -119,7 +119,7 @@ class AI:
         #     chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             encoding_name=encoding_name,
-            chunk_size=chunk_size, chunk_overlap=encoding_name,
+            chunk_size=chunk_size, chunk_overlap=chunk_overlap,
             add_start_index=True)
 
         docs = text_splitter.split_documents(documents)
@@ -194,7 +194,7 @@ class DoucmentInit(AI):
         file_path = None
         file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
         docVectorDB_directory = None
-        docVectorDB_directory = 'newTest'
+        docVectorDB_directory = 'docVectorDBs/newTest'
         analyticsReport_format = f"""format"""
 
         docs = self._upload_document(file_path=file_path)
@@ -209,13 +209,14 @@ class DoucmentInit(AI):
                                      chain_type="map_reduce",
                                      verbose=True)
         # output_summary = chain.run(docs)
+        output_summary = 'test_output_summary'
         # print(output_summary)
 
         # --- 표절 검사 ---
 
         # compVectorDB_directory = 'compVectorDB'
         # compVectorDB = self._load_vectordb(persist_directory=compVectorDB_directory)
-        compVectorDB = docVectorDB.copy()
+        compVectorDB = docVectorDB
 
         getVectorDBInfo = docVectorDB.get(
             include=['embeddings', 'documents', 'metadatas'])
@@ -238,7 +239,11 @@ class DoucmentInit(AI):
             분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReport_format}\"\"\""""
                 report = analysis(analyticsReport_prompt)
                 getResultCheck.append((checkID, compID, score, report))
-            print(getResultCheck)
+            # print(getResultCheck)
+        resDict = {'status': True,
+                   'result': {'summary': output_summary,
+                              'getResultCheck': getResultCheck}}
+        return resDict
 
 
 class DocumentQA(AI):
@@ -255,7 +260,7 @@ class DocumentQA(AI):
 
 def main():
     init = DoucmentInit()
-    init.upload()
+    print(init.upload())
 
 
 if __name__ == '__main__':

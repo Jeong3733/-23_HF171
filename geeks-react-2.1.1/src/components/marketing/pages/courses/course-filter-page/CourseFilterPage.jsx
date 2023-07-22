@@ -1,5 +1,5 @@
 // import node module libraries
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Col, Row, Container, Tab } from "react-bootstrap";
 
 // import custom components
@@ -12,6 +12,13 @@ import FilterOptions from "./FilterOptions";
 import CourseGridView from "./CourseGridView";
 import CourseListView from "./CourseListView";
 
+// function getDefaultFilter(index) {
+//   let res = [];
+//   for (let i = 0; i < 3; i++) {
+//     res.append(i === index);
+//   }
+// }
+
 const CourseFilterPage = () => {
   const sortByOptions = [
     { value: "newest", label: "Newest" },
@@ -19,6 +26,8 @@ const CourseFilterPage = () => {
     { value: "most-popular", label: "Most Popular" },
     { value: "highest-rated", label: "Highest Rated" },
   ];
+
+  // const [selectedFilters, setSelectedFilters] = useState(getDefaultFilter( || -1));
 
   return (
     <Fragment>

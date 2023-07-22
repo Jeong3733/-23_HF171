@@ -9,17 +9,17 @@ const NavbarDefault = [
       {
         id: uuid(),
         menuitem: "카테고리1",
-        link: "/competition-filter-page/",
+        link: "/explore/",
       },
       {
         id: uuid(),
         menuitem: "카테고리2",
-        link: "/competition-filter-page/",
+        link: "/explore/",
       },
       {
         id: uuid(),
         menuitem: "카테고리3",
-        link: "/competition-filter-page/",
+        link: "/explore/",
       },
       {
         id: uuid(),
@@ -28,7 +28,7 @@ const NavbarDefault = [
       {
         id: uuid(),
         menuitem: "공모전 추가하기",
-        link: "/competition/add-new-competition/",
+        link: "/add-new-competition/",
       },
     ],
   },

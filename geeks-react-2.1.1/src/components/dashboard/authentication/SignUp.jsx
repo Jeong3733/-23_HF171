@@ -1,12 +1,31 @@
 // import node module libraries
 import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Col, Row, Card, Form, Button, Image } from 'react-bootstrap';
 
 // import media files
 import Logo from 'assets/images/brand/logo/logo-icon.svg';
 
 const SignUp = () => {
+	const navigate = useNavigate();
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (e.target.check_password.value !== e.target.password.value) {
+			alert('암호가 일치하지 않습니다.');
+			return;
+		}
+
+		let postObject = {};
+		for (let t of e.target) {
+			console.log(t);
+			postObject[t.id] = t.value;
+		}
+		alert(JSON.stringify(postObject));
+		navigate('/authentication/sign-up-success');
+	};
+
 	return (
 		<Fragment>
 			<Row className="align-items-center justify-content-center g-0 min-vh-100">
@@ -17,49 +36,66 @@ const SignUp = () => {
 								<Link to="/">
 									<Image src={Logo} className="mb-4" alt="" />
 								</Link>
-								<h1 className="mb-1 fw-bold">Sign up</h1>
+								<h1 className="mb-1 fw-bold">회원가입</h1>
 								<span>
-									Already have an account?{' '}
+									계정이 이미 있으신가요?{' '}
 									<Link to="/authentication/sign-in" className="ms-1">
-										Sign in
+										로그인
 									</Link>
 								</span>
 							</div>
 							{/* Form */}
-							<Form>
+							<Form onSubmit={handleSubmit}>
 								<Row>
 									<Col lg={12} md={12} className="mb-3">
-										{/* User Name */}
-										<Form.Label>User Name</Form.Label>
+										<Form.Label>이름 </Form.Label>
 										<Form.Control
 											type="text"
-											id="username"
-											placeholder="User Name"
+											id="user_name"
+											placeholder="예) 홍길동"
 											required
 										/>
 									</Col>
 									<Col lg={12} md={12} className="mb-3">
-										{/* email */}
-										<Form.Label>Email </Form.Label>
+										<Form.Label>이메일 </Form.Label>
 										<Form.Control
 											type="email"
 											id="email"
-											placeholder="Email address here"
+											placeholder="예) user@example.com"
+											required
+										/>
+									</Col>
+									<Col lg={12} md={12} className="mb-3">
+										{/* User Name */}
+										<Form.Label>아이디 </Form.Label>
+										<Form.Control
+											type="text"
+											id="user_id"
+											placeholder="아이디"
 											required
 										/>
 									</Col>
 									<Col lg={12} md={12} className="mb-3">
 										{/* Password */}
-										<Form.Label>Password </Form.Label>
+										<Form.Label>암호 </Form.Label>
 										<Form.Control
 											type="password"
 											id="password"
-											placeholder="**************"
+											placeholder="암호"
 											required
 										/>
 									</Col>
 									<Col lg={12} md={12} className="mb-3">
-										{/* Checkbox */}
+										{/* Password */}
+										<Form.Label>암호 확인 </Form.Label>
+										<Form.Control
+											type="password"
+											id="check_password"
+											placeholder="암호 확인"
+											required
+										/>
+									</Col>
+									{/* <Col lg={12} md={12} className="mb-3">
 										<Form.Check type="checkbox" id="check-api-checkbox">
 											<Form.Check.Input type="checkbox" />
 											<Form.Check.Label>
@@ -73,46 +109,44 @@ const SignUp = () => {
 												</Link>
 											</Form.Check.Label>
 										</Form.Check>
-									</Col>
+									</Col> */}
 									<Col lg={12} md={12} className="mb-0 d-grid gap-2">
-										{/* Button */}
+										<Button variant="outline-secondary" type="button">
+											취소
+										</Button>
 										<Button variant="primary" type="submit">
-											Sign in
+											가입하기
 										</Button>
 									</Col>
 								</Row>
 							</Form>
-							<hr className="my-4" />
+							{/* <hr className="my-4" />
 							<div className="mt-4 text-center">
-								{/* Facebook */}
 								<Link
 									to="#"
 									className="btn-social btn-social-outline btn-facebook"
 								>
 									<i className="fab fa-facebook"></i>
 								</Link>{' '}
-								{/* Twitter */}
 								<Link
 									to="#"
 									className="btn-social btn-social-outline btn-twitter"
 								>
 									<i className="fab fa-twitter"></i>
 								</Link>{' '}
-								{/* LinkedIn */}
 								<Link
 									to="#"
 									className="btn-social btn-social-outline btn-linkedin"
 								>
 									<i className="fab fa-linkedin"></i>
 								</Link>{' '}
-								{/* GitHub */}
 								<Link
 									to="#"
 									className="btn-social btn-social-outline btn-github"
 								>
 									<i className="fab fa-github"></i>
 								</Link>
-							</div>
+							</div> */}
 						</Card.Body>
 					</Card>
 				</Col>

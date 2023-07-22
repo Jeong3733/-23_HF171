@@ -1,21 +1,19 @@
 // import node module libraries
-import { Fragment, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import { Fragment, useState } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
 
 // import sub components
-import CourseCard from "../CourseCard";
+import JobListingListviewCard from "components/marketing/common/cards/JobListingListviewCard";
 
 // import data files
-import { AllCoursesData } from "data/slider/AllCoursesData";
+import JobsListingData from "data/marketing/jobs/JobsListingData";
 
-const CourseListView = () => {
-  const [Records] = useState(AllCoursesData.slice(0, 500));
-
-  // paging start
+const JobsListView = () => {
+  const [Records] = useState(JobsListingData);
+  // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
-  const RecordsPerPage = 6;
+  const RecordsPerPage = 5;
   const pagesVisited = pageNumber * RecordsPerPage;
   const pageCount = Math.ceil(Records.length / RecordsPerPage);
   const changePage = ({ selected }) => {
@@ -24,25 +22,18 @@ const CourseListView = () => {
   const displayRecords = Records.slice(
     pagesVisited,
     pagesVisited + RecordsPerPage
-  ).map((Records, index) => {
-    return (
-      <Col sm={12} md={12} lg={12} key={index}>
-        <CourseCard item={Records} viewby="list" />
-      </Col>
-    );
+  ).map((record, index) => {
+    return <JobListingListviewCard item={record} key={index} />;
   });
-  // end of paging
+  // end of paging setup
 
   return (
     <Fragment>
-      <Row>
-        {displayRecords.length > 0 ? (
-          displayRecords
-        ) : (
-          <Col>No matching records found.</Col>
-        )}
-      </Row>
-
+      {displayRecords.length > 0 ? (
+        displayRecords
+      ) : (
+        <div>No matching records found.</div>
+      )}
       <ReactPaginate
         previousLabel={<ChevronLeft size="14px" />}
         nextLabel={<ChevronRight size="14px" />}
@@ -59,4 +50,5 @@ const CourseListView = () => {
     </Fragment>
   );
 };
-export default CourseListView;
+
+export default JobsListView;

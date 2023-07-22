@@ -1,4 +1,7 @@
 vec_chroma_db
+docVectorDBs
+app_fastapi/temp
+
 *.log
 
 __pycache__/

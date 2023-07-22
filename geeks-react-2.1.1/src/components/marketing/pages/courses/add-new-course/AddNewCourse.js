@@ -14,18 +14,29 @@ import Settings from "./steps/Settings";
 
 const AddNewCourse = () => {
   const [currentStep, setCurrentStep] = useState(1);
+
+  const initialValue = `<p>Insert course description</p>
+                        <p><br /></p>        
+                        <p>Some initial <strong>bold</strong> text</p>
+                        <p><br /></p><p><br /></p><p><br /></p><p><br /></p>`;
+
   const [formData, setFormData] = useState({
-    course_title: "Course Title",
-    category_category: "React",
-    courses_level: "Intermediate",
-    course_description: "Ahmedabad",
+    competition_name: "",
+    competition_type: "",
+    competition_description: "",
+    competition_image: "",
+    competition_docs: "",
+    competition_intro: initialValue,
   });
+
+  console.log(formData);
   const handleChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   };
+
   const next = () => {
     setCurrentStep(currentStep === 4 ? 1 : currentStep + 1);
   };
@@ -36,7 +47,7 @@ const AddNewCourse = () => {
   const steps = [
     {
       id: 1,
-      title: "Basic Information",
+      title: "공모전 정보",
       content: (
         <BasicInformation
           data={formData}

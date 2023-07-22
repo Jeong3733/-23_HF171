@@ -24,7 +24,7 @@ const HeroHeader = () => {
 								for the modern students and entrepreneur.
 							</p>
 							<Link
-								to="/marketing/courses/course-filter-page/"
+								to="/explore"
 								className="btn btn-dark"
 							>
 								공모전 둘러보기
