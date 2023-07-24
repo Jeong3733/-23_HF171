@@ -14,43 +14,43 @@ import DarkModeIcon from 'assets/images/svg/moon.svg';
 import useLocalStorage from 'hooks/useLocalStorage';
 
 const DarkLightMode = ({ className }) => {
-	const ConfigContext = useContext(AppConfigContext);
-	const { storageValue, setStorageValue, getStorageValue } = useLocalStorage(
-		'skin',
-		ConfigContext.appStats.skin
-	);
-	useEffect(() => {
-		document
-			.querySelector('html')
-			.setAttribute('data-theme', getStorageValue('skin', 'light'));
-		ConfigContext.setAppConfig(storageValue);
-	}, [storageValue]);
+  const ConfigContext = useContext(AppConfigContext);
+  const { storageValue, setStorageValue, getStorageValue } = useLocalStorage(
+    'skin',
+    ConfigContext.appStats.skin,
+  );
+  useEffect(() => {
+    document
+      .querySelector('html')
+      .setAttribute('data-theme', getStorageValue('skin', 'light'));
+    ConfigContext.setAppConfig(storageValue);
+  }, [storageValue]);
 
-	const changeColorMode = () => {
-		setStorageValue(storageValue === 'light' ? 'dark' : 'light');
-		ConfigContext.setAppConfig(storageValue);
-	};
-	return (
-		<Fragment>
-			<Link
-				to="#"
-				type="checkbox"
-				id="flexSwitchCheckDefault"
-				onClick={changeColorMode}
-				className={`form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ${className}`}
-			>
-				<Form.Check.Input
-					type="checkbox"
-					isValid
-					value={storageValue}
-					style={{ display: 'none' }}
-				/>
-				<Form.Check.Label style={{ cursor: 'pointer' }}>
-					<Image src={storageValue === 'dark' ? DarkModeIcon : LightModeIcon} />
-				</Form.Check.Label>
-			</Link>
-		</Fragment>
-	);
+  const changeColorMode = () => {
+    setStorageValue(storageValue === 'light' ? 'dark' : 'light');
+    ConfigContext.setAppConfig(storageValue);
+  };
+  return (
+    <Fragment>
+      <Link
+        to="#"
+        type="checkbox"
+        id="flexSwitchCheckDefault"
+        onClick={changeColorMode}
+        className={`form-check form-switch theme-switch btn btn-light btn-icon rounded-circle ${className}`}
+      >
+        <Form.Check.Input
+          type="checkbox"
+          isValid
+          value={storageValue}
+          style={{ display: 'none' }}
+        />
+        <Form.Check.Label style={{ cursor: 'pointer' }}>
+          <Image src={storageValue === 'dark' ? DarkModeIcon : LightModeIcon} />
+        </Form.Check.Label>
+      </Link>
+    </Fragment>
+  );
 };
 
 export default DarkLightMode;

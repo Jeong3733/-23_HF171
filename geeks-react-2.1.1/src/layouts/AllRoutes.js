@@ -1,48 +1,51 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import React from "react";
+import { Navigate, Route, Routes } from 'react-router-dom';
+import React from 'react';
 
-import "assets/scss/theme.scss";
+import 'assets/scss/theme.scss';
 
 // ** Import Layouts
-import DashboardIndex from "layouts/dashboard/DashboardIndex";
-import EvaluateIndex from "layouts/dashboard/DashboardIndex";
+import DashboardIndex from 'layouts/dashboard/DashboardIndex';
+import EvaluateIndex from 'layouts/dashboard/DashboardIndex';
 
-import IndexPage from "components/marketing/pages/IndexPage";
-import AddNewCourse from "components/marketing/pages/courses/add-new-course/AddNewCourse";
-import CourseFilterPage from "components/marketing/pages/courses/course-filter-page/CourseFilterPage";
-import ComingSoon from "components/marketing/pages/specialty/ComingSoon";
-import Error404 from "components/marketing/pages/specialty/Error404";
-import MaintenanceMode from "components/marketing/pages/specialty/MaintenanceMode";
-import DefaultLayout from "layouts/marketing/DefaultLayout";
-import NotFound from "layouts/marketing/NotFound";
-import SignIn from "components/dashboard/authentication/SignIn";
-import SignUp from "components/dashboard/authentication/SignUp";
-import SignUpSuccess from "components/dashboard/authentication/SignUpSuccess";
+import IndexPage from 'components/marketing/pages/IndexPage';
+import AddNewCourse from 'components/marketing/pages/courses/add-new-course/AddNewCourse';
+import CourseFilterPage from 'components/marketing/pages/courses/course-filter-page/CourseFilterPage';
+import ComingSoon from 'components/marketing/pages/specialty/ComingSoon';
+import Error404 from 'components/marketing/pages/specialty/Error404';
+import MaintenanceMode from 'components/marketing/pages/specialty/MaintenanceMode';
+import DefaultLayout from 'layouts/marketing/DefaultLayout';
+import NotFound from 'layouts/marketing/NotFound';
+import SignIn from 'components/dashboard/authentication/SignIn';
+import SignUp from 'components/dashboard/authentication/SignUp';
+import SignUpSuccess from 'components/dashboard/authentication/SignUpSuccess';
 
-import CompanyAbout from "components/marketing/pages/jobs/company/About";
-import CompanyReviews from "components/marketing/pages/jobs/company/Reviews";
-import Announcements from "components/marketing/pages/jobs/company/Announcements";
-import QNA from "components/marketing/pages/jobs/company/Announcements";
-import Submit from "components/marketing/pages/jobs/company/Submit";
-import AllPosts from "components/dashboard/cms/all-posts/AllPosts";
-import Evaluates from "components/dashboard/cms/all-posts/Evaluates";
+import CompanyAbout from 'components/marketing/pages/jobs/company/About';
+import CompanyReviews from 'components/marketing/pages/jobs/company/Reviews';
+import Announcements from 'components/marketing/pages/jobs/company/Announcements';
+import QNA from 'components/marketing/pages/jobs/company/Announcements';
+import Submit from 'components/marketing/pages/jobs/company/Submit';
+import AllPosts from 'components/dashboard/cms/all-posts/AllPosts';
+import Evaluates from 'components/dashboard/cms/all-posts/Evaluates';
 
-import CompanyBenifits from "components/marketing/pages/jobs/company/Benifits";
-import CompanyPhotos from "components/marketing/pages/jobs/company/Photos";
-import UploadResume from "components/marketing/pages/jobs/upload-resume/UploadResume";
-import JobsList from "components/marketing/pages/jobs/listing/JobsList";
+import CompanyBenifits from 'components/marketing/pages/jobs/company/Benifits';
+import CompanyPhotos from 'components/marketing/pages/jobs/company/Photos';
+import UploadResume from 'components/marketing/pages/jobs/upload-resume/UploadResume';
+import JobsList from 'components/marketing/pages/jobs/listing/JobsList';
 
 // Study
-import ChatLayout from "./dashboard/ChatLayout"; // ( added in v2.0.0 )
-import Chat from "components/dashboard/chat/Chat";
-import LandingCourses from "components/marketing/landings/landing-courses/LandingCourses";
+import ChatLayout from './dashboard/ChatLayout'; // ( added in v2.0.0 )
+import Chat from 'components/dashboard/chat/Chat';
+import LandingCourses from 'components/marketing/landings/landing-courses/LandingCourses';
 
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/authentication/sign-in/" element={<SignIn />} />
       <Route path="/authentication/sign-up/" element={<SignUp />} />
-      <Route path="/authentication/sign-up-success/" element={<SignUpSuccess />} />
+      <Route
+        path="/authentication/sign-up-success/"
+        element={<SignUpSuccess />}
+      />
 
       {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>
