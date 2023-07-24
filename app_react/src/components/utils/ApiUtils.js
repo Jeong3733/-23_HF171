@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Cookies} from "react-cookie";
 import {parseJwt} from "./JwtUtils";
+import {config} from "./Constants.";
 
 export const apiUtils = {
     signIn,
@@ -38,7 +39,7 @@ function getUserInfo(user) {
 
 // -- Axios
 const instance = axios.create({
-    baseURL: "http://localhost:8080"
+    baseURL: config.url.API_BASE_URL
 })
 
 instance.interceptors.response.use(
