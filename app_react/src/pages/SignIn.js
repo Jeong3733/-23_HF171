@@ -61,8 +61,8 @@ const SignIn = () => {
           setIsLoggedIn(true);
         })
         .catch(error => {
-          alert(error.response.data);
           handleLogError(error);
+          alert(error.response.data);
         })
   };
 
