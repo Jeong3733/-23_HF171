@@ -27,12 +27,12 @@ import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
 // import sub components
-import AddNewCategoryPopup from 'components/dashboard/courses/AddNewCategoryPopup';
+import AddNewCategoryPopup from 'components/dashboard/courses/DocumentQAPopup';
 
 // import data files
 import { courses } from 'data/courses/CoursesCategoryData';
 
-const CoursesCategory = () => {
+const Evaluate = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -261,4 +261,4 @@ const CoursesCategory = () => {
   );
 };
 
-export default CoursesCategory;
+export default Evaluate;

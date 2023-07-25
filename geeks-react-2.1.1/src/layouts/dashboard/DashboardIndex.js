@@ -1,12 +1,12 @@
 // import node module libraries
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 // import sub components
-import NavbarVertical from "./NavbarVertical";
-import HeaderDefault from "./HeaderDefault";
+import NavbarVertical from './NavbarVertical';
+import HeaderDefault from './HeaderDefault';
 
-const EvaluateIndex = (props) => {
+const DashboardIndex = (props) => {
   const { children, className, overflowHidden } = props;
   const [showMenu, setShowMenu] = useState(true);
   const ToggleMenu = () => {
@@ -15,8 +15,8 @@ const EvaluateIndex = (props) => {
   return (
     <div
       id="db-wrapper"
-      className={`${overflowHidden ? "chat-layout" : ""} ${
-        showMenu ? "" : "toggled"
+      className={`${overflowHidden ? 'chat-layout' : ''} ${
+        showMenu ? '' : 'toggled'
       }`}
     >
       <div className="navbar-vertical navbar">
@@ -34,7 +34,7 @@ const EvaluateIndex = (props) => {
             }}
           />
         </div>
-        <div className={`container-fluid ${className ? className : "p-4"}`}>
+        <div className={`container-fluid ${className ? className : 'p-4'}`}>
           {children}
           <Outlet />
         </div>
@@ -42,4 +42,4 @@ const EvaluateIndex = (props) => {
     </div>
   );
 };
-export default EvaluateIndex;
+export default DashboardIndex;

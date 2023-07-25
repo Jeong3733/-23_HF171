@@ -4,8 +4,7 @@ import React from 'react';
 import 'assets/scss/theme.scss';
 
 // ** Import Layouts
-import DashboardIndex from 'layouts/dashboard/DashboardIndex';
-import EvaluateIndex from 'layouts/dashboard/DashboardIndex';
+import EvaluateIndex from 'layouts/dashboard/EvaluateIndex';
 
 import IndexPage from 'components/marketing/pages/IndexPage';
 import AddNewCourse from 'components/marketing/pages/courses/add-new-course/AddNewCourse';
