@@ -1,24 +1,27 @@
 // import node module libraries
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
+import { useState } from 'react';
+import { Card, Form, Button, InputGroup } from 'react-bootstrap';
 // import React, { useState, Fragment } from "react";
 
 // import custom components
-import { FormSelect } from "components/elements/form-select/FormSelect";
+import { FormSelect } from 'components/elements/form-select/FormSelect';
 
 const BasicInformation = (props) => {
   const { next, data, handleChange } = props;
 
+  const [field, setField] = useState([]);
+
   // 이거 나중에 따로 파일로 빼야할듯
   const CompetitionType = [
-    { value: "개발", label: "개발" },
-    { value: "교육", label: "교육" },
-    { value: "엔터테인먼트", label: "엔터테인먼트" },
-    { value: "생활", label: "생활" },
-    { value: "업무", label: "업무" },
-    { value: "공공", label: "공공" },
-    { value: "금융", label: "금융" },
-    { value: "의료", label: "의료" },
-    { value: "기타", label: "기타" },
+    { value: '개발', label: '개발' },
+    { value: '교육', label: '교육' },
+    { value: '엔터테인먼트', label: '엔터테인먼트' },
+    { value: '생활', label: '생활' },
+    { value: '업무', label: '업무' },
+    { value: '공공', label: '공공' },
+    { value: '금융', label: '금융' },
+    { value: '의료', label: '의료' },
+    { value: '기타', label: '기타' },
   ];
 
   // const initialValue = `<p>Insert course description</p>
@@ -66,7 +69,46 @@ const BasicInformation = (props) => {
               required
             />
           </Form.Group>
-
+          <Form.Group className="mb-3">
+            <Form.Label>공모전 분류</Form.Label>
+            <div key={`inline-checkbox`} className="mb-3">
+              <Form.Check
+                inline
+                label="1"
+                name="group1"
+                type="checkbox"
+                id={`inline-checkbox-1`}
+                onChange={handleChange}
+              />
+              <Form.Check
+                inline
+                label="2"
+                name="group1"
+                type="checkbox"
+                id={`inline-checkbox-2`}
+                onChange={handleChange}
+              />
+            </div>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>My multiselect</Form.Label>
+            <Form.Control
+              as="select"
+              multiple
+              value={field}
+              onChange={(e) =>
+                setField(
+                  [].slice
+                    .call(e.target.selectedOptions)
+                    .map((item) => item.value),
+                )
+              }
+            >
+              <option value="field1">Field 1</option>
+              <option value="field2">Field 2</option>
+              <option value="field3">Field 3</option>
+            </Form.Control>
+          </Form.Group>
           {/* 공모전 요약 설명 */}
           <Form.Group className="mb-3">
             <Form.Label htmlFor="competition_description">
@@ -100,7 +142,8 @@ const BasicInformation = (props) => {
               />
             </InputGroup>
             <Form.Text className="text-muted">
-              공모전 리스트에 표시되는 사진입니다. (권장사항: 750x440 pixels; .jpg, .jpeg,. gif, or .png. no text on the image.)
+              공모전 리스트에 표시되는 사진입니다. (권장사항: 750x440 pixels;
+              .jpg, .jpeg,. gif, or .png. no text on the image.)
             </Form.Text>
           </Form.Group>
 

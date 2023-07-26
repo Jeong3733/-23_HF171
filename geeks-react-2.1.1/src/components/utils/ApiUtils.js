@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { parseJwt } from './JwtUtils';
+import { config } from './Constants.';
 
 export const apiUtils = {
   signIn,
   signUp,
   getUserInfo,
-  signUpTest,
-  signInTest,
+  AddCompetition,
 };
 
 const cookies = new Cookies();
@@ -18,32 +18,32 @@ function getTokenByRefreshToken(refreshToken) {
   });
 }
 
-function signIn(username, password) {
-  return instance.post(
-    '/auth/signIn',
-    { username, password },
-    {
-      headers: { 'Content-type': 'application/json' },
-    },
-  );
-}
+// {
+//   "email":"sbe07032@naver.com",
+//   "password":"1",
+//   "formBasicCheckbox":"on",
+//   "":""
+// }
 
-function signUp(user) {
-  return instance.post('/auth/signUp', user, {
+function signIn(data) {
+  const url = '/auth/signIn';
+  return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
   });
 }
 
-// TEST - signUp
-function signUpTest(data) {
-  return instance.post('/auth/signUpTest', data, {
-    headers: { 'Content-type': 'application/json' },
-  });
-}
+// {
+//   "user_name": "1",
+//   "email": "12222@22",
+//   "user_id": "1",
+//   "password": "1",
+//   "check_password": "1",
+//   "": ""
+// }
 
-// TEST - signUp
-function signInTest(data) {
-  return instance.post('/auth/signInTest', data, {
+function signUp(data) {
+  const url = `/auth/signUp`;
+  return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
   });
 }
@@ -56,9 +56,17 @@ function getUserInfo(user) {
   });
 }
 
+// 공모전 개설
+function AddCompetition(user, data) {
+  const url = `/add-competition`;
+  return instance.get(url, data, {
+    headers: { Authorization: bearerAccess(user) },
+  });
+}
+
 // -- Axios
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: config.url.API_BASE_URL,
 });
 
 instance.interceptors.response.use(

@@ -1,21 +1,23 @@
 // import node module libraries
-import { Fragment, useContext, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Col, Row, Card, Form, Button, Image } from "react-bootstrap";
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Col, Row, Card, Form, Button, Image } from 'react-bootstrap';
 
 // import media files
-import Logo from "assets/images/brand/logo/logo-icon.svg";
+import Logo from 'assets/images/brand/logo/logo-icon.svg';
 
 // impoort Auth module
-import { useCookies } from "react-cookie";
-import { useAuth } from "components/AuthContext";
-import { apiUtils } from "components/utils/ApiUtils";
-import { handleLogError } from "components/utils/ErrorUtils";
+import { useCookies } from 'react-cookie';
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { parseJwt } from 'components/utils/JwtUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 const SignIn = () => {
   const Auth = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cookie, setCookie] = useCookies(["refreshToken"]);
+  const [cookie, setCookie] = useCookies(['refreshToken']);
+
   // componentDidMount
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
@@ -35,7 +37,7 @@ const SignIn = () => {
     alert(JSON.stringify(postObject));
 
     apiUtils
-      .signInTest(postObject)
+      .signIn(postObject)
       .then((response) => {
         const { accessToken, refreshToken } = response.data;
         const data = parseJwt(accessToken);
@@ -46,12 +48,12 @@ const SignIn = () => {
         Auth.userLogin(user);
 
         // cookie 에 refresh token 저장
-        setCookie("refreshToken", refreshToken, { path: "/" });
+        setCookie('refreshToken', refreshToken, { path: '/' });
 
         setIsLoggedIn(true);
 
         // 성공페이지 이동
-        navigate("/");
+        navigate('/');
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -74,7 +76,7 @@ const SignIn = () => {
                   </Link>
                   <h1 className="mb-1 fw-bold">Sign in</h1>
                   <span>
-                    Don’t have an account?{" "}
+                    Don’t have an account?{' '}
                     <Link to="/authentication/sign-up" className="ms-1">
                       Sign up
                     </Link>

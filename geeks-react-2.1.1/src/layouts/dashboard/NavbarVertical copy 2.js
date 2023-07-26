@@ -52,11 +52,11 @@ const NavbarVertical = (props) => {
     PlagiarismCheckPopup: false,
   });
 
-  // console.log(show);
+  console.log(show['FileListPopup']);
+  console.log(show['FileListPopup']);
+  console.log(show['FileListPopup']);
+  console.log(show['FileListPopup']);
 
-  // const handleClose = (modal) => {
-  //   setShow(show.filter((m) => m !== modal));
-  // };
   const handleClose = (event) => {
     setShow({
       ...setShow,
@@ -72,6 +72,8 @@ const NavbarVertical = (props) => {
   };
 
   const location = useLocation();
+
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   return (
     <Fragment>
@@ -120,7 +122,6 @@ const NavbarVertical = (props) => {
                   {/* {show.map((popup) => ( */}
                   <Modal
                     name={menu.popup}
-                    key={menu.popup}
                     show={show[menu.popup]}
                     onHide={handleClose}
                     size="lg"
@@ -132,14 +133,14 @@ const NavbarVertical = (props) => {
                     <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
                       {/*  Action Buttons  */}
                       <Button
-                        // name={menu.popup}
+                        name={menu.popup}
                         variant="primary"
                         onClick={handleClose}
                       >
                         Add New Category
                       </Button>
                       <Button
-                        // name={menu.popup}
+                        name={menu.popup}
                         variant="outline-secondary"
                         onClick={handleClose}
                       >

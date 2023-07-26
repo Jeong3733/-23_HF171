@@ -5,6 +5,7 @@ import 'assets/scss/theme.scss';
 
 // ** Import Layouts
 import EvaluateIndex from 'layouts/dashboard/EvaluateIndex';
+import EvaluateDetailIndex from 'layouts/dashboard/EvaluateDetailIndex';
 
 import IndexPage from 'components/marketing/pages/IndexPage';
 import AddNewCourse from 'components/marketing/pages/courses/add-new-course/AddNewCourse';
@@ -121,12 +122,15 @@ const AllRoutes = () => {
       </Route>
 
       {/* ---------------------------------------- */}
-      {/* 4.0 평가 */}
+      {/* 4.0 평가 리스트 */}
       <Route element={<EvaluateIndex />}>
-        <Route path="/evaluate/:competiton_id" element={<Evaluates />} />
+        <Route path="/evaluate/:competiton_id" element={<ComingSoon />} />
+      </Route>
+      {/* 4.1 평가 세부 */}
+      <Route element={<EvaluateDetailIndex />}>
         <Route
           path="/evaluate/:competiton_id/files/:file_id"
-          element={<ComingSoon />}
+          element={<Evaluates />}
         />
       </Route>
       {/* Routes with ChatLayout */}
