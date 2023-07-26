@@ -3,18 +3,18 @@ import { useState } from "react";
 import ReactQuill from "react-quill";
 
 const ReactQuillEditor = (props) => {
-  const [state, setState] = useState(props.initialValue);
-  function handleChange(value, name) {
+  const [state, setState] = useState(props.value);
+  const { initialValue } = props;
+  const handleChangeParent = props.handleChange;
+  function handleChange(value, delta) {
     setState(value);
+    handleChangeParent({ target: {name: "competition_intro", value: value }});
     console.log(value);
-    console.log(name);
   }
   return (
     <ReactQuill
-      value={state}
-      id="competition_intro"
-      name="competition_intro"
       onChange={handleChange}
+      defaultValue={initialValue}
     />
   );
 };

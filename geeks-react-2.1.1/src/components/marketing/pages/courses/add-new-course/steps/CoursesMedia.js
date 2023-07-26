@@ -1,44 +1,51 @@
 // import node module libraries
-import { Card, Form, Button } from 'react-bootstrap';
+import { Card, Form, Button, InputGroup } from 'react-bootstrap';
+
+import ReactQuillEditor from "components/elements/editor/ReactQuillEditor";
 
 const CoursesMedia = (props) => {
-	const { next, previous } = props;
+	const { next, data, handleChange, previous } = props;
 
 	return (
 		<Form>
 			{/* Card */}
 			<Card className="mb-3  border-0">
 				<Card.Header className="border-bottom px-4 py-3">
-					<h4 className="mb-0">Courses Media</h4>
+					<h4 className="mb-0">공모전 소개글</h4>
 				</Card.Header>
 				{/* Card body */}
 				<Card.Body>
-					{/* Course cover image */}
-					<Form.Label>Course cover image</Form.Label>
-					<Form.Group className="mb-1 input-group">
-						<Form.Control
-							id="inputfavicon"
-							type="file"
-							className="form-control"
+
+					{/* 공모전 소개글*/}
+					<Form.Group className="mb-3">
+						<Form.Label>소개글 내용</Form.Label>
+						<ReactQuillEditor
+							initialValue={data.competition_intro}
+							id="competition_intro"
+							name="competition_intro"
+							// value={data.competition_intro}
+							handleChange={handleChange}
 						/>
-						<Form.Label
-							htmlFor="inputfavicon"
-							className="input-group-text mb-0"
-						>
-							Upload
-						</Form.Label>
-						<Form.Text className="text-muted">
-							Upload your course image here. It must meet our course image
-							quality standards to be accepted. Important guidelines: 750x440
-							pixels; .jpg, .jpeg,. gif, or .png. no text on the image.
-						</Form.Text>
+						{/* <Form.Text className="text-muted">
+							A brief summary of your courses.
+						</Form.Text> */}
 					</Form.Group>
-					{/* Video URL  */}
-					<Form.Group className="mb-3 mt-3">
-						<Form.Control type="text" placeholder="Video URL" id="VideoURL" />
+
+					{/* File upload */}
+					<Form.Label>첨부파일</Form.Label>
+					<Form.Group className="mb-3 input-group">
+						<InputGroup>
+							<Form.Control
+								id="competition_docs"
+								name="competition_docs"
+								type="file"
+								className="form-control"
+								// value={data.competition_docs}
+								onChange={handleChange}
+							/>
+						</InputGroup>
 						<Form.Text className="text-muted">
-							Enter a valid video URL. Students who watch a well-made promo
-							video are 5X more likely to enroll in your course.
+							공모전 소개글에 첨부할 파일을 선택하세요. (권장사항: )
 						</Form.Text>
 					</Form.Group>
 				</Card.Body>
@@ -47,10 +54,10 @@ const CoursesMedia = (props) => {
 			{/* Button */}
 			<div className="d-flex justify-content-between">
 				<Button variant="secondary" onClick={previous}>
-					Previous
+					이전
 				</Button>
 				<Button variant="primary" onClick={next}>
-					Next
+					다음
 				</Button>
 			</div>
 		</Form>

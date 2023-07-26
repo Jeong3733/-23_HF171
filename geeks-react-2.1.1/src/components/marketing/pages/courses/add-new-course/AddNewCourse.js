@@ -10,7 +10,6 @@ import GKStepper from "components/elements/stepper/GKStepper";
 import BasicInformation from "./steps/BasicInformation";
 import CoursesMedia from "./steps/CoursesMedia";
 import Curriculum from "./steps/Curriculum";
-import Settings from "./steps/Settings";
 
 const AddNewCourse = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -28,8 +27,7 @@ const AddNewCourse = () => {
     competition_docs: "",
     competition_intro: initialValue,
   });
-
-  console.log(formData);
+  // console.log(formData);
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -37,17 +35,22 @@ const AddNewCourse = () => {
     });
   };
 
+  const pageCount = 3;
+
   const next = () => {
-    setCurrentStep(currentStep === 4 ? 1 : currentStep + 1);
+    setCurrentStep(currentStep === pageCount ? 1 : currentStep + 1);
   };
   const previous = () => {
     setCurrentStep(currentStep === 1 ? 1 : currentStep - 1);
   };
+  const submit = () => {
+    alert(JSON.stringify(formData));
+  }
 
   const steps = [
     {
       id: 1,
-      title: "공모전 정보",
+      title: "기본 정보",
       content: (
         <BasicInformation
           data={formData}
@@ -58,7 +61,7 @@ const AddNewCourse = () => {
     },
     {
       id: 2,
-      title: "Courses Media",
+      title: "소개글",
       content: (
         <CoursesMedia
           data={formData}
@@ -70,28 +73,16 @@ const AddNewCourse = () => {
     },
     {
       id: 3,
-      title: "Curriculum",
+      title: "미리보기",
       content: (
         <Curriculum
           data={formData}
           handleChange={handleChange}
-          next={next}
+          submit={submit}
           previous={previous}
         />
       ),
-    },
-    {
-      id: 4,
-      title: "Settings",
-      content: (
-        <Settings
-          data={formData}
-          handleChange={handleChange}
-          next={next}
-          previous={previous}
-        />
-      ),
-    },
+    }
   ];
 
   return (
@@ -112,7 +103,7 @@ const AddNewCourse = () => {
                     to="/competition-filter-page/"
                     className="btn btn-white "
                   >
-                    Back to Competition
+                    이전 페이지로 돌아가기
                   </Link>{" "}
                   <Link
                     to="/marketing/instructor/instructor-my-courses/"
