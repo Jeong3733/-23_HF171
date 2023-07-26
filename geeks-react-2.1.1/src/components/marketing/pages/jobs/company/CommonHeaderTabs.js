@@ -1,49 +1,54 @@
 // import node module libraries
 import { Link, useLocation } from "react-router-dom";
-import { Col, Row, Container, Image, ListGroup } from "react-bootstrap";
+import { Col, Row, Container, Image, ListGroup, Button, Nav } from "react-bootstrap";
 import { Fragment } from "react";
 
 // import media files
 import CompanyBG from "assets/images/background/company-bg.jpg";
 
 const CommonHeaderTabs = (props) => {
-  const { test_data } = props;
+  // const { test_data } = props;
   const location = useLocation();
+
+  // 일단 지금은 잘 작동하는 공모전 ID 얻어오기...
+  // 나중에는 props.data로 옮길 수 있으면 옮기는 것이 깔끔할 듯...
+  const competitionId = location.pathname.split('/')[2];
 
   const tabItems = [
     {
       title: "소개글",
-      link: "/detail/" + test_data.competiton_id + "/readme",
+      link: "/detail/" + competitionId + "/readme",
     },
-    {
-      title: "일정 (" + props.data.totalReviews + ")",
-      link: "/marketing/jobs/company/reviews",
-    },
+    // {
+    //   title: "일정 (" + props.data.totalReviews + ")",
+    //   link: "/marketing/jobs/company/reviews",
+    // },
     {
       title: "공지사항",
-      link: "/detail/" + test_data.competiton_id + "/announcements",
+      link: "/detail/" + competitionId + "/announcements",
     },
     {
       title: "QA 게시판",
-      link: "/detail/" + test_data.competiton_id + "/qna",
+      link: "/detail/" + competitionId + "/qna",
     },
-    {
-      title: "제출",
-      link: "/detail/" + test_data.competiton_id + "/submit",
-    },
+    // {
+    //   title: "제출",
+    //   link: "/detail/" + test_data.competiton_id + "/submit",
+    // },
     {
       title: "평가",
-      link: "/evaluate/" + test_data.competiton_id,
+      link: "/evaluate/" + competitionId,
     },
     {
       title: "관리",
-      link: "/manage/" + test_data.competiton_id,
+      link: "/manage/" + competitionId,
     },
   ];
   return (
     <Fragment>
+      {/* 커버 이미지 (없애도 되려나?) */}
       <section
-        className="py-20 bg-white"
+        className="py-10 bg-white"
         style={{
           backgroundImage: `url(${CompanyBG})`,
           backgroundRepeat: "no-repeat",
@@ -51,88 +56,83 @@ const CommonHeaderTabs = (props) => {
           backgroundSize: "cover",
         }}
       ></section>
+
       <section className="bg-white">
         <Container>
-          <Row className="align-items-center">
-            <Col xs={12}>
-              <div className="d-md-flex align-items-center">
-                <div className="position-relative mt-n5">
-                  <Image
-                    src={props.data.logo}
-                    alt=""
-                    className=" rounded-3 border"
-                    width={120}
-                  />
-                </div>
-                <div className="w-100 ms-md-4 mt-4">
-                  <div className="d-flex justify-content-between">
+          {/* 헤더 */}
+          <Row as="header" className="mb-4">
+            <Col className="d-md-flex align-items-center">
+              <div className="mt-n5">
+                <Image
+                  src={props.data.logo}
+                  alt=""
+                  className=" rounded-3 border"
+                  width={120}
+                />
+              </div>
+              <div className="w-100 ms-md-4 mt-4">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    {/* heading */}
+                    <h1 className="mb-0 ">{props.data.company} </h1>
                     <div>
-                      {/* heading */}
-                      <h1 className="mb-0 ">{props.data.company} </h1>
-                      <div>
-                        {/* reviews */}
-                        <span className="text-dark fw-medium">
-                          {props.data.rating}{" "}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="10"
-                            height="10"
-                            fill="currentColor"
-                            className="bi bi-star-fill text-warning align-baseline"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                          </svg>
-                        </span>{" "}
-                        <span className="ms-0">
-                          ({props.data.totalReviews} Reviews)
-                        </span>
-                      </div>
+                      {/* reviews */}
+                      <span className="text-dark fw-medium">
+                        {props.data.rating}{" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="10"
+                          fill="currentColor"
+                          className="bi bi-star-fill text-warning align-baseline"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                        </svg>
+                      </span>{" "}
+                      <span className="ms-0">
+                        ({props.data.totalReviews} Reviews)
+                      </span>
                     </div>
-                    <div>
-                      {/* button */}
-                      <Link to="#" className="btn btn-outline-primary">
-                        참여하기
-                      </Link>
-                      {/* button */}
-                      <Link to="#" className="btn btn-outline-primary">
-                        링크 공유
-                      </Link>
-                    </div>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    {/* button */}
+                    <Button to="#" variant="outline-primary">
+                      참가 신청
+                    </Button>
+                    {/* button */}
+                    <Button to="#" variant="outline-primary">
+                      링크 공유
+                    </Button>
                   </div>
                 </div>
               </div>
             </Col>
           </Row>
-        </Container>
-      </section>
-      <section className="py-6 bg-white">
-        <Container>
-          <Row>
-            <Col md={12}>
+
+          {/* 내비게이션 탭 */}
+          <Row className="mb-6">
+            <Col>
               {/* nav */}
-              <div>
-                <ListGroup as="ul" bsPrefix="nav nav-line-bottom">
-                  {tabItems.map((item, index) => {
-                    return (
-                      <ListGroup.Item key={index} as="li" bsPrefix="nav-item">
-                        <Link
-                          to={item.link}
-                          className={`nav-link ${
-                            location.pathname === item.link ? "active" : ""
-                          }`}
-                        >
-                          {item.title}
-                        </Link>
-                      </ListGroup.Item>
-                    );
-                  })}
-                </ListGroup>
-              </div>
+              <Nav variant="line-bottom">
+                {tabItems.map((item, index) =>
+                  <Nav.Item key={index}>
+                    <Nav.Link
+                      as={Link}
+                      to={item.link}
+                      className={location.pathname === item.link ? "active" : ""}
+                    >
+                      {item.title}
+                    </Nav.Link>
+                  </Nav.Item>
+                )}
+              </Nav>
             </Col>
           </Row>
-          <Row className="mt-6">
-            <Col xs={12}>{props.children}</Col>
+
+          {/* 본문 */}
+          <Row as="main">
+            <Col>{props.children}</Col>
           </Row>
         </Container>
       </section>

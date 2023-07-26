@@ -14,9 +14,9 @@ import ComapniesListData from "data/marketing/jobs/CompaniesListData";
 
 const About = () => {
   const data = ComapniesListData[0];
-  const test_data = { competiton_id: 1, schedule_id: 1 };
+  // const test_data = { competiton_id: 1, schedule_id: 1 };  --> why...
   return (
-    <CommonHeaderTabs data={data} test_data={test_data}>
+    <CommonHeaderTabs data={data}>
       <div className="mb-6">
         {/* About the company text */}
         <h2 className="mb-3">About the company</h2>
@@ -54,67 +54,6 @@ const About = () => {
           Aliquam pellentesque mollis interdum. Nulla a quam sit amet turpis
           convallis port titor vel sed quam. Donec ut tristique nisi.{" "}
         </p>
-      </div>
-      <div>
-        {/* table */}
-        <Table borderless className="w-lg-40 w-md-50">
-          <tbody>
-            <tr>
-              <td className="ps-0 pb-0">
-                <span className="text-dark fw-semi-bold">Founded:</span>
-              </td>
-              <td className="ps-0 pb-0">
-                <span>2011</span>
-              </td>
-            </tr>
-            <tr>
-              <td className="ps-0 pb-0">
-                <span className="text-dark fw-semi-bold">Company size:</span>
-              </td>
-              <td className="ps-0 pb-0">
-                <span>350 - 500</span>
-              </td>
-            </tr>
-            <tr>
-              <td className="ps-0 pb-0">
-                <span className="text-dark fw-semi-bold">Website:</span>
-              </td>
-              <td className="ps-0 pb-0">
-                <Link to="https://codescandy.com/">
-                  https://codescandy.com/
-                </Link>
-              </td>
-            </tr>
-            <tr>
-              <td className="ps-0 pb-0">
-                <span className="text-dark fw-semi-bold">Industry:</span>
-              </td>
-              <td className="ps-0 pb-0">Information Technology</td>
-            </tr>
-            <tr>
-              <td className="ps-0 pb-0">
-                <span className="text-dark fw-semi-bold">Social Presence:</span>
-              </td>
-              <td className="ps-0 pb-0">
-                <Icon
-                  path={mdiFacebook}
-                  className="fs-4 text-muted me-2"
-                  size={0.6}
-                />
-                <Icon
-                  path={mdiTwitter}
-                  className="fs-4 text-muted me-2"
-                  size={0.6}
-                />
-                <Icon
-                  path={mdiLinkedin}
-                  className="fs-4 text-muted"
-                  size={0.6}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
       </div>
     </CommonHeaderTabs>
   );
