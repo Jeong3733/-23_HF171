@@ -24,7 +24,7 @@ const Curriculum = (props) => {
 					이전
 				</Button>
 				<Button variant="primary" onClick={submit}>
-					제출
+					등록완료
 				</Button>
 			</div>
 		</Form>

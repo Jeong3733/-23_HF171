@@ -8,14 +8,17 @@ import { FormSelect } from "components/elements/form-select/FormSelect";
 const BasicInformation = (props) => {
   const { next, data, handleChange } = props;
 
+  // 이거 나중에 따로 파일로 빼야할듯
   const CompetitionType = [
-    { value: "분류1", label: "분류1" },
-    { value: "분류2", label: "분류2" },
-    { value: "분류3", label: "분류3" },
-    { value: "분류4", label: "분류4" },
-    { value: "분류5", label: "분류5" },
-    { value: "분류6", label: "분류6" },
-    { value: "분류7", label: "분류7" },
+    { value: "개발", label: "개발" },
+    { value: "교육", label: "교육" },
+    { value: "엔터테인먼트", label: "엔터테인먼트" },
+    { value: "생활", label: "생활" },
+    { value: "업무", label: "업무" },
+    { value: "공공", label: "공공" },
+    { value: "금융", label: "금융" },
+    { value: "의료", label: "의료" },
+    { value: "기타", label: "기타" },
   ];
 
   // const initialValue = `<p>Insert course description</p>
@@ -42,6 +45,7 @@ const BasicInformation = (props) => {
               name="competition_name"
               value={data.competition_name}
               onChange={handleChange}
+              required
             />
             {/* <Form.Text className="text-muted">
               Write a 60 character course title.
@@ -55,25 +59,27 @@ const BasicInformation = (props) => {
               options={CompetitionType}
               id="competition_type"
               name="competition_type"
-              placeholder="분류 선택"
+              placeholder="분류 선택 (최대 3개)"
               value={data.competition_type}
               // defaultselected={data.competition_type}
               onChange={handleChange}
+              required
             />
           </Form.Group>
 
           {/* 공모전 요약 설명 */}
           <Form.Group className="mb-3">
             <Form.Label htmlFor="competition_description">
-              공모전 요약 설명
+              공모전 한줄 설명
             </Form.Label>
             <Form.Control
               type="text"
-              placeholder="공모전을 잘 설명하는 60자 내외의 글을 입력하세요."
+              placeholder="공모전 썸네일에 이름과 함께 표시됩니다. (30자 이내)"
               id="competition_description"
               name="competition_description"
               value={data.competition_description}
               onChange={handleChange}
+              required
             />
             {/* <Form.Text className="text-muted">
               공모전의 내용을 잘 나타내는 60자 내외의 설명을 입력하세요.
@@ -81,14 +87,14 @@ const BasicInformation = (props) => {
           </Form.Group>
 
           {/* Cover image */}
-          <Form.Label>공모전 썸네일</Form.Label>
+          <Form.Label>공모전 썸네일 이미지</Form.Label>
           <Form.Group className="mb-3">
             <InputGroup>
               <Form.Control
                 id="competition_image"
                 name="competition_image"
                 type="file"
-                className="form-control"
+                // className="form-control"
                 // value={data.competition_image}
                 onChange={handleChange}
               />
@@ -96,6 +102,33 @@ const BasicInformation = (props) => {
             <Form.Text className="text-muted">
               공모전 리스트에 표시되는 사진입니다. (권장사항: 750x440 pixels; .jpg, .jpeg,. gif, or .png. no text on the image.)
             </Form.Text>
+          </Form.Group>
+
+          {/* Cover image */}
+          <Form.Label>공모전 모집기간</Form.Label>
+          <Form.Group className="mb-3">
+            <InputGroup>
+              <InputGroup.Text>모집 시작일</InputGroup.Text>
+              <Form.Control
+                id="competition_date_start"
+                name="competition_date_start"
+                type="date"
+                className="form-control"
+                // value={data.competition_image}
+                onChange={handleChange}
+                required
+              />
+              <InputGroup.Text>모집 마감일</InputGroup.Text>
+              <Form.Control
+                id="competition_date_end"
+                name="competition_date_end"
+                type="date"
+                className="form-control"
+                // value={data.competition_image}
+                onChange={handleChange}
+                required
+              />
+            </InputGroup>
           </Form.Group>
         </Card.Body>
       </Card>

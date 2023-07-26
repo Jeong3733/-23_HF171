@@ -14,10 +14,9 @@ import Curriculum from "./steps/Curriculum";
 const AddNewCourse = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
-  const initialValue = `<p>Insert course description</p>
+  const initialValue = `<p>공모전 소개 글을 입력하세요.</p>
                         <p><br /></p>        
-                        <p>Some initial <strong>bold</strong> text</p>
-                        <p><br /></p><p><br /></p><p><br /></p><p><br /></p>`;
+                        <p><strong>이렇게</strong> <em>글자에</em> <u>스타일을</u> 적용할 수도 있습니다.</p>`;
 
   const [formData, setFormData] = useState({
     competition_name: "",
@@ -100,16 +99,16 @@ const AddNewCourse = () => {
                 </div>
                 <div>
                   <Link
-                    to="/competition-filter-page/"
+                    to="/explore"
                     className="btn btn-white "
                   >
-                    이전 페이지로 돌아가기
-                  </Link>{" "}
+                    이전 페이지로
+                  </Link>{" " /* <-- 이거 누구임 ㅋㅋ... */}
                   <Link
-                    to="/marketing/instructor/instructor-my-courses/"
+                    onClick={(e) => { alert("이런 고오급 기능은 아직 안 된다구..."); }}
                     className="btn btn-dark "
                   >
-                    Save
+                    임시저장
                   </Link>
                 </div>
               </div>
