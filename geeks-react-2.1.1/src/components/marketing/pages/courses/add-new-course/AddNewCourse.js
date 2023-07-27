@@ -37,15 +37,15 @@ const AddNewCourse = () => {
   const [formData, setFormData] = useState({
     competitionName: '',
     competitionType: {
-      '개발': false,
-      '교육': false,
-      '엔터테인먼트': false,
-      '생활': false,
-      '업무': false,
-      '공공': false,
-      '금융': false,
-      '의료': false,
-      '기타': false,
+      개발: false,
+      교육: false,
+      엔터테인먼트: false,
+      생활: false,
+      업무: false,
+      공공: false,
+      금융: false,
+      의료: false,
+      기타: false,
     },
     competitionDescription: '',
     competitionImage: '',
@@ -55,7 +55,7 @@ const AddNewCourse = () => {
     competitionReadme: initialValue,
     competitionDocs: '',
   });
-  
+
   const handleChange = (event) => {
     const newData = {};
     if (event.target.type === 'checkbox') {
@@ -66,7 +66,7 @@ const AddNewCourse = () => {
       newData[event.target.name] = event.target.value;
     }
 
-    setFormData({...formData, ...newData});
+    setFormData({ ...formData, ...newData });
     console.log(newData);
   };
 

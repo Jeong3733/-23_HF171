@@ -15,7 +15,7 @@ const SignUp = () => {
   const Auth = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // componentDidMount
+  // componentDidMount;
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);
@@ -25,14 +25,14 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (e.target.check_password.value !== e.target.password.value) {
+    if (e.target.checkPassword.value !== e.target.password.value) {
       alert('암호가 일치하지 않습니다.');
       return;
     }
 
     let postObject = {};
     for (let t of e.target) {
-      console.log(t);
+      // console.log(t);
       postObject[t.id] = t.value;
     }
 
@@ -53,7 +53,7 @@ const SignUp = () => {
         handleLogError(error);
       });
 
-    navigate('/authentication/sign-up-success');
+    // navigate('/authentication/sign-up-success');
   };
 
   if (isLoggedIn) {
@@ -71,7 +71,7 @@ const SignUp = () => {
                   </Link>
                   <h1 className="mb-1 fw-bold">회원가입</h1>
                   <span>
-                    계정이 이미 있으신가요?{' '}
+                    계정이 이미 있으신가요?
                     <Link to="/authentication/sign-in" className="ms-1">
                       로그인
                     </Link>
@@ -84,7 +84,7 @@ const SignUp = () => {
                       <Form.Label>이름 </Form.Label>
                       <Form.Control
                         type="text"
-                        id="user_name"
+                        id="userName"
                         placeholder="예) 홍길동"
                         required
                       />
@@ -102,8 +102,8 @@ const SignUp = () => {
                       {/* User Name */}
                       <Form.Label>아이디 </Form.Label>
                       <Form.Control
-                        type="text"
-                        id="user_id"
+                        type="id"
+                        id="userId"
                         placeholder="아이디"
                         required
                       />
@@ -123,7 +123,7 @@ const SignUp = () => {
                       <Form.Label>암호 확인 </Form.Label>
                       <Form.Control
                         type="password"
-                        id="check_password"
+                        id="checkPassword"
                         placeholder="암호 확인"
                         required
                       />
