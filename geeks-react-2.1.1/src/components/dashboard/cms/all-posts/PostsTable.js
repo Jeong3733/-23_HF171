@@ -83,7 +83,7 @@ const PostsTable = ({ table_data }) => {
         accessor: 'title',
         Header: 'Post',
         Cell: ({ value, row }) => {
-          console.log(row);
+          // console.log(row);
           return (
             <h5 className="mb-0">
               <Link to="#" className="text-inherit">

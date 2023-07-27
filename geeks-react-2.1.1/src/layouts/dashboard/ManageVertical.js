@@ -1,6 +1,6 @@
 // import node module libraries
 import { Fragment, useState, useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import {
   ListGroup,
@@ -25,8 +25,7 @@ import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
 import { DashboardMenu } from 'routes/dashboard/ManageRoutes';
 
 const ManageVertical = (props) => {
-  const { competiton_id } = props;
-  alert(competiton_id);
+  const { competiton_id } = useParams();
   const location = useLocation();
 
   return (
@@ -48,7 +47,8 @@ const ManageVertical = (props) => {
               <Card bsPrefix="nav-item" key={index}>
                 {/* menu item without any childern items like Help Center, Documentation and Changelog items*/}
                 <Link
-                  to={menu.link}
+                  to={`/manage/${competiton_id}/${menu.link}/`}
+                  // to={menu.link}
                   className={`nav-link ${
                     location.pathname === menu.link ? 'active' : ''
                   }`}

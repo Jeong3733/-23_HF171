@@ -38,31 +38,31 @@ export const DashboardMenu = [
     id: uuid(),
     title: '소개글 관리',
     icon: 'book',
-    link: '/manage/1/readme/',
+    link: 'readme',
   },
   {
     id: uuid(),
     title: '인원 관리',
     icon: 'book-open',
-    link: '/manage/1/members/',
+    link: 'members',
   },
   {
     id: uuid(),
     title: '제출물 관리',
     icon: 'book-open',
-    link: '/manage/1/submits/',
+    link: 'submits',
   },
   {
     id: uuid(),
     title: '공지사항 관리',
     icon: 'book-open',
-    link: '/manage/1/announcements/',
+    link: 'announcements',
   },
   {
     id: uuid(),
     title: '평가 항목 관리',
     icon: 'book-open',
-    link: '/manage/1/evaluate/',
+    link: 'evaluate',
   },
 ];
 

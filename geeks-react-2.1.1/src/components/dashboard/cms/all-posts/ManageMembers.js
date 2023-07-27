@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
@@ -16,6 +16,8 @@ import {
 } from 'data/courses/AllPostsData';
 
 const ManageMembers = () => {
+  const { competiton_id } = useParams();
+  console.log(competiton_id);
   return (
     <Fragment>
       <Row>
@@ -44,48 +46,40 @@ const ManageMembers = () => {
               <Card.Header className="border-bottom-0 p-0 bg-white">
                 <Nav className="nav-lb-tab">
                   <Nav.Item>
-                    <Nav.Link eventKey="all" className="mb-sm-3 mb-md-0">
-                      All
+                    <Nav.Link eventKey="0" className="mb-sm-3 mb-md-0">
+                      전체
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="published" className="mb-sm-3 mb-md-0">
-                      Published
+                    <Nav.Link eventKey="1" className="mb-sm-3 mb-md-0">
+                      일반인
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="scheduled" className="mb-sm-3 mb-md-0">
-                      Scheduled
+                    <Nav.Link eventKey="2" className="mb-sm-3 mb-md-0">
+                      심사위원
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="draft" className="mb-sm-3 mb-md-0">
-                      Draft
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="deleted" className="mb-sm-3 mb-md-0">
-                      Deleted
+                    <Nav.Link eventKey="3" className="mb-sm-3 mb-md-0">
+                      주최자
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
-                  <Tab.Pane eventKey="all" className="pb-0">
+                  <Tab.Pane eventKey="0" className="pb-0">
                     <PostsTable table_data={allposts} />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="published" className="pb-0">
+                  <Tab.Pane eventKey="1" className="pb-0">
                     <PostsTable table_data={allPublishedPosts} />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="scheduled" className="pb-4">
+                  <Tab.Pane eventKey="2" className="pb-4">
                     <PostsTable table_data={allScheduledPosts} />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="draft" className="pb-4">
+                  <Tab.Pane eventKey="3" className="pb-4">
                     <PostsTable table_data={allDraftPosts} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="deleted" className="pb-4">
-                    <PostsTable table_data={allDeletedPosts} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

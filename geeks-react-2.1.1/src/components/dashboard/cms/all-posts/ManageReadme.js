@@ -17,7 +17,7 @@ import {
 
 const ManageReadme = () => {
   const { competiton_id } = useParams();
-  alert(competiton_id);
+  // alert(competiton_id);
 
   return (
     <Fragment>
