@@ -1,35 +1,48 @@
 // import node module libraries
-import React, { useState, Fragment } from "react";
-import { Col, Row, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, Fragment } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Col, Row, Container } from 'react-bootstrap';
 
 // import custom components
-import GKStepper from "components/elements/stepper/GKStepper";
+import GKStepper from 'components/elements/stepper/GKStepper';
 
 // import sub components ( Steps )
-import BasicInformation from "./steps/BasicInformation";
-import CoursesMedia from "./steps/CoursesMedia";
-import Curriculum from "./steps/Curriculum";
-import Settings from "./steps/Settings";
+import BasicInformation from './steps/BasicInformation';
+import CoursesMedia from './steps/CoursesMedia';
+import Curriculum from './steps/Curriculum';
+
+// impoort Auth module
+// import { useCookies } from 'react-cookie';
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+// import { parseJwt } from 'components/utils/JwtUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 const AddNewCourse = () => {
+  const Auth = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // componentDidMount
+  useEffect(() => {
+    const isLoggedInChk = Auth.userIsAuthenticated();
+    setIsLoggedIn(isLoggedInChk);
+  }, []);
+
   const [currentStep, setCurrentStep] = useState(1);
 
-  const initialValue = `<p>Insert course description</p>
+  const initialValue = `<p>공모전 소개 글을 입력하세요.</p>
                         <p><br /></p>        
-                        <p>Some initial <strong>bold</strong> text</p>
-                        <p><br /></p><p><br /></p><p><br /></p><p><br /></p>`;
+                        <p><strong>이렇게</strong> <em>글자에</em> <u>스타일을</u> 적용할 수도 있습니다.</p>`;
 
   const [formData, setFormData] = useState({
-    competition_name: "",
-    competition_type: "",
-    competition_description: "",
-    competition_image: "",
-    competition_docs: "",
+    competition_name: '',
+    competition_type: { type_1: '', type_2: '', type_3: '' },
+    competition_description: '',
+    competition_image: '',
+    competition_docs: '',
     competition_intro: initialValue,
   });
-
-  console.log(formData);
+  // console.log(formData);
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -37,17 +50,40 @@ const AddNewCourse = () => {
     });
   };
 
+  const pageCount = 3;
+
   const next = () => {
-    setCurrentStep(currentStep === 4 ? 1 : currentStep + 1);
+    setCurrentStep(currentStep === pageCount ? 1 : currentStep + 1);
   };
   const previous = () => {
     setCurrentStep(currentStep === 1 ? 1 : currentStep - 1);
   };
 
+  const navigate = useNavigate();
+  const submit = () => {
+    alert(JSON.stringify(formData));
+
+    // 로그인 정보 가져오기
+    const user = Auth.getUser();
+    apiUtils
+      .AddCompetition(user, formData)
+      .then((response) => {
+        console.log(response.data);
+        // const { accessToken, refreshToken } = response.data;
+
+        // 메인페이지 이동
+        navigate('/');
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+      });
+  };
+
   const steps = [
     {
       id: 1,
-      title: "공모전 정보",
+      title: '기본 정보',
       content: (
         <BasicInformation
           data={formData}
@@ -58,7 +94,7 @@ const AddNewCourse = () => {
     },
     {
       id: 2,
-      title: "Courses Media",
+      title: '소개글',
       content: (
         <CoursesMedia
           data={formData}
@@ -70,30 +106,21 @@ const AddNewCourse = () => {
     },
     {
       id: 3,
-      title: "Curriculum",
+      title: '미리보기',
       content: (
         <Curriculum
           data={formData}
           handleChange={handleChange}
-          next={next}
-          previous={previous}
-        />
-      ),
-    },
-    {
-      id: 4,
-      title: "Settings",
-      content: (
-        <Settings
-          data={formData}
-          handleChange={handleChange}
-          next={next}
+          submit={submit}
           previous={previous}
         />
       ),
     },
   ];
 
+  // if (!isLoggedIn) {
+  //   return <Navigate to="/authentication/sign-in/" />;
+  // } else {
   return (
     <Fragment>
       <section className="py-4 py-lg-6 bg-primary">
@@ -108,17 +135,16 @@ const AddNewCourse = () => {
                   </p>
                 </div>
                 <div>
+                  <Link to="/explore" className="btn btn-white ">
+                    이전 페이지로
+                  </Link>
                   <Link
-                    to="/competition-filter-page/"
-                    className="btn btn-white "
-                  >
-                    Back to Competition
-                  </Link>{" "}
-                  <Link
-                    to="/marketing/instructor/instructor-my-courses/"
+                    onClick={(e) => {
+                      alert('이런 고오급 기능은 아직 안 된다구...');
+                    }}
                     className="btn btn-dark "
                   >
-                    Save
+                    임시저장
                   </Link>
                 </div>
               </div>
@@ -129,6 +155,7 @@ const AddNewCourse = () => {
       <GKStepper currentStep={currentStep} steps={steps} />
     </Fragment>
   );
+  // };
 };
 
 export default AddNewCourse;

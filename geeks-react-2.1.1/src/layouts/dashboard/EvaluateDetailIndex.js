@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import NavbarVertical from './NavbarVertical';
 import HeaderDefault from './HeaderDefault';
 
-const DashboardIndex = (props) => {
+const EvaluateDetailIndex = (props) => {
   const { children, className, overflowHidden } = props;
   const [showMenu, setShowMenu] = useState(true);
   const ToggleMenu = () => {
@@ -42,4 +42,4 @@ const DashboardIndex = (props) => {
     </div>
   );
 };
-export default DashboardIndex;
+export default EvaluateDetailIndex;

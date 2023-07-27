@@ -1,22 +1,26 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
-  "extends": ["react-app", "prettier"],
-  "plugins": ["react", "prettier"],
-  "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "none",
-        "semi": true,
-        "singleQuote": true,
-        "useTabs": true,
-        "endOfLine": "auto",
-        "tabWidth": 2,
-        "parser": "flow"
-      }
-    ]
-  }
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "overrides": [],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": { "react/prop-types": 0, "prettier/prettier": 0 }
 }

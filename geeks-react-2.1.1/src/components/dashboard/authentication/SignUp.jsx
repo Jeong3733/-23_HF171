@@ -1,15 +1,15 @@
 // import node module libraries
-import { Fragment, useContext, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Col, Row, Card, Form, Button, Image } from "react-bootstrap";
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Col, Row, Card, Form, Button, Image } from 'react-bootstrap';
 
 // import media files
-import Logo from "assets/images/brand/logo/logo-icon.svg";
+import Logo from 'assets/images/brand/logo/logo-icon.svg';
 
 // impoort Auth module
-import { useAuth } from "components/AuthContext";
-import { apiUtils } from "components/utils/ApiUtils";
-import { handleLogError } from "components/utils/ErrorUtils";
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 const SignUp = () => {
   const Auth = useAuth();
@@ -26,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
 
     if (e.target.check_password.value !== e.target.password.value) {
-      alert("암호가 일치하지 않습니다.");
+      alert('암호가 일치하지 않습니다.');
       return;
     }
 
@@ -39,7 +39,7 @@ const SignUp = () => {
     alert(JSON.stringify(postObject));
 
     apiUtils
-      .signUpTest(postObject)
+      .signUp(postObject)
       .then((response) => {
         const data = response.data;
 
@@ -47,13 +47,13 @@ const SignUp = () => {
         alert(data);
 
         // 성공페이지 이동
-        navigate("/authentication/sign-up-success");
+        navigate('/authentication/sign-up-success');
       })
       .catch((error) => {
         handleLogError(error);
       });
 
-    navigate("/authentication/sign-up-success");
+    navigate('/authentication/sign-up-success');
   };
 
   if (isLoggedIn) {
@@ -71,7 +71,7 @@ const SignUp = () => {
                   </Link>
                   <h1 className="mb-1 fw-bold">회원가입</h1>
                   <span>
-                    계정이 이미 있으신가요?{" "}
+                    계정이 이미 있으신가요?{' '}
                     <Link to="/authentication/sign-in" className="ms-1">
                       로그인
                     </Link>
