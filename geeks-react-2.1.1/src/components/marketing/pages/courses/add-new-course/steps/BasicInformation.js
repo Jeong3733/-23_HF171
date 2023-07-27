@@ -35,13 +35,13 @@ const BasicInformation = (props) => {
         <Card.Body>
           {/* 공모전 이름  */}
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="competition_name">공모전 이름</Form.Label>
+            <Form.Label htmlFor="competitionName">공모전 이름</Form.Label>
             <Form.Control
               type="text"
               placeholder="공모전 이름 입력"
-              id="competition_name"
-              name="competition_name"
-              value={data.competition_name}
+              id="competitionName"
+              name="competitionName"
+              value={data.competitionName}
               onChange={handleChange}
               required
             />
@@ -62,12 +62,12 @@ const BasicInformation = (props) => {
             />
           </Form.Group> */}
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="competition_type">공모전 분류</Form.Label>
+            <Form.Label htmlFor="competitionType">공모전 분류</Form.Label>
             <Form.Text>최대 3개까지 선택할 수 있습니다.</Form.Text>
             <div
               className="mb-3"
-              id="competition_type"
-              name="competition_type"
+              id="competitionType"
+              name="competitionType"
             >
               {CompetitionType.map((item, index) =>
                 <Form.Check
@@ -75,8 +75,8 @@ const BasicInformation = (props) => {
                   inline
                   type="checkbox"
                   label={item.label}
-                  name={'competition_type' + ':' + item.value}
-                  checked={data.competition_type[item.value]}
+                  name={'competitionType' + ':' + item.value}
+                  checked={data.competitionType[item.value]}
                   onChange={handleChange}
                 />
               )}
@@ -85,27 +85,27 @@ const BasicInformation = (props) => {
 
           {/* 공모전 요약 설명 */}
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="competition_description">
+            <Form.Label htmlFor="competitionDescription">
               공모전 한줄 설명
             </Form.Label>
             <Form.Control
               type="text"
               placeholder="공모전 썸네일에 이름과 함께 표시됩니다. (30자 이내)"
-              id="competition_description"
-              name="competition_description"
-              value={data.competition_description}
+              id="competitionDescription"
+              name="competitionDescription"
+              value={data.competitionDescription}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
           {/* Cover image */}
-          <Form.Label htmlFor="competition_image">공모전 썸네일 이미지</Form.Label>
+          <Form.Label htmlFor="competitionImage">공모전 썸네일 이미지</Form.Label>
           <Form.Group className="mb-3">
             <InputGroup>
               <Form.Control
-                id="competition_image"
-                name="competition_image"
+                id="competitionImage"
+                name="competitionImage"
                 type="file"
                 // className="form-control"
                 onChange={handleChange}
@@ -123,21 +123,21 @@ const BasicInformation = (props) => {
             <InputGroup>
               <InputGroup.Text>모집 시작일</InputGroup.Text>
               <Form.Control
-                id="competition_date_start"
-                name="competition_date_start"
+                id="competitionDateStart"
+                name="competitionDateStart"
                 type="date"
                 className="form-control"
-                value={data.competition_date_start}
+                value={data.competitionDateStart}
                 onChange={handleChange}
                 required
               />
               <InputGroup.Text>모집 마감일</InputGroup.Text>
               <Form.Control
-                id="competition_date_end"
-                name="competition_date_end"
+                id="competitionDateEnd"
+                name="competitionDateEnd"
                 type="date"
                 className="form-control"
-                value={data.competition_date_end}
+                value={data.competitionDateEnd}
                 onChange={handleChange}
                 required
               />

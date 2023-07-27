@@ -35,8 +35,8 @@ const AddNewCourse = () => {
                         <p><strong>이렇게</strong> <em>글자에</em> <u>스타일을</u> 적용할 수도 있습니다.</p>`;
 
   const [formData, setFormData] = useState({
-    competition_name: '',
-    competition_type: {
+    competitionName: '',
+    competitionType: {
       '개발': false,
       '교육': false,
       '엔터테인먼트': false,
@@ -47,13 +47,13 @@ const AddNewCourse = () => {
       '의료': false,
       '기타': false,
     },
-    competition_description: '',
-    competition_image: '',
-    competition_date_start: '',
-    competition_date_end: '',
+    competitionDescription: '',
+    competitionImage: '',
+    competitionDateStart: '',
+    competitionDateEnd: '',
 
-    competition_readme: initialValue,
-    competition_docs: '',
+    competitionReadme: initialValue,
+    competitionDocs: '',
   });
   
   const handleChange = (event) => {
