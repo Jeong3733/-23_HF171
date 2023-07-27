@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
@@ -15,18 +15,20 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const Evaluates = () => {
+const EvaluateList = () => {
+  const { competiton_id } = useParams();
+  console.log(competiton_id);
   return (
     <Fragment>
       <Row>
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">All Posts</h1>
+              <h1 className="mb-1 h2 fw-bold">문서 리스트</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item href="#">CMS</Breadcrumb.Item>
-                <Breadcrumb.Item active>All Post</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
+                <Breadcrumb.Item active>문서 리스트</Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div>
@@ -46,27 +48,17 @@ const Evaluates = () => {
                 <Nav className="nav-lb-tab">
                   <Nav.Item>
                     <Nav.Link eventKey="all" className="mb-sm-3 mb-md-0">
-                      All
+                      전체
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="published" className="mb-sm-3 mb-md-0">
-                      Published
+                    <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
+                      미완료
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="scheduled" className="mb-sm-3 mb-md-0">
-                      Scheduled
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="draft" className="mb-sm-3 mb-md-0">
-                      Draft
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="deleted" className="mb-sm-3 mb-md-0">
-                      Deleted
+                    <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
+                      완료
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
@@ -76,17 +68,11 @@ const Evaluates = () => {
                   <Tab.Pane eventKey="all" className="pb-0">
                     <PostsTable table_data={allposts} />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="published" className="pb-0">
+                  <Tab.Pane eventKey="undone" className="pb-0">
                     <PostsTable table_data={allPublishedPosts} />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="scheduled" className="pb-4">
+                  <Tab.Pane eventKey="done" className="pb-4">
                     <PostsTable table_data={allScheduledPosts} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="draft" className="pb-4">
-                    <PostsTable table_data={allDraftPosts} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="deleted" className="pb-4">
-                    <PostsTable table_data={allDeletedPosts} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>
@@ -98,4 +84,4 @@ const Evaluates = () => {
   );
 };
 
-export default Evaluates;
+export default EvaluateList;

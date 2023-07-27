@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 // import sub components
-import NavbarVertical from './NavbarVertical';
+import EvaluateDetailVertical from './EvaluateDetailVertical';
 import HeaderDefault from './HeaderDefault';
 
 const EvaluateDetailIndex = (props) => {
@@ -20,7 +20,7 @@ const EvaluateDetailIndex = (props) => {
       }`}
     >
       <div className="navbar-vertical navbar">
-        <NavbarVertical
+        <EvaluateDetailVertical
           showMenu={showMenu}
           onClick={(value) => setShowMenu(value)}
         />

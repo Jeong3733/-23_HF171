@@ -36,44 +36,32 @@ import { mdiTrello, mdiCalendar } from '@mdi/js';
 export const DashboardMenu = [
   {
     id: uuid(),
-    title: 'Documentation',
+    title: '평가 페이지(임시)',
     grouptitle: true,
   },
   {
     id: uuid(),
-    title: '파일',
-    icon: 'book',
-    popup: 'FileListPopup',
-  },
-  {
-    id: uuid(),
-    title: '요약',
-    icon: 'book-open',
-    popup: 'SummaryPopup',
-  },
-  {
-    id: uuid(),
-    title: '문서QA',
-    icon: 'message-square',
-    popup: 'DocumentQAPopup',
-  },
-  {
-    id: uuid(),
-    title: '표절검사',
-    icon: 'git-pull-request',
-    popup: 'PlagiarismCheckPopup',
-  },
-  {
-    id: uuid(),
-    title: '평가',
-    icon: 'clipboard',
-    link: '/dashboard/changelog',
-  },
-  {
-    id: uuid(),
-    title: '정보',
+    title: '공모전 메인',
     icon: 'help-circle',
-    link: '/dashboard/changelog',
+    link: '/',
+  },
+  {
+    id: uuid(),
+    title: '문서 리스트',
+    icon: 'help-circle',
+    link: 'list',
+  },
+  {
+    id: uuid(),
+    title: '평가 결과',
+    icon: 'help-circle',
+    link: 'result',
+  },
+  {
+    id: uuid(),
+    title: '평가 기준',
+    icon: 'help-circle',
+    link: 'list',
   },
 ];
 

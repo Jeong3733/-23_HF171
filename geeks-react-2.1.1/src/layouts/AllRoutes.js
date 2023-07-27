@@ -27,7 +27,8 @@ import QNA from 'components/marketing/pages/jobs/company/Announcements';
 import Submit from 'components/marketing/pages/jobs/company/Submit';
 
 // 4.0 평가 리스트
-import Evaluates from 'components/dashboard/cms/all-posts/Evaluates';
+import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
+import EvaluatesFile from 'components/dashboard/cms/all-posts/EvaluatesFile';
 
 // 5.0 관리 리스트
 import ManageReadme from 'components/dashboard/cms/all-posts/ManageReadme';
@@ -111,13 +112,21 @@ const AllRoutes = () => {
       {/* ---------------------------------------- */}
       {/* 4.0 평가 리스트 */}
       <Route element={<EvaluateIndex />}>
-        <Route path="/evaluate/:competiton_id" element={<Evaluates />} />
+        <Route path="/evaluate/:competiton_id" element={<EvaluateList />} />
+        <Route
+          path="/evaluate/:competiton_id/list/"
+          element={<EvaluateList />}
+        />
+        <Route
+          path="/evaluate/:competiton_id/result/"
+          element={<EvaluateList />}
+        />
       </Route>
       {/* 4.1 평가 세부 */}
       <Route element={<EvaluateDetailIndex />}>
         <Route
           path="/evaluate/:competiton_id/files/:file_id"
-          element={<ComingSoon />}
+          element={<EvaluatesFile />}
         />
       </Route>
 

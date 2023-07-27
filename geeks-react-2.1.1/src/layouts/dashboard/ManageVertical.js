@@ -48,9 +48,11 @@ const ManageVertical = (props) => {
                 {/* menu item without any childern items like Help Center, Documentation and Changelog items*/}
                 <Link
                   to={`/manage/${competiton_id}/${menu.link}/`}
-                  // to={menu.link}
                   className={`nav-link ${
-                    location.pathname === menu.link ? 'active' : ''
+                    location.pathname ===
+                    `/manage/${competiton_id}/${menu.link}/`
+                      ? 'active'
+                      : ''
                   }`}
                 >
                   {typeof menu.icon === 'string' ? (
