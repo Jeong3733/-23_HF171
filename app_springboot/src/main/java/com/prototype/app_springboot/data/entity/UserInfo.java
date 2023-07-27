@@ -36,7 +36,7 @@ public class UserInfo {
     private final List<FileInfo> fileList = new ArrayList<FileInfo>();
 
     @OneToMany(mappedBy = "userInfo")
-    private final List<UserByCompetition> userByCompetitions = new ArrayList<UserByCompetition>();
+    private final List<UserByCompetition> userByCompetitionList = new ArrayList<UserByCompetition>();
 
     @OneToMany(mappedBy = "userInfo")
     private final List<PostInfo> postInfoList = new ArrayList<PostInfo>();
