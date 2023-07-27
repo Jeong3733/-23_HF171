@@ -15,18 +15,18 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const Evaluates = () => {
+const ManageSubmits = () => {
   return (
     <Fragment>
       <Row>
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">All Posts</h1>
+              <h1 className="mb-1 h2 fw-bold">제출물 관리</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item href="#">CMS</Breadcrumb.Item>
-                <Breadcrumb.Item active>All Post</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">관리</Breadcrumb.Item>
+                <Breadcrumb.Item active>제출물 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div>
@@ -37,7 +37,6 @@ const Evaluates = () => {
           </div>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12} md={12} sm={12}>
           <Tab.Container defaultActiveKey="all">
@@ -98,4 +97,4 @@ const Evaluates = () => {
   );
 };
 
-export default Evaluates;
+export default ManageSubmits;

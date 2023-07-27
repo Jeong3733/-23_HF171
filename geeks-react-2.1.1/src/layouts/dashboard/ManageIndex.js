@@ -1,17 +1,18 @@
 // import node module libraries
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 // import sub components
-import EvaluateVertical from './EvaluateVertical';
+import ManageVertical from './ManageVertical';
 import HeaderDefault from './HeaderDefault';
 
-const EvaluateIndex = (props) => {
+const ManageIndex = (props) => {
   const { children, className, overflowHidden } = props;
   const [showMenu, setShowMenu] = useState(true);
   const ToggleMenu = () => {
     return setShowMenu(!showMenu);
   };
+
   return (
     <div
       id="db-wrapper"
@@ -20,7 +21,7 @@ const EvaluateIndex = (props) => {
       }`}
     >
       <div className="navbar-vertical navbar">
-        <EvaluateVertical
+        <ManageVertical
           showMenu={showMenu}
           onClick={(value) => setShowMenu(value)}
         />
@@ -42,4 +43,4 @@ const EvaluateIndex = (props) => {
     </div>
   );
 };
-export default EvaluateIndex;
+export default ManageIndex;

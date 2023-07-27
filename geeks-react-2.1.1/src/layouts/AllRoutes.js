@@ -5,6 +5,7 @@ import 'assets/scss/theme.scss';
 
 // ** Import Layouts
 import EvaluateIndex from 'layouts/dashboard/EvaluateIndex';
+import ManageIndex from 'layouts/dashboard/ManageIndex';
 import EvaluateDetailIndex from 'layouts/dashboard/EvaluateDetailIndex';
 
 import IndexPage from 'components/marketing/pages/IndexPage';
@@ -24,8 +25,16 @@ import CompanyReviews from 'components/marketing/pages/jobs/company/Reviews';
 import Announcements from 'components/marketing/pages/jobs/company/Announcements';
 import QNA from 'components/marketing/pages/jobs/company/Announcements';
 import Submit from 'components/marketing/pages/jobs/company/Submit';
-import AllPosts from 'components/dashboard/cms/all-posts/AllPosts';
+
+// 4.0 평가 리스트
 import Evaluates from 'components/dashboard/cms/all-posts/Evaluates';
+
+// 5.0 관리 리스트
+import ManageReadme from 'components/dashboard/cms/all-posts/ManageReadme';
+import ManageMembers from 'components/dashboard/cms/all-posts/ManageMembers';
+import ManageSubmits from 'components/dashboard/cms/all-posts/ManageSubmits';
+import ManageAnnouncements from 'components/dashboard/cms/all-posts/ManageAnnouncements';
+import ManageEvaluates from 'components/dashboard/cms/all-posts/ManageEvaluates';
 
 import CompanyBenifits from 'components/marketing/pages/jobs/company/Benifits';
 import CompanyPhotos from 'components/marketing/pages/jobs/company/Photos';
@@ -71,7 +80,7 @@ const AllRoutes = () => {
         {/* QA 게시판 */}
         <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
         {/* 제출 */}
-        <Route path="/detail/:competiton_id/submit/" element={<Submit />} />
+        <Route path="/detail/:competiton_id/submits/" element={<Submit />} />
 
         {/* ---------------------------------------- */}
         <Route
@@ -91,48 +100,53 @@ const AllRoutes = () => {
           element={<CompanyPhotos />}
         />
         <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/submit/"
+          path="/detail/:competiton_id/schedules/:schedule_id/submits/"
           element={<CompanyPhotos />}
         />
         {/* ---------------------------------------- */}
         {/* 3.0 공모전 개설 */}
         <Route path="/add-new-competition/" element={<AddNewCourse />} />
-
-        {/* ---------------------------------------- */}
-        {/* 5.0 관리 */}
-        <Route path="/manage/:competiton_id" element={<AllPosts />} />
-        <Route path="/manage/:competiton_id/readme" element={<ComingSoon />} />
-        <Route
-          path="/manage/:competiton_id/:schedule_id"
-          element={<ComingSoon />}
-        />
-        <Route
-          path="/manage/:competiton_id/:schedule_id/readme"
-          element={<ComingSoon />}
-        />
-        <Route
-          path="/manage/:competiton_id/:schedule_id/permissions"
-          element={<ComingSoon />}
-        />
-        <Route path="/manage/:competiton_id/members" element={<ComingSoon />} />
-        <Route
-          path="/manage/:competiton_id/announcements"
-          element={<ComingSoon />}
-        />
       </Route>
 
       {/* ---------------------------------------- */}
       {/* 4.0 평가 리스트 */}
       <Route element={<EvaluateIndex />}>
-        <Route path="/evaluate/:competiton_id" element={<ComingSoon />} />
+        <Route path="/evaluate/:competiton_id" element={<Evaluates />} />
       </Route>
       {/* 4.1 평가 세부 */}
       <Route element={<EvaluateDetailIndex />}>
         <Route
           path="/evaluate/:competiton_id/files/:file_id"
-          element={<Evaluates />}
+          element={<ComingSoon />}
         />
       </Route>
+
+      {/* ---------------------------------------- */}
+      {/* 5.0 관리 */}
+      <Route element={<ManageIndex />}>
+        <Route path="/manage/:competiton_id/" element={<ManageReadme />} />
+        <Route
+          path="/manage/:competiton_id/readme/"
+          element={<ManageReadme />}
+        />
+        <Route
+          path="/manage/:competiton_id/members/"
+          element={<ManageMembers />}
+        />
+        <Route
+          path="/manage/:competiton_id/submits/"
+          element={<ManageSubmits />}
+        />
+        <Route
+          path="/manage/:competiton_id/announcements/"
+          element={<ManageAnnouncements />}
+        />
+        <Route
+          path="/manage/:competiton_id/evaluate/"
+          element={<ManageEvaluates />}
+        />
+      </Route>
+
       {/* Routes with ChatLayout */}
       <Route element={<ChatLayout />}>
         <Route path="/chat" element={<Chat />} />
@@ -146,7 +160,7 @@ const AllRoutes = () => {
         <Route path="/maintenance-mode/" element={<MaintenanceMode />} />
       </Route>
 
-      {/*Redirect*/}
+      {/* Redirect */}
       <Route path="*" element={<Navigate to="/404/" replace />} />
     </Routes>
   );

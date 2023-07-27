@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
@@ -15,18 +15,21 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const Evaluates = () => {
+const ManageReadme = () => {
+  const { competiton_id } = useParams();
+  alert(competiton_id);
+
   return (
     <Fragment>
       <Row>
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">All Posts</h1>
+              <h1 className="mb-1 h2 fw-bold">소개글 관리</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="#">Dashboard</Breadcrumb.Item>
-                <Breadcrumb.Item href="#">CMS</Breadcrumb.Item>
-                <Breadcrumb.Item active>All Post</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">관리</Breadcrumb.Item>
+                <Breadcrumb.Item active>소개글 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div>
@@ -98,4 +101,4 @@ const Evaluates = () => {
   );
 };
 
-export default Evaluates;
+export default ManageReadme;

@@ -1,14 +1,14 @@
 // import node module libraries
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useMemo } from 'react';
 import {
   useTable,
   useFilters,
   useGlobalFilter,
   usePagination,
   useRowSelect,
-} from "react-table";
-import { Link } from "react-router-dom";
-import { Col, Row, Dropdown, Image, Table } from "react-bootstrap";
+} from 'react-table';
+import { Link } from 'react-router-dom';
+import { Col, Row, Dropdown, Image, Table } from 'react-bootstrap';
 import {
   Trash,
   MoreVertical,
@@ -18,15 +18,15 @@ import {
   ToggleLeft,
   ToggleRight,
   Video,
-} from "react-feather";
-import LinkIcon from "react-feather/dist/icons/link";
-import ImageIcon from "react-feather/dist/icons/image";
+} from 'react-feather';
+import LinkIcon from 'react-feather/dist/icons/link';
+import ImageIcon from 'react-feather/dist/icons/image';
 
 // Import required custom components
-import GlobalFilter from "components/elements/advance-table/GlobalFilter";
-import Pagination from "components/elements/advance-table/Pagination";
-import Checkbox from "components/elements/advance-table/Checkbox";
-import DotBadge from "components/elements/bootstrap/DotBadge";
+import GlobalFilter from 'components/elements/advance-table/GlobalFilter';
+import Pagination from 'components/elements/advance-table/Pagination';
+import Checkbox from 'components/elements/advance-table/Checkbox';
+import DotBadge from 'components/elements/bootstrap/DotBadge';
 
 const FilesTable = ({ table_data }) => {
   // The forwardRef is important!!
@@ -78,10 +78,10 @@ const FilesTable = ({ table_data }) => {
 
   const columns = useMemo(
     () => [
-      { accessor: "id", Header: "ID", show: false },
+      { accessor: 'id', Header: 'ID', show: false },
       {
-        accessor: "title",
-        Header: "Post",
+        accessor: 'title',
+        Header: 'Post',
         Cell: ({ value }) => {
           return (
             <h5 className="mb-0">
@@ -94,10 +94,10 @@ const FilesTable = ({ table_data }) => {
       },
 
       {
-        accessor: "type",
-        Header: "Type",
+        accessor: 'type',
+        Header: 'Type',
         Cell: ({ value }) => {
-          if (value === "image") {
+          if (value === 'image') {
             return (
               <ImageIcon
                 size="18px"
@@ -105,12 +105,12 @@ const FilesTable = ({ table_data }) => {
               />
             );
           }
-          if (value === "video") {
+          if (value === 'video') {
             return (
               <Video size="18px" className="dropdown-item-icon text-primary" />
             );
           }
-          if (value === "link") {
+          if (value === 'link') {
             return (
               <LinkIcon
                 size="18px"
@@ -122,8 +122,8 @@ const FilesTable = ({ table_data }) => {
       },
 
       {
-        accessor: "category",
-        Header: "Category",
+        accessor: 'category',
+        Header: 'Category',
         Cell: ({ value }) => {
           return (
             <Link to="#" className="text-inherit">
@@ -132,10 +132,10 @@ const FilesTable = ({ table_data }) => {
           );
         },
       },
-      { accessor: "date", Header: "Date" },
+      { accessor: 'date', Header: 'Date' },
       {
-        accessor: "instructor_name",
-        Header: "Author",
+        accessor: 'instructor_name',
+        Header: 'Author',
         Cell: ({ value, row }) => {
           return (
             <div className="d-flex align-items-center">
@@ -151,23 +151,23 @@ const FilesTable = ({ table_data }) => {
       },
 
       {
-        accessor: "status",
-        Header: "Status",
+        accessor: 'status',
+        Header: 'Status',
         Cell: ({ value }) => {
           value = value.toLowerCase();
           return (
             <Fragment>
               <DotBadge
                 bg={
-                  value === "draft"
-                    ? "warning"
-                    : value === "published"
-                    ? "success"
-                    : value === "scheduled"
-                    ? "info"
-                    : value === "deleted"
-                    ? "danger"
-                    : ""
+                  value === 'draft'
+                    ? 'warning'
+                    : value === 'published'
+                    ? 'success'
+                    : value === 'scheduled'
+                    ? 'info'
+                    : value === 'deleted'
+                    ? 'danger'
+                    : ''
                 }
               ></DotBadge>
               {value.charAt(0).toUpperCase() + value.slice(1)}
@@ -176,14 +176,14 @@ const FilesTable = ({ table_data }) => {
         },
       },
       {
-        accessor: "shortcutmenu",
-        Header: "",
+        accessor: 'shortcutmenu',
+        Header: '',
         Cell: ({ value, row }) => {
           return <ActionMenu />;
         },
       },
     ],
-    []
+    [],
   );
 
   const data = useMemo(() => table_data, [table_data]);
@@ -219,7 +219,7 @@ const FilesTable = ({ table_data }) => {
     (hooks) => {
       hooks.visibleColumns.push((columns) => [
         {
-          id: "selection",
+          id: 'selection',
           Header: ({ getToggleAllRowsSelectedProps }) => (
             <Checkbox {...getToggleAllRowsSelectedProps()} />
           ),
@@ -227,7 +227,7 @@ const FilesTable = ({ table_data }) => {
         },
         ...columns,
       ]);
-    }
+    },
   );
 
   const { pageIndex, globalFilter } = state;
@@ -257,7 +257,7 @@ const FilesTable = ({ table_data }) => {
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
+                    {column.render('Header')}
                   </th>
                 ))}
               </tr>
@@ -270,7 +270,7 @@ const FilesTable = ({ table_data }) => {
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     );
                   })}
                 </tr>

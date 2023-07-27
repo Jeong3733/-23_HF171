@@ -1,10 +1,10 @@
 // import node module libraries
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { Col, Row, Card, Nav, Tab, Breadcrumb } from "react-bootstrap";
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
-import PostsTable from "./PostsTable";
+import PostsTable from './PostsTable';
 
 // import data files
 import {
@@ -13,14 +13,14 @@ import {
   allScheduledPosts,
   allDraftPosts,
   allDeletedPosts,
-} from "data/courses/AllPostsData";
+} from 'data/courses/AllPostsData';
 
 // import sub component
-import CommonHeaderTabs from "components/marketing/pages/jobs/company/CommonHeaderTabs.js";
+import CommonHeaderTabs from 'components/marketing/pages/jobs/company/CommonHeaderTabs.js';
 // import data files
-import ComapniesListData from "data/marketing/jobs/CompaniesListData";
+import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
-const Evaluates = () => {
+const AllPosts = () => {
   const data = ComapniesListData[0];
   const test_data = { competiton_id: 1, schedule_id: 1 };
   return (
@@ -113,4 +113,4 @@ const Evaluates = () => {
   );
 };
 
-export default Evaluates;
+export default AllPosts;
