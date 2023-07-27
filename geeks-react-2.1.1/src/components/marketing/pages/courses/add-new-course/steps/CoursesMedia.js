@@ -20,10 +20,10 @@ const CoursesMedia = (props) => {
 					<Form.Group className="mb-3">
 						<Form.Label>소개글 내용</Form.Label>
 						<ReactQuillEditor
-							initialValue={data.competition_intro}
-							id="competition_intro"
-							name="competition_intro"
-							// value={data.competition_intro}
+							initialValue={data.competition_readme}
+							id="competition_readme"
+							name="competition_readme"
+							value={data.competition_readme}
 							handleChange={handleChange}
 						/>
 						{/* <Form.Text className="text-muted">
@@ -40,7 +40,7 @@ const CoursesMedia = (props) => {
 								name="competition_docs"
 								type="file"
 								className="form-control"
-								// value={data.competition_docs}
+								value={data.competition_docs}
 								onChange={handleChange}
 							/>
 						</InputGroup>

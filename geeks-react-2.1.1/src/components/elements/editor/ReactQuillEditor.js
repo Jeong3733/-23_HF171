@@ -8,7 +8,7 @@ const ReactQuillEditor = (props) => {
   const handleChangeParent = props.handleChange;
   function handleChange(value, delta) {
     setState(value);
-    handleChangeParent({ target: {name: "competition_intro", value: value }});
+    handleChangeParent({ target: {name: "competition_readme", value: value }});
     console.log(value);
   }
   return (

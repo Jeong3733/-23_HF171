@@ -1,36 +1,31 @@
 // import node module libraries
 import { useState } from 'react';
 import { Card, Form, Button, InputGroup } from 'react-bootstrap';
-// import React, { useState, Fragment } from "react";
 
-// import custom components
-import { FormSelect } from 'components/elements/form-select/FormSelect';
+// 이거 나중에 따로 파일로 빼야할듯
+const CompetitionType = [
+  { value: '개발', label: '개발' },
+  { value: '교육', label: '교육' },
+  { value: '엔터테인먼트', label: '엔터테인먼트' },
+  { value: '생활', label: '생활' },
+  { value: '업무', label: '업무' },
+  { value: '공공', label: '공공' },
+  { value: '금융', label: '금융' },
+  { value: '의료', label: '의료' },
+  { value: '기타', label: '기타' },
+];
+
+const handleSubmit = (e, next) => {
+  e.preventDefault();
+
+  next();
+}
 
 const BasicInformation = (props) => {
   const { next, data, handleChange } = props;
 
-  const [field, setField] = useState([]);
-
-  // 이거 나중에 따로 파일로 빼야할듯
-  const CompetitionType = [
-    { value: '개발', label: '개발' },
-    { value: '교육', label: '교육' },
-    { value: '엔터테인먼트', label: '엔터테인먼트' },
-    { value: '생활', label: '생활' },
-    { value: '업무', label: '업무' },
-    { value: '공공', label: '공공' },
-    { value: '금융', label: '금융' },
-    { value: '의료', label: '의료' },
-    { value: '기타', label: '기타' },
-  ];
-
-  // const initialValue = `<p>Insert course description</p>
-  //                     <p><br /></p>
-  //                     <p>Some initial <strong>bold</strong> text</p>
-  //                     <p><br /></p><p><br /></p><p><br /></p><p><br /></p>`;
-
   return (
-    <Form>
+    <Form onSubmit={(e) => handleSubmit(e, next)}>
       {/* Card */}
       <Card className="mb-3 ">
         <Card.Header className="border-bottom px-4 py-3">
@@ -50,13 +45,10 @@ const BasicInformation = (props) => {
               onChange={handleChange}
               required
             />
-            {/* <Form.Text className="text-muted">
-              Write a 60 character course title.
-            </Form.Text> */}
           </Form.Group>
 
           {/* 공모전 분류 */}
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>공모전 분류</Form.Label>
             <FormSelect
               options={CompetitionType}
@@ -68,47 +60,29 @@ const BasicInformation = (props) => {
               onChange={handleChange}
               required
             />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3">
-            <Form.Label>공모전 분류</Form.Label>
-            <div key={`inline-checkbox`} className="mb-3">
-              <Form.Check
-                inline
-                label="1"
-                name="group1"
-                type="checkbox"
-                id={`inline-checkbox-1`}
-                onChange={handleChange}
-              />
-              <Form.Check
-                inline
-                label="2"
-                name="group1"
-                type="checkbox"
-                id={`inline-checkbox-2`}
-                onChange={handleChange}
-              />
+            <Form.Label htmlFor="competition_type">공모전 분류</Form.Label>
+            <Form.Text>최대 3개까지 선택할 수 있습니다.</Form.Text>
+            <div
+              className="mb-3"
+              id="competition_type"
+              name="competition_type"
+            >
+              {CompetitionType.map((item, index) =>
+                <Form.Check
+                  key={index}
+                  inline
+                  type="checkbox"
+                  label={item.label}
+                  name={'competition_type' + ':' + item.value}
+                  checked={data.competition_type[item.value]}
+                  onChange={handleChange}
+                />
+              )}
             </div>
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>My multiselect</Form.Label>
-            <Form.Control
-              as="select"
-              multiple
-              value={field}
-              onChange={(e) =>
-                setField(
-                  [].slice
-                    .call(e.target.selectedOptions)
-                    .map((item) => item.value),
-                )
-              }
-            >
-              <option value="field1">Field 1</option>
-              <option value="field2">Field 2</option>
-              <option value="field3">Field 3</option>
-            </Form.Control>
-          </Form.Group>
+
           {/* 공모전 요약 설명 */}
           <Form.Group className="mb-3">
             <Form.Label htmlFor="competition_description">
@@ -123,13 +97,10 @@ const BasicInformation = (props) => {
               onChange={handleChange}
               required
             />
-            {/* <Form.Text className="text-muted">
-              공모전의 내용을 잘 나타내는 60자 내외의 설명을 입력하세요.
-            </Form.Text> */}
           </Form.Group>
 
           {/* Cover image */}
-          <Form.Label>공모전 썸네일 이미지</Form.Label>
+          <Form.Label htmlFor="competition_image">공모전 썸네일 이미지</Form.Label>
           <Form.Group className="mb-3">
             <InputGroup>
               <Form.Control
@@ -137,7 +108,6 @@ const BasicInformation = (props) => {
                 name="competition_image"
                 type="file"
                 // className="form-control"
-                // value={data.competition_image}
                 onChange={handleChange}
               />
             </InputGroup>
@@ -147,7 +117,7 @@ const BasicInformation = (props) => {
             </Form.Text>
           </Form.Group>
 
-          {/* Cover image */}
+          {/* 모집기간 */}
           <Form.Label>공모전 모집기간</Form.Label>
           <Form.Group className="mb-3">
             <InputGroup>
@@ -157,7 +127,7 @@ const BasicInformation = (props) => {
                 name="competition_date_start"
                 type="date"
                 className="form-control"
-                // value={data.competition_image}
+                value={data.competition_date_start}
                 onChange={handleChange}
                 required
               />
@@ -167,7 +137,7 @@ const BasicInformation = (props) => {
                 name="competition_date_end"
                 type="date"
                 className="form-control"
-                // value={data.competition_image}
+                value={data.competition_date_end}
                 onChange={handleChange}
                 required
               />
@@ -176,7 +146,7 @@ const BasicInformation = (props) => {
         </Card.Body>
       </Card>
       {/* Button */}
-      <Button variant="primary" onClick={next}>
+      <Button variant="primary" type="submit">
         다음
       </Button>
     </Form>

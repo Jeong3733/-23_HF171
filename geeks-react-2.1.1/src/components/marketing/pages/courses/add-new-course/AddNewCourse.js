@@ -36,18 +36,38 @@ const AddNewCourse = () => {
 
   const [formData, setFormData] = useState({
     competition_name: '',
-    competition_type: { type_1: '', type_2: '', type_3: '' },
+    competition_type: {
+      '개발': false,
+      '교육': false,
+      '엔터테인먼트': false,
+      '생활': false,
+      '업무': false,
+      '공공': false,
+      '금융': false,
+      '의료': false,
+      '기타': false,
+    },
     competition_description: '',
     competition_image: '',
+    competition_date_start: '',
+    competition_date_end: '',
+
+    competition_readme: initialValue,
     competition_docs: '',
-    competition_intro: initialValue,
   });
-  // console.log(formData);
+  
   const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const newData = {};
+    if (event.target.type === 'checkbox') {
+      const [parentName, myName] = event.target.getAttribute('name').split(':');
+      newData[parentName] = formData[parentName];
+      newData[parentName][myName] = event.target.checked;
+    } else {
+      newData[event.target.name] = event.target.value;
+    }
+
+    setFormData({...formData, ...newData});
+    console.log(newData);
   };
 
   const pageCount = 3;
