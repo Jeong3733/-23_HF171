@@ -8,7 +8,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class CheckFileId implements Serializable {
-    private int checkInfo;
     private int userUploadedFileInfo;
     private int standardFileInfo;
+    private int vectorDBInfo;
 }

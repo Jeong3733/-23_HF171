@@ -19,7 +19,7 @@ public class UserInfoService {
     }
 
     @Transactional
-    public UserInfo userInfo(String username) {
-        return userInfoRepository.findByUsername(username);
+    public UserInfo userInfo(String user_id) {
+        return userInfoRepository.findByUserId(user_id);
     }
 }

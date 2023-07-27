@@ -1,5 +1,5 @@
 package com.prototype.app_springboot.data.type;
 
-public enum CompetitionType {
-    TEAM, INDIVIDUAL
+public enum BoardType {
+    NOTICE, QNA, SUBMIT
 }

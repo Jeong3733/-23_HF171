@@ -11,45 +11,42 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FileInfo {
+public class CheckFileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fileId;
+    private int file_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
+    private String link;
+
     private String fileTitle;
 
-    @Enumerated(EnumType.STRING)
     private UploadType fileExtension;
 
-    private String path;
+    private UUID path;
 
     @CreatedDate
     private LocalDateTime uploadDatetime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private PostInfo postInfo;
-
-    @OneToMany(mappedBy = "userUploadedFileInfo")
-    private List<CheckFile> checkFileList = new ArrayList<CheckFile>();
+    @OneToMany(mappedBy = "standardFileInfo")
+    private final List<CheckFile> checkFileList = new ArrayList<CheckFile>();
 
     @Builder
-    public FileInfo(int fileId, UserInfo userInfo, String fileTitle, UploadType fileExtension, String path, LocalDateTime uploadDatetime, PostInfo postInfo, List<CheckFile> checkFileList) {
-        this.fileId = fileId;
+    public CheckFileInfo(int file_id, UserInfo userInfo, String link, String fileTitle, UploadType fileExtension, UUID path, LocalDateTime uploadDatetime) {
+        this.file_id = file_id;
         this.userInfo = userInfo;
+        this.link = link;
         this.fileTitle = fileTitle;
         this.fileExtension = fileExtension;
         this.path = path;
         this.uploadDatetime = uploadDatetime;
-        this.postInfo = postInfo;
-        this.checkFileList = checkFileList;
     }
 }

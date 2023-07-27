@@ -8,6 +8,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class UserCompetitionId implements Serializable {
-    private int userInfo;
+    private String userInfo;
+    private int teamInfo;
     private int competitionInfo;
 }

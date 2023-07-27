@@ -15,21 +15,21 @@ import java.util.List;
 public class TeamInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int team_id;
+    private int teamId;
 
-    private String team_name;
-
-    @OneToMany(mappedBy = "teamInfo")
-    private final List<UserCompetition> userByCompetitionList = new ArrayList<>();
+    private String teamName;
 
     @ManyToOne
     @JoinColumn(name = "competition_id")
     private CompetitionInfo competitionInfo;
 
+    @OneToMany(mappedBy = "teamInfo")
+    private final List<UserByCompetition> userByCompetitionList = new ArrayList<UserByCompetition>();
+
     @Builder
-    public TeamInfo(int team_id, String team_name, CompetitionInfo competitionInfo) {
-        this.team_id = team_id;
-        this.team_name = team_name;
+    public TeamInfo(int teamId, String teamName, CompetitionInfo competitionInfo) {
+        this.teamId = teamId;
+        this.teamName = teamName;
         this.competitionInfo = competitionInfo;
     }
 }

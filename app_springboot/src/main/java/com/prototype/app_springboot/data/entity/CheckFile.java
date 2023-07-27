@@ -14,26 +14,26 @@ import lombok.NoArgsConstructor;
 public class CheckFile {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check_id")
-    private CheckInfo checkInfo;
-
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
     private FileInfo userUploadedFileInfo;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private FileInfo standardFileInfo;
+    @JoinColumn(name = "check_file_id")
+    private CheckFileInfo standardFileInfo;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "db_version")
+    private VectorDbInfo vectorDBInfo;
 
     private double score;
 
     @Builder
-    public CheckFile(CheckInfo checkInfo, FileInfo userUploadedFileInfo, FileInfo standardFileInfo, double score) {
-        this.checkInfo = checkInfo;
+    public CheckFile(FileInfo userUploadedFileInfo, CheckFileInfo standardFileInfo, VectorDbInfo vectorDBInfo, double score) {
         this.userUploadedFileInfo = userUploadedFileInfo;
         this.standardFileInfo = standardFileInfo;
+        this.vectorDBInfo = vectorDBInfo;
         this.score = score;
     }
 }

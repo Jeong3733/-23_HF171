@@ -17,14 +17,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    private String userId;
 
-    private String username;
+    @Column(name = "user_name")
+    private String userName;
 
     private String password;
-
-    private String nickname;
 
     private String email;
 
@@ -38,14 +36,19 @@ public class UserInfo {
     private final List<FileInfo> fileList = new ArrayList<FileInfo>();
 
     @OneToMany(mappedBy = "userInfo")
-    private final List<UserCompetition> userByCompetitions = new ArrayList<>();
+    private final List<UserByCompetition> userByCompetitions = new ArrayList<UserByCompetition>();
+
+    @OneToMany(mappedBy = "userInfo")
+    private final List<PostInfo> postInfoList = new ArrayList<PostInfo>();
+
+    @OneToMany(mappedBy = "userInfo")
+    private final List<CheckFileInfo> checkFileInfoList = new ArrayList<CheckFileInfo>();
 
     @Builder
-    public UserInfo(int user_id, String username, String password, String nickname, String email, SocialType social, SystemRoleType role) {
-        this.user_id = user_id;
-        this.username = username;
+    public UserInfo(String userId, String userName, String password, String email, SocialType social, SystemRoleType role) {
+        this.userId = userId;
+        this.userName = userName;
         this.password = password;
-        this.nickname = nickname;
         this.email = email;
         this.social = social;
         this.role = role;

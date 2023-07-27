@@ -59,13 +59,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2UserInfo.getEmail();
         String nickname = oAuth2UserInfo.getNickname();
 
-        UserInfo userEntity = userInfoRepository.findByUsername(username);
+        UserInfo userEntity = userInfoRepository.findByUserId(username);
         if (userEntity == null) {
             userEntity = UserInfo.builder()
-                    .username(username)
+                    .userId(username)
+                    .userName(null)
                     .password(password)
                     .email(email)
-                    .nickname(nickname)
                     .role(SystemRoleType.USER)
                     .social(provider)
                     .build();

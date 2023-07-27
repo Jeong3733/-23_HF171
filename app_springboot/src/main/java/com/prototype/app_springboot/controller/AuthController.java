@@ -46,9 +46,9 @@ public class AuthController {
     public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         String encPassword = bCryptPasswordEncoder.encode(signUpRequestDto.getPassword());
         UserInfo user = UserInfo.builder()
-                .username(signUpRequestDto.getUsername())
+                .userId(signUpRequestDto.getUserId())
                 .password(encPassword)
-                .nickname(signUpRequestDto.getNickname())
+                .userName(signUpRequestDto.getUserName())
                 .email(signUpRequestDto.getEmail())
                 .role(SystemRoleType.USER)
                 .social(SocialType.NONE)
@@ -72,7 +72,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginRequestDto.getUserId(), loginRequestDto.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
