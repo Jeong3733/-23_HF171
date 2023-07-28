@@ -62,6 +62,9 @@ const AddNewCourse = () => {
       const [parentName, myName] = event.target.getAttribute('name').split(':');
       newData[parentName] = formData[parentName];
       newData[parentName][myName] = event.target.checked;
+    } else if (event.target.type === 'file') {
+      console.log('file 입니다.');
+      newData[event.target.name] = event.target.files;
     } else {
       newData[event.target.name] = event.target.value;
     }
@@ -82,7 +85,7 @@ const AddNewCourse = () => {
   const navigate = useNavigate();
   const submit = () => {
     alert(JSON.stringify(formData));
-
+    // console.log(formData);
     // 로그인 정보 가져오기
     const user = Auth.getUser();
     apiUtils
