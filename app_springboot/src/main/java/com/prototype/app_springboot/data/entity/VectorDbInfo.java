@@ -1,7 +1,10 @@
 package com.prototype.app_springboot.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +17,19 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VectorDbInfo {
     @Id
-    private int db_version;
+    private int dbVersion;
 
-    private String db_path;
+    private String dbPath;
 
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "vectorDBInfo")
-    private final List<CheckInfo> checkInfoList = new ArrayList<CheckInfo>();
+    private final List<CheckFile> checkInfoList = new ArrayList<CheckFile>();
+
+    @Builder
+    public VectorDbInfo(int dbVersion, String dbPath, LocalDateTime createdDate) {
+        this.dbVersion = dbVersion;
+        this.dbPath = dbPath;
+        this.createdDate = createdDate;
+    }
 }

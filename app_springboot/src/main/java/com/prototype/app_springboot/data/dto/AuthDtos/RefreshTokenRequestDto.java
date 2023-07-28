@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto.request;
+package com.prototype.app_springboot.data.dto.AuthDtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RefreshTokenRequestDto {
-    String refreshToken;
+    private String refreshToken;
 }

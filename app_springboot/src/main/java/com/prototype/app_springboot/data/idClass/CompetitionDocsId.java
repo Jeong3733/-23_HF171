@@ -4,10 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class UserCompetitionId implements Serializable {
-    private int userInfo;
+public class CompetitionDocsId  implements Serializable {
     private int competitionInfo;
+    private UUID docsPath;
 }

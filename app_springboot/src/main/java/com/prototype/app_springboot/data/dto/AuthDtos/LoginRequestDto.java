@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto.request;
+package com.prototype.app_springboot.data.dto.AuthDtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LoginRequestDto {
-    private String username;
+    private String userId;
     private String password;
+    private String formBasicCheckbox;
 }

@@ -1,7 +1,7 @@
 package com.prototype.app_springboot.config.auth;
 
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfo userEntity = userInfoRepository.findByUsername(username);
+        UserInfo userEntity = userInfoRepository.findByUserId(username);
 
         if (userEntity != null) {
             return new PrincipalDetails(userEntity);

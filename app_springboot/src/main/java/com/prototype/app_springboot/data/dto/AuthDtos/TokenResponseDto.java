@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto.response;
+package com.prototype.app_springboot.data.dto.AuthDtos;
 
 import lombok.Builder;
 import lombok.Getter;

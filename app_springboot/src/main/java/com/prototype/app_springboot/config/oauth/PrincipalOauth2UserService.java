@@ -6,7 +6,7 @@ import com.prototype.app_springboot.config.oauth.provider.KakaoUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.NaverUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.Oauth2UserInfo;
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
 import com.prototype.app_springboot.data.type.SystemRoleType;
 import com.prototype.app_springboot.data.type.SocialType;
 import lombok.extern.slf4j.Slf4j;
@@ -59,13 +59,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2UserInfo.getEmail();
         String nickname = oAuth2UserInfo.getNickname();
 
-        UserInfo userEntity = userInfoRepository.findByUsername(username);
+        UserInfo userEntity = userInfoRepository.findByUserId(username);
         if (userEntity == null) {
             userEntity = UserInfo.builder()
-                    .username(username)
+                    .userId(username)
+                    .userName(null)
                     .password(password)
                     .email(email)
-                    .nickname(nickname)
                     .role(SystemRoleType.USER)
                     .social(provider)
                     .build();

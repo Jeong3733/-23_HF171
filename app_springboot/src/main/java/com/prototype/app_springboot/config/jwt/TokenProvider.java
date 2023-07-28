@@ -40,7 +40,6 @@ public class TokenProvider {
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(accessTokenExpirationSeconds).toInstant()))
                 .setSubject(principalDetails.getUsername())
-                .claim("nickname", principalDetails.getNickname())
                 .claim("type", TokenType.ACCESS)
                 .compact();
     }

@@ -59,8 +59,11 @@ function getUserInfo(user) {
 // 공모전 개설
 function AddCompetition(user, data) {
   const url = `/add-competition`;
-  return instance.get(url, data, {
-    headers: { Authorization: bearerAccess(user) },
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user)
+    },
   });
 }
 

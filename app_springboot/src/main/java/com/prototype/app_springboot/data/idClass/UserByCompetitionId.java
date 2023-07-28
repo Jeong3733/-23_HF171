@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class CheckFileId implements Serializable {
-    private int userUploadedFileInfo;
-    private int standardFileInfo;
-    private int vectorDBInfo;
+public class UserByCompetitionId implements Serializable {
+    private String userInfo;
+    private int teamInfo;
+    private int competitionInfo;
 }

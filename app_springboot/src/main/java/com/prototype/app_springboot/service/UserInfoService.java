@@ -1,7 +1,7 @@
 package com.prototype.app_springboot.service;
 
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class UserInfoService {
     }
 
     @Transactional
-    public UserInfo userInfo(String username) {
-        return userInfoRepository.findByUsername(username);
+    public UserInfo userInfo(String user_id) {
+        return userInfoRepository.findByUserId(user_id);
     }
 }
