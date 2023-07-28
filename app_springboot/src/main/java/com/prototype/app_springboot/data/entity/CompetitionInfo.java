@@ -28,6 +28,7 @@ public class CompetitionInfo {
 
     private String competitionDescription;
 
+    @Enumerated(EnumType.STRING)
     private CompetitionState competitionState;
 
     private LocalDateTime competitionStartDate;

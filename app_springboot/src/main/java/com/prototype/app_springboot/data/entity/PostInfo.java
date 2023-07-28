@@ -18,6 +18,8 @@ public class PostInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
+
+    @Enumerated(EnumType.STRING)
     private BoardType boardType;
 
     @ManyToOne(fetch = FetchType.LAZY)

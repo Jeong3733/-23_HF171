@@ -15,6 +15,7 @@ public class UploadPostType {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     PostInfo postInfo;
+    @Enumerated(EnumType.STRING)
     UploadType uploadType;
 
     @Builder

@@ -1,6 +1,6 @@
 package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.data.idClass.UserCompetitionId;
+import com.prototype.app_springboot.data.idClass.UserByCompetitionId;
 import com.prototype.app_springboot.data.type.RoleType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@IdClass(UserCompetitionId.class)
+@IdClass(UserByCompetitionId.class)
 public class UserByCompetition {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,6 +28,7 @@ public class UserByCompetition {
     @JoinColumn(name = "team_id")
     private TeamInfo teamInfo;
 
+    @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
     @Builder

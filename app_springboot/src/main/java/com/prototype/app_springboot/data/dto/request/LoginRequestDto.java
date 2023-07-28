@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LoginRequestDto {
-    private String userId;
+    private String email;
     private String password;
+    private String formBasicCheckbox;
 }

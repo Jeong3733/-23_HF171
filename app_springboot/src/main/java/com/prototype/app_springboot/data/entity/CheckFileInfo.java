@@ -29,6 +29,7 @@ public class CheckFileInfo {
 
     private String fileTitle;
 
+    @Enumerated(EnumType.STRING)
     private UploadType fileExtension;
 
     private UUID path;
