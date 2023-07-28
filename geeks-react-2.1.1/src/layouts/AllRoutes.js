@@ -28,6 +28,11 @@ import Submit from 'components/marketing/pages/jobs/company/Submit';
 
 // 4.0 평가 리스트
 import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
+
+import EvaluateSubmitList from 'components/dashboard/cms/all-posts/EvaluateSubmitList';
+import EvaluateFileList from 'components/dashboard/cms/all-posts/EvaluateFileList';
+import EvaluateMemberList from 'components/dashboard/cms/all-posts/EvaluateMemberList';
+
 import EvaluatesFile from 'components/dashboard/cms/all-posts/EvaluatesFile';
 
 // 5.0 관리 리스트
@@ -77,34 +82,21 @@ const AllRoutes = () => {
           path="/detail/:competiton_id/announcements/"
           element={<Announcements />}
         />
-
+        <Route
+          path="/detail/:competiton_id/announcements/:post_id/"
+          element={<Announcements />}
+        />
         {/* QA 게시판 */}
         <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
+        <Route path="/detail/:competiton_id/qna/:post_id/" element={<QNA />} />
+
         {/* 제출 */}
         <Route path="/detail/:competiton_id/submits/" element={<Submit />} />
+        <Route
+          path="/detail/:competiton_id/submits/:post_id/"
+          element={<Submit />}
+        />
 
-        {/* ---------------------------------------- */}
-        <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/"
-          element={<CompanyReviews />}
-        />
-        <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/readme/"
-          element={<CompanyAbout />}
-        />
-        <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/announcements/"
-          element={<CompanyPhotos />}
-        />
-        <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/qna/"
-          element={<CompanyPhotos />}
-        />
-        <Route
-          path="/detail/:competiton_id/schedules/:schedule_id/submits/"
-          element={<CompanyPhotos />}
-        />
-        {/* ---------------------------------------- */}
         {/* 3.0 공모전 개설 */}
         <Route path="/add-new-competition/" element={<AddNewCourse />} />
       </Route>
@@ -112,20 +104,28 @@ const AllRoutes = () => {
       {/* ---------------------------------------- */}
       {/* 4.0 평가 리스트 */}
       <Route element={<EvaluateIndex />}>
-        <Route path="/evaluate/:competiton_id" element={<EvaluateList />} />
         <Route
-          path="/evaluate/:competiton_id/list/"
-          element={<EvaluateList />}
+          path="/evaluate/:competiton_id/"
+          element={<EvaluateSubmitList />}
         />
         <Route
-          path="/evaluate/:competiton_id/result/"
-          element={<EvaluateList />}
+          path="/evaluate/:competiton_id/submits/"
+          element={<EvaluateSubmitList />}
+        />
+        <Route
+          path="/evaluate/:competiton_id/:post_id/files/"
+          element={<EvaluateFileList />}
+        />
+        <Route
+          path="/evaluate/:competiton_id/:post_id/member/"
+          element={<EvaluateMemberList />}
         />
       </Route>
+
       {/* 4.1 평가 세부 */}
       <Route element={<EvaluateDetailIndex />}>
         <Route
-          path="/evaluate/:competiton_id/files/:file_id"
+          path="/evaluate/:competiton_id/:post_id/file/:file_id"
           element={<EvaluatesFile />}
         />
       </Route>

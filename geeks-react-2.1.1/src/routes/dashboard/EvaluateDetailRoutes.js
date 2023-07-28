@@ -36,60 +36,44 @@ import { mdiTrello, mdiCalendar } from '@mdi/js';
 export const DashboardMenu = [
   {
     id: uuid(),
-    title: '평가 페이지(임시)',
+    title: 'Documentation',
     grouptitle: true,
   },
   {
     id: uuid(),
-    title: '공모전 상세 페이지로 가기',
-    icon: 'help-circle',
-    link: '/detail/4/',
-  },
-  {
-    id: uuid(),
-    title: '제출 리스트',
-    icon: 'help-circle',
-    link: '/evaluate/4/submits/',
-  },
-  {
-    id: uuid(),
-    title: '제출 1',
-    post_id: '1',
+    title: '파일',
     icon: 'book',
-    children: [
-      {
-        id: uuid(),
-        name: '문서 리스트',
-        post_id: '1',
-        link: 'files',
-      },
-      {
-        id: uuid(),
-        name: '참가자 리스트',
-        post_id: '1',
-        link: 'member',
-      },
-    ],
+    popup: 'FileListPopup',
   },
   {
     id: uuid(),
-    title: '제출 2',
-    post_id: '2',
-    icon: 'book',
-    children: [
-      {
-        id: uuid(),
-        name: '문서 리스트',
-        post_id: '2',
-        link: 'files',
-      },
-      {
-        id: uuid(),
-        name: '참가자 리스트',
-        post_id: '2',
-        link: 'member',
-      },
-    ],
+    title: '요약',
+    icon: 'book-open',
+    popup: 'SummaryPopup',
+  },
+  {
+    id: uuid(),
+    title: '문서QA',
+    icon: 'message-square',
+    popup: 'DocumentQAPopup',
+  },
+  {
+    id: uuid(),
+    title: '표절검사',
+    icon: 'git-pull-request',
+    popup: 'PlagiarismCheckPopup',
+  },
+  {
+    id: uuid(),
+    title: '평가',
+    icon: 'clipboard',
+    link: '/dashboard/changelog',
+  },
+  {
+    id: uuid(),
+    title: '정보',
+    icon: 'help-circle',
+    link: '/dashboard/changelog',
   },
 ];
 

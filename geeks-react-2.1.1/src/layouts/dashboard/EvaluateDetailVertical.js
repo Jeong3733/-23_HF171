@@ -31,7 +31,7 @@ import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
 import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
 
 // import routes file
-import { DashboardMenu } from 'routes/dashboard/DashboardRoutes';
+import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 
 const EvaluateDetailVertical = (props) => {
   const popupList = {
