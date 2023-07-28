@@ -23,7 +23,7 @@ public class PostInfo {
     private BoardType boardType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id")
+    @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
     private String title;
@@ -43,8 +43,11 @@ public class PostInfo {
     @OneToMany(mappedBy = "postInfo")
     private List<UploadPostType> uploadPostTypeList = new ArrayList<UploadPostType>();
 
+    @OneToMany(mappedBy = "postInfo")
+    private List<PostDocs> postDocsList = new ArrayList<PostDocs>();
+
     @Builder
-    public PostInfo(int postId, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo, List<FileInfo> fileInfoList, List<UploadPostType> uploadPostTypeList) {
+    public PostInfo(int postId, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo, List<FileInfo> fileInfoList, List<UploadPostType> uploadPostTypeList, List<PostDocs> postDocsList) {
         this.postId = postId;
         this.boardType = boardType;
         this.userInfo = userInfo;
@@ -54,5 +57,6 @@ public class PostInfo {
         this.competitionInfo = competitionInfo;
         this.fileInfoList = fileInfoList;
         this.uploadPostTypeList = uploadPostTypeList;
+        this.postDocsList = postDocsList;
     }
 }

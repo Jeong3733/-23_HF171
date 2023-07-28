@@ -6,7 +6,7 @@ import com.prototype.app_springboot.config.oauth.provider.KakaoUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.NaverUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.Oauth2UserInfo;
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
 import com.prototype.app_springboot.data.type.SystemRoleType;
 import com.prototype.app_springboot.data.type.SocialType;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.prototype.app_springboot.config.auth;
 
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

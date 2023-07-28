@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO : 모든 엔터티 생성자 @builder 붙여서 다시 만들어주기
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

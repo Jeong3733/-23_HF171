@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+// TODO: @PrePersist @PreUpdate 를 사용해서 competitionState 를 조회시마다 자동으로 바꿔주기
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,7 +25,7 @@ public class CompetitionInfo {
 
     private UUID competitionImage;
 
-    private UUID competitionReadme;
+    private String competitionReadme;
 
     private String competitionDescription;
 
@@ -51,7 +52,7 @@ public class CompetitionInfo {
     private final List<PostInfo> postInfoList = new ArrayList<PostInfo>();
 
     @Builder
-    public CompetitionInfo(int competitionId, String competitionName, UUID competitionImage, UUID competitionReadme, String competitionDescription, CompetitionState competitionState, LocalDateTime competitionStartDate, LocalDateTime competitionEndDate) {
+    public CompetitionInfo(int competitionId, String competitionName, UUID competitionImage, String competitionReadme, String competitionDescription, CompetitionState competitionState, LocalDateTime competitionStartDate, LocalDateTime competitionEndDate) {
         this.competitionId = competitionId;
         this.competitionName = competitionName;
         this.competitionImage = competitionImage;
