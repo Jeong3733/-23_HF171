@@ -35,19 +35,39 @@ const AddNewCourse = () => {
                         <p><strong>이렇게</strong> <em>글자에</em> <u>스타일을</u> 적용할 수도 있습니다.</p>`;
 
   const [formData, setFormData] = useState({
-    competition_name: '',
-    competition_type: { type_1: '', type_2: '', type_3: '' },
-    competition_description: '',
-    competition_image: '',
-    competition_docs: '',
-    competition_intro: initialValue,
+    competitionName: '',
+    competitionType: {
+      개발: false,
+      교육: false,
+      엔터테인먼트: false,
+      생활: false,
+      업무: false,
+      공공: false,
+      금융: false,
+      의료: false,
+      기타: false,
+    },
+    competitionDescription: '',
+    competitionImage: '',
+    competitionDateStart: '',
+    competitionDateEnd: '',
+
+    competitionReadme: initialValue,
+    competitionDocs: '',
   });
-  // console.log(formData);
+
   const handleChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    const newData = {};
+    if (event.target.type === 'checkbox') {
+      const [parentName, myName] = event.target.getAttribute('name').split(':');
+      newData[parentName] = formData[parentName];
+      newData[parentName][myName] = event.target.checked;
+    } else {
+      newData[event.target.name] = event.target.value;
+    }
+
+    setFormData({ ...formData, ...newData });
+    console.log(newData);
   };
 
   const pageCount = 3;

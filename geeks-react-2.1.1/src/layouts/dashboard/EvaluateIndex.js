@@ -1,10 +1,10 @@
 // import node module libraries
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 // import sub components
-import NavbarVertical from "./NavbarVertical";
-import HeaderDefault from "./HeaderDefault";
+import EvaluateVertical from './EvaluateVertical';
+import HeaderDefault from './HeaderDefault';
 
 const EvaluateIndex = (props) => {
   const { children, className, overflowHidden } = props;
@@ -15,12 +15,12 @@ const EvaluateIndex = (props) => {
   return (
     <div
       id="db-wrapper"
-      className={`${overflowHidden ? "chat-layout" : ""} ${
-        showMenu ? "" : "toggled"
+      className={`${overflowHidden ? 'chat-layout' : ''} ${
+        showMenu ? '' : 'toggled'
       }`}
     >
       <div className="navbar-vertical navbar">
-        <NavbarVertical
+        <EvaluateVertical
           showMenu={showMenu}
           onClick={(value) => setShowMenu(value)}
         />
@@ -34,7 +34,7 @@ const EvaluateIndex = (props) => {
             }}
           />
         </div>
-        <div className={`container-fluid ${className ? className : "p-4"}`}>
+        <div className={`container-fluid ${className ? className : 'p-4'}`}>
           {children}
           <Outlet />
         </div>

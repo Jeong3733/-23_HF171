@@ -87,11 +87,11 @@ const SignIn = () => {
                   <Row>
                     <Col lg={12} md={12} className="mb-3">
                       {/* Username or email */}
-                      <Form.Label>Username or email </Form.Label>
+                      <Form.Label>ID </Form.Label>
                       <Form.Control
-                        type="email"
-                        id="email"
-                        placeholder="Email address here"
+                        type="id"
+                        id="userId"
+                        placeholder="아이디"
                         required
                       />
                     </Col>
@@ -101,7 +101,7 @@ const SignIn = () => {
                       <Form.Control
                         type="password"
                         id="password"
-                        placeholder="**************"
+                        placeholder="비밀번호"
                         required
                       />
                     </Col>
