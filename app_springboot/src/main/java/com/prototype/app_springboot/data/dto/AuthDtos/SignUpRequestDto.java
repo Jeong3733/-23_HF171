@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto.request;
+package com.prototype.app_springboot.data.dto.AuthDtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class SignUpRequestDto {
-    private String user_name;
+    private String userName;
     private String email;
-    private String user_id;
+    private String userId;
     private String password;
-    private String check_password;
+    private String checkPassword;
 }

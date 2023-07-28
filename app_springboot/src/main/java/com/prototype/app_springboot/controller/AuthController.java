@@ -2,9 +2,9 @@ package com.prototype.app_springboot.controller;
 
 import com.prototype.app_springboot.config.auth.PrincipalDetails;
 import com.prototype.app_springboot.config.jwt.TokenProvider;
-import com.prototype.app_springboot.data.dto.request.LoginRequestDto;
-import com.prototype.app_springboot.data.dto.request.SignUpRequestDto;
-import com.prototype.app_springboot.data.dto.response.TokenResponseDto;
+import com.prototype.app_springboot.data.dto.AuthDtos.LoginRequestDto;
+import com.prototype.app_springboot.data.dto.AuthDtos.SignUpRequestDto;
+import com.prototype.app_springboot.data.dto.AuthDtos.TokenResponseDto;
 import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.type.SocialType;
 import com.prototype.app_springboot.data.type.SystemRoleType;
@@ -46,9 +46,9 @@ public class AuthController {
     public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
         String encPassword = bCryptPasswordEncoder.encode(signUpRequestDto.getPassword());
         UserInfo user = UserInfo.builder()
-                .userId(signUpRequestDto.getUser_id())
+                .userId(signUpRequestDto.getUserId())
                 .password(encPassword)
-                .userName(signUpRequestDto.getUser_name())
+                .userName(signUpRequestDto.getUserName())
                 .email(signUpRequestDto.getEmail())
                 .role(SystemRoleType.USER)
                 .social(SocialType.NONE)
@@ -70,12 +70,9 @@ public class AuthController {
      */
     @PostMapping("/auth/signIn")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto) {
-        System.out.println(loginRequestDto.getEmail());
-        System.out.println(loginRequestDto.getPassword());
-
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginRequestDto.getUserId(), loginRequestDto.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
