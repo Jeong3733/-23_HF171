@@ -41,10 +41,6 @@ const EvaluateDetailVertical = (props) => {
     PlagiarismCheckPopup: <PlagiarismCheckPopup />,
   };
 
-  // const [show, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-
   const [show, setShow] = useState({
     FileListPopup: false,
     SummaryPopup: false,
@@ -52,23 +48,28 @@ const EvaluateDetailVertical = (props) => {
     PlagiarismCheckPopup: false,
   });
 
-  // console.log(show);
-
-  // const handleClose = (modal) => {
-  //   setShow(show.filter((m) => m !== modal));
-  // };
-  const handleClose = (event) => {
+  // const [show, setShow] = useState(false);
+  const handleClose = (e) => {
     setShow({
-      ...setShow,
-      [event.target.name]: false,
+      ...show,
+      [e.target.name]: false,
     });
+    console.log(show);
   };
 
-  const handleShow = (event) => {
-    setShow({
-      ...setShow,
-      [event.target.name]: true,
-    });
+  const handleShow = (e) => {
+    setShow((show) => ({
+      ...show,
+      [e.target.name]: true,
+    }));
+    console.log(show);
+  };
+  const test = (name) => {
+    // setShow((show) => ({
+    //   ...show,
+    //   [name]: true,
+    // }));
+    console.log(name);
   };
 
   const location = useLocation();
@@ -122,24 +123,21 @@ const EvaluateDetailVertical = (props) => {
                     name={menu.popup}
                     key={menu.popup}
                     show={show[menu.popup]}
-                    onHide={handleClose}
+                    // onHide={test(11)}
                     size="lg"
                   >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Create New Category</Modal.Title>
+                    <Modal.Header>
+                      {/* <Modal.Header closeButton> */}
+                      <Modal.Title className="d-flex align-items-center">
+                        <i className={`nav-icon fe fe-${menu.icon} me-2`}></i>
+                        {menu.title}
+                      </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{popupList[menu.popup]}</Modal.Body>
                     <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
                       {/*  Action Buttons  */}
                       <Button
-                        // name={menu.popup}
-                        variant="primary"
-                        onClick={handleClose}
-                      >
-                        Add New Category
-                      </Button>
-                      <Button
-                        // name={menu.popup}
+                        name={menu.popup}
                         variant="outline-secondary"
                         onClick={handleClose}
                       >

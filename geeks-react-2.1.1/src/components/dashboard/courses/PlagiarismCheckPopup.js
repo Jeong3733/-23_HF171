@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 
 // import custom components
-import ReactQuillEditor from 'components/elements/editor/ReactQuillEditor';
+import ReactQuillEditorPopup from 'components/elements/editor/ReactQuillEditorPopup';
 import { FormSelect } from 'components/elements/form-select/FormSelect';
 
 const PlagiarismCheckPopup = () => {
@@ -78,7 +78,7 @@ const PlagiarismCheckPopup = () => {
 
         {/*  Editor  */}
         <Form.Group className="mb-3">
-          <ReactQuillEditor initialValue={initialValue} />
+          <ReactQuillEditorPopup initialValue={initialValue} />
         </Form.Group>
 
         {/* Parent  */}
