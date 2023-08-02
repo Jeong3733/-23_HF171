@@ -7,7 +7,7 @@ import {
   usePagination,
   useRowSelect,
 } from 'react-table';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Dropdown, Image, Table } from 'react-bootstrap';
 import {
   Trash,
@@ -28,7 +28,8 @@ import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
-const PostsTable = ({ table_data }) => {
+const SubmitTable = ({ table_data }) => {
+  const { competiton_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -45,7 +46,7 @@ const PostsTable = ({ table_data }) => {
     </Link>
   ));
 
-  const ActionMenu = () => {
+  const ActionMenu = (original) => {
     return (
       <Dropdown>
         <Dropdown.Toggle as={CustomToggle}>
@@ -76,55 +77,35 @@ const PostsTable = ({ table_data }) => {
     );
   };
 
+  // post_id: '2',
+  // title: '제출 2',
+  // user_id: '1',
+  // created_date: '0000-00-00',
+  // contents: '',
+
   const columns = useMemo(
     () => [
-      { accessor: 'id', Header: 'ID', show: false },
+      { accessor: 'post_id', Header: 'ID', show: false },
       {
         accessor: 'title',
-        Header: 'Post',
+        Header: '제출 게시물 이름',
         Cell: ({ value, row }) => {
-          // console.log(row.values);
+          // console.log(row.original);
           return (
             <h5 className="mb-0">
-              <Link to="#" className="text-inherit">
+              <Link
+                to={`/evaluate/${competiton_id}/${row.original.post_id}/files/`}
+                className="text-inherit"
+              >
                 {value}
               </Link>
             </h5>
           );
         },
       },
-
       {
-        accessor: 'type',
-        Header: 'Type',
-        Cell: ({ value }) => {
-          if (value === 'image') {
-            return (
-              <ImageIcon
-                size="18px"
-                className="dropdown-item-icon text-primary"
-              />
-            );
-          }
-          if (value === 'video') {
-            return (
-              <Video size="18px" className="dropdown-item-icon text-primary" />
-            );
-          }
-          if (value === 'link') {
-            return (
-              <LinkIcon
-                size="18px"
-                className="dropdown-item-icon text-primary"
-              />
-            );
-          }
-        },
-      },
-
-      {
-        accessor: 'category',
-        Header: 'Category',
+        accessor: 'user_id',
+        Header: '작성자',
         Cell: ({ value }) => {
           return (
             <Link to="#" className="text-inherit">
@@ -133,54 +114,12 @@ const PostsTable = ({ table_data }) => {
           );
         },
       },
-      { accessor: 'date', Header: 'Date' },
-      {
-        accessor: 'instructor_name',
-        Header: 'Author',
-        Cell: ({ value, row }) => {
-          return (
-            <div className="d-flex align-items-center">
-              <Image
-                src={row.original.instructor_image}
-                alt=""
-                className="rounded-circle avatar-xs me-2"
-              />
-              <h5 className="mb-0">{value}</h5>
-            </div>
-          );
-        },
-      },
-
-      {
-        accessor: 'status',
-        Header: 'Status',
-        Cell: ({ value }) => {
-          value = value.toLowerCase();
-          return (
-            <Fragment>
-              <DotBadge
-                bg={
-                  value === 'draft'
-                    ? 'warning'
-                    : value === 'published'
-                    ? 'success'
-                    : value === 'scheduled'
-                    ? 'info'
-                    : value === 'deleted'
-                    ? 'danger'
-                    : ''
-                }
-              ></DotBadge>
-              {value.charAt(0).toUpperCase() + value.slice(1)}
-            </Fragment>
-          );
-        },
-      },
+      { accessor: 'created_date', Header: '생성일' },
       {
         accessor: 'shortcutmenu',
         Header: '',
         Cell: ({ value, row }) => {
-          return <ActionMenu />;
+          return <ActionMenu original={row.original} />;
         },
       },
     ],
@@ -292,4 +231,4 @@ const PostsTable = ({ table_data }) => {
   );
 };
 
-export default PostsTable;
+export default SubmitTable;

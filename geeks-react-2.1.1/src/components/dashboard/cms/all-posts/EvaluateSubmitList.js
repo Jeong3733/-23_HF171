@@ -1,10 +1,15 @@
 // import node module libraries
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+
 // import sub components
-import PostsTable from './PostsTable';
+import SubmitTable from './SubmitTable';
 
 // import data files
 import {
@@ -17,7 +22,59 @@ import {
 
 const EvaluateSubmitList = () => {
   const { competiton_id } = useParams();
-  console.log(competiton_id);
+  // console.log(competiton_id);
+
+  const [competitonInfo, setCompetitonInfo] = useState({});
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    // competitonInfo
+    // apiUtils
+    //   .GetCompetitionInfoBycompetitonId(data)
+    //   .then((response) => {
+    //     const getCompetitonInfo = response.data;
+    //   })
+    //   .catch((error) => {
+    //     // alert(error.response.data);
+    //     handleLogError(error);
+    //   });
+    const getCompetitonInfo = [
+      {
+        competiton_id: 'competiton_id',
+        competition_name: 'competition_name',
+      },
+    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+    setCompetitonInfo(getCompetitonInfo[0]);
+
+    // postList
+    // apiUtils
+    //   .GetPostInfoByBoardType(data)
+    //   .then((response) => {
+    //     const getPostList = response.data;
+    //   })
+    //   .catch((error) => {
+    //     // alert(error.response.data);
+    //     handleLogError(error);
+    //   });
+    const getPostList = [
+      {
+        post_id: '1',
+        title: '제출 1',
+        user_id: '1',
+        created_date: '0000-00-00',
+        contents: '',
+      },
+      {
+        post_id: '2',
+        title: '제출 2',
+        user_id: '1',
+        created_date: '0000-00-00',
+        contents: '',
+      },
+    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+    setPostList(getPostList);
+  }, [competiton_id]);
+
   return (
     <Fragment>
       <Row>
@@ -26,7 +83,9 @@ const EvaluateSubmitList = () => {
             <div className="mb-3 mb-md-0">
               <h1 className="mb-1 h2 fw-bold">Submit 리스트</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">
+                  {competitonInfo.competition_name}
+                </Breadcrumb.Item>
                 <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
                 <Breadcrumb.Item active>Submit 리스트</Breadcrumb.Item>
               </Breadcrumb>
@@ -66,13 +125,13 @@ const EvaluateSubmitList = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <PostsTable table_data={allposts} />
+                    <SubmitTable table_data={postList} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
-                    <PostsTable table_data={allPublishedPosts} />
+                    <SubmitTable table_data={allPublishedPosts} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="done" className="pb-4">
-                    <PostsTable table_data={allScheduledPosts} />
+                    <SubmitTable table_data={allScheduledPosts} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

@@ -33,64 +33,67 @@ import { mdiTrello, mdiCalendar } from '@mdi/js';
 // book-open
 // file
 // clipboard
-export const DashboardMenu = [
-  {
-    id: uuid(),
-    title: '평가 페이지(임시)',
-    grouptitle: true,
-  },
-  {
-    id: uuid(),
-    title: '공모전 상세 페이지로 가기',
-    icon: 'help-circle',
-    link: '/detail/4/',
-  },
-  {
-    id: uuid(),
-    title: '제출 리스트',
-    icon: 'help-circle',
-    link: '/evaluate/4/submits/',
-  },
-  {
-    id: uuid(),
-    title: '제출 1',
-    post_id: '1',
-    icon: 'book',
-    children: [
-      {
-        id: uuid(),
-        name: '문서 리스트',
-        post_id: '1',
-        link: 'files',
-      },
-      {
-        id: uuid(),
-        name: '참가자 리스트',
-        post_id: '1',
-        link: 'member',
-      },
-    ],
-  },
-  {
-    id: uuid(),
-    title: '제출 2',
-    post_id: '2',
-    icon: 'book',
-    children: [
-      {
-        id: uuid(),
-        name: '문서 리스트',
-        post_id: '2',
-        link: 'files',
-      },
-      {
-        id: uuid(),
-        name: '참가자 리스트',
-        post_id: '2',
-        link: 'member',
-      },
-    ],
-  },
-];
+export const DashboardMenu = (competiton_id) => {
+  const { id } = competiton_id;
+  return [
+    {
+      id: uuid(),
+      title: '평가 페이지(임시)',
+      grouptitle: true,
+    },
+    {
+      id: uuid(),
+      title: '공모전 상세 페이지로 가기',
+      icon: 'help-circle',
+      link: '/detail/${id}/',
+    },
+    {
+      id: uuid(),
+      title: '제출 리스트',
+      icon: 'help-circle',
+      link: '/evaluate/${id}/submits/',
+    },
+    {
+      id: uuid(),
+      title: '제출 1',
+      post_id: '1',
+      icon: 'book',
+      children: [
+        {
+          id: uuid(),
+          name: '문서 리스트',
+          post_id: '1',
+          link: 'files',
+        },
+        {
+          id: uuid(),
+          name: '참가자 리스트',
+          post_id: '1',
+          link: 'member',
+        },
+      ],
+    },
+    {
+      id: uuid(),
+      title: '제출 2',
+      post_id: '2',
+      icon: 'book',
+      children: [
+        {
+          id: uuid(),
+          name: '문서 리스트',
+          post_id: '2',
+          link: 'files',
+        },
+        {
+          id: uuid(),
+          name: '참가자 리스트',
+          post_id: '2',
+          link: 'member',
+        },
+      ],
+    },
+  ];
+};
 
 export default DashboardMenu;

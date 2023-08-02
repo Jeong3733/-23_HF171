@@ -8,6 +8,11 @@ export const apiUtils = {
   signUp,
   getUserInfo,
   AddCompetition,
+  GetCompetitionInfo,
+  GetCompetitionInfoBycompetitonId,
+  GetPostInfoByPostId,
+  GetPostInfoByBoardType,
+  GetFileInfoByPostId,
 };
 
 const cookies = new Cookies();
@@ -62,10 +67,137 @@ function AddCompetition(user, data) {
   return instance.post(url, data, {
     headers: {
       'Content-type': 'multipart/form-data',
-      Authorization: bearerAccess(user)
+      Authorization: bearerAccess(user),
     },
   });
 }
+
+// 공모전 리스트 요청
+function GetCompetitionInfo() {
+  const url = `/get/competitonInfo`;
+  return instance.get(url, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
+// 공모전 리스트 요청 - output
+// [
+//   {
+//     competiton_id: 'competiton_id',
+//     competition_name: 'competition_name',
+//     competition_image: 'competition_image',
+//     competition_readme: 'competition_readme',
+//     competition_description: 'competition_description',
+//     competition_state: 'competition_state',
+//     competition_start_date: 'competition_start_date',
+//     competition_end_date: 'competition_end_date',
+//   }
+//   ...
+// ];
+
+// 공모전 정보 요청 by competitonId
+function GetCompetitionInfoBycompetitonId(data) {
+  const url = `/get/competitonInfo/competitonId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
+// 공모전 정보 요청 by competitonId - data
+// {
+//   "competitonId": "1",
+// }
+
+// 공모전 정보 요청 by competitonId - output
+// [
+//   {
+//     competiton_id: 'competiton_id',
+//     competition_name: 'competition_name',
+//     competition_image: 'competition_image',
+//     competition_readme: 'competition_readme',
+//     competition_description: 'competition_description',
+//     competition_state: 'competition_state',
+//     competition_start_date: 'competition_start_date',
+//     competition_end_date: 'competition_end_date',
+//   }
+// ];
+
+// 게시물 요청 by post_id
+function GetPostInfoByPostId(data) {
+  const url = `/get/postInfo/postId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
+// 게시물 요청 by post_id - data
+// {
+//   "post_id": "3",
+// }
+
+// 게시물 요청 by post_id - output
+// [
+//   {
+//     post_id: '3',
+//     title: '제출 3',
+//     user_id: '1',
+//     created_date: '0000-00-00',
+//     contents: '',
+//   }
+// ];
+
+// 게시물 요청 by BoardType
+function GetPostInfoByBoardType(data) {
+  const url = `/get/postInfo/boardType`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
+// 게시물 요청 by BoardType - data
+// {
+//   "competitonId": "1",
+//   "boardType": "3",
+// }
+
+// 게시물 요청 by BoardType - output
+// [
+//   {
+//     post_id: '1',
+//     title: '제출 1',
+//     user_id: '1',
+//     created_date: '0000-00-00',
+//     contents: '',
+//     board_type: '3',
+//   }
+//   ...
+// ];
+
+// 파일 리스트 요청 by PostId
+function GetFileInfoByPostId(data) {
+  const url = `/get/fileInfo/postId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
+// 게시물 요청 by PostId - data
+// {
+//   "postId": "1",
+// }
+// 게시물 요청 by PostId - output
+// [
+//   {
+//     file_id: 'file_id',
+//     user_id: 'user_id',
+//     path: 'path',
+//     file_title: 'file_title',
+//     file_extension: 'file_extension',
+//     upload_datetime: 'upload_datetime',
+//     post_id: 'post_id',
+//   },
+//   ...
+// ];
 
 // -- Axios
 const instance = axios.create({

@@ -1,13 +1,13 @@
 // import node module libraries
-import ReactPaginate from "react-paginate";
-import { Fragment, useState } from "react";
-import { ChevronLeft, ChevronRight } from "react-feather";
+import ReactPaginate from 'react-paginate';
+import { Fragment, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'react-feather';
 
 // import sub components
-import JobListingListviewCard from "components/marketing/common/cards/JobListingListviewCard";
+import JobListingListviewCard from 'components/marketing/common/cards/JobListingListviewCard';
 
 // import data files
-import JobsListingData from "data/marketing/jobs/JobsListingData";
+import JobsListingData from 'data/marketing/jobs/JobsListingData';
 
 const JobsListView = () => {
   const [Records] = useState(JobsListingData);
@@ -21,7 +21,7 @@ const JobsListView = () => {
   };
   const displayRecords = Records.slice(
     pagesVisited,
-    pagesVisited + RecordsPerPage
+    pagesVisited + RecordsPerPage,
   ).map((record, index) => {
     return <JobListingListviewCard item={record} key={index} />;
   });
@@ -39,13 +39,13 @@ const JobsListView = () => {
         nextLabel={<ChevronRight size="14px" />}
         pageCount={pageCount}
         onPageChange={changePage}
-        containerClassName={"justify-content-center mb-0 pagination"}
-        previousLinkClassName={"page-link mx-1 rounded"}
-        nextLinkClassName={"page-link mx-1 rounded"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link mx-1 rounded"}
-        disabledClassName={"paginationDisabled"}
-        activeClassName={"active"}
+        containerClassName={'justify-content-center mb-0 pagination'}
+        previousLinkClassName={'page-link mx-1 rounded'}
+        nextLinkClassName={'page-link mx-1 rounded'}
+        pageClassName={'page-item'}
+        pageLinkClassName={'page-link mx-1 rounded'}
+        disabledClassName={'paginationDisabled'}
+        activeClassName={'active'}
       />
     </Fragment>
   );

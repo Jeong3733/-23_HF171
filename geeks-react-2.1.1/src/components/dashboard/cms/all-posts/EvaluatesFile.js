@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
@@ -16,7 +16,15 @@ import {
 } from 'data/courses/AllPostsData';
 
 const EvaluatesFile = () => {
-  return <Fragment></Fragment>;
+  const { competiton_id, post_id, file_id } = useParams();
+
+  return (
+    <Fragment>
+      <h5 className="mb-0">{competiton_id}</h5>
+      <h5 className="mb-0">{post_id}</h5>
+      <h5 className="mb-0">{file_id}</h5>
+    </Fragment>
+  );
 };
 
 export default EvaluatesFile;

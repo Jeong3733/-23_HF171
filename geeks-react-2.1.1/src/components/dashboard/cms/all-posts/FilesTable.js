@@ -7,7 +7,7 @@ import {
   usePagination,
   useRowSelect,
 } from 'react-table';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Row, Dropdown, Image, Table } from 'react-bootstrap';
 import {
   Trash,
@@ -29,6 +29,7 @@ import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
 const FilesTable = ({ table_data }) => {
+  const { competiton_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -76,105 +77,88 @@ const FilesTable = ({ table_data }) => {
     );
   };
 
+  // file_id: 'file_id',
+  // user_id: 'user_id',
+  // path: 'path',
+  // file_title: 'file_title',
+  // file_extension: 'file_extension',
+  // upload_datetime: 'upload_datetime',
+  // post_id: 'post_id',
+
   const columns = useMemo(
     () => [
-      { accessor: 'id', Header: 'ID', show: false },
+      { accessor: 'file_id', Header: 'ID', show: false },
       {
-        accessor: 'title',
-        Header: 'Post',
-        Cell: ({ value }) => {
+        accessor: 'file_title',
+        Header: '파일 이름',
+        Cell: ({ value, row }) => {
           return (
             <h5 className="mb-0">
-              <Link to="#" className="text-inherit">
+              <Link
+                to={`/evaluate/${competiton_id}/${row.original.post_id}/files/${row.original.file_id}/`}
+                className="text-inherit"
+              >
                 {value}
               </Link>
             </h5>
           );
         },
       },
-
       {
-        accessor: 'type',
-        Header: 'Type',
+        accessor: 'file_extension',
+        Header: '파일 유형',
         Cell: ({ value }) => {
-          if (value === 'image') {
+          if (value === 'file_extension_1') {
             return (
-              <ImageIcon
-                size="18px"
-                className="dropdown-item-icon text-primary"
-              />
+              <div className="d-flex align-items-center">
+                <ImageIcon
+                  size="18px"
+                  className="dropdown-item-icon text-primary"
+                />
+                <h5 className="mb-0">{value}</h5>
+              </div>
             );
           }
-          if (value === 'video') {
+          if (value === 'file_extension_2') {
             return (
-              <Video size="18px" className="dropdown-item-icon text-primary" />
+              <div className="d-flex align-items-center">
+                <Video
+                  size="18px"
+                  className="dropdown-item-icon text-primary"
+                />
+                <h5 className="mb-0">{value}</h5>
+              </div>
             );
           }
-          if (value === 'link') {
+          if (value === 'file_extension_3') {
             return (
-              <LinkIcon
-                size="18px"
-                className="dropdown-item-icon text-primary"
-              />
+              <div className="d-flex align-items-center">
+                <LinkIcon
+                  size="18px"
+                  className="dropdown-item-icon text-primary"
+                />
+                <h5 className="mb-0">{value}</h5>
+              </div>
             );
           }
         },
       },
 
       {
-        accessor: 'category',
-        Header: 'Category',
-        Cell: ({ value }) => {
+        accessor: 'user_id',
+        Header: '파일 주인',
+        Cell: ({ value, row }) => {
           return (
-            <Link to="#" className="text-inherit">
+            <Link
+              to={`/evaluate/${competiton_id}/${row.original.post_id}/files/${row.original.file_id}/`}
+              className="text-inherit"
+            >
               {value}
             </Link>
           );
         },
       },
-      { accessor: 'date', Header: 'Date' },
-      {
-        accessor: 'instructor_name',
-        Header: 'Author',
-        Cell: ({ value, row }) => {
-          return (
-            <div className="d-flex align-items-center">
-              <Image
-                src={row.original.instructor_image}
-                alt=""
-                className="rounded-circle avatar-xs me-2"
-              />
-              <h5 className="mb-0">{value}</h5>
-            </div>
-          );
-        },
-      },
-
-      {
-        accessor: 'status',
-        Header: 'Status',
-        Cell: ({ value }) => {
-          value = value.toLowerCase();
-          return (
-            <Fragment>
-              <DotBadge
-                bg={
-                  value === 'draft'
-                    ? 'warning'
-                    : value === 'published'
-                    ? 'success'
-                    : value === 'scheduled'
-                    ? 'info'
-                    : value === 'deleted'
-                    ? 'danger'
-                    : ''
-                }
-              ></DotBadge>
-              {value.charAt(0).toUpperCase() + value.slice(1)}
-            </Fragment>
-          );
-        },
-      },
+      { accessor: 'upload_datetime', Header: '업로드 날짜' },
       {
         accessor: 'shortcutmenu',
         Header: '',

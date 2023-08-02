@@ -1,5 +1,5 @@
 // import node module libraries
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import {
@@ -11,6 +11,12 @@ import {
   useAccordionButton,
   AccordionContext,
 } from 'react-bootstrap';
+import { v4 as uuid } from 'uuid';
+
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import simple bar scrolling used for notification item scrolling
 import SimpleBar from 'simplebar-react';
@@ -20,10 +26,11 @@ import 'simplebar/dist/simplebar.min.css';
 import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
 
 // import routes file
-import { DashboardMenu } from 'routes/dashboard/EvaluateRoutes';
+// import { DashboardMenu } from 'routes/dashboard/EvaluateRoutes';
 
 const EvaluateVertical = (props) => {
   const { competiton_id } = useParams();
+  const Auth = useAuth();
   const location = useLocation();
 
   const CustomToggle = ({ children, eventKey, icon }) => {
@@ -82,6 +89,79 @@ const EvaluateVertical = (props) => {
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
+  const [dashboardMenu, setDashboardMenu] = useState([]);
+
+  const createMenuItems = (postList) => {
+    return postList.map((post) => ({
+      id: uuid(),
+      title: post.title,
+      post_id: post.post_id,
+      icon: 'book',
+      children: [
+        {
+          id: uuid(),
+          name: '문서 리스트',
+          post_id: post.post_id,
+          link: 'files',
+        },
+        {
+          id: uuid(),
+          name: '참가자 리스트',
+          post_id: post.post_id,
+          link: 'member',
+        },
+      ],
+    }));
+  };
+
+  useEffect(() => {
+    // apiUtils
+    //   .GetPostInfoByBoardType(data)
+    //   .then((response) => {
+    //     const getPostList = response.data;
+    //   })
+    //   .catch((error) => {
+    //     // alert(error.response.data);
+    //     handleLogError(error);
+    //   });
+    const getPostList = [
+      {
+        post_id: '1',
+        title: '제출 1',
+        user_id: '1',
+        created_date: '0000-00-00',
+        contents: '',
+      },
+      {
+        post_id: '2',
+        title: '제출 2',
+        user_id: '1',
+        created_date: '0000-00-00',
+        contents: '',
+      },
+    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+    setDashboardMenu([
+      {
+        id: uuid(),
+        title: '평가 페이지(임시)',
+        grouptitle: true,
+      },
+      {
+        id: uuid(),
+        title: '공모전 상세 페이지로 가기',
+        icon: 'help-circle',
+        link: `/detail/${competiton_id}/`,
+      },
+      {
+        id: uuid(),
+        title: '제출 리스트',
+        icon: 'help-circle',
+        link: `/evaluate/${competiton_id}/submits/`,
+      },
+      ...createMenuItems(getPostList),
+    ]);
+  }, [competiton_id]);
+
   return (
     <Fragment>
       <SimpleBar style={{ maxHeight: '100vh' }}>
@@ -96,7 +176,7 @@ const EvaluateVertical = (props) => {
           as="ul"
           className="navbar-nav flex-column"
         >
-          {DashboardMenu.map(function (menu, index) {
+          {dashboardMenu.map(function (menu, index) {
             if (menu.grouptitle) {
               return (
                 <Card bsPrefix="nav-item" key={index}>

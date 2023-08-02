@@ -1,47 +1,52 @@
 // import node module libraries
-import { Link, useLocation } from "react-router-dom";
-import { Col, Row, Container, Image, ListGroup, Button, Nav } from "react-bootstrap";
-import { Fragment } from "react";
+import { Link, useParams, useLocation } from 'react-router-dom';
+import {
+  Col,
+  Row,
+  Container,
+  Image,
+  ListGroup,
+  Button,
+  Nav,
+} from 'react-bootstrap';
+import { Fragment } from 'react';
 
 // import media files
-import CompanyBG from "assets/images/background/company-bg.jpg";
+import CompanyBG from 'assets/images/background/company-bg.jpg';
 
 const CommonHeaderTabs = (props) => {
+  const { competiton_id } = useParams();
   // const { test_data } = props;
   const location = useLocation();
 
-  // 일단 지금은 잘 작동하는 공모전 ID 얻어오기...
-  // 나중에는 props.data로 옮길 수 있으면 옮기는 것이 깔끔할 듯...
-  const competitionId = location.pathname.split('/')[2];
-
   const tabItems = [
     {
-      title: "소개글",
-      link: "/detail/" + competitionId + "/readme",
+      title: '소개글',
+      link: '/detail/' + competiton_id + '/readme',
     },
     // {
     //   title: "일정 (" + props.data.totalReviews + ")",
     //   link: "/marketing/jobs/company/reviews",
     // },
     {
-      title: "공지사항",
-      link: "/detail/" + competitionId + "/announcements",
+      title: '공지사항',
+      link: '/detail/' + competiton_id + '/announcements',
     },
     {
-      title: "QA 게시판",
-      link: "/detail/" + competitionId + "/qna",
-    },
-    // {
-    //   title: "제출",
-    //   link: "/detail/" + test_data.competiton_id + "/submit",
-    // },
-    {
-      title: "평가",
-      link: "/evaluate/" + competitionId,
+      title: 'QA 게시판',
+      link: '/detail/' + competiton_id + '/qna',
     },
     {
-      title: "관리",
-      link: "/manage/" + competitionId,
+      title: '제출',
+      link: '/detail/' + competiton_id + '/submits',
+    },
+    {
+      title: '평가',
+      link: '/evaluate/' + competiton_id,
+    },
+    {
+      title: '관리',
+      link: '/manage/' + competiton_id,
     },
   ];
   return (
@@ -51,9 +56,9 @@ const CommonHeaderTabs = (props) => {
         className="py-10 bg-white"
         style={{
           backgroundImage: `url(${CompanyBG})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
         }}
       ></section>
 
@@ -78,7 +83,7 @@ const CommonHeaderTabs = (props) => {
                     <div>
                       {/* reviews */}
                       <span className="text-dark fw-medium">
-                        {props.data.rating}{" "}
+                        {props.data.rating}{' '}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="10"
@@ -89,7 +94,7 @@ const CommonHeaderTabs = (props) => {
                         >
                           <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
                         </svg>
-                      </span>{" "}
+                      </span>{' '}
                       <span className="ms-0">
                         ({props.data.totalReviews} Reviews)
                       </span>
@@ -115,17 +120,19 @@ const CommonHeaderTabs = (props) => {
             <Col>
               {/* nav */}
               <Nav variant="line-bottom">
-                {tabItems.map((item, index) =>
+                {tabItems.map((item, index) => (
                   <Nav.Item key={index}>
                     <Nav.Link
                       as={Link}
                       to={item.link}
-                      className={location.pathname === item.link ? "active" : ""}
+                      className={
+                        location.pathname === item.link ? 'active' : ''
+                      }
                     >
                       {item.title}
                     </Nav.Link>
                   </Nav.Item>
-                )}
+                ))}
               </Nav>
             </Col>
           </Row>

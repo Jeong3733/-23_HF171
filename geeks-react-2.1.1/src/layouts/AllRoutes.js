@@ -125,7 +125,7 @@ const AllRoutes = () => {
       {/* 4.1 평가 세부 */}
       <Route element={<EvaluateDetailIndex />}>
         <Route
-          path="/evaluate/:competiton_id/:post_id/file/:file_id"
+          path="/evaluate/:competiton_id/:post_id/files/:file_id/"
           element={<EvaluatesFile />}
         />
       </Route>
