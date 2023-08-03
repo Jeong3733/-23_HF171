@@ -1,7 +1,7 @@
 const prod = {
   url: {
     API_BASE_URL:
-      'http://ec2-3-34-182-11.ap-northeast-2.compute.amazonaws.com:8080',
+      'http://ec2-43-202-1-241.ap-northeast-2.compute.amazonaws.com:8080',
   },
 };
 
