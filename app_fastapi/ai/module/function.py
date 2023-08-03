@@ -26,11 +26,11 @@ load_dotenv()
 model_name = "intfloat/multilingual-e5-large"
 model_kwargs = {'device': 'cpu'}
 encode_kwargs = {'normalize_embeddings': False}
-hf = HuggingFaceEmbeddings(
-    model_name=model_name,
-    model_kwargs=model_kwargs,
-    encode_kwargs=encode_kwargs
-)
+# hf = HuggingFaceEmbeddings(
+#     model_name=model_name,
+#     model_kwargs=model_kwargs,
+#     encode_kwargs=encode_kwargs
+# )
 
 
 def _results_to_docs_and_scores(results: Any) -> List[Tuple[Document, float]]:
@@ -111,8 +111,8 @@ class NewChroma(Chroma):
 
 class AI:
     def __init__(self) -> None:
-        # self.embedding = OpenAIEmbeddings()
-        self.embedding = hf
+        self.embedding = OpenAIEmbeddings()
+        # self.embedding = hf
 
     def _upload_document(self, file_path):
         """
