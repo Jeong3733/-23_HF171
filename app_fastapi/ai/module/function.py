@@ -17,9 +17,11 @@ from langchain.chains.summarize import load_summarize_chain
 
 import os
 from dotenv import load_dotenv
+import boto3
+from ai.module.conf import config
 
 load_dotenv()
-DEFAULT_K = 4  # Number of Documents to return.
+# DEFAULT_K = 4  # Number of Documents to return.
 
 
 def _results_to_docs_and_scores(results: Any) -> List[Tuple[Document, float]]:
@@ -55,7 +57,7 @@ class NewChroma(Chroma):
     def similarity_search_by_vector_with_score(
         self,
         embedding: List[float],
-        k: int = DEFAULT_K,
+        k: int = config['NewChroma']['DEFAULT_K'],
         filter: Optional[Dict[str, str]] = None,
         **kwargs: Any,
     ) -> List[Document]:
@@ -107,9 +109,9 @@ class AI:
         문서를 업로드하면 텍스트 리스트로 변환하는 함수
         """
         # file_path = None
-        chunk_size = 1000
-        chunk_overlap = 100
-        encoding_name = 'p50k_base'
+        chunk_size = config['AI']['chunk_size']
+        chunk_overlap = config['AI']['chunk_overlap']
+        encoding_name = config['AI']['encoding_name']
 
         loader = PyMuPDFLoader(file_path=file_path)
         documents = loader.load()
@@ -149,8 +151,8 @@ class AI:
         """
         _load_retriever 주어진 텍스트와 유사한 상위 N개의 벡터를 반환하는 함수
         """
-        persist_directory = None
-        n_similar = 3
+        persist_directory = config['AI']['persist_directory']
+        n_similar = config['AI']['n_similar']
 
         vectordb = Chroma(persist_directory=persist_directory,
                           embedding_function=self.embedding)
@@ -190,13 +192,34 @@ class DoucmentInit(AI):
     def __init__(self) -> None:
         super().__init__()
 
-    def upload(self):
-        file_path = None
-        file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
-        docVectorDB_directory = None
-        docVectorDB_directory = 'docVectorDBs/newTest'
-        analyticsReport_format = f"""format"""
+    def _getFileFromBoto3(self, fileInfo):
+        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        # filePath = "data/test.pdf"
+        s3 = boto3.client("s3")
+        s3.download_file(
+            Bucket=config['DoucmentInit']['s3_bucket'],
+            # key=fileInfo['path'],
+            Key="test.pdf",
+            # Filename=filePath
+            Filename=filePath
+        )
+        return filePath
 
+    def _getFileFromS3(self, fileInfo):
+        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        # filePath = "data/test.pdf"
+        return filePath
+
+    def upload(self, fileInfo):
+        # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        file_path = self._getFileFromS3(fileInfo=fileInfo)
+        docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
+            fileInfo['path']
+        # docVectorDB_directory = 'docVectorDBs/newTest'
+        analyticsReport_format = config['DoucmentInit']['analyticsReport_format']
+        print(file_path)
+        file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
+        print(file_path)
         docs = self._upload_document(file_path=file_path)
 
         # --- QA Setting ---
@@ -214,7 +237,7 @@ class DoucmentInit(AI):
 
         # --- 표절 검사 ---
 
-        # compVectorDB_directory = 'compVectorDB'
+        # compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
         # compVectorDB = self._load_vectordb(persist_directory=compVectorDB_directory)
         compVectorDB = docVectorDB
 

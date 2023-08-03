@@ -64,13 +64,6 @@ const EvaluateDetailVertical = (props) => {
     }));
     console.log(show);
   };
-  const test = (name) => {
-    // setShow((show) => ({
-    //   ...show,
-    //   [name]: true,
-    // }));
-    console.log(name);
-  };
 
   const location = useLocation();
 
