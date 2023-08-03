@@ -8,7 +8,7 @@ from langchain.docstore.document import Document
 
 from langchain.document_loaders import PyMuPDFLoader, DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
+from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -22,6 +22,15 @@ from ai.module.conf import config
 
 load_dotenv()
 # DEFAULT_K = 4  # Number of Documents to return.
+
+model_name = "intfloat/multilingual-e5-large"
+model_kwargs = {'device': 'cpu'}
+encode_kwargs = {'normalize_embeddings': False}
+hf = HuggingFaceEmbeddings(
+    model_name=model_name,
+    model_kwargs=model_kwargs,
+    encode_kwargs=encode_kwargs
+)
 
 
 def _results_to_docs_and_scores(results: Any) -> List[Tuple[Document, float]]:
@@ -102,7 +111,8 @@ class NewChroma(Chroma):
 
 class AI:
     def __init__(self) -> None:
-        self.embedding = OpenAIEmbeddings()
+        # self.embedding = OpenAIEmbeddings()
+        self.embedding = hf
 
     def _upload_document(self, file_path):
         """
@@ -147,31 +157,23 @@ class AI:
                              embedding_function=self.embedding)
         return vectordb
 
-    def _load_retriever(self):
-        """
-        _load_retriever 주어진 텍스트와 유사한 상위 N개의 벡터를 반환하는 함수
-        """
-        persist_directory = config['AI']['persist_directory']
-        n_similar = config['AI']['n_similar']
+    def _getFileFromBoto3(self, fileInfo):
+        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        # filePath = "data/test.pdf"
+        s3 = boto3.client("s3")
+        s3.download_file(
+            Bucket=config['DoucmentInit']['s3_bucket'],
+            # key=fileInfo['path'],
+            Key="test.pdf",
+            # Filename=filePath
+            Filename=filePath
+        )
+        return filePath
 
-        vectordb = Chroma(persist_directory=persist_directory,
-                          embedding_function=self.embedding)
-
-        retriever = vectordb.as_retriever(search_kwargs={"k": n_similar})
-        return retriever
-
-    def _similarity_search(self, text):
-        """
-        주어진 텍스트와 유사한 상위 N개의 벡터를 반환하는 함수
-        """
-        persist_directory = None
-
-        vectordb = Chroma(persist_directory=persist_directory,
-                          embedding_function=self.embedding)
-
-        # query it
-        docs = vectordb.similarity_search(text)
-        return docs
+    def _getFileFromS3(self, fileInfo):
+        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        # filePath = "data/test.pdf"
+        return filePath
 
     def _convert_to_prompt(self, text):
         """
@@ -192,24 +194,6 @@ class DoucmentInit(AI):
     def __init__(self) -> None:
         super().__init__()
 
-    def _getFileFromBoto3(self, fileInfo):
-        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
-        # filePath = "data/test.pdf"
-        s3 = boto3.client("s3")
-        s3.download_file(
-            Bucket=config['DoucmentInit']['s3_bucket'],
-            # key=fileInfo['path'],
-            Key="test.pdf",
-            # Filename=filePath
-            Filename=filePath
-        )
-        return filePath
-
-    def _getFileFromS3(self, fileInfo):
-        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
-        # filePath = "data/test.pdf"
-        return filePath
-
     def upload(self, fileInfo):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         file_path = self._getFileFromS3(fileInfo=fileInfo)
@@ -218,7 +202,7 @@ class DoucmentInit(AI):
         # docVectorDB_directory = 'docVectorDBs/newTest'
         analyticsReport_format = config['DoucmentInit']['analyticsReport_format']
         print(file_path)
-        file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
+        file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
         print(file_path)
         docs = self._upload_document(file_path=file_path)
 
@@ -231,26 +215,39 @@ class DoucmentInit(AI):
         chain = load_summarize_chain(llm=llm,
                                      chain_type="map_reduce",
                                      verbose=True)
-        # output_summary = chain.run(docs)
-        output_summary = 'test_output_summary'
-        # print(output_summary)
+        # fileSummary = chain.run(docs)
+        fileSummary = 'fileSummary'
+        # print(fileSummary)
 
         # --- 표절 검사 ---
+        getVectorDBInfo = docVectorDB.get(
+            include=['embeddings', 'documents', 'metadatas'])
 
         # compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
         # compVectorDB = self._load_vectordb(persist_directory=compVectorDB_directory)
         compVectorDB = docVectorDB
 
-        getVectorDBInfo = docVectorDB.get(
-            include=['embeddings', 'documents', 'metadatas'])
+        # print(getVectorDBInfo)
 
         def analysis(analyticsReport_prompt):
             return len(analyticsReport_prompt)
 
         getResultCheck = []
-        for checkID, checkDoc, checkVector in zip(getVectorDBInfo['ids'],
-                                                  getVectorDBInfo['documents'],
-                                                  getVectorDBInfo['embeddings']):
+        pagesInfo = []
+        for checkID, checkDoc, checkVector, checkMetaDatas in zip(getVectorDBInfo['ids'],
+                                                                  getVectorDBInfo['documents'],
+                                                                  getVectorDBInfo['embeddings'],
+                                                                  getVectorDBInfo['metadatas']):
+            print(fileInfo['path'], checkID, checkMetaDatas['page'],
+                  checkMetaDatas['start_index'])
+            pagesInfo.append({
+                'file_id': fileInfo['path'],
+                'page_id': checkID,
+                'page_num': checkMetaDatas['page'],
+                'start_index': checkMetaDatas['start_index'],
+                'summary': 'pageSummary'
+            })
+
             similarDocuments = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=checkVector,
                 distance_metric="cos",
@@ -261,10 +258,17 @@ class DoucmentInit(AI):
             세 개의 역 따옴표, 세 개의 따옴표, 세 개의 큰 따옴표로 구분된 각 텍스트들은 검사 문서 중 일부분,비교 문서 중 일부분, 분석 결과 보고서 포맷입니다.
             분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReport_format}\"\"\""""
                 report = analysis(analyticsReport_prompt)
+                getResultCheck.append({
+                    'page_id': checkID,
+                    'comp_page_id': compID,
+                    'score': score,
+                    'report': report,
+                })
                 getResultCheck.append((checkID, compID, score, report))
             # print(getResultCheck)
         resDict = {'status': True,
-                   'result': {'summary': output_summary,
+                   'result': {'fileSummary': fileSummary,
+                              'pagesInfo': pagesInfo,
                               'getResultCheck': getResultCheck}}
         return resDict
 
