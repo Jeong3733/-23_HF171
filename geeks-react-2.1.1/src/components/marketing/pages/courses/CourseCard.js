@@ -1,7 +1,7 @@
 // import node module libraries
-import { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Image,
   Card,
@@ -10,15 +10,15 @@ import {
   ProgressBar,
   ListGroup,
   Badge,
-} from "react-bootstrap";
+} from 'react-bootstrap';
 
 // import custom components
-import Ratings from "components/marketing/common/ratings/Ratings";
-import LevelIcon from "components/marketing/common/miscellaneous/LevelIcon";
-import GKTippy from "components/elements/tooltips/GKTippy";
+import Ratings from 'components/marketing/common/ratings/Ratings';
+import LevelIcon from 'components/marketing/common/miscellaneous/LevelIcon';
+import GKTippy from 'components/elements/tooltips/GKTippy';
 
 // import utility file
-import { numberWithCommas } from "helper/utils";
+import { numberWithCommas } from 'helper/utils';
 
 const CourseCard = ({
   item,
@@ -62,8 +62,8 @@ const CourseCard = ({
               item.price === undefined ||
               item.price <= 0 ||
               item.discount === undefined
-                ? "mb-5"
-                : ""
+                ? 'mb-5'
+                : ''
             }`}
           >
             <span className="text-warning me-1 mb-1">
@@ -71,7 +71,7 @@ const CourseCard = ({
             </span>
             <span className="text-warning me-1"> {item.rating.toFixed(1)}</span>
             <span className="fs-6 text-muted">
-              {" "}
+              {' '}
               ({numberWithCommas(item.ratingby)})
             </span>
           </div>
@@ -81,13 +81,13 @@ const CourseCard = ({
               item.price === undefined ||
               item.price <= 0 ||
               item.discount === undefined
-                ? "d-none"
-                : ""
+                ? 'd-none'
+                : ''
             }`}
           >
             <span className="text-dark fw-bold">
               ${item.price - item.discount}
-            </span>{" "}
+            </span>{' '}
             <del className="fs-6 text-muted">${item.price}</del>
           </div>
         </Card.Body>
@@ -112,13 +112,13 @@ const CourseCard = ({
               </GKTippy>
             </Col>
           </Row>
-          <span className={`${showprogressbar ? "" : "d-none"}`}>
-            {" "}
+          <span className={`${showprogressbar ? '' : 'd-none'}`}>
+            {' '}
             <ProgressBar
               variant="success"
               now={item.progress}
               className="mt-3"
-              style={{ height: "5px" }}
+              style={{ height: '5px' }}
             />
           </span>
         </Card.Footer>
@@ -136,9 +136,9 @@ const CourseCard = ({
             className="bg-cover img-left-rounded col-12 col-md-12 col-xl-3 col-lg-3 "
             style={{
               background: `url(${item.image})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundPosition: "top center",
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              backgroundPosition: 'top center',
             }}
           >
             <Image
@@ -167,11 +167,11 @@ const CourseCard = ({
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix="list-inline-item">
                   <span className="text-warning">
-                    {" "}
+                    {' '}
                     <Ratings rating={item.rating} /> {item.rating.toFixed(1)}
                   </span>
                   <span className="fs-6 text-muted">
-                    {" "}
+                    {' '}
                     ({numberWithCommas(item.ratingby)})
                   </span>
                 </ListGroup.Item>
@@ -212,7 +212,7 @@ const CourseCard = ({
         </div>
         <div className="ms-lg-3 mt-2 mt-lg-0">
           <h4 className="text-primary-hover">
-            {item.title}{" "}
+            {item.title}{' '}
             <Badge bg="light-success" className="text-success">
               New
             </Badge>
@@ -232,11 +232,11 @@ const CourseCard = ({
             </ListGroup.Item>
             <ListGroup.Item as="li" bsPrefix="list-inline-item">
               <span className="text-warning">
-                {" "}
+                {' '}
                 <Ratings rating={item.rating} /> {item.rating.toFixed(1)}
               </span>
               <span className="fs-6 text-muted">
-                {" "}
+                {' '}
                 ({numberWithCommas(item.ratingby)})
               </span>
             </ListGroup.Item>
@@ -247,9 +247,9 @@ const CourseCard = ({
   };
   return (
     <Fragment>
-      {viewby === "grid" ? (
+      {viewby === 'grid' ? (
         <GridView />
-      ) : viewby === "list" ? (
+      ) : viewby === 'list' ? (
         <ListView />
       ) : (
         <ListGroupView />
@@ -261,10 +261,10 @@ const CourseCard = ({
 // Specifies the default values for props
 CourseCard.defaultProps = {
   free: false,
-  viewby: "grid",
+  viewby: 'grid',
   showprogressbar: false,
-  extraclass: "",
-  link: "#",
+  extraclass: '',
+  link: '#',
 };
 
 // Typechecking With PropTypes

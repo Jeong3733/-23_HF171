@@ -4,7 +4,12 @@ import { Row, Col, Nav, Tab, Card } from 'react-bootstrap';
 // import custom components
 import CourseSlider from 'components/marketing/pages/competition/CourseSlider';
 
-const CoursesTabSliderByType = () => {
+import { competitionCategories } from 'components/marketing/pages/competition/competition-filter-page/competitionCategories';
+
+const CoursesTabSliderByType = (props) => {
+  const { data, isLoggedIn } = props;
+  console.log(data, isLoggedIn);
+
   return (
     <Row>
       <Col md={12}>
@@ -18,43 +23,33 @@ const CoursesTabSliderByType = () => {
                     All Categories
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="design" className="mb-sm-3 mb-md-0">
-                    Design
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="javascript" className="mb-sm-3 mb-md-0">
-                    Javascript
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link
-                    eventKey="webdevelopment"
-                    className="mb-sm-3 mb-md-0"
-                  >
-                    Web Development
-                  </Nav.Link>
-                </Nav.Item>
+                {competitionCategories.map((item) => (
+                  <Nav.Item key={item.label}>
+                    <Nav.Link eventKey={item.label} className="mb-sm-3 mb-md-0">
+                      {item.label}
+                    </Nav.Link>
+                  </Nav.Item>
+                ))}
               </Nav>
             </Card.Header>
             <Card.Body className="p-0">
               <Tab.Content>
                 <Tab.Pane eventKey="all" className="pb-4 p-4 ps-0 pe-0">
-                  <CourseSlider />
+                  <CourseSlider data={data} isLoggedIn={isLoggedIn} />
                 </Tab.Pane>
-                <Tab.Pane eventKey="design" className="pb-4 p-4 ps-0 pe-0">
-                  <CourseSlider />
-                </Tab.Pane>
-                <Tab.Pane eventKey="javascript" className="pb-4 p-4 ps-0 pe-0">
-                  <CourseSlider category="javascript" />
-                </Tab.Pane>
-                <Tab.Pane
-                  eventKey="webdevelopment"
-                  className="pb-4 p-4 ps-0 pe-0"
-                >
-                  <CourseSlider />
-                </Tab.Pane>
+                {competitionCategories.map((item) => (
+                  <Tab.Pane
+                    key={item.label}
+                    eventKey={item.label}
+                    className="pb-4 p-4 ps-0 pe-0"
+                  >
+                    <CourseSlider
+                      data={data}
+                      category={item.label}
+                      isLoggedIn={isLoggedIn}
+                    />
+                  </Tab.Pane>
+                ))}
               </Tab.Content>
             </Card.Body>
           </Card>

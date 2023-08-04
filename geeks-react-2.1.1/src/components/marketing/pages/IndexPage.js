@@ -1,6 +1,5 @@
 // import node module libraries
-import React from 'react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Col, Row, Container } from 'react-bootstrap';
 
 // import sub components
@@ -10,11 +9,16 @@ import BrowseCategories from 'components/marketing/pages/competition/competition
 // import custom components
 import CourseSlider from 'components/marketing/pages/competition/CourseSlider';
 
-const IndexPage = () => {
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+
+const IndexPage = ({ isLoggedIn }) => {
   return (
     <Fragment>
       {/*  Page Content  */}
-      <HeroHeader />
+      <HeroHeader isLoggedIn={isLoggedIn} />
 
       <section className="pt-lg-12 pb-lg-3 pt-8 pb-6">
         <Container>
@@ -26,10 +30,10 @@ const IndexPage = () => {
           <div className="position-relative">
             {/* <CourseSlider recommended={true} /> */}
             {/* <CourseSlider category="javascript" /> */}
-            <CourseSlider />
+            {/* <CourseSlider /> */}
           </div>
           <div className="position-relative">
-            <BrowseCategories />
+            <BrowseCategories isLoggedIn={isLoggedIn} />
           </div>
         </Container>
       </section>

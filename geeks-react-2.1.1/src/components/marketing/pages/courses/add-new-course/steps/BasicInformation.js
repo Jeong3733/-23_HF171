@@ -2,24 +2,14 @@
 import { useState } from 'react';
 import { Card, Form, Button, InputGroup } from 'react-bootstrap';
 
+import { competitionCategories } from 'components/marketing/pages/competition/competition-filter-page/competitionCategories';
 // 이거 나중에 따로 파일로 빼야할듯
-const CompetitionType = [
-  { value: '개발', label: '개발' },
-  { value: '교육', label: '교육' },
-  { value: '엔터테인먼트', label: '엔터테인먼트' },
-  { value: '생활', label: '생활' },
-  { value: '업무', label: '업무' },
-  { value: '공공', label: '공공' },
-  { value: '금융', label: '금융' },
-  { value: '의료', label: '의료' },
-  { value: '기타', label: '기타' },
-];
 
 const handleSubmit = (e, next) => {
   e.preventDefault();
 
   next();
-}
+};
 
 const BasicInformation = (props) => {
   const { next, data, handleChange } = props;
@@ -51,7 +41,7 @@ const BasicInformation = (props) => {
           {/* <Form.Group className="mb-3">
             <Form.Label>공모전 분류</Form.Label>
             <FormSelect
-              options={CompetitionType}
+              options={competitionCategories}
               id="competition_type"
               name="competition_type"
               placeholder="분류 선택 (최대 3개)"
@@ -64,12 +54,8 @@ const BasicInformation = (props) => {
           <Form.Group className="mb-3">
             <Form.Label htmlFor="competitionType">공모전 분류</Form.Label>
             <Form.Text>최대 3개까지 선택할 수 있습니다.</Form.Text>
-            <div
-              className="mb-3"
-              id="competitionType"
-              name="competitionType"
-            >
-              {CompetitionType.map((item, index) =>
+            <div className="mb-3" id="competitionType" name="competitionType">
+              {competitionCategories.map((item, index) => (
                 <Form.Check
                   key={index}
                   inline
@@ -79,7 +65,7 @@ const BasicInformation = (props) => {
                   checked={data.competitionType[item.value]}
                   onChange={handleChange}
                 />
-              )}
+              ))}
             </div>
           </Form.Group>
 
@@ -100,7 +86,9 @@ const BasicInformation = (props) => {
           </Form.Group>
 
           {/* Cover image */}
-          <Form.Label htmlFor="competitionImage">공모전 썸네일 이미지</Form.Label>
+          <Form.Label htmlFor="competitionImage">
+            공모전 썸네일 이미지
+          </Form.Label>
           <Form.Group className="mb-3">
             <InputGroup>
               <Form.Control

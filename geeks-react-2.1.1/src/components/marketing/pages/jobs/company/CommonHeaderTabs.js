@@ -8,15 +8,19 @@ import {
   ListGroup,
   Button,
   Nav,
+  Badge,
 } from 'react-bootstrap';
 import { Fragment } from 'react';
 
 // import media files
 import CompanyBG from 'assets/images/background/company-bg.jpg';
 
+// import utility file
+// import { handleCopyClipBoard } from 'helper/utils';
+
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  // const { test_data } = props;
+  const { data, info } = props;
   const location = useLocation();
 
   const tabItems = [
@@ -69,32 +73,29 @@ const CommonHeaderTabs = (props) => {
             <Col className="d-md-flex align-items-center">
               <div className="mt-n5">
                 <Image
-                  src={props.data.logo}
+                  // src={info.competition_image}
+                  src="https://miro.medium.com/v2/resize:fit:914/format:webp/1*zIxyGH-bIZP4cA7Ho8oilQ.png"
+                  // src={props.data.logo}
                   alt=""
                   className=" rounded-3 border"
-                  width={120}
+                  width={160}
                 />
               </div>
               <div className="w-100 ms-md-4 mt-4">
                 <div className="d-flex justify-content-between">
                   <div>
                     {/* heading */}
-                    <h1 className="mb-0 ">{props.data.company} </h1>
+                    <h1 className="mb-0 ">{info.competition_name} </h1>
+
+                    <div className="lh-1 mb-2 d-flex align-items-center">
+                      <span>
+                        {info.competition_start_date}
+                        {' ~ '} {info.competition_end_date}
+                      </span>
+                    </div>
                     <div>
                       {/* reviews */}
-                      <span className="text-dark fw-medium">
-                        {props.data.rating}{' '}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="10"
-                          height="10"
-                          fill="currentColor"
-                          className="bi bi-star-fill text-warning align-baseline"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
-                        </svg>
-                      </span>{' '}
+                      <span className="text-dark fw-medium">뭐 넣지</span>{' '}
                       <span className="ms-0">
                         ({props.data.totalReviews} Reviews)
                       </span>
@@ -102,11 +103,21 @@ const CommonHeaderTabs = (props) => {
                   </div>
                   <div className="d-flex align-items-center gap-2">
                     {/* button */}
+                    <Badge pill bg="primary" className="me-1">
+                      <span className="">
+                        {/* https://geeks-react.netlify.app/elements/badges */}
+                        {'+23 day'}
+                      </span>
+                    </Badge>
                     <Button to="#" variant="outline-primary">
                       참가 신청
                     </Button>
                     {/* button */}
-                    <Button to="#" variant="outline-primary">
+                    <Button
+                      to="#"
+                      variant="outline-primary"
+                      // onClick={() => handleCopyClipBoard(location.pathname)}
+                    >
                       링크 공유
                     </Button>
                   </div>
@@ -114,7 +125,15 @@ const CommonHeaderTabs = (props) => {
               </div>
             </Col>
           </Row>
-
+          <Row as="header" className="mb-4">
+            <span className="text-dark ms-3 fw-medium">
+              {info.competition_description}
+              {` `}
+              {info.competition_description}
+              {` `}
+              {info.competition_description}
+            </span>
+          </Row>
           {/* 내비게이션 탭 */}
           <Row className="mb-6">
             <Col>

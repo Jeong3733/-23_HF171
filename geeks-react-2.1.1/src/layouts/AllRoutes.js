@@ -10,21 +10,23 @@ import EvaluateDetailIndex from 'layouts/dashboard/EvaluateDetailIndex';
 
 import IndexPage from 'components/marketing/pages/IndexPage';
 import AddNewCourse from 'components/marketing/pages/courses/add-new-course/AddNewCourse';
-import CourseFilterPage from 'components/marketing/pages/courses/course-filter-page/CourseFilterPage';
+import CourseFilterPage from 'components/marketing/pages/competition/competition-filter-page/CourseFilterPage';
 import ComingSoon from 'components/marketing/pages/specialty/ComingSoon';
 import Error404 from 'components/marketing/pages/specialty/Error404';
 import MaintenanceMode from 'components/marketing/pages/specialty/MaintenanceMode';
 import DefaultLayout from 'layouts/marketing/DefaultLayout';
+import DetailLayout from 'layouts/marketing/DetailLayout';
 import NotFound from 'layouts/marketing/NotFound';
 import SignIn from 'components/dashboard/authentication/SignIn';
 import SignUp from 'components/dashboard/authentication/SignUp';
 import SignUpSuccess from 'components/dashboard/authentication/SignUpSuccess';
 
-import CompanyAbout from 'components/marketing/pages/jobs/company/About';
-import CompanyReviews from 'components/marketing/pages/jobs/company/Reviews';
+import About from 'components/marketing/pages/jobs/company/About';
 import Announcements from 'components/marketing/pages/jobs/company/Announcements';
 import QNA from 'components/marketing/pages/jobs/company/Announcements';
-import Submit from 'components/marketing/pages/jobs/company/Submit';
+// import QNA from 'components/marketing/pages/jobs/company/QNA';
+import Submits from 'components/marketing/pages/jobs/company/Announcements';
+// import Submits from 'components/marketing/pages/jobs/company/Submits';
 
 // 4.0 평가 리스트
 import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
@@ -64,39 +66,43 @@ const AllRoutes = () => {
 
       {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>
-        {/* <Route path="/" element={<CourseIndex />} /> */}
+        {/* <Route path="/" element={<CourseIndex />} /isLoggedIn> */}
         <Route path="/" element={<IndexPage />} />
 
         {/* 1.0 전체 공모전 */}
         <Route path="/explore" element={<CourseFilterPage />} />
 
-        {/* 2.0 공모전 상세 */}
-        {/* 소개글 */}
-        <Route path="/detail/:competition_id/" element={<CompanyAbout />} />
-        <Route
-          path="/detail/:competition_id/readme/"
-          element={<CompanyAbout />}
-        />
-        {/* 공지사항 */}
-        <Route
-          path="/detail/:competition_id/announcements/"
-          element={<Announcements />}
-        />
-        <Route
-          path="/detail/:competition_id/announcements/:post_id/"
-          element={<Announcements />}
-        />
-        {/* QA 게시판 */}
-        <Route path="/detail/:competition_id/qna/" element={<QNA />} />
-        <Route path="/detail/:competition_id/qna/:post_id/" element={<QNA />} />
+        <Route element={<DetailLayout />}>
+          {/* 2.0 공모전 상세 */}
+          {/* 소개글 */}
+          <Route path="/detail/:competition_id/" element={<About />} />
+          <Route path="/detail/:competition_id/readme/" element={<About />} />
+          {/* 공지사항 */}
+          <Route
+            path="/detail/:competition_id/announcements/"
+            element={<Announcements />}
+          />
+          <Route
+            path="/detail/:competition_id/announcements/:post_id/"
+            element={<Announcements />}
+          />
+          {/* QA 게시판 */}
+          <Route path="/detail/:competition_id/qna/" element={<QNA />} />
+          <Route
+            path="/detail/:competition_id/qna/:post_id/"
+            element={<QNA />}
+          />
 
-        {/* 제출 */}
-        <Route path="/detail/:competition_id/submits/" element={<Submit />} />
-        <Route
-          path="/detail/:competition_id/submits/:post_id/"
-          element={<Submit />}
-        />
-
+          {/* 제출 */}
+          <Route
+            path="/detail/:competition_id/submits/"
+            element={<Submits />}
+          />
+          <Route
+            path="/detail/:competition_id/submits/:post_id/"
+            element={<Submits />}
+          />
+        </Route>
         {/* 3.0 공모전 개설 */}
         <Route path="/add-new-competition/" element={<AddNewCourse />} />
       </Route>

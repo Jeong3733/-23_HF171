@@ -1,6 +1,6 @@
 // import node module libraries
 import { Link } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import { Table, Container } from 'react-bootstrap';
 
 // import sub component
 import CommonHeaderTabs from './CommonHeaderTabs';
@@ -9,14 +9,9 @@ import CommonHeaderTabs from './CommonHeaderTabs';
 import Icon from '@mdi/react';
 import { mdiFacebook, mdiTwitter, mdiLinkedin } from '@mdi/js';
 
-// import data files
-import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
-
-const About = () => {
-  const data = ComapniesListData[0];
-  // const test_data = { competition_id: 1, schedule_id: 1 };  --> why...
+const About = ({ isLoggedIn }) => {
   return (
-    <CommonHeaderTabs data={data}>
+    <Container>
       <div className="mb-6">
         {/* About the company text */}
         <h2 className="mb-3">About the company</h2>
@@ -55,7 +50,7 @@ const About = () => {
           convallis port titor vel sed quam. Donec ut tristique nisi.{' '}
         </p>
       </div>
-    </CommonHeaderTabs>
+    </Container>
   );
 };
 

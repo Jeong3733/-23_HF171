@@ -1,17 +1,25 @@
 // import node module libraries
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import { ChevronLeft, ChevronRight } from 'react-feather';
+import PropTypes from 'prop-types';
 
 // import sub components
 import CourseCard from 'components/marketing/pages/competition/CourseCard';
 
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+
 // import data files
 import { AllCoursesData } from 'data/slider/AllCoursesData';
 
-const CourseGridView = () => {
-  const [Records] = useState(AllCoursesData.slice(0, 500));
+const CourseGridView = (props) => {
+  const { data, isLoggedIn } = props;
+
+  const [Records] = useState(data.slice(0, 500));
 
   //------paging start----------
   const [pageNumber, setPageNumber] = useState(0);
@@ -27,7 +35,7 @@ const CourseGridView = () => {
   ).map((Records, index) => {
     return (
       <Col lg={4} md={6} sm={12} key={index}>
-        <CourseCard item={Records} />
+        <CourseCard item={Records} isLoggedIn={isLoggedIn} />
       </Col>
     );
   });
@@ -58,5 +66,16 @@ const CourseGridView = () => {
       />
     </Fragment>
   );
+};
+
+// Specifies the default values for props
+CourseGridView.defaultProps = {
+  isLoggedIn: false,
+};
+
+// Typechecking With PropTypes
+CourseGridView.propTypes = {
+  // data: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool,
 };
 export default CourseGridView;

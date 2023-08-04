@@ -21,6 +21,7 @@ import {
 } from 'data/courses/AllPostsData';
 
 const EvaluateSubmitList = () => {
+  // const Auth = useAuth();
   const { competition_id } = useParams();
   // console.log(competition_id);
 
@@ -83,7 +84,7 @@ const EvaluateSubmitList = () => {
         handleLogError(error);
       });
   }, [competition_id]);
-
+  console.log(competitionInfo);
   return (
     <Fragment>
       <Row>
