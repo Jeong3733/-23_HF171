@@ -4,7 +4,7 @@ import com.prototype.app_springboot.config.auth.PrincipalDetails;
 import com.prototype.app_springboot.config.jwt.TokenProvider;
 import com.prototype.app_springboot.data.dto.AuthDtos.TokenResponseDto;
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

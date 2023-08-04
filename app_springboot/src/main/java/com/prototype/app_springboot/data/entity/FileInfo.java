@@ -1,5 +1,6 @@
 package com.prototype.app_springboot.data.entity;
 
+import com.prototype.app_springboot.data.type.ProgressStatusType;
 import com.prototype.app_springboot.data.type.UploadType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,7 +20,8 @@ import java.util.List;
 public class FileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fileId;
+    @Column(name = "file_id")
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -29,8 +32,7 @@ public class FileInfo {
     @Enumerated(EnumType.STRING)
     private UploadType fileExtension;
 
-    private String path;
-
+    private UUID path;
     @CreatedDate
     private LocalDateTime uploadDatetime;
 
@@ -38,18 +40,21 @@ public class FileInfo {
     @JoinColumn(name = "post_id")
     private PostInfo postInfo;
 
+    private ProgressStatusType progressStatusType;
+
     @OneToMany(mappedBy = "userUploadedFileInfo")
     private List<CheckFile> checkFileList = new ArrayList<CheckFile>();
 
     @Builder
-    public FileInfo(int fileId, UserInfo userInfo, String fileTitle, UploadType fileExtension, String path, LocalDateTime uploadDatetime, PostInfo postInfo, List<CheckFile> checkFileList) {
-        this.fileId = fileId;
+    public FileInfo(int id, UserInfo userInfo, String fileTitle, UploadType fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, ProgressStatusType progressStatusType, List<CheckFile> checkFileList) {
+        this.id = id;
         this.userInfo = userInfo;
         this.fileTitle = fileTitle;
         this.fileExtension = fileExtension;
         this.path = path;
         this.uploadDatetime = uploadDatetime;
         this.postInfo = postInfo;
+        this.progressStatusType = progressStatusType;
         this.checkFileList = checkFileList;
     }
 }

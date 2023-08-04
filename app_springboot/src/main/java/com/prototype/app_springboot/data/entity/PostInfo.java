@@ -17,7 +17,8 @@ import java.util.List;
 public class PostInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
+    @Column(name = "post_id")
+    private int id;
 
     @Enumerated(EnumType.STRING)
     private BoardType boardType;
@@ -47,8 +48,8 @@ public class PostInfo {
     private List<PostDocs> postDocsList = new ArrayList<PostDocs>();
 
     @Builder
-    public PostInfo(int postId, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo, List<FileInfo> fileInfoList, List<UploadPostType> uploadPostTypeList, List<PostDocs> postDocsList) {
-        this.postId = postId;
+    public PostInfo(int id, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo, List<FileInfo> fileInfoList, List<UploadPostType> uploadPostTypeList, List<PostDocs> postDocsList) {
+        this.id = id;
         this.boardType = boardType;
         this.userInfo = userInfo;
         this.title = title;

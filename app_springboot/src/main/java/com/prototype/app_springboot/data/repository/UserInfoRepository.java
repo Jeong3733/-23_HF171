@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.repository.userInfo;
+package com.prototype.app_springboot.data.repository;
 
 import com.prototype.app_springboot.data.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -19,7 +19,8 @@ import java.util.UUID;
 public class CompetitionInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int competitionId;
+    @Column(name = "competition_id")
+    private int id;
 
     private String competitionName;
 
@@ -52,8 +53,8 @@ public class CompetitionInfo {
     private final List<PostInfo> postInfoList = new ArrayList<PostInfo>();
 
     @Builder
-    public CompetitionInfo(int competitionId, String competitionName, UUID competitionImage, String competitionReadme, String competitionDescription, CompetitionState competitionState, LocalDateTime competitionStartDate, LocalDateTime competitionEndDate) {
-        this.competitionId = competitionId;
+    public CompetitionInfo(int id, String competitionName, UUID competitionImage, String competitionReadme, String competitionDescription, CompetitionState competitionState, LocalDateTime competitionStartDate, LocalDateTime competitionEndDate) {
+        this.id = id;
         this.competitionName = competitionName;
         this.competitionImage = competitionImage;
         this.competitionReadme = competitionReadme;
