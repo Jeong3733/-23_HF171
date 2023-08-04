@@ -15,14 +15,14 @@ import { Fragment } from 'react';
 import CompanyBG from 'assets/images/background/company-bg.jpg';
 
 const CommonHeaderTabs = (props) => {
-  const { competiton_id } = useParams();
+  const { competition_id } = useParams();
   // const { test_data } = props;
   const location = useLocation();
 
   const tabItems = [
     {
       title: '소개글',
-      link: '/detail/' + competiton_id + '/readme',
+      link: '/detail/' + competition_id + '/readme',
     },
     // {
     //   title: "일정 (" + props.data.totalReviews + ")",
@@ -30,23 +30,23 @@ const CommonHeaderTabs = (props) => {
     // },
     {
       title: '공지사항',
-      link: '/detail/' + competiton_id + '/announcements',
+      link: '/detail/' + competition_id + '/announcements',
     },
     {
       title: 'QA 게시판',
-      link: '/detail/' + competiton_id + '/qna',
+      link: '/detail/' + competition_id + '/qna',
     },
     {
       title: '제출',
-      link: '/detail/' + competiton_id + '/submits',
+      link: '/detail/' + competition_id + '/submits',
     },
     {
       title: '평가',
-      link: '/evaluate/' + competiton_id,
+      link: '/evaluate/' + competition_id,
     },
     {
       title: '관리',
-      link: '/manage/' + competiton_id,
+      link: '/manage/' + competition_id,
     },
   ];
   return (

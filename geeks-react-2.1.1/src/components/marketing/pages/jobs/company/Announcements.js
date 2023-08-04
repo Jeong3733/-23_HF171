@@ -22,7 +22,7 @@ const Announcements = () => {
     { value: 'oldest', label: '오래된순' },
   ];
   const data = ComapniesListData[0];
-  // const test_data = { competiton_id: 1, schedule_id: 1 };
+  // const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <CommonHeaderTabs data={data}>
       <Container>

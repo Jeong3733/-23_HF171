@@ -29,7 +29,7 @@ import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
 // import { DashboardMenu } from 'routes/dashboard/EvaluateRoutes';
 
 const EvaluateVertical = (props) => {
-  const { competiton_id } = useParams();
+  const { competition_id } = useParams();
   const Auth = useAuth();
   const location = useLocation();
 
@@ -62,11 +62,11 @@ const EvaluateVertical = (props) => {
       <Link
         className={`nav-link ${
           location.pathname ===
-          `/evaluate/${competiton_id}/${item.post_id}/${item.link}/`
+          `/evaluate/${competition_id}/${item.post_id}/${item.link}/`
             ? 'active'
             : ''
         }`}
-        to={`/evaluate/${competiton_id}/${item.post_id}/${item.link}/`}
+        to={`/evaluate/${competition_id}/${item.post_id}/${item.link}/`}
         onClick={(e) =>
           isMobile ? props.onClick(!props.showMenu) : props.showMenu
         }
@@ -150,17 +150,17 @@ const EvaluateVertical = (props) => {
         id: uuid(),
         title: '공모전 상세 페이지로 가기',
         icon: 'help-circle',
-        link: `/detail/${competiton_id}/`,
+        link: `/detail/${competition_id}/`,
       },
       {
         id: uuid(),
         title: '제출 리스트',
         icon: 'help-circle',
-        link: `/evaluate/${competiton_id}/submits/`,
+        link: `/evaluate/${competition_id}/submits/`,
       },
       ...createMenuItems(getPostList),
     ]);
-  }, [competiton_id]);
+  }, [competition_id]);
 
   return (
     <Fragment>

@@ -25,7 +25,7 @@ import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
 import { DashboardMenu } from 'routes/dashboard/ManageRoutes';
 
 const ManageVertical = (props) => {
-  const { competiton_id } = useParams();
+  const { competition_id } = useParams();
   const location = useLocation();
 
   return (
@@ -47,10 +47,10 @@ const ManageVertical = (props) => {
               <Card bsPrefix="nav-item" key={index}>
                 {/* menu item without any childern items like Help Center, Documentation and Changelog items*/}
                 <Link
-                  to={`/manage/${competiton_id}/${menu.link}/`}
+                  to={`/manage/${competition_id}/${menu.link}/`}
                   className={`nav-link ${
                     location.pathname ===
-                    `/manage/${competiton_id}/${menu.link}/`
+                    `/manage/${competition_id}/${menu.link}/`
                       ? 'active'
                       : ''
                   }`}

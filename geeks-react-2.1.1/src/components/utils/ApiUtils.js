@@ -9,7 +9,8 @@ export const apiUtils = {
   getUserInfo,
   AddCompetition,
   GetCompetitionInfo,
-  GetCompetitionInfoBycompetitonId,
+  GetCompetitionInfoByUserId,
+  GetCompetitionInfoByCompetitionId,
   GetPostInfoByPostId,
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
@@ -74,16 +75,15 @@ function AddCompetition(user, data) {
 
 // 공모전 리스트 요청
 function GetCompetitionInfo() {
-  const url = `/get/competitonInfo`;
+  const url = `/get/competitionInfo`;
   return instance.get(url, {
     headers: { 'Content-type': 'application/json' },
-    // headers: { Authorization: bearerAccess(user) },
   });
 }
 // 공모전 리스트 요청 - output
 // [
 //   {
-//     competiton_id: 'competiton_id',
+//     competition_id: 'competition_id',
 //     competition_name: 'competition_name',
 //     competition_image: 'competition_image',
 //     competition_readme: 'competition_readme',
@@ -95,23 +95,58 @@ function GetCompetitionInfo() {
 //   ...
 // ];
 
-// 공모전 정보 요청 by competitonId
-function GetCompetitionInfoBycompetitonId(data) {
-  const url = `/get/competitonInfo/competitonId`;
+// 내가 참가한 공모전 리스트 요청
+// competitionInfo - UserByCompetition join
+function GetCompetitionInfoByUserId(user) {
+  const url = `/get/competitionInfo`;
+  return instance.get(url, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+// 내가 참가한 공모전 정보 요청 by UserId - data
+// {
+//   "userId": "sbe07032",
+// }
+
+// 내가 참가한 공모전 리스트 요청 - output
+// [
+//   {
+//     competition_id: 'competition_id',
+//     competition_name: 'competition_name',
+//     competition_image: 'competition_image',
+//     competition_readme: 'competition_readme',
+//     competition_description: 'competition_description',
+//     competition_state: 'competition_state',
+//     competition_start_date: 'competition_start_date',
+//     competition_end_date: 'competition_end_date',
+//     user_id: 'sbe07032',
+//     team_id: 'team_id',
+//     role_type: 'role_type',
+//   }
+//   ...
+// ];
+
+// 공모전 정보 요청 by competitionId
+function GetCompetitionInfoByCompetitionId(data) {
+  const url = `/get/competitionInfo/competitionId`;
   return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 공모전 정보 요청 by competitonId - data
+// 공모전 정보 요청 by competitionId - data
 // {
-//   "competitonId": "1",
+//   "competitionId": "1",
 // }
 
-// 공모전 정보 요청 by competitonId - output
+// 공모전 정보 요청 by competitionId - output
 // [
 //   {
-//     competiton_id: 'competiton_id',
+//     competition_id: 'competition_id',
 //     competition_name: 'competition_name',
 //     competition_image: 'competition_image',
 //     competition_readme: 'competition_readme',
@@ -156,7 +191,7 @@ function GetPostInfoByBoardType(data) {
 }
 // 게시물 요청 by BoardType - data
 // {
-//   "competitonId": "1",
+//   "competitionId": "1",
 //   "boardType": "3",
 // }
 

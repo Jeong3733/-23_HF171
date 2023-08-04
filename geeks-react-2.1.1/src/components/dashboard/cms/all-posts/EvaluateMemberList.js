@@ -16,8 +16,8 @@ import {
 } from 'data/courses/AllPostsData';
 
 const EvaluateMemberList = () => {
-  const { competiton_id, post_id } = useParams();
-  console.log(competiton_id);
+  const { competition_id, post_id } = useParams();
+  console.log(competition_id);
   return (
     <Fragment>
       <Row>

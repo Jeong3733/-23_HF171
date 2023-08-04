@@ -1,15 +1,14 @@
 // import node module libraries
-import React from "react";
-import { Fragment } from "react";
-import { Col, Row, Container } from "react-bootstrap";
-
-// import custom components
-import CourseSlider from "components/marketing/pages/courses/CourseSlider";
+import React from 'react';
+import { Fragment } from 'react';
+import { Col, Row, Container } from 'react-bootstrap';
 
 // import sub components
-import FeaturesList from "components/marketing/pages/courses/course-index/FeaturesList";
-import HeroHeader from "components/marketing/pages/courses/course-index/HeroHeader";
-import BrowseCategories from "components/marketing/pages/courses/course-filter-page/BrowseCategories.js";
+import HeroHeader from 'components/marketing/pages/courses/course-index/HeroHeader';
+import BrowseCategories from 'components/marketing/pages/competition/competition-filter-page/BrowseCategories';
+
+// import custom components
+import CourseSlider from 'components/marketing/pages/competition/CourseSlider';
 
 const IndexPage = () => {
   return (
@@ -25,7 +24,9 @@ const IndexPage = () => {
             </Col>
           </Row>
           <div className="position-relative">
-            <CourseSlider recommended={true} />
+            {/* <CourseSlider recommended={true} /> */}
+            {/* <CourseSlider category="javascript" /> */}
+            <CourseSlider />
           </div>
           <div className="position-relative">
             <BrowseCategories />

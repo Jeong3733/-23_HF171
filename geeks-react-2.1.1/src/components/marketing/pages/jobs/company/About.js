@@ -1,20 +1,20 @@
 // import node module libraries
-import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 // import sub component
-import CommonHeaderTabs from "./CommonHeaderTabs";
+import CommonHeaderTabs from './CommonHeaderTabs';
 
 // import MDI icons
-import Icon from "@mdi/react";
-import { mdiFacebook, mdiTwitter, mdiLinkedin } from "@mdi/js";
+import Icon from '@mdi/react';
+import { mdiFacebook, mdiTwitter, mdiLinkedin } from '@mdi/js';
 
 // import data files
-import ComapniesListData from "data/marketing/jobs/CompaniesListData";
+import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
 const About = () => {
   const data = ComapniesListData[0];
-  // const test_data = { competiton_id: 1, schedule_id: 1 };  --> why...
+  // const test_data = { competition_id: 1, schedule_id: 1 };  --> why...
   return (
     <CommonHeaderTabs data={data}>
       <div className="mb-6">
@@ -31,7 +31,7 @@ const About = () => {
           sit amet turpis convallis porttitor vel sed quam. Ut in odio enim.
           Maecenas eu tellus erat. Maecenas nec maximus elit, ac suscipit justo.
           Maecenas nisl tellus, sodales non gravida eget, placerat sit amet
-          erat.{" "}
+          erat.{' '}
         </p>
       </div>
       {/* Misson text */}
@@ -43,7 +43,7 @@ const About = () => {
           sit amet turpis convallis porttitor vel sed quam. Ut in odio enim.
           Maecenas eu tellus erat. Maecenas nec maximus elit, ac suscipit justo.
           Maecenas nisl tellus, sodales non gravida eget, placerat sit amet
-          erat.{" "}
+          erat.{' '}
         </p>
       </div>
       {/* Vision text */}
@@ -52,7 +52,7 @@ const About = () => {
         <p>
           Proin ligula lacus, maximus quis ante a, luctus sodales sapien.
           Aliquam pellentesque mollis interdum. Nulla a quam sit amet turpis
-          convallis port titor vel sed quam. Donec ut tristique nisi.{" "}
+          convallis port titor vel sed quam. Donec ut tristique nisi.{' '}
         </p>
       </div>
     </CommonHeaderTabs>

@@ -33,8 +33,8 @@ import { mdiTrello, mdiCalendar } from '@mdi/js';
 // book-open
 // file
 // clipboard
-export const DashboardMenu = (competiton_id) => {
-  const { id } = competiton_id;
+export const DashboardMenu = (competition_id) => {
+  const { id } = competition_id;
   return [
     {
       id: uuid(),

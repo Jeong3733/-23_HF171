@@ -1,22 +1,22 @@
 // import node module libraries
-import { Col, Row } from "react-bootstrap";
+import { Col, Row } from 'react-bootstrap';
 
 // import sub/custom components
-import GKLightbox from "components/elements/lightbox/GKLightbox";
-import CommonHeaderTabs from "./CommonHeaderTabs";
+import GKLightbox from 'components/elements/lightbox/GKLightbox';
+import CommonHeaderTabs from './CommonHeaderTabs';
 
 // import data files
-import ComapniesListData from "data/marketing/jobs/CompaniesListData";
+import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
 // import media files
-import GalleryImg1 from "assets/images/job/jpg/job-gallery-img-1.jpg";
-import GalleryImg2 from "assets/images/job/jpg/job-gallery-img-2.jpg";
-import GalleryImg3 from "assets/images/job/jpg/job-gallery-img-3.jpg";
-import GalleryImg4 from "assets/images/job/jpg/job-gallery-img-4.jpg";
-import GalleryImg5 from "assets/images/job/jpg/job-gallery-img-5.jpg";
-import GalleryImg6 from "assets/images/job/jpg/job-gallery-img-6.jpg";
-import GalleryImg7 from "assets/images/job/jpg/job-gallery-img-7.jpg";
-import GalleryImg8 from "assets/images/job/jpg/job-gallery-img-8.jpg";
+import GalleryImg1 from 'assets/images/job/jpg/job-gallery-img-1.jpg';
+import GalleryImg2 from 'assets/images/job/jpg/job-gallery-img-2.jpg';
+import GalleryImg3 from 'assets/images/job/jpg/job-gallery-img-3.jpg';
+import GalleryImg4 from 'assets/images/job/jpg/job-gallery-img-4.jpg';
+import GalleryImg5 from 'assets/images/job/jpg/job-gallery-img-5.jpg';
+import GalleryImg6 from 'assets/images/job/jpg/job-gallery-img-6.jpg';
+import GalleryImg7 from 'assets/images/job/jpg/job-gallery-img-7.jpg';
+import GalleryImg8 from 'assets/images/job/jpg/job-gallery-img-8.jpg';
 
 const Photos = () => {
   const data = ComapniesListData[0];
@@ -30,7 +30,7 @@ const Photos = () => {
     { image: GalleryImg7 },
     { image: GalleryImg8 },
   ];
-  const test_data = { competiton_id: 1, schedule_id: 1 };
+  const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <CommonHeaderTabs data={data} test_data={test_data}>
       <Row className="mt-6">

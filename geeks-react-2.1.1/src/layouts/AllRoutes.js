@@ -65,35 +65,35 @@ const AllRoutes = () => {
       {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>
         {/* <Route path="/" element={<CourseIndex />} /> */}
-        <Route path="/" element={<IndexPage />}></Route>
+        <Route path="/" element={<IndexPage />} />
 
         {/* 1.0 전체 공모전 */}
         <Route path="/explore" element={<CourseFilterPage />} />
 
         {/* 2.0 공모전 상세 */}
         {/* 소개글 */}
-        <Route path="/detail/:competiton_id/" element={<CompanyAbout />} />
+        <Route path="/detail/:competition_id/" element={<CompanyAbout />} />
         <Route
-          path="/detail/:competiton_id/readme/"
+          path="/detail/:competition_id/readme/"
           element={<CompanyAbout />}
         />
         {/* 공지사항 */}
         <Route
-          path="/detail/:competiton_id/announcements/"
+          path="/detail/:competition_id/announcements/"
           element={<Announcements />}
         />
         <Route
-          path="/detail/:competiton_id/announcements/:post_id/"
+          path="/detail/:competition_id/announcements/:post_id/"
           element={<Announcements />}
         />
         {/* QA 게시판 */}
-        <Route path="/detail/:competiton_id/qna/" element={<QNA />} />
-        <Route path="/detail/:competiton_id/qna/:post_id/" element={<QNA />} />
+        <Route path="/detail/:competition_id/qna/" element={<QNA />} />
+        <Route path="/detail/:competition_id/qna/:post_id/" element={<QNA />} />
 
         {/* 제출 */}
-        <Route path="/detail/:competiton_id/submits/" element={<Submit />} />
+        <Route path="/detail/:competition_id/submits/" element={<Submit />} />
         <Route
-          path="/detail/:competiton_id/submits/:post_id/"
+          path="/detail/:competition_id/submits/:post_id/"
           element={<Submit />}
         />
 
@@ -105,19 +105,19 @@ const AllRoutes = () => {
       {/* 4.0 평가 리스트 */}
       <Route element={<EvaluateIndex />}>
         <Route
-          path="/evaluate/:competiton_id/"
+          path="/evaluate/:competition_id/"
           element={<EvaluateSubmitList />}
         />
         <Route
-          path="/evaluate/:competiton_id/submits/"
+          path="/evaluate/:competition_id/submits/"
           element={<EvaluateSubmitList />}
         />
         <Route
-          path="/evaluate/:competiton_id/:post_id/files/"
+          path="/evaluate/:competition_id/:post_id/files/"
           element={<EvaluateFileList />}
         />
         <Route
-          path="/evaluate/:competiton_id/:post_id/member/"
+          path="/evaluate/:competition_id/:post_id/member/"
           element={<EvaluateMemberList />}
         />
       </Route>
@@ -125,7 +125,7 @@ const AllRoutes = () => {
       {/* 4.1 평가 세부 */}
       <Route element={<EvaluateDetailIndex />}>
         <Route
-          path="/evaluate/:competiton_id/:post_id/files/:file_id/"
+          path="/evaluate/:competition_id/:post_id/files/:file_id/"
           element={<EvaluatesFile />}
         />
       </Route>
@@ -133,25 +133,25 @@ const AllRoutes = () => {
       {/* ---------------------------------------- */}
       {/* 5.0 관리 */}
       <Route element={<ManageIndex />}>
-        <Route path="/manage/:competiton_id/" element={<ManageReadme />} />
+        <Route path="/manage/:competition_id/" element={<ManageReadme />} />
         <Route
-          path="/manage/:competiton_id/readme/"
+          path="/manage/:competition_id/readme/"
           element={<ManageReadme />}
         />
         <Route
-          path="/manage/:competiton_id/members/"
+          path="/manage/:competition_id/members/"
           element={<ManageMembers />}
         />
         <Route
-          path="/manage/:competiton_id/submits/"
+          path="/manage/:competition_id/submits/"
           element={<ManageSubmits />}
         />
         <Route
-          path="/manage/:competiton_id/announcements/"
+          path="/manage/:competition_id/announcements/"
           element={<ManageAnnouncements />}
         />
         <Route
-          path="/manage/:competiton_id/evaluate/"
+          path="/manage/:competition_id/evaluate/"
           element={<ManageEvaluates />}
         />
       </Route>

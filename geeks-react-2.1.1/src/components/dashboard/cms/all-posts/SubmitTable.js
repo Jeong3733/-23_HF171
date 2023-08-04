@@ -29,7 +29,7 @@ import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
 const SubmitTable = ({ table_data }) => {
-  const { competiton_id } = useParams();
+  const { competition_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -94,7 +94,7 @@ const SubmitTable = ({ table_data }) => {
           return (
             <h5 className="mb-0">
               <Link
-                to={`/evaluate/${competiton_id}/${row.original.post_id}/files/`}
+                to={`/evaluate/${competition_id}/${row.original.post_id}/files/`}
                 className="text-inherit"
               >
                 {value}

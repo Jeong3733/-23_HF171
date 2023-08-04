@@ -1,28 +1,28 @@
 // import node module libraries
-import { Col, Row, Container, Tab } from "react-bootstrap";
-import { Fragment } from "react";
+import { Col, Row, Container, Tab } from 'react-bootstrap';
+import { Fragment } from 'react';
 
 // import custom components
-import FormSelect from "components/elements/form-select/FormSelect";
+import FormSelect from 'components/elements/form-select/FormSelect';
 
 // import sub components
 // import JobSearchBox from "components/marketing/common/jobs/JobSearchBox";
-import JobsListView from "./JobsListView";
+import JobsListView from './JobsListView';
 // import GridListViewButton from "components/elements/miscellaneous/GridListViewButton";
 // import JobsGridView from "./JobsGridView";
 
 // import sub component
-import CommonHeaderTabs from "./CommonHeaderTabs";
+import CommonHeaderTabs from './CommonHeaderTabs';
 // import data files
-import ComapniesListData from "data/marketing/jobs/CompaniesListData";
+import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
 const Submit = () => {
   const sortByOptions = [
-    { value: "newest", label: "Newest" },
-    { value: "oldest", label: "Oldest" },
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
   ];
   const data = ComapniesListData[0];
-  const test_data = { competiton_id: 1, schedule_id: 1 };
+  const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <CommonHeaderTabs data={data} test_data={test_data}>
       <Fragment>

@@ -1,38 +1,38 @@
 // import node module libraries
-import { Link } from "react-router-dom";
-import { Col, Row, Card, Image, ProgressBar } from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import { Col, Row, Card, Image, ProgressBar } from 'react-bootstrap';
 
 // import bootstrap icons
-import { StarFill } from "react-bootstrap-icons";
+import { StarFill } from 'react-bootstrap-icons';
 
 // import media files
-import JobGraphics from "assets/images/job/job-graphics.svg";
-import CommonHeaderTabs from "./CommonHeaderTabs";
+import JobGraphics from 'assets/images/job/job-graphics.svg';
+import CommonHeaderTabs from './CommonHeaderTabs';
 
 // import data files
-import ComapniesListData from "data/marketing/jobs/CompaniesListData";
-import CompanyReviewsData from "data/marketing/jobs/CompanyReviewsData";
-import Ratings from "components/marketing/common/ratings/Ratings";
+import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
+import CompanyReviewsData from 'data/marketing/jobs/CompanyReviewsData';
+import Ratings from 'components/marketing/common/ratings/Ratings';
 
 const Reviews = () => {
   const data = ComapniesListData[0];
   const categorizedRating = [
-    { rating: 4.1, category: "Job Security" },
-    { rating: 3.8, category: "Skill Development" },
-    { rating: 3.8, category: "Company Culture" },
-    { rating: 3.7, category: "Work-Life Balance" },
-    { rating: 3.5, category: "Career Growth" },
+    { rating: 4.1, category: 'Job Security' },
+    { rating: 3.8, category: 'Skill Development' },
+    { rating: 3.8, category: 'Company Culture' },
+    { rating: 3.7, category: 'Work-Life Balance' },
+    { rating: 3.5, category: 'Career Growth' },
   ];
 
   const ratingProgressBar = [
-    { rating: 5, totalReviews: "6.6k", progressBarValue: 60 },
-    { rating: 4, totalReviews: "2.9k", progressBarValue: 50 },
-    { rating: 3, totalReviews: "3k", progressBarValue: 35 },
-    { rating: 2, totalReviews: "479", progressBarValue: 22 },
-    { rating: 1, totalReviews: "865", progressBarValue: 14 },
+    { rating: 5, totalReviews: '6.6k', progressBarValue: 60 },
+    { rating: 4, totalReviews: '2.9k', progressBarValue: 50 },
+    { rating: 3, totalReviews: '3k', progressBarValue: 35 },
+    { rating: 2, totalReviews: '479', progressBarValue: 22 },
+    { rating: 1, totalReviews: '865', progressBarValue: 14 },
   ];
 
-  const test_data = { competiton_id: 1, schedule_id: 1 };
+  const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <CommonHeaderTabs data={data} test_data={test_data}>
       <Row>
@@ -40,7 +40,7 @@ const Reviews = () => {
           <div className="d-md-flex justify-content-between align-items-center">
             <div>
               <h2 className="mb-0">
-                Company Reviews{" "}
+                Company Reviews{' '}
                 <span className="text-muted ms-2 fs-5 fw-normal">
                   based on {data.totalReviews} Reviews
                 </span>
@@ -71,14 +71,14 @@ const Reviews = () => {
                       <div className="text-nowrap me-3 text-muted">
                         <span className="d-inline-block align-middle text-muted">
                           {item.rating}
-                        </span>{" "}
+                        </span>{' '}
                         <StarFill size={13} className={`text-muted`} />
                       </div>
                       <div className="w-100">
                         <ProgressBar
                           variant="warning"
                           now={item.progressBarValue}
-                          style={{ height: "6px" }}
+                          style={{ height: '6px' }}
                         />
                       </div>
                       <span className="text-muted ms-3">

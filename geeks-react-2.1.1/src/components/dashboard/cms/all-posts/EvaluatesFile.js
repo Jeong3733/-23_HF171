@@ -16,11 +16,11 @@ import {
 } from 'data/courses/AllPostsData';
 
 const EvaluatesFile = () => {
-  const { competiton_id, post_id, file_id } = useParams();
+  const { competition_id, post_id, file_id } = useParams();
 
   return (
     <Fragment>
-      <h5 className="mb-0">{competiton_id}</h5>
+      <h5 className="mb-0">{competition_id}</h5>
       <h5 className="mb-0">{post_id}</h5>
       <h5 className="mb-0">{file_id}</h5>
     </Fragment>

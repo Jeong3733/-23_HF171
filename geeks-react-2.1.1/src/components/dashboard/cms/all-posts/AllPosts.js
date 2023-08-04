@@ -22,7 +22,7 @@ import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
 const AllPosts = () => {
   const data = ComapniesListData[0];
-  const test_data = { competiton_id: 1, schedule_id: 1 };
+  const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <CommonHeaderTabs data={data} test_data={test_data}>
       <Fragment>

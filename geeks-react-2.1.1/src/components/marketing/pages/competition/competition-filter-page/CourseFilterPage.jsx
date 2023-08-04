@@ -8,9 +8,9 @@ import GridListViewButton from 'components/elements/miscellaneous/GridListViewBu
 import PageHeading from 'components/marketing/common/page-headings/PageHeading';
 
 // import sub components
-import FilterOptions from 'components/marketing/pages/competition/competition-filter-page/FilterOptions';
-import CourseGridView from 'components/marketing/pages/competition/competition-filter-page/CourseGridView';
-import CourseListView from 'components/marketing/pages/competition/competition-filter-page/CourseListView';
+import FilterOptions from './FilterOptions';
+import CourseGridView from './CourseGridView';
+import CourseListView from './CourseListView';
 
 // function getDefaultFilter(index) {
 //   let res = [];

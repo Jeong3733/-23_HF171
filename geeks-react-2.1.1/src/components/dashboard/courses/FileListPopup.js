@@ -21,13 +21,13 @@ import {
 } from 'data/courses/AllPostsData';
 
 const FileListPopup = () => {
-  const { competiton_id, post_id } = useParams();
-  // console.log(competiton_id);
+  const { competition_id, post_id } = useParams();
+  // console.log(competition_id);
 
   return (
     <Fragment>
       <div className="d-md-flex align-items-center">
-        <span>competiton_id : {competiton_id}</span>
+        <span>competition_id : {competition_id}</span>
         <span>post_id : {post_id}</span>
         <span>
           참고

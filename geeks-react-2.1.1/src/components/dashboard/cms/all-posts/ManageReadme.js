@@ -16,8 +16,8 @@ import {
 } from 'data/courses/AllPostsData';
 
 const ManageReadme = () => {
-  const { competiton_id } = useParams();
-  // alert(competiton_id);
+  const { competition_id } = useParams();
+  // alert(competition_id);
 
   return (
     <Fragment>

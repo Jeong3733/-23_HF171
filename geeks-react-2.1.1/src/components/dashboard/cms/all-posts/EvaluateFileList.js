@@ -21,32 +21,32 @@ import {
 } from 'data/courses/AllPostsData';
 
 const EvaluateFileList = () => {
-  const { competiton_id, post_id } = useParams();
-  // console.log(competiton_id);
+  const { competition_id, post_id } = useParams();
+  // console.log(competition_id);
 
-  const [competitonInfo, setCompetitonInfo] = useState({});
+  const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
   const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
-    // competitonInfo
+    // competitionInfo
     // apiUtils
-    //   .GetCompetitionInfoBycompetitonId(data)
+    //   .GetCompetitionInfoByCompetitionId(data)
     //   .then((response) => {
-    //     const getCompetitonInfo = response.data;
+    //     const getCompetitionInfo = response.data;
     //   })
     //   .catch((error) => {
     //     // alert(error.response.data);
     //     handleLogError(error);
     //   });
-    const getCompetitonInfo = [
+    const getCompetitionInfo = [
       {
-        competiton_id: 'competiton_id',
+        competition_id: 'competition_id',
         competition_name: 'competition_name',
       },
     ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setCompetitonInfo(getCompetitonInfo[0]);
-    console.log(competitonInfo);
+    setCompetitionInfo(getCompetitionInfo[0]);
+    console.log(competitionInfo);
 
     // postInfo
     // apiUtils
@@ -106,7 +106,7 @@ const EvaluateFileList = () => {
       },
     ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
     setFileList(getFileList);
-  }, [competiton_id, post_id]);
+  }, [competition_id, post_id]);
 
   return (
     <Fragment>
@@ -117,7 +117,7 @@ const EvaluateFileList = () => {
               <h1 className="mb-1 h2 fw-bold">파일 리스트</h1>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">
-                  {competitonInfo.competition_name}
+                  {competitionInfo.competition_name}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
                 <Breadcrumb.Item href="#">{postInfo.title}</Breadcrumb.Item>
