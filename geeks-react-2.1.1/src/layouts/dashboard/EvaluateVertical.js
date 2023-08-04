@@ -115,51 +115,75 @@ const EvaluateVertical = (props) => {
   };
 
   useEffect(() => {
-    // apiUtils
-    //   .GetPostInfoByBoardType(data)
-    //   .then((response) => {
-    //     const getPostList = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getPostList = [
-      {
-        post_id: '1',
-        title: '제출 1',
-        user_id: '1',
-        created_date: '0000-00-00',
-        contents: '',
-      },
-      {
-        post_id: '2',
-        title: '제출 2',
-        user_id: '1',
-        created_date: '0000-00-00',
-        contents: '',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setDashboardMenu([
-      {
-        id: uuid(),
-        title: '평가 페이지(임시)',
-        grouptitle: true,
-      },
-      {
-        id: uuid(),
-        title: '공모전 상세 페이지로 가기',
-        icon: 'help-circle',
-        link: `/detail/${competition_id}/`,
-      },
-      {
-        id: uuid(),
-        title: '제출 리스트',
-        icon: 'help-circle',
-        link: `/evaluate/${competition_id}/submits/`,
-      },
-      ...createMenuItems(getPostList),
-    ]);
+    const data4 = {
+      competitionId: competition_id,
+      boardType: 'SUBMIT',
+    };
+    apiUtils
+      .GetPostInfoByBoardType(data4)
+      .then((response) => {
+        const getPostList = response.data;
+        setDashboardMenu([
+          {
+            id: uuid(),
+            title: '평가 페이지(임시)',
+            grouptitle: true,
+          },
+          {
+            id: uuid(),
+            title: '공모전 상세 페이지로 가기',
+            icon: 'help-circle',
+            link: `/detail/${competition_id}/`,
+          },
+          {
+            id: uuid(),
+            title: '제출 리스트',
+            icon: 'help-circle',
+            link: `/evaluate/${competition_id}/submits/`,
+          },
+          ...createMenuItems(getPostList),
+        ]);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+        const getPostList = [
+          {
+            post_id: '1',
+            title: '제출 1',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+          {
+            post_id: '2',
+            title: '제출 2',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setDashboardMenu([
+          {
+            id: uuid(),
+            title: '평가 페이지(임시)',
+            grouptitle: true,
+          },
+          {
+            id: uuid(),
+            title: '공모전 상세 페이지로 가기',
+            icon: 'help-circle',
+            link: `/detail/${competition_id}/`,
+          },
+          {
+            id: uuid(),
+            title: '제출 리스트',
+            icon: 'help-circle',
+            link: `/evaluate/${competition_id}/submits/`,
+          },
+          ...createMenuItems(getPostList),
+        ]);
+      });
   }, [competition_id]);
 
   return (

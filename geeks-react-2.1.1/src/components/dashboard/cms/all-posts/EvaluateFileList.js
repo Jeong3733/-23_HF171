@@ -30,82 +30,96 @@ const EvaluateFileList = () => {
 
   useEffect(() => {
     // competitionInfo
-    // apiUtils
-    //   .GetCompetitionInfoByCompetitionId(data)
-    //   .then((response) => {
-    //     const getCompetitionInfo = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getCompetitionInfo = [
-      {
-        competition_id: 'competition_id',
-        competition_name: 'competition_name',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setCompetitionInfo(getCompetitionInfo[0]);
-    console.log(competitionInfo);
+    const data1 = {
+      competitionId: competition_id,
+    };
+    apiUtils
+      .GetCompetitionInfoByCompetitionId(data1)
+      .then((response) => {
+        const getCompetitionInfo = response.data;
+        setCompetitionInfo(getCompetitionInfo[0]);
+        console.log(competitionInfo);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getCompetitionInfo = [
+          {
+            competition_id: 'competition_id',
+            competition_name: 'competition_name',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setCompetitionInfo(getCompetitionInfo[0]);
+        console.log(competitionInfo);
+        handleLogError(error);
+      });
 
     // postInfo
-    // apiUtils
-    //   .GetPostInfoByPostId(data)
-    //   .then((response) => {
-    //     const getPostInfo = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getpostInfo = [
-      {
-        post_id: '1',
-        title: '제출 1',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setPostInfo(getpostInfo[0]);
+    const data2 = {
+      postId: post_id,
+    };
+    apiUtils
+      .GetPostInfoByPostId(data2)
+      .then((response) => {
+        const getPostInfo = response.data;
+        setPostInfo(getPostInfo[0]);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getPostInfo = [
+          {
+            post_id: '1',
+            title: '제출 1',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setPostInfo(getPostInfo[0]);
+        handleLogError(error);
+      });
 
     // fileList
-    // apiUtils
-    //   .GetFileInfoByPostId(data)
-    //   .then((response) => {
-    //     const getFileList = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getFileList = [
-      {
-        file_id: 'file_id_1',
-        user_id: 'user_id_1',
-        path: 'path_1',
-        file_title: 'file_title_1',
-        file_extension: 'file_extension_1',
-        upload_datetime: 'upload_datetime_1',
-        post_id: 'post_id_1',
-      },
-      {
-        file_id: 'file_id_2',
-        user_id: 'user_id_2',
-        path: 'path_2',
-        file_title: 'file_title_2',
-        file_extension: 'file_extension_2',
-        upload_datetime: 'upload_datetime_2',
-        post_id: 'post_id_2',
-      },
-      {
-        file_id: 'file_id_3',
-        user_id: 'user_id_3',
-        path: 'path_3',
-        file_title: 'file_title_3',
-        file_extension: 'file_extension_3',
-        upload_datetime: 'upload_datetime_3',
-        post_id: 'post_id_3',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setFileList(getFileList);
+    const data3 = {
+      postId: post_id,
+    };
+
+    apiUtils
+      .GetFileInfoByPostId(data3)
+      .then((response) => {
+        const getFileList = response.data;
+        setFileList(getFileList);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getFileList = [
+          {
+            file_id: 'file_id_1',
+            user_id: 'user_id_1',
+            path: 'path_1',
+            file_title: 'file_title_1',
+            file_extension: 'file_extension_1',
+            upload_datetime: 'upload_datetime_1',
+            post_id: 'post_id_1',
+          },
+          {
+            file_id: 'file_id_2',
+            user_id: 'user_id_2',
+            path: 'path_2',
+            file_title: 'file_title_2',
+            file_extension: 'file_extension_2',
+            upload_datetime: 'upload_datetime_2',
+            post_id: 'post_id_2',
+          },
+          {
+            file_id: 'file_id_3',
+            user_id: 'user_id_3',
+            path: 'path_3',
+            file_title: 'file_title_3',
+            file_extension: 'file_extension_3',
+            upload_datetime: 'upload_datetime_3',
+            post_id: 'post_id_3',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setFileList(getFileList);
+        handleLogError(error);
+      });
   }, [competition_id, post_id]);
 
   return (

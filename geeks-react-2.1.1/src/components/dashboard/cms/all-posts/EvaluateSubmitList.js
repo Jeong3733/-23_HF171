@@ -29,50 +29,59 @@ const EvaluateSubmitList = () => {
 
   useEffect(() => {
     // competitionInfo
-    // apiUtils
-    //   .GetCompetitionInfoByCompetitionId(data)
-    //   .then((response) => {
-    //     const getCompetitionInfo = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getCompetitionInfo = [
-      {
-        competition_id: 'competition_id',
-        competition_name: 'competition_name',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setCompetitionInfo(getCompetitionInfo[0]);
+    const data1 = {
+      competitionId: competition_id,
+    };
+    apiUtils
+      .GetCompetitionInfoByCompetitionId(data1)
+      .then((response) => {
+        const getCompetitionInfo = response.data;
+        setCompetitionInfo(getCompetitionInfo[0]);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getCompetitionInfo = [
+          {
+            competition_id: 'competition_id',
+            competition_name: 'competition_name',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setCompetitionInfo(getCompetitionInfo[0]);
+        handleLogError(error);
+      });
 
     // postList
-    // apiUtils
-    //   .GetPostInfoByBoardType(data)
-    //   .then((response) => {
-    //     const getPostList = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
-    const getPostList = [
-      {
-        post_id: '1',
-        title: '제출 1',
-        user_id: '1',
-        created_date: '0000-00-00',
-        contents: '',
-      },
-      {
-        post_id: '2',
-        title: '제출 2',
-        user_id: '1',
-        created_date: '0000-00-00',
-        contents: '',
-      },
-    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setPostList(getPostList);
+    const data4 = {
+      competitionId: competition_id,
+      boardType: 'SUBMIT',
+    };
+    apiUtils
+      .GetPostInfoByBoardType(data4)
+      .then((response) => {
+        const getPostList = response.data;
+        setPostList(getPostList);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getPostList = [
+          {
+            post_id: '1',
+            title: '제출 1',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+          {
+            post_id: '2',
+            title: '제출 2',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setPostList(getPostList);
+        handleLogError(error);
+      });
   }, [competition_id]);
 
   return (
