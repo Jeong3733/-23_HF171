@@ -45,8 +45,13 @@ public class CompetitionController {
     }
 
     @PostMapping("/get/competitionInfo/userId")
-    public ResponseEntity<List<CompetitionWithUserByCompDto>> getCompetitionInfoListByUserId() {
+    public ResponseEntity<?> getCompetitionInfoListByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // TODO: 알맞은 예외 코드 작성하기
+        if (authentication == null || authentication.getName().equals("anonymousUser")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         List<UserByCompetition> userByCompetitionList = competitionService.getCompetitionInfoListByUserId(authentication.getName());
         List<CompetitionWithUserByCompDto> competitionWithUserByCompDtoList = userByCompetitionList.stream()

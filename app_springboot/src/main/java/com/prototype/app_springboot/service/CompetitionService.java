@@ -1,10 +1,5 @@
 package com.prototype.app_springboot.service;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.prototype.app_springboot.data.dto.CompetitionDtos.AddCompetitionRequestDto;
 import com.prototype.app_springboot.data.entity.CompetitionDocs;
 import com.prototype.app_springboot.data.entity.CompetitionInfo;
@@ -16,31 +11,24 @@ import com.prototype.app_springboot.data.repository.competition.CompetitionTypeR
 import com.prototype.app_springboot.data.repository.competition.UserByCompetitionRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
 public class CompetitionService {
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    private final AmazonS3Client amazonS3Client;
+    private final AwsService awsService;
     private final CompetitionInfoRepository competitionInfoRepository;
     private final CompetitionDocsRepository competitionDocsRepository;
     private final CompetitionTypeRepository competitionTypeRepository;
     private final UserByCompetitionRepository userByCompetitionRepository;
 
-    public CompetitionService(AmazonS3Client amazonS3Client, CompetitionInfoRepository competitionInfoRepository, CompetitionDocsRepository competitionDocsRepository, CompetitionTypeRepository competitionTypeRepository, UserByCompetitionRepository userByCompetitionRepository) {
-        this.amazonS3Client = amazonS3Client;
+    public CompetitionService(AwsService awsService, CompetitionInfoRepository competitionInfoRepository, CompetitionDocsRepository competitionDocsRepository, CompetitionTypeRepository competitionTypeRepository, UserByCompetitionRepository userByCompetitionRepository) {
+        this.awsService = awsService;
         this.competitionInfoRepository = competitionInfoRepository;
         this.competitionDocsRepository = competitionDocsRepository;
         this.competitionTypeRepository = competitionTypeRepository;
@@ -73,7 +61,7 @@ public class CompetitionService {
         CompetitionInfo competitionInfo = CompetitionInfo.builder()
                 .competitionName(addCompetitionRequestDto.getCompetitionName())
                 .competitionDescription(addCompetitionRequestDto.getCompetitionDescription())
-                .competitionImage(uploadFileListToS3(competitionImageFile))
+                .competitionImage(awsService.uploadFileListToS3(competitionImageFile))
                 .competitionReadme(addCompetitionRequestDto.getCompetitionReadme())
                 .competitionStartDate(competitionStartDate)
                 .competitionEndDate(competitionEndDate)
@@ -83,7 +71,7 @@ public class CompetitionService {
         competitionDocsFileList.forEach(competitionDocsFile -> {
             CompetitionDocs competitionDocs = CompetitionDocs.builder()
                     .competitionInfo(competitionInfo)
-                    .docsPath(uploadFileListToS3(competitionDocsFile))
+                    .docsPath(awsService.uploadFileListToS3(competitionDocsFile))
                     .fileTitle(competitionDocsFile.getName())
                     .build();
             competitionDocsRepository.save(competitionDocs);
@@ -98,30 +86,4 @@ public class CompetitionService {
             competitionTypeRepository.save(competitionType);
         });
     }
-
-    @Transactional
-    public UUID uploadFileListToS3(MultipartFile multipartFile) throws AmazonS3Exception {
-
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(multipartFile.getSize());
-        objectMetadata.setContentType(multipartFile.getContentType());
-        UUID uuid = UUID.randomUUID();
-
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-
-            // S3에 폴더 및 파일 업로드
-            amazonS3Client.putObject(
-                    new PutObjectRequest(bucket, uuid.toString(), inputStream, objectMetadata)
-                            .withCannedAcl(CannedAccessControlList.PublicRead));
-
-            log.info("AWS S3 파일 업로드 완료");
-            return uuid;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error("AWS S3 파일 업로드 실패", e);
-        }
-        return null;
-    }
-
 }
