@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { parseJwt } from './JwtUtils';
-import { config } from './Constants';
+import { config } from './Constants.';
 
 export const apiUtils = {
   signIn,
@@ -11,7 +11,6 @@ export const apiUtils = {
   GetCompetitionInfo,
   GetCompetitionInfoByUserId,
   GetCompetitionInfoByCompetitionId,
-  GetCompetitionInfoByCompetitionIdByUserId,
   GetPostInfoByPostId,
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
@@ -84,20 +83,41 @@ function GetCompetitionInfo() {
 // 공모전 리스트 요청 - output
 // [
 //   {
-//     competition_id: 'competition_id',
-//     competition_name: 'competition_name',
-//     competition_image: 'competition_image',
-//     competition_readme: 'competition_readme',
-//     competition_description: 'competition_description',
-//     competition_state: 'competition_state',
-//     competition_start_date: 'competition_start_date',
-//     competition_end_date: 'competition_end_date',
-//   }
-//   ...
-// ];
+//     "competition_info_id": 1,
+//     "competition_name": "ICT 택관컴퍼니",
+//     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+//     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+//     "competition_description": "ICT 택관컴퍼니",
+//     "competition_state": null,
+//     "competition_start_date": "2023-08-02T00:00",
+//     "competition_end_date": "2023-08-25T00:00",
+//     "competition_type_list": [
+//       {
+//         "competition_info_id": 1,
+//         "type": "개발"
+//       },
+//       {
+//         "competition_info_id": 1,
+//         "type": "교육"
+//       },
+//       {
+//         "competition_info_id": 1,
+//         "type": "엔터테인먼트"
+//       }
+//     ],
+//     "competition_docs_list": [
+//       {
+//         "competition_info_id": 1,
+//         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+//         "file_title": "competitionDocs"
+//       }
+//     ]
+//   },
+//  ...
+// ]
 
 // 내가 참가한 공모전 리스트 요청
-// competitionInfo - UserByCompetition left join
+// competitionInfo - UserByCompetition join
 function GetCompetitionInfoByUserId(user) {
   const url = `/get/competitionInfo/userId`;
   return instance.get(url, {
@@ -108,23 +128,79 @@ function GetCompetitionInfoByUserId(user) {
   });
 }
 
+// 내가 참가한 공모전 정보 요청 by UserId - data
+
 // 내가 참가한 공모전 리스트 요청 - output
 // [
 //   {
-//     competition_id: 'competition_id',
-//     competition_name: 'competition_name',
-//     competition_image: 'competition_image',
-//     competition_readme: 'competition_readme',
-//     competition_description: 'competition_description',
-//     competition_state: 'competition_state',
-//     competition_start_date: 'competition_start_date',
-//     competition_end_date: 'competition_end_date',
-//     user_id: 'sbe07032',
-//     team_id: 'team_id',
-//     role_type: 'role_type',
+//     "competition_info_id": 1,
+//     "competition_name": "ICT 택관컴퍼니",
+//     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+//     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+//     "competition_description": "ICT 택관컴퍼니",
+//     "competition_state": null,
+//     "competition_start_date": "2023-08-02T00:00:00",
+//     "competition_end_date": "2023-08-25T00:00:00",
+//     "competition_type_list": [
+//       {
+//         "competition_info_id": 1,
+//         "type": "개발"
+//       },
+//       {
+//         "competition_info_id": 1,
+//         "type": "교육"
+//       },
+//       {
+//         "competition_info_id": 1,
+//         "type": "엔터테인먼트"
+//       }
+//     ],
+//     "competition_docs_list": [
+//       {
+//         "competition_info_id": 1,
+//         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+//         "file_title": "competitionDocs"
+//       }
+//     ],
+//     "user_id": "www",
+//     "team_id": 1,
+//     "role_type": "PARTICIPANT_LEADER"
+//   },
+//   {
+//     "competition_info_id": 2,
+//     "competition_name": "ICR TK CMP",
+//     "competition_image": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
+//     "competition_readme": "<p>ㅎㅇㅎㅇ</p>",
+//     "competition_description": "택관 컴퍼니 입사시험",
+//     "competition_state": null,
+//     "competition_start_date": "2023-08-09T00:00:00",
+//     "competition_end_date": "2023-08-28T00:00:00",
+//     "competition_type_list": [
+//       {
+//         "competition_info_id": 2,
+//         "type": "개발"
+//       },
+//       {
+//         "competition_info_id": 2,
+//         "type": "교육"
+//       },
+//       {
+//         "competition_info_id": 2,
+//         "type": "기타"
+//       }
+//     ],
+//     "competition_docs_list": [
+//       {
+//         "competition_info_id": 2,
+//         "docs_path": "824eede2-4b57-4c59-883e-5895d4de252d",
+//         "file_title": "competitionDocs"
+//       }
+//     ],
+//     "user_id": "www",
+//     "team_id": 2,
+//     "role_type": "PARTICIPANT_BASE"
 //   }
-//   ...
-// ];
+// ]
 
 // 공모전 정보 요청 by competitionId
 function GetCompetitionInfoByCompetitionId(data) {
@@ -140,53 +216,39 @@ function GetCompetitionInfoByCompetitionId(data) {
 // }
 
 // 공모전 정보 요청 by competitionId - output
-// [
-//   {
-//     competition_id: 'competition_id',
-//     competition_name: 'competition_name',
-//     competition_image: 'competition_image',
-//     competition_readme: 'competition_readme',
-//     competition_description: 'competition_description',
-//     competition_state: 'competition_state',
-//     competition_start_date: 'competition_start_date',
-//     competition_end_date: 'competition_end_date',
-//   }
-// ];
-
-// 로그인된 상태에서
-// 공모전 정보 요청 by competitionId
-function GetCompetitionInfoByCompetitionIdByUserId(user, data) {
-  const url = `/get/competitionInfo/competitionIdUserId`;
-  return instance.post(url, data, {
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: bearerAccess(user),
-    },
-  });
-}
-// 공모전 정보 요청 by competitionId - data
 // {
-//   "competitionId": "1",
+//   "competition_info_id": 1,
+//   "competition_name": "ICT 택관컴퍼니",
+//   "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+//   "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+//   "competition_description": "ICT 택관컴퍼니",
+//   "competition_state": null,
+//   "competition_start_date": "2023-08-02T00:00",
+//   "competition_end_date": "2023-08-25T00:00",
+//   "competition_type_list": [
+//   {
+//     "competition_info_id": 1,
+//     "type": "개발"
+//   },
+//   {
+//     "competition_info_id": 1,
+//     "type": "교육"
+//   },
+//   {
+//     "competition_info_id": 1,
+//     "type": "엔터테인먼트"
+//   }
+// ],
+//   "competition_docs_list": [
+//   {
+//     "competition_info_id": 1,
+//     "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+//     "file_title": "competitionDocs"
+//   }
+// ]
 // }
 
-// 공모전 정보 요청 by competitionId - output
-// [
-//   {
-//     competition_id: 'competition_id',
-//     competition_name: 'competition_name',
-//     competition_image: 'competition_image',
-//     competition_readme: 'competition_readme',
-//     competition_description: 'competition_description',
-//     competition_state: 'competition_state',
-//     competition_start_date: 'competition_start_date',
-//     competition_end_date: 'competition_end_date',
-//     user_id: 'sbe07032',
-//     team_id: 'team_id',
-//     role_type: 'role_type',
-//   }
-// ];
-
-// 게시물 요청 by postId
+// 게시물 요청 by post_id
 function GetPostInfoByPostId(data) {
   const url = `/get/postInfo/postId`;
   return instance.post(url, data, {
@@ -194,20 +256,21 @@ function GetPostInfoByPostId(data) {
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 게시물 요청 by postId - data
+// 게시물 요청 by post_id - data
 // {
-//   "postId": "3",
+//   "post_id": "3",
 // }
-// 게시물 요청 by postId - output
-// [
-//   {
-//     post_id: '3',
-//     title: '제출 3',
-//     user_id: '1',
-//     created_date: '0000-00-00',
-//     contents: '',
-//   }
-// ];
+
+// 게시물 요청 by post_id - output
+// {
+//   "post_info_id": 1,
+//   "user_info_id": "www",
+//   "competition_info_id": 1,
+//   "board_type": "NOTICE",
+//   "title": "notice1",
+//   "contents": "공지에요",
+//   "created_date": "2023-08-04T20:18:21"
+// }
 
 // 게시물 요청 by BoardType
 function GetPostInfoByBoardType(data) {
@@ -226,15 +289,42 @@ function GetPostInfoByBoardType(data) {
 // 게시물 요청 by BoardType - output
 // [
 //   {
-//     post_id: '1',
-//     title: '제출 1',
-//     user_id: '1',
-//     created_date: '0000-00-00',
-//     contents: '',
-//     board_type: '3',
+//     "post_info_id": 2,
+//     "user_info_id": "www",
+//     "competition_info_id": 1,
+//     "board_type": "QNA",
+//     "title": "qna1",
+//     "contents": "QNA에요",
+//     "created_date": "2023-08-04T20:18:21"
+//   },
+//   {
+//     "post_info_id": 7,
+//     "user_info_id": "www",
+//     "competition_info_id": 1,
+//     "board_type": "QNA",
+//     "title": "qna1-2",
+//     "contents": "QNA에요2",
+//     "created_date": "2023-08-04T20:18:21"
+//   },
+//   {
+//     "post_info_id": 8,
+//     "user_info_id": "www",
+//     "competition_info_id": 1,
+//     "board_type": "QNA",
+//     "title": "qna1-3",
+//     "contents": "QNA에요3",
+//     "created_date": "2023-08-04T20:18:21"
+//   },
+//   {
+//     "post_info_id": 9,
+//     "user_info_id": "www",
+//     "competition_info_id": 1,
+//     "board_type": "QNA",
+//     "title": "qna1-4",
+//     "contents": "QNA에요4",
+//     "created_date": "2023-08-04T20:18:21"
 //   }
-//   ...
-// ];
+// ]
 
 // 파일 리스트 요청 by PostId
 function GetFileInfoByPostId(data) {
@@ -245,22 +335,28 @@ function GetFileInfoByPostId(data) {
   });
 }
 // 게시물 요청 by PostId - data
-// {
-//   "postId": "1",
-// }
-// 게시물 요청 by PostId - output
 // [
 //   {
-//     file_id: 'file_id',
-//     user_id: 'user_id',
-//     path: 'path',
-//     file_title: 'file_title',
-//     file_extension: 'file_extension',
-//     upload_datetime: 'upload_datetime',
-//     post_id: 'post_id',
+//     "file_info_id": 1,
+//     "post_id": 1,
+//     "user_info_id": "www",
+//     "path": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+//     "file_title": "sdfsdf",
+//     "file_type": null,
+//     "file_extension": "HWP",
+//     "upload_datetime": "2023-08-05T00:09:12"
 //   },
-//   ...
-// ];
+//   {
+//     "file_info_id": 2,
+//     "post_id": 1,
+//     "user_info_id": "www",
+//     "path": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
+//     "file_title": "sdfsdfsdfsdf",
+//     "file_type": null,
+//     "file_extension": "PDF",
+//     "upload_datetime": "2023-08-05T00:09:12"
+//   }
+// ]
 
 // -- Axios
 const instance = axios.create({

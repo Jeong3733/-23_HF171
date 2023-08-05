@@ -1,7 +1,7 @@
 package com.prototype.app_springboot.service;
 
 import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.userInfo.UserInfoRepository;
+import com.prototype.app_springboot.data.repository.UserInfoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

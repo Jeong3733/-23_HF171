@@ -2,6 +2,7 @@ package com.prototype.app_springboot.config;
 
 import com.prototype.app_springboot.config.jwt.JWTTokenAuthenticationFilter;
 import com.prototype.app_springboot.config.oauth.PrincipalOauth2UserService;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@XmlAccessorType
 public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;

@@ -15,7 +15,8 @@ import java.util.List;
 public class TeamInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int teamId;
+    @Column(name = "team_id")
+    private int id;
 
     private String teamName;
 
@@ -27,8 +28,8 @@ public class TeamInfo {
     private final List<UserByCompetition> userByCompetitionList = new ArrayList<UserByCompetition>();
 
     @Builder
-    public TeamInfo(int teamId, String teamName, CompetitionInfo competitionInfo) {
-        this.teamId = teamId;
+    public TeamInfo(int id, String teamName, CompetitionInfo competitionInfo) {
+        this.id = id;
         this.teamName = teamName;
         this.competitionInfo = competitionInfo;
     }
