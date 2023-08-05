@@ -9,6 +9,8 @@ import com.prototype.app_springboot.service.CompetitionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +45,10 @@ public class CompetitionController {
     }
 
     @PostMapping("/get/competitionInfo/userId")
-    public ResponseEntity<List<CompetitionWithUserByCompDto>> getCompetitionInfoListByUserId(@RequestBody Map<String, String> userIdMap) {
-        String userId = userIdMap.get("userId");
-        List<UserByCompetition> userByCompetitionList = competitionService.getCompetitionInfoListByUserId(userId);
+    public ResponseEntity<List<CompetitionWithUserByCompDto>> getCompetitionInfoListByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        List<UserByCompetition> userByCompetitionList = competitionService.getCompetitionInfoListByUserId(authentication.getName());
         List<CompetitionWithUserByCompDto> competitionWithUserByCompDtoList = userByCompetitionList.stream()
                 .map(userbycompetition -> {
                     CompetitionInfo competitionInfo = competitionService.getCompetitionInfoByCompetitionId(userbycompetition.getCompetitionInfo().getId());

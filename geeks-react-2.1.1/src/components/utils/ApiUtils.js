@@ -120,7 +120,7 @@ function GetCompetitionInfo() {
 // competitionInfo - UserByCompetition join
 function GetCompetitionInfoByUserId(user) {
   const url = `/get/competitionInfo/userId`;
-  return instance.post(url, {
+  return instance.get(url, {
     headers: {
       'Content-type': 'application/json',
       Authorization: bearerAccess(user),
@@ -129,9 +129,6 @@ function GetCompetitionInfoByUserId(user) {
 }
 
 // 내가 참가한 공모전 정보 요청 by UserId - data
-// {
-//   "userId": "sbe07032",
-// }
 
 // 내가 참가한 공모전 리스트 요청 - output
 // [
