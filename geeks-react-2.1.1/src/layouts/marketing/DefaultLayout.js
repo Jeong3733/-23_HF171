@@ -16,16 +16,28 @@ const DefaultLayout = (props) => {
   const Auth = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  function doLogOut() {
+    Auth.userLogout();
+    setIsLoggedIn(false);
+    alert('로그아웃 완료');
+  }
+
+  function authFunc(name) {
+    if (name == 'getUser') {
+      return Auth.getUser();
+    }
+  }
+
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);
-  }, []);
+  }, [isLoggedIn]);
   return (
     <Fragment>
-      <NavbarDefault login={isLoggedIn} setLogin={setIsLoggedIn} />
+      <NavbarDefault isLoggedIn={isLoggedIn} doLogOut={doLogOut} />
       <main>
         {props.children}
-        <Outlet isLoggedIn={isLoggedIn} />
+        <Outlet context={{ isLoggedIn, Auth }} />
       </main>
       <Footer />
     </Fragment>

@@ -18,12 +18,11 @@ import { isNotEmptyObj } from 'helper/utils';
 
 const BrowseCategories = (props) => {
   console.log('BrowseCategoriesBrowseCategories');
-  const { isLoggedIn } = props;
+  const { isLoggedIn, Auth } = props;
   const [competitionList, setCompetitionList] = useState({});
 
   useEffect(() => {
     if (isLoggedIn) {
-      const Auth = useAuth();
       const user = Auth.getUser();
       apiUtils
         .GetCompetitionInfoChkByUserId(user)
@@ -239,17 +238,17 @@ const BrowseCategories = (props) => {
     }
   }, []);
 
-  const title = "The world's top courses";
+  const title = '공모전 둘러보기';
   const subtitle = 'Browse Categories';
-  const description = `Choose from 32,000 online video courses with new additions published every month.`;
+  // const description = `Choose from 32,000 online video courses with new additions published every month.`;
 
   if (isNotEmptyObj(competitionList)) {
     return (
-      <section className="py-8 py-lg-16">
+      <section className="py-1 py-lg-2">
         <Container>
           <SectionHeadingLeft
             title={title}
-            description={description}
+            // description={description}
             subtitle={subtitle}
           />
           <CoursesTabSliderByType

@@ -19,14 +19,14 @@ import Avatar1 from 'assets/images/avatar/avatar-1.jpg';
 // import data files
 import NotificationList from 'data/Notification';
 
-const QuickMenu = ({ setIsLoggedIn }) => {
+// impoort Auth module
+import { useCookies } from 'react-cookie';
+import { useAuth } from 'components/AuthContext';
+
+const QuickMenu = ({ doLogOut }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
-
-  function doLogOut() {
-    setIsLoggedIn(false);
-  }
 
   const Notifications = () => {
     return (

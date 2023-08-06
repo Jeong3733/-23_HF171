@@ -30,18 +30,14 @@ const SignIn = () => {
 
     let postObject = {};
     for (let t of e.target) {
-      console.log(t);
       postObject[t.id] = t.value;
     }
-
-    alert(JSON.stringify(postObject));
 
     apiUtils
       .signIn(postObject)
       .then((response) => {
         const { accessToken, refreshToken } = response.data;
         const data = parseJwt(accessToken);
-        alert(data);
 
         // local storage 에 data, access token 저장
         const user = { data, accessToken };
@@ -56,7 +52,7 @@ const SignIn = () => {
         navigate('/');
       })
       .catch((error) => {
-        // alert(error.response.data);
+        alert(error.response.data);
         handleLogError(error);
       });
   };

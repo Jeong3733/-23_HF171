@@ -17,7 +17,7 @@ import Logo from 'assets/images/brand/logo/logo.svg';
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
 
-const NavbarDefault = ({ headerstyle, isLoggedIn, setIsLoggedIn }) => {
+const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
@@ -26,10 +26,6 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, setIsLoggedIn }) => {
   });
 
   const [expandedMenu, setExpandedMenu] = useState(false);
-
-  function doLogin() {
-    setIsLoggedIn(true);
-  }
 
   return (
     <Fragment>
@@ -52,7 +48,7 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, setIsLoggedIn }) => {
                 : 'd-none'
             }`}
           >
-            <QuickMenu setIsLoggedIn={setIsLoggedIn} />
+            <QuickMenu doLogOut={doLogOut} />
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav">
             <span className="icon-bar top-bar mt-0"></span>
@@ -123,7 +119,7 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, setIsLoggedIn }) => {
                     : 'd-none'
                 }`}
               >
-                <QuickMenu setIsLoggedIn={setIsLoggedIn} />
+                <QuickMenu doLogOut={doLogOut} />
               </span>
             </Nav>
             {/* end of right side quick / shortcut menu  */}
