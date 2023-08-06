@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface UserByCompetitionRepository extends JpaRepository<UserByCompetition, UserByCompetitionId> {
     List<UserByCompetition> findAllByUserInfo_UserId(String userInfoId);
+    UserByCompetition findByUserInfo_UserIdAndCompetitionInfoId(String userInfoId, int competitionInfoId);
 }

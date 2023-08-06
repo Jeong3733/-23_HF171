@@ -24,7 +24,7 @@ public class CompetitionWithUserByCompDto {
     private List<CompetitionTypeDto> competition_type_list;
     private List<CompetitionDocsDto> competition_docs_list;
     private String user_id;
-    private int team_id;
+    private Integer team_id;
     private RoleType role_type;
 
     public CompetitionWithUserByCompDto(CompetitionInfo competitionInfo, UserByCompetition userByCompetition) {
@@ -42,6 +42,13 @@ public class CompetitionWithUserByCompDto {
         competition_docs_list = competitionInfo.getCompetitionDocsList().stream()
                 .map(CompetitionDocsDto::new)
                 .collect(Collectors.toList());
+
+        if (userByCompetition == null) {
+            user_id = null;
+            team_id = null;
+            role_type = null;
+            return;
+        }
         user_id = userByCompetition.getUserInfo().getUserId();
         team_id = userByCompetition.getTeamInfo().getId();
         role_type = userByCompetition.getRoleType();

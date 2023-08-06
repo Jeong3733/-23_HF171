@@ -36,6 +36,11 @@ public class CompetitionService {
     }
 
     @Transactional
+    public UserByCompetition getUserAndCompetitionByUserIdAndCompetitionId(String userId, int competitionId) {
+        return userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId);
+    }
+
+    @Transactional
     public CompetitionInfo getCompetitionInfoByCompetitionId(int competitionId) {
         return competitionInfoRepository.findById(competitionId)
                 .orElseThrow(() ->
@@ -44,8 +49,21 @@ public class CompetitionService {
     }
 
     @Transactional
-    public List<CompetitionInfo> getCompetitionInfoList() {
+    public List<CompetitionInfo> getAllCompetitionInfoList() {
         return competitionInfoRepository.findAll();
+    }
+
+    /**
+     * 대회 정보를 조회할 때, 대회에 참가한 유저 정보도 함께 조회한다. 해당 유저가 대회에 참가하지 않은 경우 null 이다.
+     * 리턴하는 리스트의 첫번째 원소는 CompetitionInfo, 두번째 원소는 UserByCompetition 이다.
+     * 해당 유저가 참여하지 않은 competition 인 경우 UserByCompetition 은 null 이다.
+     *
+     * @param userId
+     * @return
+     */
+    @Transactional
+    public List<Object[]> getAllCompetitionInfoListWithUserId(String userId) {
+        return competitionInfoRepository.findAllLeftJoinWithUserByCompetition(userId);
     }
 
     @Transactional
