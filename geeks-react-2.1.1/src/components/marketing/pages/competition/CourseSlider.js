@@ -52,7 +52,7 @@ const CourseSlider = ({
             if (isLoggedIn) {
               if (category != null) {
                 dataSource =
-                  dataSource.competition_type.some(
+                  dataSource.competition_type_list.some(
                     (item) => item.type === category,
                   ) && dataSource.user_id === 'sbe07032';
               } else {
@@ -60,7 +60,7 @@ const CourseSlider = ({
               }
             } else {
               if (category != null) {
-                dataSource = dataSource.competition_type.some(
+                dataSource = dataSource.competition_type_list.some(
                   (item) => item.type === category,
                 );
               }

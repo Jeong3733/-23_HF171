@@ -49,7 +49,7 @@ const DetailLayout = ({ isLoggedIn }) => {
               user_id: 'sbe07032',
               team_id: 'team_id',
               role_type: 'role_type',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '엔터테인먼트' },
@@ -78,7 +78,7 @@ const DetailLayout = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '엔터테인먼트' },

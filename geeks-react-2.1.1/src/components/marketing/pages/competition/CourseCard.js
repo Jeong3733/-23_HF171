@@ -40,7 +40,7 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
             </h3>
             {/* 공모전 분류 */}
             <ListGroup as="ul" bsPrefix="list-inline" className="mb-2">
-              {item.competition_type.map((i) => (
+              {item.competition_type_list.map((i) => (
                 <ListGroup.Item
                   key={i.type}
                   as="li"

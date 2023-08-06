@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { parseJwt } from './JwtUtils';
-import { config } from './Constants.';
+import { config } from './Constants';
 
 export const apiUtils = {
   signIn,

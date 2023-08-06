@@ -62,7 +62,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: 'sbe07032',
               team_id: 'team_id',
               role_type: 'role_type',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '엔터테인먼트' },
@@ -80,7 +80,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: '',
               team_id: '',
               role_type: '',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '33333',
@@ -94,7 +97,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: '',
               team_id: '',
               role_type: '',
-              competition_type: [{ type: '개발' }, { type: '교육' }],
+              competition_type_list: [{ type: '개발' }, { type: '교육' }],
             },
             {
               competition_id: '44444',
@@ -108,7 +111,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: 'sbe07032',
               team_id: 'team_id',
               role_type: 'role_type',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '55555',
@@ -122,7 +128,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: 'sbe07032',
               team_id: 'team_id',
               role_type: 'role_type',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '66666',
@@ -136,7 +145,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               user_id: 'sbe07032',
               team_id: 'team_id',
               role_type: 'role_type',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '금융' },
@@ -165,7 +174,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '엔터테인먼트' },
@@ -180,7 +189,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '33333',
@@ -191,7 +203,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [{ type: '개발' }, { type: '교육' }],
+              competition_type_list: [{ type: '개발' }, { type: '교육' }],
             },
             {
               competition_id: '44444',
@@ -202,7 +214,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '55555',
@@ -213,7 +228,10 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [{ type: '교육' }, { type: '엔터테인먼트' }],
+              competition_type_list: [
+                { type: '교육' },
+                { type: '엔터테인먼트' },
+              ],
             },
             {
               competition_id: '66666',
@@ -224,7 +242,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
               competition_state: 'competition_state',
               competition_start_date: 'start_date',
               competition_end_date: 'end_date',
-              competition_type: [
+              competition_type_list: [
                 { type: '개발' },
                 { type: '교육' },
                 { type: '금융' },
