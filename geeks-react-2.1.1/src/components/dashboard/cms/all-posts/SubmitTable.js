@@ -77,15 +77,9 @@ const SubmitTable = ({ table_data }) => {
     );
   };
 
-  // post_id: '2',
-  // title: '제출 2',
-  // user_id: '1',
-  // created_date: '0000-00-00',
-  // contents: '',
-
   const columns = useMemo(
     () => [
-      { accessor: 'post_id', Header: 'ID', show: false },
+      { accessor: 'post_info_id', Header: 'ID', show: false },
       {
         accessor: 'title',
         Header: '제출 게시물 이름',
@@ -94,7 +88,7 @@ const SubmitTable = ({ table_data }) => {
           return (
             <h5 className="mb-0">
               <Link
-                to={`/evaluate/${competition_id}/${row.original.post_id}/files/`}
+                to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/`}
                 className="text-inherit"
               >
                 {value}
@@ -104,7 +98,7 @@ const SubmitTable = ({ table_data }) => {
         },
       },
       {
-        accessor: 'user_id',
+        accessor: 'user_info_id',
         Header: '작성자',
         Cell: ({ value }) => {
           return (

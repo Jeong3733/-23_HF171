@@ -25,7 +25,7 @@ const EvaluateSubmitList = () => {
   const { competition_id } = useParams();
   // console.log(competition_id);
 
-  const [competitionInfo, setCompetitionInfo] = useState({});
+  const [competitionInfo, setCompetitionInfo] = useState([]);
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
@@ -37,45 +37,43 @@ const EvaluateSubmitList = () => {
       .GetCompetitionInfoByCompetitionId(data1)
       .then((response) => {
         const getCompetitionInfo = response.data;
-        setCompetitionInfo(getCompetitionInfo[0]);
-        // console.log(competitionInfo);
+        setCompetitionInfo(getCompetitionInfo);
+        console.log(getCompetitionInfo);
       })
       .catch((error) => {
         // alert(error.response.data);
-        const getCompetitionInfo = [
-          {
-            competition_info_id: 1,
-            competition_name: 'ICT 택관컴퍼니',
-            competition_image: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
-            competition_readme: '<p>ICT 택관컴퍼니 입니다~</p>',
-            competition_description: 'ICT 택관컴퍼니',
-            competition_state: null,
-            competition_start_date: '2023-08-02T00:00',
-            competition_end_date: '2023-08-25T00:00',
-            competition_type_list: [
-              {
-                competition_info_id: 1,
-                type: '개발',
-              },
-              {
-                competition_info_id: 1,
-                type: '교육',
-              },
-              {
-                competition_info_id: 1,
-                type: '엔터테인먼트',
-              },
-            ],
-            competition_docs_list: [
-              {
-                competition_info_id: 1,
-                docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
-                file_title: 'competitionDocs',
-              },
-            ],
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setCompetitionInfo(getCompetitionInfo[0]);
+        const getCompetitionInfo = {
+          competition_info_id: 1,
+          competition_name: 'ICT 택관컴퍼니',
+          competition_image: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
+          competition_readme: '<p>ICT 택관컴퍼니 입니다~</p>',
+          competition_description: 'ICT 택관컴퍼니',
+          competition_state: null,
+          competition_start_date: '2023-08-02T00:00',
+          competition_end_date: '2023-08-25T00:00',
+          competition_type_list: [
+            {
+              competition_info_id: 1,
+              type: '개발',
+            },
+            {
+              competition_info_id: 1,
+              type: '교육',
+            },
+            {
+              competition_info_id: 1,
+              type: '엔터테인먼트',
+            },
+          ],
+          competition_docs_list: [
+            {
+              competition_info_id: 1,
+              docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
+              file_title: 'competitionDocs',
+            },
+          ],
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setCompetitionInfo(getCompetitionInfo);
         console.log(competitionInfo);
         handleLogError(error);
       });
@@ -113,7 +111,9 @@ const EvaluateSubmitList = () => {
         handleLogError(error);
       });
   }, [competition_id]);
-  console.log(competitionInfo);
+  // console.log(competition_id);
+  // console.log(competitionInfo);
+
   return (
     <Fragment>
       <Row>

@@ -95,19 +95,19 @@ const EvaluateVertical = (props) => {
     return postList.map((post) => ({
       id: uuid(),
       title: post.title,
-      post_id: post.post_id,
+      post_id: post.post_info_id,
       icon: 'book',
       children: [
         {
           id: uuid(),
           name: '문서 리스트',
-          post_id: post.post_id,
+          post_id: post.post_info_id,
           link: 'files',
         },
         {
           id: uuid(),
           name: '참가자 리스트',
-          post_id: post.post_id,
+          post_id: post.post_info_id,
           link: 'member',
         },
       ],

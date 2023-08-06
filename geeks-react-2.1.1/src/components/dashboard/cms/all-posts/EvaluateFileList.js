@@ -37,46 +37,43 @@ const EvaluateFileList = () => {
       .GetCompetitionInfoByCompetitionId(data1)
       .then((response) => {
         const getCompetitionInfo = response.data;
-        setCompetitionInfo(getCompetitionInfo[0]);
+        setCompetitionInfo(getCompetitionInfo);
         // console.log(competitionInfo);
       })
       .catch((error) => {
         // alert(error.response.data);
-        const getCompetitionInfo = [
-          {
-            competition_info_id: 1,
-            competition_name: 'ICT 택관컴퍼니',
-            competition_image: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
-            competition_readme: '<p>ICT 택관컴퍼니 입니다~</p>',
-            competition_description: 'ICT 택관컴퍼니',
-            competition_state: null,
-            competition_start_date: '2023-08-02T00:00',
-            competition_end_date: '2023-08-25T00:00',
-            competition_type_list: [
-              {
-                competition_info_id: 1,
-                type: '개발',
-              },
-              {
-                competition_info_id: 1,
-                type: '교육',
-              },
-              {
-                competition_info_id: 1,
-                type: '엔터테인먼트',
-              },
-            ],
-            competition_docs_list: [
-              {
-                competition_info_id: 1,
-                docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
-                file_title: 'competitionDocs',
-              },
-            ],
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setCompetitionInfo(getCompetitionInfo[0]);
-        console.log(competitionInfo);
+        const getCompetitionInfo = {
+          competition_info_id: 1,
+          competition_name: 'ICT 택관컴퍼니',
+          competition_image: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
+          competition_readme: '<p>ICT 택관컴퍼니 입니다~</p>',
+          competition_description: 'ICT 택관컴퍼니',
+          competition_state: null,
+          competition_start_date: '2023-08-02T00:00',
+          competition_end_date: '2023-08-25T00:00',
+          competition_type_list: [
+            {
+              competition_info_id: 1,
+              type: '개발',
+            },
+            {
+              competition_info_id: 1,
+              type: '교육',
+            },
+            {
+              competition_info_id: 1,
+              type: '엔터테인먼트',
+            },
+          ],
+          competition_docs_list: [
+            {
+              competition_info_id: 1,
+              docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
+              file_title: 'competitionDocs',
+            },
+          ],
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setCompetitionInfo(getCompetitionInfo);
         handleLogError(error);
       });
 
@@ -88,17 +85,20 @@ const EvaluateFileList = () => {
       .GetPostInfoByPostId(data2)
       .then((response) => {
         const getPostInfo = response.data;
-        setPostInfo(getPostInfo[0]);
+        setPostInfo(getPostInfo);
       })
       .catch((error) => {
         // alert(error.response.data);
-        const getPostInfo = [
-          {
-            post_id: '1',
-            title: '제출 1',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setPostInfo(getPostInfo[0]);
+        const getPostInfo = {
+          post_info_id: 1,
+          user_info_id: 'www',
+          competition_info_id: 1,
+          board_type: 'NOTICE',
+          title: 'notice1',
+          contents: '공지에요',
+          created_date: '2023-08-04T20:18:21',
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setPostInfo(getPostInfo);
         handleLogError(error);
       });
 
@@ -123,7 +123,7 @@ const EvaluateFileList = () => {
             file_title: 'file_title_1',
             file_extension: 'file_extension_1',
             upload_datetime: 'upload_datetime_1',
-            post_id: 'post_id_1',
+            post_info_id: 'post_info_id_1',
           },
           {
             file_id: 'file_id_2',
@@ -132,7 +132,7 @@ const EvaluateFileList = () => {
             file_title: 'file_title_2',
             file_extension: 'file_extension_2',
             upload_datetime: 'upload_datetime_2',
-            post_id: 'post_id_2',
+            post_info_id: 'post_info_id_2',
           },
           {
             file_id: 'file_id_3',
@@ -141,14 +141,13 @@ const EvaluateFileList = () => {
             file_title: 'file_title_3',
             file_extension: 'file_extension_3',
             upload_datetime: 'upload_datetime_3',
-            post_id: 'post_id_3',
+            post_info_id: 'post_info_id_3',
           },
         ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
         setFileList(getFileList);
         handleLogError(error);
       });
   }, [competition_id, post_id]);
-
   return (
     <Fragment>
       <Row>

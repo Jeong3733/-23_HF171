@@ -77,14 +77,6 @@ const FilesTable = ({ table_data }) => {
     );
   };
 
-  // file_id: 'file_id',
-  // user_id: 'user_id',
-  // path: 'path',
-  // file_title: 'file_title',
-  // file_extension: 'file_extension',
-  // upload_datetime: 'upload_datetime',
-  // post_id: 'post_id',
-
   const columns = useMemo(
     () => [
       { accessor: 'file_id', Header: 'ID', show: false },
@@ -95,7 +87,7 @@ const FilesTable = ({ table_data }) => {
           return (
             <h5 className="mb-0">
               <Link
-                to={`/evaluate/${competition_id}/${row.original.post_id}/files/${row.original.file_id}/`}
+                to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/${row.original.file_id}/`}
                 className="text-inherit"
               >
                 {value}
@@ -150,7 +142,7 @@ const FilesTable = ({ table_data }) => {
         Cell: ({ value, row }) => {
           return (
             <Link
-              to={`/evaluate/${competition_id}/${row.original.post_id}/files/${row.original.file_id}/`}
+              to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/${row.original.file_id}/`}
               className="text-inherit"
             >
               {value}
