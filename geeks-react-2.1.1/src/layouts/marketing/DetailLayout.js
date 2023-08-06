@@ -1,6 +1,6 @@
 // import node module libraries
-import React, { Fragment, useState, useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
+import { Outlet, useParams, useOutletContext } from 'react-router-dom';
 
 // import layouts
 import NavbarDefault from 'layouts/marketing/navbars/NavbarDefault';
@@ -10,23 +10,23 @@ import Footer from 'layouts/marketing/footers/Footer';
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-import { Container } from 'react-bootstrap';
 
 // import sub component
 import CommonHeaderTabs from 'components/marketing/pages/jobs/company/CommonHeaderTabs';
 // import data files
 import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
-const DetailLayout = ({ isLoggedIn }) => {
+const DetailLayout = () => {
   const { competition_id } = useParams();
+  const { isLoggedIn, Auth } = useOutletContext();
   const [competitionInfo, setCompetitionInfo] = useState({});
+  // console.log(isLoggedIn);
 
   useEffect(() => {
     const data1 = {
       competitionId: competition_id,
     };
     if (isLoggedIn) {
-      const Auth = useAuth();
       const user = Auth.getUser();
       apiUtils
         .GetCompetitionInfoChkByCompetitionId(user, data1)
@@ -125,7 +125,7 @@ const DetailLayout = ({ isLoggedIn }) => {
   const data = ComapniesListData[0];
   return (
     <CommonHeaderTabs data={data} info={competitionInfo}>
-      <Outlet />
+      <Outlet context={{ isLoggedIn, Auth }} />
     </CommonHeaderTabs>
   );
 };

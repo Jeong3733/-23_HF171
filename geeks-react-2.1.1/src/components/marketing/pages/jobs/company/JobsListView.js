@@ -38,16 +38,16 @@ const JobsListView = ({ boardType }) => {
         // alert(error.response.data);
         const getPostList = [
           {
-            post_id: '1',
+            post_info_id: '1',
             title: '제출 1',
-            user_id: '1',
+            user_info_id: '1',
             created_date: '0000-00-00',
             contents: '',
           },
           {
-            post_id: '2',
+            post_info_id: '2',
             title: '제출 2',
-            user_id: '1',
+            user_info_id: '1',
             created_date: '0000-00-00',
             contents: '',
           },
@@ -56,26 +56,6 @@ const JobsListView = ({ boardType }) => {
         handleLogError(error);
       });
   }, [competition_id, boardType]);
-  // const postList = [
-  //   {
-  //     post_id: '1',
-  //     title: '제출 1',
-  //     user_id: '1',
-  //     created_date: '0000-00-00',
-  //     contents:
-  //       'contentscontentscontentscontentscontentscontentscontentscontents',
-  //   },
-  //   {
-  //     post_id: '2',
-  //     title: '제출 2',
-  //     user_id: '1',
-  //     created_date: '0000-00-00',
-  //     contents:
-  //       'contentscontentscontentscontentscontentscontentscontentscontents',
-  //   },
-  // ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-
-  // const [Records] = useState(JobsListingData);
 
   // paging setup start
   const [pageNumber, setPageNumber] = useState(0);

@@ -27,7 +27,7 @@ import Announcements from 'components/marketing/pages/jobs/company/Announcements
 import QNA from 'components/marketing/pages/jobs/company/QNA';
 // import Submits from 'components/marketing/pages/jobs/company/Announcements';
 import Submits from 'components/marketing/pages/jobs/company/Submits';
-
+import ItemPage from 'components/marketing/pages/jobs/company/ItemPage';
 // 4.0 평가 리스트
 import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
 
@@ -100,7 +100,7 @@ const AllRoutes = () => {
           />
           <Route
             path="/detail/:competition_id/submits/:post_id/"
-            element={<Submits />}
+            element={<ItemPage />}
           />
         </Route>
         {/* 3.0 공모전 개설 */}

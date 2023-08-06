@@ -22,12 +22,6 @@ const DefaultLayout = (props) => {
     alert('로그아웃 완료');
   }
 
-  function authFunc(name) {
-    if (name == 'getUser') {
-      return Auth.getUser();
-    }
-  }
-
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);

@@ -17,6 +17,9 @@ import Logo from 'assets/images/brand/logo/logo.svg';
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
 
+// impoort Auth module
+// import { useAuth } from 'components/AuthContext';
+
 const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
@@ -24,7 +27,6 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
   const isLaptop = useMediaQuery({
     query: '(min-width: 1024px)',
   });
-
   const [expandedMenu, setExpandedMenu] = useState(false);
 
   return (

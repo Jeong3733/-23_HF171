@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component, useContext } from 'react';
 
 const AuthContext = React.createContext();
 
@@ -8,16 +8,16 @@ class AuthProvider extends Component {
   };
 
   componentDidMount() {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem('user');
     this.setState({ user });
   }
 
   getUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem('user'));
   };
 
   userIsAuthenticated = () => {
-    let user = localStorage.getItem("user");
+    let user = localStorage.getItem('user');
     if (!user) {
       return false;
     }
@@ -32,12 +32,12 @@ class AuthProvider extends Component {
   };
 
   userLogin = (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
     this.setState({ user });
   };
 
   userLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
     this.setState({ user: null });
   };
 

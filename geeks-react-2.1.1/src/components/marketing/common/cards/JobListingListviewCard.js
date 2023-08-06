@@ -5,9 +5,17 @@ import { Link, useParams } from 'react-router-dom';
 // import custom components
 
 const JobListingListviewCard = ({ item, index }) => {
+  console.log(item);
+  const pathType = {
+    NOTICE: 'announcements',
+    QNA: 'qna',
+    SUBMIT: 'submits',
+  };
   return (
     <Link
-      to={`/detail/${item.competition_info_id}/announcements/${item.post_info_id}/`}
+      to={`/detail/${item.competition_info_id}/${pathType[item.board_type]}/${
+        item.post_info_id
+      }/`}
       key={index}
     >
       <Card className="card-bordered mb-4 card-hover cursor-pointer">
@@ -20,13 +28,21 @@ const JobListingListviewCard = ({ item, index }) => {
                 className="icon-shape border rounded-circle"
                 width={100}
               />
+              {item.board_type === 'SUBMIT' && (
+                <div>
+                  <div>제출 상태 유무</div>
+                  <div>마감일까지 기간</div>
+                </div>
+              )}
             </div>
             <div className="ms-md-3 w-100 mt-3 mt-xl-1">
               <div className="d-flex justify-content-between mb-5">
                 <div>
                   <h3 className="mb-1 fs-4 text-inherit me-1">{item.title}</h3>
                   <div>
-                    <span>{item.contents} </span>
+                    <span>
+                      {item.contents} {item.board_type}
+                    </span>
                   </div>
                 </div>
               </div>
