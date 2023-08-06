@@ -20,12 +20,12 @@ import GKTippy from 'components/elements/tooltips/GKTippy';
 // import utility file
 import { numberWithCommas } from 'helper/utils';
 
-const CourseCard = ({ item, isLoggedIn, viewby, extraclass }) => {
+const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
   const link = `/detail/${item.competition_id}/`;
   /** Used in Course Index, Course Category, Course Filter Page, Student Dashboard etc...  */
   const GridView = () => {
     return (
-      <Link to={link}>
+      <Link to={link} key={index}>
         <Card className={`mb-4 card-hover ${extraclass}`}>
           <Image
             src="https://d33wubrfki0l68.cloudfront.net/adb87914b5be40415f80f57ce5ca8f0c0b57c549/13b9b/blog/images/reactarticle2.png" //{item.competition_image}
