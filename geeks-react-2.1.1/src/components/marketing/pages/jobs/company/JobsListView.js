@@ -18,81 +18,79 @@ import JobsListingData from 'data/marketing/jobs/JobsListingData';
 // import utility file
 import { isNotEmptyObj } from 'helper/utils';
 
-const JobsListView = () => {
+const JobsListView = ({ boardType }) => {
   const { competition_id } = useParams();
-  // const [postList, setPostList] = useState([]);
+  const [postList, setPostList] = useState([]);
 
-  // useEffect(() => {
-  //   // postList
-  //   const data4 = {
-  //     competitionId: competition_id,
-  //     boardType: 'SUBMIT',
-  //   };
-  //   apiUtils
-  //     .GetPostInfoByBoardType(data4)
-  //     .then((response) => {
-  //       const getPostList = response.data;
-  //       setPostList(getPostList);
-  //     })
-  //     .catch((error) => {
-  //       // alert(error.response.data);
-  //       const getPostList = [
-  //         {
-  //           post_id: '1',
-  //           title: '제출 1',
-  //           user_id: '1',
-  //           created_date: '0000-00-00',
-  //           contents: '',
-  //         },
-  //         {
-  //           post_id: '2',
-  //           title: '제출 2',
-  //           user_id: '1',
-  //           created_date: '0000-00-00',
-  //           contents: '',
-  //         },
-  //       ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  //       setPostList(getPostList);
-  //       handleLogError(error);
-  //     });
-  // }, [competition_id]);
-  const postList = [
-    {
-      post_id: '1',
-      title: '제출 1',
-      user_id: '1',
-      created_date: '0000-00-00',
-      contents:
-        'contentscontentscontentscontentscontentscontentscontentscontents',
-    },
-    {
-      post_id: '2',
-      title: '제출 2',
-      user_id: '1',
-      created_date: '0000-00-00',
-      contents:
-        'contentscontentscontentscontentscontentscontentscontentscontents',
-    },
-  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  console.log(postList);
-  const [Records] = useState(postList);
+  useEffect(() => {
+    // postList
+    const data4 = {
+      competitionId: competition_id,
+      boardType: boardType,
+    };
+    apiUtils
+      .GetPostInfoByBoardType(data4)
+      .then((response) => {
+        const getPostList = response.data;
+        setPostList(getPostList);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getPostList = [
+          {
+            post_id: '1',
+            title: '제출 1',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+          {
+            post_id: '2',
+            title: '제출 2',
+            user_id: '1',
+            created_date: '0000-00-00',
+            contents: '',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setPostList(getPostList);
+        handleLogError(error);
+      });
+  }, [competition_id, boardType]);
+  // const postList = [
+  //   {
+  //     post_id: '1',
+  //     title: '제출 1',
+  //     user_id: '1',
+  //     created_date: '0000-00-00',
+  //     contents:
+  //       'contentscontentscontentscontentscontentscontentscontentscontents',
+  //   },
+  //   {
+  //     post_id: '2',
+  //     title: '제출 2',
+  //     user_id: '1',
+  //     created_date: '0000-00-00',
+  //     contents:
+  //       'contentscontentscontentscontentscontentscontentscontentscontents',
+  //   },
+  // ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
   // const [Records] = useState(JobsListingData);
+
   // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
   const RecordsPerPage = 5;
   const pagesVisited = pageNumber * RecordsPerPage;
-  const pageCount = Math.ceil(Records.length / RecordsPerPage);
+  const pageCount = Math.ceil(postList.length / RecordsPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-  const displayRecords = Records.slice(
-    pagesVisited,
-    pagesVisited + RecordsPerPage,
-  ).map((record, index) => {
-    return <JobListingListviewCard item={record} key={index} />;
-  });
+  const displayRecords = postList
+    .slice(pagesVisited, pagesVisited + RecordsPerPage)
+    .map((record, index) => {
+      return <JobListingListviewCard item={record} key={index} />;
+    });
   // end of paging setup
-  console.log(postList.length != 0);
   if (postList.length != 0) {
     return (
       <Fragment>

@@ -23,10 +23,10 @@ import SignUpSuccess from 'components/dashboard/authentication/SignUpSuccess';
 
 import About from 'components/marketing/pages/jobs/company/About';
 import Announcements from 'components/marketing/pages/jobs/company/Announcements';
-import QNA from 'components/marketing/pages/jobs/company/Announcements';
-// import QNA from 'components/marketing/pages/jobs/company/QNA';
-import Submits from 'components/marketing/pages/jobs/company/Announcements';
-// import Submits from 'components/marketing/pages/jobs/company/Submits';
+// import QNA from 'components/marketing/pages/jobs/company/Announcements';
+import QNA from 'components/marketing/pages/jobs/company/QNA';
+// import Submits from 'components/marketing/pages/jobs/company/Announcements';
+import Submits from 'components/marketing/pages/jobs/company/Submits';
 
 // 4.0 평가 리스트
 import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';

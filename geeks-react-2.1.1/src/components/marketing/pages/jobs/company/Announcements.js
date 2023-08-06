@@ -24,7 +24,7 @@ const Announcements = () => {
       </Row>
       <Row>
         <Col>
-          <JobsListView />
+          <JobsListView boardType={'NOTICE'} />
         </Col>
       </Row>
     </Container>

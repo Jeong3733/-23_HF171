@@ -6,15 +6,7 @@ import { Fragment } from 'react';
 import FormSelect from 'components/elements/form-select/FormSelect';
 
 // import sub components
-// import JobSearchBox from "components/marketing/common/jobs/JobSearchBox";
 import JobsListView from './JobsListView';
-// import GridListViewButton from "components/elements/miscellaneous/GridListViewButton";
-// import JobsGridView from "./JobsGridView";
-
-// import sub component
-import CommonHeaderTabs from './CommonHeaderTabs';
-// import data files
-import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
 
 const Submits = () => {
   const sortByOptions = [
@@ -32,7 +24,7 @@ const Submits = () => {
       </Row>
       <Row>
         <Col>
-          <JobsListView />
+          <JobsListView boardType={'SUBMIT'} />
         </Col>
       </Row>
     </Container>

@@ -5,11 +5,9 @@ import { Link, useParams } from 'react-router-dom';
 // import custom components
 
 const JobListingListviewCard = ({ item, index }) => {
-  const { competition_id } = useParams();
-  console.log(item);
   return (
     <Link
-      to={`/detail/${competition_id}/announcements/${item.post_id}/`}
+      to={`/detail/${item.competition_info_id}/announcements/${item.post_info_id}/`}
       key={index}
     >
       <Card className="card-bordered mb-4 card-hover cursor-pointer">
@@ -36,7 +34,7 @@ const JobListingListviewCard = ({ item, index }) => {
                 <div className="mb-2 mb-md-0">
                   <div>
                     <i className="fe fe-briefcase text-muted"></i>
-                    <span> {item.user_id}</span>
+                    <span> {item.user_info_id}</span>
                   </div>
                   <div>
                     <i className="fe fe-clock text-muted"></i>
