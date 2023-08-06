@@ -43,7 +43,7 @@ const EvaluateSubmitList = () => {
         // alert(error.response.data);
         const getCompetitionInfo = [
           {
-            competition_id: 'competition_id',
+            competition_info_id: 'competition_info_id',
             competition_name: 'competition_name',
           },
         ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.

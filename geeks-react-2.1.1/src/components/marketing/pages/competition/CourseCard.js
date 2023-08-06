@@ -21,7 +21,7 @@ import GKTippy from 'components/elements/tooltips/GKTippy';
 import { numberWithCommas } from 'helper/utils';
 
 const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
-  const link = `/detail/${item.competition_id}/`;
+  const link = `/detail/${item.competition_info_id}/`;
   /** Used in Course Index, Course Category, Course Filter Page, Student Dashboard etc...  */
   const GridView = () => {
     return (

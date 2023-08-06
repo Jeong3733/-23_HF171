@@ -38,7 +38,7 @@ const DetailLayout = ({ isLoggedIn }) => {
           // alert(error.response.data);
           const getCompetitionInfo = [
             {
-              competition_id: '11111',
+              competition_info_id: '11111',
               competition_name: '11111',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -70,7 +70,7 @@ const DetailLayout = ({ isLoggedIn }) => {
           // alert(error.response.data);
           const getCompetitionInfo = [
             {
-              competition_id: '11111',
+              competition_info_id: '11111',
               competition_name: '11111',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',

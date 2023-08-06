@@ -35,7 +35,7 @@ const BrowseCategories = (props) => {
           // alert(error.response.data);
           const getCompetitionList = [
             {
-              competition_id: '11111',
+              competition_info_id: '11111',
               competition_name: '11111',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -53,7 +53,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '22222',
+              competition_info_id: '22222',
               competition_name: '22222',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -70,7 +70,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '33333',
+              competition_info_id: '33333',
               competition_name: '33333',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -84,7 +84,7 @@ const BrowseCategories = (props) => {
               competition_type_list: [{ type: '개발' }, { type: '교육' }],
             },
             {
-              competition_id: '44444',
+              competition_info_id: '44444',
               competition_name: '44444',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -101,7 +101,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '55555',
+              competition_info_id: '55555',
               competition_name: '55555',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -118,7 +118,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '66666',
+              competition_info_id: '66666',
               competition_name: '66666',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -150,7 +150,7 @@ const BrowseCategories = (props) => {
           // alert(error.response.data);
           const getCompetitionList = [
             {
-              competition_id: '11111',
+              competition_info_id: '11111',
               competition_name: '11111',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -165,7 +165,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '22222',
+              competition_info_id: '22222',
               competition_name: '22222',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -179,7 +179,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '33333',
+              competition_info_id: '33333',
               competition_name: '33333',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -190,7 +190,7 @@ const BrowseCategories = (props) => {
               competition_type_list: [{ type: '개발' }, { type: '교육' }],
             },
             {
-              competition_id: '44444',
+              competition_info_id: '44444',
               competition_name: '44444',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -204,7 +204,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '55555',
+              competition_info_id: '55555',
               competition_name: '55555',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
@@ -218,7 +218,7 @@ const BrowseCategories = (props) => {
               ],
             },
             {
-              competition_id: '66666',
+              competition_info_id: '66666',
               competition_name: '66666',
               competition_image: 'competition_image',
               competition_readme: 'competition_readme',
