@@ -30,33 +30,40 @@ export const handleCopyClipBoard = async (text) => {
   }
 };
 
+/**
+ * 파일 다운로드
+ * v1.0.0
+ */
 export const downloadFile = (uuid) => {
-  const url = baseURL + '/' + uuid;
-  console.log(url);
+  const url = s3Link(uuid);
 
-  // fetch(url, { method: 'GET' })
-  //   .then((res) => {
-  //     return res.blob();
-  //   })
-  //   .then((blob) => {
-  //     const url = window.URL.createObjectURL(blob);
-  //     const a = document.createElement('a');
-  //     a.href = url;
-  //     a.download = '파일명';
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     setTimeout((_) => {
-  //       window.URL.revokeObjectURL(url);
-  //     }, 60000);
-  //     a.remove();
-  //   })
-  //   .catch((err) => {
-  //     console.error('err: ', err);
-  //   });
+  fetch(url, { method: 'GET' })
+    .then((res) => {
+      return res.blob();
+    })
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '파일명';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout((_) => {
+        window.URL.revokeObjectURL(url);
+      }, 60000);
+      a.remove();
+    })
+    .catch((err) => {
+      console.error('err: ', err);
+    });
 };
 
+/**
+ * 링크 만들기
+ * v1.0.0
+ */
 export const s3Link = (uuid) => {
-  const url = baseURL + '/' + uuid;
+  const url = baseURL + '/aws/' + uuid;
   return url;
 };
 

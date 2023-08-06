@@ -55,7 +55,7 @@ const ItemPage = () => {
               },
             ],
             file_info_id: 1,
-            path: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
+            path: '168eeb95-883d-4252-969e-d3fb93f6cf11',
             file_title: 'sdfsdf',
             file_type: null,
             file_extension: 'HWP',
