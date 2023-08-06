@@ -18,17 +18,18 @@ import LevelIcon from 'components/marketing/common/miscellaneous/LevelIcon';
 import GKTippy from 'components/elements/tooltips/GKTippy';
 
 // import utility file
-import { numberWithCommas } from 'helper/utils';
+import { numberWithCommas, s3Link } from 'helper/utils';
 
 const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
   const link = `/detail/${item.competition_info_id}/`;
+  console.log(item);
   /** Used in Course Index, Course Category, Course Filter Page, Student Dashboard etc...  */
   const GridView = () => {
     return (
       <Link to={link} key={index}>
         <Card className={`mb-4 card-hover ${extraclass}`}>
           <Image
-            src="https://d33wubrfki0l68.cloudfront.net/adb87914b5be40415f80f57ce5ca8f0c0b57c549/13b9b/blog/images/reactarticle2.png" //{item.competition_image}
+            src={s3Link(item.competition_image)}
             alt={item.competition_image}
             className="card-img-top rounded-top-md"
           />
@@ -38,6 +39,9 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
             <h3 className="h4 text-inherit mb-2 text-truncate-line-2 ">
               {item.competition_name}
             </h3>
+            <span className="h4 text-inherit mb-2 text-truncate-line-2 ">
+              user_id:{item.user_id}
+            </span>
             {/* 공모전 분류 */}
             <ListGroup as="ul" bsPrefix="list-inline" className="mb-2">
               {item.competition_type_list.map((i) => (

@@ -17,6 +17,56 @@ import ApplyForm from './ApplyForm.js';
 
 const ItemPage = () => {
   const { competition_id, post_id } = useParams();
+  const { Auth } = useOutletContext();
+  const [postInfo, setPostInfo] = useState([]);
+
+  useEffect(() => {
+    // postInfo
+    const data4 = {
+      postId: post_id,
+    };
+    const user = Auth.getUser();
+    apiUtils
+      .GetPostInfoChkByPostId(user, data4)
+      .then((response) => {
+        const getPostInfo = response.data;
+        setPostInfo(getPostInfo[0]);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getPostInfo = [
+          {
+            post_info_id: 1,
+            user_info_id: 'www',
+            competition_info_id: 1,
+            board_type: 'SUBMIT',
+            // board_type: 'NOTICE',
+            title: 'notice1',
+            contents: '공지에요',
+            created_date: '2023-08-04T20:18:21',
+            upload_post_type_list: [
+              {
+                post_info_id: 1,
+                type: 'pdf',
+              },
+              {
+                post_info_id: 1,
+                type: 'ppt',
+              },
+            ],
+            file_info_id: 1,
+            path: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
+            file_title: 'sdfsdf',
+            file_type: null,
+            file_extension: 'HWP',
+            upload_datetime: '2023-08-05T00:09:12',
+          },
+        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setPostInfo(getPostInfo[0]);
+        handleLogError(error);
+      });
+  }, [post_id]);
+  console.log(postInfo);
   return (
     <section className="bg-white">
       <Container>
@@ -25,65 +75,41 @@ const ItemPage = () => {
             {/* heading */}
             <div className="text-center mb-6">
               <h1 className="display-3 mb-4 fw-bold">
-                post_id: {post_id}
+                post_info_id: {postInfo.post_info_id}
                 <br />
-                competition_id: {competition_id}
+                competition_info_id: {postInfo.competition_info_id}
               </h1>
-              Canada <span className="text-muted">(Remote)</span>
             </div>
           </div>
         </Row>
         <Row>
-          <Col xl={{ span: 3, offset: 1 }} lg={4} xs={12}>
-            {/* <Col xl={{ span: 4, offset: 0 }} xs={12}> */}
-            <ApplyForm />
-          </Col>
-          <Col xl={7} lg={8} xs={12}>
+          {postInfo.board_type === 'SUBMIT' && postInfo.file_info_id ? (
+            // 업로드한 상태
+            <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
+              {/* <Col xl={{ span: 4, offset: 0 }} xs={12}> */}
+              <ApplyForm Auth={Auth} file={postInfo} />
+            </Col>
+          ) : (
+            <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
+              {/* <Col xl={{ span: 4, offset: 0 }} xs={12}> */}
+              <ApplyForm Auth={Auth} />
+            </Col>
+          )}
+          <Col
+            xl={{
+              span: 8,
+              offset: `${postInfo.board_type === 'SUBMIT' ? 4 : 2}`,
+            }}
+            lg={{
+              span: 8,
+              offset: `${postInfo.board_type === 'SUBMIT' ? 4 : 2}`,
+            }}
+            xs={12}
+          >
             <div className="mb-5">
               {/* heading */}
               <div className="mt-2">
-                <h2>Responsibilities</h2>
-
-                <div className="mt-4">
-                  {/* list */}
-                  <ul className="list-unstyled">
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary mt-1"></i>
-                      Design, build, and maintain efficient, reusable, and
-                      reliable Ruby code
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary  mt-1"></i>{' '}
-                      Identify bottlenecks and bugs, and devise solutions to
-                      these problems
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary mt-1"></i>{' '}
-                      Integration of user-facing elements developed by front-end
-                      developers with server side logic
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary  mt-1"></i>{' '}
-                      Help maintain code quality, organization and
-                      automatization
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary  mt-1"></i>
-                      Experience with Ruby on Rails, along with other common
-                      libraries such as RSpec and Resque
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary  mt-1"></i>
-                      Basic understanding of front-end technologies, such as
-                      JavaScript, HTML5, and CSS3
-                    </li>
-                    <li className="d-flex mb-4 ">
-                      <i className="fe fe-check-circle me-2 text-primary  mt-1"></i>
-                      Ability to integrate multiple data sources and databases
-                      into one system
-                    </li>
-                  </ul>
-                </div>
+                <div className="mt-4">{postInfo.contents}</div>
               </div>
               {/* form to apply for this job */}
             </div>

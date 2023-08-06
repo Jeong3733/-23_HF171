@@ -15,14 +15,14 @@ import { Fragment } from 'react';
 // import media files
 import CompanyBG from 'assets/images/background/company-bg.jpg';
 
-// import utility file
-// import { handleCopyClipBoard } from 'helper/utils';
+// import utility filedata
+import { s3Link } from 'helper/utils';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { data, info } = props;
+  const { info } = props;
   const location = useLocation();
-
+  console.log(info);
   const tabItems = [
     {
       title: '소개글',
@@ -74,8 +74,7 @@ const CommonHeaderTabs = (props) => {
               <div className="mt-n5">
                 <Image
                   // src={info.competition_image}
-                  src="https://miro.medium.com/v2/resize:fit:914/format:webp/1*zIxyGH-bIZP4cA7Ho8oilQ.png"
-                  // src={props.data.logo}
+                  src={s3Link(info.competition_image)}
                   alt=""
                   className=" rounded-3 border"
                   width={160}
@@ -86,6 +85,7 @@ const CommonHeaderTabs = (props) => {
                   <div>
                     {/* heading */}
                     <h1 className="mb-0 ">{info.competition_name} </h1>
+                    <h1 className="mb-0 ">user_id:{info.user_id}</h1>
 
                     <div className="lh-1 mb-2 d-flex align-items-center">
                       <span>
@@ -96,9 +96,7 @@ const CommonHeaderTabs = (props) => {
                     <div>
                       {/* reviews */}
                       <span className="text-dark fw-medium">뭐 넣지</span>{' '}
-                      <span className="ms-0">
-                        ({props.data.totalReviews} Reviews)
-                      </span>
+                      <span className="ms-0">(Reviews)</span>
                     </div>
                   </div>
                   <div className="d-flex align-items-center gap-2">

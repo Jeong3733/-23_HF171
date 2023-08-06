@@ -30,6 +30,36 @@ export const handleCopyClipBoard = async (text) => {
   }
 };
 
+export const downloadFile = (uuid) => {
+  const url = baseURL + '/' + uuid;
+  console.log(url);
+
+  // fetch(url, { method: 'GET' })
+  //   .then((res) => {
+  //     return res.blob();
+  //   })
+  //   .then((blob) => {
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = '파일명';
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     setTimeout((_) => {
+  //       window.URL.revokeObjectURL(url);
+  //     }, 60000);
+  //     a.remove();
+  //   })
+  //   .catch((err) => {
+  //     console.error('err: ', err);
+  //   });
+};
+
+export const s3Link = (uuid) => {
+  const url = baseURL + '/' + uuid;
+  return url;
+};
+
 /**
  * Add commas to a number
  * v1.0.0

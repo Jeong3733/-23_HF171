@@ -17,8 +17,8 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 import { isNotEmptyObj } from 'helper/utils';
 
 const MyCategories = (props) => {
-  console.log('MyCategoriesMyCategoriesMyCategories');
-  const { Auth } = props;
+  // console.log('MyCategoriesMyCategoriesMyCategories');
+  const { Auth, isLoggedIn } = props;
   const [competitionList, setCompetitionList] = useState({});
 
   useEffect(() => {
@@ -129,8 +129,7 @@ const MyCategories = (props) => {
         setCompetitionList(getCompetitionList);
         handleLogError(error);
       });
-  }, []);
-
+  }, [isLoggedIn]);
   const title = '나의 공모전';
   // const subtitle = 'Browse Categories';
   // const description = `Choose from 32,000 online video courses with new additions published every month.`;
@@ -144,7 +143,10 @@ const MyCategories = (props) => {
             // description={description}
             // subtitle={subtitle}
           />
-          <CoursesTabSliderByType data={competitionList} isLoggedIn={true} />
+          <CoursesTabSliderByType
+            data={competitionList}
+            isLoggedIn={isLoggedIn}
+          />
         </Container>
       </section>
     );

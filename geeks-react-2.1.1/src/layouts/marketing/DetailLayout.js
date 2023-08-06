@@ -20,14 +20,13 @@ const DetailLayout = () => {
   const { competition_id } = useParams();
   const { isLoggedIn, Auth } = useOutletContext();
   const [competitionInfo, setCompetitionInfo] = useState({});
-  // console.log(isLoggedIn);
-
   useEffect(() => {
     const data1 = {
       competitionId: competition_id,
     };
     if (isLoggedIn) {
       const user = Auth.getUser();
+      // console.log(isLoggedIn);
       apiUtils
         .GetCompetitionInfoChkByCompetitionId(user, data1)
         .then((response) => {
@@ -121,11 +120,11 @@ const DetailLayout = () => {
           handleLogError(error);
         });
     }
-  }, [competition_id]);
+  }, [isLoggedIn]);
   const data = ComapniesListData[0];
   return (
-    <CommonHeaderTabs data={data} info={competitionInfo}>
-      <Outlet context={{ isLoggedIn, Auth }} />
+    <CommonHeaderTabs info={competitionInfo}>
+      <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
     </CommonHeaderTabs>
   );
 };

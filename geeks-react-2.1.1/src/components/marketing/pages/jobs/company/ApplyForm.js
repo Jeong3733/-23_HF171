@@ -1,66 +1,87 @@
 // import node module libraries
-import { Card, Form, Button } from 'react-bootstrap';
+import {
+  Card,
+  Form,
+  Button,
+  ButtonGroup,
+  Col,
+  Row,
+  Container,
+} from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
-const ApplyForm = () => {
+// impoort Auth module
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+import { downloadFile, s3Link } from 'helper/utils';
+
+const ApplyForm = ({ Auth, file }) => {
+  const { post_id } = useParams();
+
+  const handleSubmit = (e) => {
+    console.log(e);
+
+    let formData = { postId: post_id };
+    const formDataToSend = new FormData();
+    formDataToSend.append(
+      'data',
+      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+    );
+    formDataToSend.append('file', e.target.formFile);
+
+    // 'Content-type': 'multipart/form-data',
+    alert(JSON.stringify(formDataToSend));
+    const user = Auth.getUser();
+    apiUtils
+      .AddCompetition(user, formDataToSend)
+      .then((response) => {
+        console.log(response.data);
+        // const { accessToken, refreshToken } = response.data;
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+      });
+  };
   return (
     <div className="mt-2 mb-12">
       <Card className="bg-light shadow-none">
+        {file && (
+          <Card.Body className="p-md-4">
+            <Container>
+              <Row>
+                <h3 className="mb-4">현재 파일 </h3>
+              </Row>
+              <Row>
+                <ButtonGroup size="sm" aria-label="Basic mixed styles example">
+                  <Button
+                    sm={8}
+                    lg={8}
+                    variant="outline-primary"
+                    onClick={() => downloadFile(file.path)}
+                  >
+                    다운로드
+                  </Button>
+                  <Button variant="secondary" href={s3Link(file.path)}>
+                    미리보기
+                  </Button>
+                </ButtonGroup>
+              </Row>
+            </Container>
+          </Card.Body>
+        )}
+      </Card>
+      <Card className="mt-3 bg-light shadow-none">
         <Card.Body className="p-md-4">
-          <h3 className="mb-4">Apply for this Job </h3>
-
+          <h3 className="mb-4">파일 제출 </h3>
           {/* form to apply for the job */}
-          <Form>
-            <Form.Group className="mb-3" controlId="formFirstName">
-              <Form.Label>
-                First Name <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Control type="text" placeholder="First Name" required />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formLastName">
-              <Form.Label>
-                Last Name <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Control type="text" placeholder="Last Name" required />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formEmail">
-              <Form.Label>
-                Email <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="hello@example.com"
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formPhone">
-              <Form.Label>
-                Phone <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Control type="number" placeholder="+91" required />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formResumeCV">
-              <Form.Label>
-                Resume/CV <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Control type="file" required />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formCoverLetter">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formFile">
               <Form.Label>
                 Cover letter <span className="text-danger">*</span>
               </Form.Label>
-              <Form.Control type="file" />
+              <Form.Control type="file" required />
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formCoverLetter">
-              <Form.Label>Why is Geeks important to you?</Form.Label>
-              <Form.Control as="textarea" placeholder="type here..." rows="4" />
-            </Form.Group>
-
             <Button variant="primary" type="submit">
               Submit
             </Button>

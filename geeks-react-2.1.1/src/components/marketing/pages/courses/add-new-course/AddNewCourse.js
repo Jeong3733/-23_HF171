@@ -1,22 +1,22 @@
 // import node module libraries
-import React, { useEffect, useState, Fragment } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Col, Row, Container } from "react-bootstrap";
+import React, { useEffect, useState, Fragment } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Col, Row, Container } from 'react-bootstrap';
 
 // import custom components
-import GKStepper from "components/elements/stepper/GKStepper";
+import GKStepper from 'components/elements/stepper/GKStepper';
 
 // import sub components ( Steps )
-import BasicInformation from "./steps/BasicInformation";
-import CoursesMedia from "./steps/CoursesMedia";
-import Curriculum from "./steps/Curriculum";
+import BasicInformation from './steps/BasicInformation';
+import CoursesMedia from './steps/CoursesMedia';
+import Curriculum from './steps/Curriculum';
 
 // impoort Auth module
 // import { useCookies } from 'react-cookie';
-import { useAuth } from "components/AuthContext";
-import { apiUtils } from "components/utils/ApiUtils";
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
 // import { parseJwt } from 'components/utils/JwtUtils';
-import { handleLogError } from "components/utils/ErrorUtils";
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 const AddNewCourse = () => {
   const Auth = useAuth();
@@ -38,7 +38,7 @@ const AddNewCourse = () => {
                         <p><strong>이렇게</strong> <em>글자에</em> <u>스타일을</u> 적용할 수도 있습니다.</p>`;
 
   const [formData, setFormData] = useState({
-    competitionName: "",
+    competitionName: '',
     competitionType: {
       개발: false,
       교육: false,
@@ -48,31 +48,31 @@ const AddNewCourse = () => {
       공공: false,
       금융: false,
       의료: false,
-      기타: false
+      기타: false,
     },
-    competitionDescription: "",
-    competitionImage: "",
-    competitionDateStart: "",
-    competitionDateEnd: "",
+    competitionDescription: '',
+    competitionImage: '',
+    competitionDateStart: '',
+    competitionDateEnd: '',
     competitionReadme: initialValue,
-    competitionDocs: ""
+    competitionDocs: '',
   });
 
   const handleChange = (event) => {
     const newData = {};
-    if (event.target.type === "checkbox") {
-      const [parentName, myName] = event.target.getAttribute("name").split(":");
+    if (event.target.type === 'checkbox') {
+      const [parentName, myName] = event.target.getAttribute('name').split(':');
       newData[parentName] = formData[parentName];
       newData[parentName][myName] = event.target.checked;
-    } else if (event.target.name === "competitionImage") {
+    } else if (event.target.name === 'competitionImage') {
       if (event.target.files[0]) {
         setCompetitionImage(event.target.files[0]);
-        console.log("competitionImage 입니다.");
+        console.log('competitionImage 입니다.');
       }
-    } else if (event.target.name === "competitionDocs") {
+    } else if (event.target.name === 'competitionDocs') {
       if (event.target.files[0]) {
         setCompetitionDocs(event.target.files[0]);
-        console.log("competitionDocs 입니다.");
+        console.log('competitionDocs 입니다.');
       }
     } else {
       newData[event.target.name] = event.target.value;
@@ -93,26 +93,29 @@ const AddNewCourse = () => {
   const navigate = useNavigate();
   const submit = () => {
     const formDataToSend = new FormData();
-    formDataToSend.append("data", new Blob([JSON.stringify(formData)], { type: "application/json" }));
+    formDataToSend.append(
+      'data',
+      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+    );
     if (competitionImage != null) {
-      formDataToSend.append("competitionImage", competitionImage);
+      formDataToSend.append('competitionImage', competitionImage);
     }
     if (competitionDocs != null) {
-      formDataToSend.append("competitionDocs", competitionDocs);
+      formDataToSend.append('competitionDocs', competitionDocs);
     }
 
     alert(JSON.stringify(formDataToSend));
-    // console.log(formData);
+    console.log(formDataToSend);
     // 로그인 정보 가져오기
     const user = Auth.getUser();
     apiUtils
       .AddCompetition(user, formDataToSend)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         // const { accessToken, refreshToken } = response.data;
 
         // 메인페이지 이동
-        navigate("/");
+        navigate('/');
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -123,18 +126,18 @@ const AddNewCourse = () => {
   const steps = [
     {
       id: 1,
-      title: "기본 정보",
+      title: '기본 정보',
       content: (
         <BasicInformation
           data={formData}
           handleChange={handleChange}
           next={next}
         />
-      )
+      ),
     },
     {
       id: 2,
-      title: "소개글",
+      title: '소개글',
       content: (
         <CoursesMedia
           data={formData}
@@ -142,11 +145,11 @@ const AddNewCourse = () => {
           next={next}
           previous={previous}
         />
-      )
+      ),
     },
     {
       id: 3,
-      title: "미리보기",
+      title: '미리보기',
       content: (
         <Curriculum
           data={formData}
@@ -154,8 +157,8 @@ const AddNewCourse = () => {
           submit={submit}
           previous={previous}
         />
-      )
-    }
+      ),
+    },
   ];
 
   // if (!isLoggedIn) {
@@ -180,7 +183,7 @@ const AddNewCourse = () => {
                   </Link>
                   <Link
                     onClick={(e) => {
-                      alert("이런 고오급 기능은 아직 안 된다구...");
+                      alert('이런 고오급 기능은 아직 안 된다구...');
                     }}
                     className="btn btn-dark "
                   >

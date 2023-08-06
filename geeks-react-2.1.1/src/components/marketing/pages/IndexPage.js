@@ -27,7 +27,7 @@ const IndexPage = () => {
         <Container>
           {isLoggedIn && (
             <div className="position-relative">
-              <MyCategories Auth={Auth} />
+              <MyCategories isLoggedIn={isLoggedIn} Auth={Auth} />
             </div>
           )}
           <div className="position-relative">

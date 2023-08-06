@@ -17,11 +17,11 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 import { isNotEmptyObj } from 'helper/utils';
 
 const BrowseCategories = (props) => {
-  console.log('BrowseCategoriesBrowseCategories');
-  const { isLoggedIn, Auth } = props;
+  // console.log('BrowseCategoriesBrowseCategories');
+  const { Auth, isLoggedIn } = props;
   const [competitionList, setCompetitionList] = useState({});
-
   useEffect(() => {
+    // console.log(isLoggedIn);
     if (isLoggedIn) {
       const user = Auth.getUser();
       apiUtils
@@ -236,7 +236,7 @@ const BrowseCategories = (props) => {
           handleLogError(error);
         });
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const title = '공모전 둘러보기';
   const subtitle = 'Browse Categories';

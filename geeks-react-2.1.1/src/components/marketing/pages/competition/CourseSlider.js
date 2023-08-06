@@ -54,9 +54,9 @@ const CourseSlider = ({
                 dataSource =
                   dataSource.competition_type_list.some(
                     (item) => item.type === category,
-                  ) && dataSource.user_id === 'sbe07032';
+                  ) && dataSource.user_id != false;
               } else {
-                dataSource = dataSource.user_id != '';
+                dataSource = dataSource.user_id != false;
               }
             } else {
               if (category != null) {

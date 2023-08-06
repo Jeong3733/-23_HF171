@@ -17,6 +17,7 @@ export const apiUtils = {
   GetPostInfoChkByPostId,
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
+  AddFileInfo,
 };
 
 const cookies = new Cookies();
@@ -393,11 +394,13 @@ function GetCompetitionInfoByCompetitionId(data) {
  *   "team_id": 1
  * }
  */
-function GetCompetitionInfoChkByCompetitionId(data) {
+function GetCompetitionInfoChkByCompetitionId(user, data) {
   const url = `/get/competitionInfo/chk/competitionId`;
   return instance.post(url, data, {
-    headers: { 'Content-type': 'application/json' },
-    // headers: { Authorization: bearerAccess(user) },
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
   });
 }
 
@@ -425,22 +428,12 @@ function GetPostInfoByPostId(data) {
 //   "created_date": "2023-08-04T20:18:21"
 // }
 
-// 게시물 요청 by postId - output
-// {
-//   "post_info_id": 1,
-//   "user_info_id": "www",
-//   "competition_info_id": 1,
-//   "board_type": "NOTICE",
-//   "title": "notice1",
-//   "contents": "공지에요",
-//   "created_date": "2023-08-04T20:18:21"
-// }
-
 // 게시물 디테일 요청 by postId
 /** 게시물 디테일 요청 by postId
- * 해당 게시물에 파일 업로드 유무 확인
- upload_post_type_list 와 file_info_id 이거 필요
-
+ * 해당 게시물에 내가 파일 업로드 했는지 확인 유무 확인
+ * 
+ 해당 postId와 연결된 upload_post 와 file_info 정보가 필요
+ 연결 안되어 있으면 null 값으로
 
 {
   post_info_id: 1,
@@ -461,7 +454,7 @@ function GetPostInfoByPostId(data) {
     },
   ],
   file_info_id: 1,
-  user_info_id: '파일 주인',
+  user_info_id: '로그인 한 아이디',
   path: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
   file_title: 'sdfsdf',
   file_type: null,
@@ -469,6 +462,7 @@ function GetPostInfoByPostId(data) {
   upload_datetime: '2023-08-05T00:09:12',
 };
 }
+
 */
 function GetPostInfoChkByPostId(user, data) {
   const url = `/get/postInfo/chk/postId`;
@@ -535,6 +529,7 @@ function GetPostInfoByBoardType(data) {
 // ]
 
 // 파일 리스트 요청 by PostId
+
 function GetFileInfoByPostId(data) {
   const url = `/get/fileInfo/postId`;
   return instance.post(url, data, {
@@ -565,6 +560,17 @@ function GetFileInfoByPostId(data) {
 //     "upload_datetime": "2023-08-05T00:09:12"
 //   }
 // ]
+
+// 게시물 파일 업로드
+function AddFileInfo(user, data) {
+  const url = `/add/fileInfo/`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
 
 // -- Axios
 const instance = axios.create({

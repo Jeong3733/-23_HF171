@@ -44,11 +44,6 @@ import ManageSubmits from 'components/dashboard/cms/all-posts/ManageSubmits';
 import ManageAnnouncements from 'components/dashboard/cms/all-posts/ManageAnnouncements';
 import ManageEvaluates from 'components/dashboard/cms/all-posts/ManageEvaluates';
 
-import CompanyBenifits from 'components/marketing/pages/jobs/company/Benifits';
-import CompanyPhotos from 'components/marketing/pages/jobs/company/Photos';
-import UploadResume from 'components/marketing/pages/jobs/upload-resume/UploadResume';
-import JobsList from 'components/marketing/pages/jobs/listing/JobsList';
-
 // Study
 import ChatLayout from './dashboard/ChatLayout'; // ( added in v2.0.0 )
 import Chat from 'components/dashboard/chat/Chat';
@@ -84,13 +79,13 @@ const AllRoutes = () => {
           />
           <Route
             path="/detail/:competition_id/announcements/:post_id/"
-            element={<Announcements />}
+            element={<ItemPage />}
           />
           {/* QA 게시판 */}
           <Route path="/detail/:competition_id/qna/" element={<QNA />} />
           <Route
             path="/detail/:competition_id/qna/:post_id/"
-            element={<QNA />}
+            element={<ItemPage />}
           />
 
           {/* 제출 */}
