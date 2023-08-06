@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+// TODO: 예외 처리하기 (competitionId 가 잘못된 경우, userId 가 잘못된 경우 등등)
 @RestController
 public class CompetitionController {
 
@@ -28,24 +29,37 @@ public class CompetitionController {
     }
 
     @GetMapping("/get/competitionInfo")
-    public ResponseEntity<List<CompetitionDto>> getCompetitionInfoList() {
-        List<CompetitionDto> competitionInfoDtoList = competitionService.getCompetitionInfoList().stream()
+    public ResponseEntity<List<CompetitionDto>> getAllCompetitionInfoList() {
+        List<CompetitionDto> competitionInfoDtoList = competitionService.getAllCompetitionInfoList().stream()
                 .map(CompetitionDto::new)
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(competitionInfoDtoList, HttpStatus.OK);
     }
 
-    @PostMapping("/get/competitionInfo/competitionId")
-    public ResponseEntity<CompetitionDto> getCompetitionInfo(@RequestBody Map<String, String> competitionIdMap) {
-        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
-        CompetitionInfo competitionInfo = competitionService.getCompetitionInfoByCompetitionId(competitionId);
-        CompetitionDto competitionInfoDto = new CompetitionDto(competitionInfo);
-        return new ResponseEntity<>(competitionInfoDto, HttpStatus.OK);
+    // 아래와 달리 모든 CompetitionInfo 조회
+    @GetMapping("/get/competitionInfo/chk/userId")
+    public ResponseEntity<List<CompetitionWithUserByCompDto>> getAllCompetitionWithUserByCompListByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // TODO: 알맞은 예외 코드 작성하기
+        if (authentication == null || authentication.getName().equals("anonymousUser")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        List<CompetitionWithUserByCompDto> competitionWithUserByCompDto = competitionService.getAllCompetitionInfoListWithUserId(authentication.getName()).stream()
+                .map(competitionInfoWithUserByCompetition -> {
+                    CompetitionInfo competitionInfo = (CompetitionInfo) competitionInfoWithUserByCompetition[0];
+                    UserByCompetition userByCompetition = (UserByCompetition) competitionInfoWithUserByCompetition[1];
+                    return new CompetitionWithUserByCompDto(competitionInfo, userByCompetition);
+                })
+                .toList();
+
+        return new ResponseEntity<>(competitionWithUserByCompDto, HttpStatus.OK);
     }
 
     @PostMapping("/get/competitionInfo/userId")
-    public ResponseEntity<?> getCompetitionInfoListByUserId() {
+    public ResponseEntity<?> getCompetitionWithUserByCompListByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // TODO: 알맞은 예외 코드 작성하기
@@ -62,6 +76,29 @@ public class CompetitionController {
                 .toList();
 
         return new ResponseEntity<>(competitionWithUserByCompDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/competitionInfo/competitionId")
+    public ResponseEntity<CompetitionDto> getCompetitionInfoByCompetitionId(@RequestBody Map<String, String> competitionIdMap) {
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        CompetitionInfo competitionInfo = competitionService.getCompetitionInfoByCompetitionId(competitionId);
+        CompetitionDto competitionInfoDto = new CompetitionDto(competitionInfo);
+        return new ResponseEntity<>(competitionInfoDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/competitionInfo/chk/competitionId")
+    public ResponseEntity<CompetitionWithUserByCompDto> getCompetitionWithUserByCompByCompetitionIdAndUserId(@RequestBody Map<String, String> competitionIdMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        CompetitionInfo competitionInfo = competitionService.getCompetitionInfoByCompetitionId(competitionId);
+        UserByCompetition userByCompetition = competitionService.getUserAndCompetitionByUserIdAndCompetitionId(authentication.getName(), competitionId);
+        if (userByCompetition == null) {
+            CompetitionWithUserByCompDto competitionWithUserByCompDto = new CompetitionWithUserByCompDto(competitionInfo, null);
+            return new ResponseEntity<>(competitionWithUserByCompDto, HttpStatus.OK);
+        }
+
+        CompetitionWithUserByCompDto competitionWithUserByCompDto = new CompetitionWithUserByCompDto(competitionInfo, userByCompetition);
+        return new ResponseEntity<>(competitionWithUserByCompDto, HttpStatus.OK);
     }
 
     @PostMapping(value = "/add-competition", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
