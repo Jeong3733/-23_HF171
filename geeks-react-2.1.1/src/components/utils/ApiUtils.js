@@ -10,7 +10,9 @@ export const apiUtils = {
   AddCompetition,
   GetCompetitionInfo,
   GetCompetitionInfoByUserId,
+  GetCompetitionInfoChkByUserId,
   GetCompetitionInfoByCompetitionId,
+  GetCompetitionInfoChkByCompetitionId,
   GetPostInfoByPostId,
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
@@ -74,50 +76,128 @@ function AddCompetition(user, data) {
 }
 
 // 공모전 리스트 요청
+/**
+ * 공모전 리스트 요청
+ * // 공모전 리스트 요청 - output
+ * [
+ *   {
+ *     "competition_info_id": 1,
+ *     "competition_name": "ICT 택관컴퍼니",
+ *     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+ *     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+ *     "competition_description": "ICT 택관컴퍼니",
+ *     "competition_state": null,
+ *     "competition_start_date": "2023-08-02T00:00",
+ *     "competition_end_date": "2023-08-25T00:00",
+ *     "competition_type_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "개발"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "교육"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "엔터테인먼트"
+ *       }
+ *     ],
+ *     "competition_docs_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+ *         "file_title": "competitionDocs"
+ *       }
+ *     ]
+ *   },
+ *  ...
+ * ]
+ */
 function GetCompetitionInfo() {
   const url = `/get/competitionInfo`;
   return instance.get(url, {
     headers: { 'Content-type': 'application/json' },
   });
 }
-// 공모전 리스트 요청 - output
-// [
-//   {
-//     "competition_info_id": 1,
-//     "competition_name": "ICT 택관컴퍼니",
-//     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
-//     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
-//     "competition_description": "ICT 택관컴퍼니",
-//     "competition_state": null,
-//     "competition_start_date": "2023-08-02T00:00",
-//     "competition_end_date": "2023-08-25T00:00",
-//     "competition_type_list": [
-//       {
-//         "competition_info_id": 1,
-//         "type": "개발"
-//       },
-//       {
-//         "competition_info_id": 1,
-//         "type": "교육"
-//       },
-//       {
-//         "competition_info_id": 1,
-//         "type": "엔터테인먼트"
-//       }
-//     ],
-//     "competition_docs_list": [
-//       {
-//         "competition_info_id": 1,
-//         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
-//         "file_title": "competitionDocs"
-//       }
-//     ]
-//   },
-//  ...
-// ]
 
 // 내가 참가한 공모전 리스트 요청
 // competitionInfo - UserByCompetition join
+/**
+ * 공모전 리스트 요청
+ * competitionInfo - UserByCompetition join
+ * // 내가 참가한 공모전 리스트 요청 - output
+ * [
+ *   {
+ *     "competition_info_id": 1,
+ *     "competition_name": "ICT 택관컴퍼니",
+ *     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+ *     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+ *     "competition_description": "ICT 택관컴퍼니",
+ *     "competition_state": null,
+ *     "competition_start_date": "2023-08-02T00:00:00",
+ *     "competition_end_date": "2023-08-25T00:00:00",
+ *     "competition_type_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "개발"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "교육"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "엔터테인먼트"
+ *       }
+ *     ],
+ *     "competition_docs_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+ *         "file_title": "competitionDocs"
+ *       }
+ *     ],
+ *     "user_id": "www",
+ *     "team_id": 1,
+ *     "role_type": "PARTICIPANT_LEADER"
+ *   },
+ *   {
+ *     "competition_info_id": 2,
+ *     "competition_name": "ICR TK CMP",
+ *     "competition_image": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
+ *     "competition_readme": "<p>ㅎㅇㅎㅇ</p>",
+ *     "competition_description": "택관 컴퍼니 입사시험",
+ *     "competition_state": null,
+ *     "competition_start_date": "2023-08-09T00:00:00",
+ *     "competition_end_date": "2023-08-28T00:00:00",
+ *     "competition_type_list": [
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "개발"
+ *       },
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "교육"
+ *       },
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "기타"
+ *       }
+ *     ],
+ *     "competition_docs_list": [
+ *       {
+ *         "competition_info_id": 2,
+ *         "docs_path": "824eede2-4b57-4c59-883e-5895d4de252d",
+ *         "file_title": "competitionDocs"
+ *       }
+ *     ],
+ *     "user_id": "www",
+ *     "team_id": 2,
+ *     "role_type": "PARTICIPANT_BASE"
+ *   }
+ * ]
+ */
 function GetCompetitionInfoByUserId(user) {
   const url = `/get/competitionInfo/userId`;
   return instance.get(url, {
@@ -128,81 +208,135 @@ function GetCompetitionInfoByUserId(user) {
   });
 }
 
-// 내가 참가한 공모전 정보 요청 by UserId - data
-
-// 내가 참가한 공모전 리스트 요청 - output
-// [
-//   {
-//     "competition_info_id": 1,
-//     "competition_name": "ICT 택관컴퍼니",
-//     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
-//     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
-//     "competition_description": "ICT 택관컴퍼니",
-//     "competition_state": null,
-//     "competition_start_date": "2023-08-02T00:00:00",
-//     "competition_end_date": "2023-08-25T00:00:00",
-//     "competition_type_list": [
-//       {
-//         "competition_info_id": 1,
-//         "type": "개발"
-//       },
-//       {
-//         "competition_info_id": 1,
-//         "type": "교육"
-//       },
-//       {
-//         "competition_info_id": 1,
-//         "type": "엔터테인먼트"
-//       }
-//     ],
-//     "competition_docs_list": [
-//       {
-//         "competition_info_id": 1,
-//         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
-//         "file_title": "competitionDocs"
-//       }
-//     ],
-//     "user_id": "www",
-//     "team_id": 1,
-//     "role_type": "PARTICIPANT_LEADER"
-//   },
-//   {
-//     "competition_info_id": 2,
-//     "competition_name": "ICR TK CMP",
-//     "competition_image": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
-//     "competition_readme": "<p>ㅎㅇㅎㅇ</p>",
-//     "competition_description": "택관 컴퍼니 입사시험",
-//     "competition_state": null,
-//     "competition_start_date": "2023-08-09T00:00:00",
-//     "competition_end_date": "2023-08-28T00:00:00",
-//     "competition_type_list": [
-//       {
-//         "competition_info_id": 2,
-//         "type": "개발"
-//       },
-//       {
-//         "competition_info_id": 2,
-//         "type": "교육"
-//       },
-//       {
-//         "competition_info_id": 2,
-//         "type": "기타"
-//       }
-//     ],
-//     "competition_docs_list": [
-//       {
-//         "competition_info_id": 2,
-//         "docs_path": "824eede2-4b57-4c59-883e-5895d4de252d",
-//         "file_title": "competitionDocs"
-//       }
-//     ],
-//     "user_id": "www",
-//     "team_id": 2,
-//     "role_type": "PARTICIPANT_BASE"
-//   }
-// ]
+// 공모전 리스트 요청(내가 참가여부도 같이)
+// competitionInfo - UserByCompetition left join
+/**
+ * 공모전 리스트 요청(내가 참가여부도 같이)
+ * competitionInfo - UserByCompetition left join
+ * // 내가 참가한 공모전 리스트 요청 - output
+ * [
+ *   {
+ *     "competition_info_id": 1,
+ *     "competition_name": "ICT 택관컴퍼니",
+ *     "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+ *     "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+ *     "competition_description": "ICT 택관컴퍼니",
+ *     "competition_state": null,
+ *     "competition_start_date": "2023-08-02T00:00:00",
+ *     "competition_end_date": "2023-08-25T00:00:00",
+ *     "competition_type_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "개발"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "교육"
+ *       },
+ *       {
+ *         "competition_info_id": 1,
+ *         "type": "엔터테인먼트"
+ *       }
+ *     ],
+ *     "competition_docs_list": [
+ *       {
+ *         "competition_info_id": 1,
+ *         "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+ *         "file_title": "competitionDocs"
+ *       }
+ *     ],
+ *     "user_id": "www",
+ *     "team_id": 1,
+ *     "role_type": "PARTICIPANT_LEADER"
+ *   },
+ *   {
+ *     "competition_info_id": 2,
+ *     "competition_name": "ICR TK CMP",
+ *     "competition_image": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
+ *     "competition_readme": "<p>ㅎㅇㅎㅇ</p>",
+ *     "competition_description": "택관 컴퍼니 입사시험",
+ *     "competition_state": null,
+ *     "competition_start_date": "2023-08-09T00:00:00",
+ *     "competition_end_date": "2023-08-28T00:00:00",
+ *     "competition_type_list": [
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "개발"
+ *       },
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "교육"
+ *       },
+ *       {
+ *         "competition_info_id": 2,
+ *         "type": "기타"
+ *       }
+ *     ],
+ *     "competition_docs_list": [
+ *       {
+ *         "competition_info_id": 2,
+ *         "docs_path": "824eede2-4b57-4c59-883e-5895d4de252d",
+ *         "file_title": "competitionDocs"
+ *       }
+ *     ],
+ *     "user_id": "",
+ *     "team_id": '',
+ *     "role_type": ""
+ *   }
+ * ]
+ */
+function GetCompetitionInfoChkByUserId(user) {
+  const url = `/get/competitionInfo/chk/userId`;
+  return instance.get(url, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
 
 // 공모전 정보 요청 by competitionId
+/**
+ * 공모전 정보 요청 by competitionId
+ *
+ * // 공모전 정보 요청 by competitionId - data
+ * {
+ *   "competitionId": "1",
+ * }
+ *
+ * // 공모전 정보 요청 by competitionId - output
+ * {
+ *   "competition_info_id": 1,
+ *   "competition_name": "ICT 택관컴퍼니",
+ *   "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+ *   "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+ *   "competition_description": "ICT 택관컴퍼니",
+ *   "competition_state": null,
+ *   "competition_start_date": "2023-08-02T00:00",
+ *   "competition_end_date": "2023-08-25T00:00",
+ *   "competition_type_list": [
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "개발"
+ *   },
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "교육"
+ *   },
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "엔터테인먼트"
+ *   }
+ * ],
+ *   "competition_docs_list": [
+ *   {
+ *     "competition_info_id": 1,
+ *     "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+ *     "file_title": "competitionDocs"
+ *   }
+ * ]
+ * }
+ */
 function GetCompetitionInfoByCompetitionId(data) {
   const url = `/get/competitionInfo/competitionId`;
   return instance.post(url, data, {
@@ -210,43 +344,61 @@ function GetCompetitionInfoByCompetitionId(data) {
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 공모전 정보 요청 by competitionId - data
-// {
-//   "competitionId": "1",
-// }
 
-// 공모전 정보 요청 by competitionId - output
-// {
-//   "competition_info_id": 1,
-//   "competition_name": "ICT 택관컴퍼니",
-//   "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
-//   "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
-//   "competition_description": "ICT 택관컴퍼니",
-//   "competition_state": null,
-//   "competition_start_date": "2023-08-02T00:00",
-//   "competition_end_date": "2023-08-25T00:00",
-//   "competition_type_list": [
-//   {
-//     "competition_info_id": 1,
-//     "type": "개발"
-//   },
-//   {
-//     "competition_info_id": 1,
-//     "type": "교육"
-//   },
-//   {
-//     "competition_info_id": 1,
-//     "type": "엔터테인먼트"
-//   }
-// ],
-//   "competition_docs_list": [
-//   {
-//     "competition_info_id": 1,
-//     "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
-//     "file_title": "competitionDocs"
-//   }
-// ]
-// }
+// 공모전 정보 요청 by competitionId (내가 참가여부도 같이)
+// competitionInfo - UserByCompetition left join
+/**
+ * 공모전 정보 요청 by competitionId (내가 참가여부도 같이)
+ * competitionInfo - UserByCompetition left join
+ *
+ * // 공모전 정보 요청 by competitionId - data
+ * {
+ *   "competitionId": "1",
+ * }
+ *
+ * // 공모전 정보 요청 by competitionId - output
+ * {
+ *   "competition_info_id": 1,
+ *   "competition_name": "ICT 택관컴퍼니",
+ *   "competition_image": "a941fab3-812a-4a6a-a008-28c70b01e52f",
+ *   "competition_readme": "<p>ICT 택관컴퍼니 입니다~</p>",
+ *   "competition_description": "ICT 택관컴퍼니",
+ *   "competition_state": null,
+ *   "competition_start_date": "2023-08-02T00:00",
+ *   "competition_end_date": "2023-08-25T00:00",
+ *   "competition_type_list": [
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "개발"
+ *   },
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "교육"
+ *   },
+ *   {
+ *     "competition_info_id": 1,
+ *     "type": "엔터테인먼트"
+ *   }
+ * ],
+ *   "competition_docs_list": [
+ *   {
+ *     "competition_info_id": 1,
+ *     "docs_path": "447d2d03-8d89-4b68-bcf3-20d9cdc864f8",
+ *     "file_title": "competitionDocs"
+ *   }
+ * ],
+ *   "user_id": "www",
+ *   "role_type": "PARTICIPANT_LEADER",
+ *   "team_id": 1
+ * }
+ */
+function GetCompetitionInfoChkByCompetitionId(data) {
+  const url = `/get/competitionInfo/competitionId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
 
 // 게시물 요청 by post_id
 function GetPostInfoByPostId(data) {

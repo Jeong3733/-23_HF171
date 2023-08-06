@@ -26,7 +26,7 @@ const BrowseCategories = (props) => {
       const Auth = useAuth();
       const user = Auth.getUser();
       apiUtils
-        .GetCompetitionInfoByUserId(user)
+        .GetCompetitionInfoChkByUserId(user)
         .then((response) => {
           const getCompetitionList = response.data;
           setCompetitionList(getCompetitionList);

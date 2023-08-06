@@ -69,7 +69,7 @@ const CourseSlider = ({
           })
           .map((item, index) => {
             return (
-              <div className="item px-md-1" key={item.competition_id}>
+              <div className="item px-md-1" key={item.competition_info_id}>
                 <CourseCard
                   key={index}
                   item={item}
