@@ -15,7 +15,6 @@ import CourseSlider from 'components/marketing/pages/competition/CourseSlider';
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-
 const IndexPage = () => {
   const { isLoggedIn, Auth } = useOutletContext();
   return (

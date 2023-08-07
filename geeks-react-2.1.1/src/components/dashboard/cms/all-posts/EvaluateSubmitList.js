@@ -129,11 +129,6 @@ const EvaluateSubmitList = () => {
                 <Breadcrumb.Item active>Submit 리스트</Breadcrumb.Item>
               </Breadcrumb>
             </div>
-            <div>
-              <Link to="/cms/add-new-post" className="btn btn-primary">
-                New Post
-              </Link>
-            </div>
           </div>
         </Col>
       </Row>

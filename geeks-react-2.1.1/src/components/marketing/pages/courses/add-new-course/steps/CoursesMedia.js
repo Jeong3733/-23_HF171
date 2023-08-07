@@ -38,6 +38,7 @@ const CoursesMedia = (props) => {
                 id="competitionDocs"
                 name="competitionDocs"
                 type="file"
+                // accept="image/*"
                 // className="form-control"
                 // value={data.competitionDocs}
                 onChange={handleChange}

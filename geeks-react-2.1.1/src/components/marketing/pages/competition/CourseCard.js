@@ -28,11 +28,14 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
     return (
       <Link to={link} key={index}>
         <Card className={`mb-4 card-hover ${extraclass}`}>
-          <Image
-            src={s3Link(item.competition_image)}
-            alt={item.competition_image}
-            className="card-img-top rounded-top-md"
-          />
+          <div style={{ height: '140px', overflow: 'hidden' }}>
+            <Image
+              src={s3Link(item.competition_image)}
+              alt={item.competition_image}
+              className="card-img-top rounded-top-md"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
+          </div>
           {/* Card body  */}
           <Card.Body>
             {/* 공모전 이름 */}

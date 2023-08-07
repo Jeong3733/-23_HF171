@@ -20,13 +20,16 @@ import { s3Link } from 'helper/utils';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { info } = props;
+  const { info, isLoggedIn } = props;
   const location = useLocation();
+  console.log(info);
+  console.log(info);
   console.log(info);
   const tabItems = [
     {
       title: '소개글',
       link: '/detail/' + competition_id + '/readme',
+      isLoggedIn: true,
     },
     // {
     //   title: "일정 (" + props.data.totalReviews + ")",
@@ -35,22 +38,27 @@ const CommonHeaderTabs = (props) => {
     {
       title: '공지사항',
       link: '/detail/' + competition_id + '/announcements',
+      isLoggedIn: true,
     },
     {
       title: 'QA 게시판',
       link: '/detail/' + competition_id + '/qna',
+      isLoggedIn: true,
     },
     {
       title: '제출',
       link: '/detail/' + competition_id + '/submits',
+      isLoggedIn: false,
     },
     {
       title: '평가',
       link: '/evaluate/' + competition_id,
+      isLoggedIn: false,
     },
     {
       title: '관리',
       link: '/manage/' + competition_id,
+      isLoggedIn: false,
     },
   ];
   return (
@@ -72,13 +80,24 @@ const CommonHeaderTabs = (props) => {
           <Row as="header" className="mb-4">
             <Col className="d-md-flex align-items-center">
               <div className="mt-n5">
-                <Image
-                  // src={info.competition_image}
-                  src={s3Link(info.competition_image)}
-                  alt=""
-                  className=" rounded-3 border"
-                  width={160}
-                />
+                <div
+                  style={{
+                    height: '160px',
+                    width: '160px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Image
+                    src={s3Link(info.competition_image)}
+                    alt={info.competition_image}
+                    className=" rounded-3 border"
+                    style={{
+                      objectFit: 'fill',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </div>
               </div>
               <div className="w-100 ms-md-4 mt-4">
                 <div className="d-flex justify-content-between">
@@ -137,19 +156,50 @@ const CommonHeaderTabs = (props) => {
             <Col>
               {/* nav */}
               <Nav variant="line-bottom">
-                {tabItems.map((item, index) => (
-                  <Nav.Item key={index}>
-                    <Nav.Link
-                      as={Link}
-                      to={item.link}
-                      className={
-                        location.pathname === item.link ? 'active' : ''
-                      }
-                    >
-                      {item.title}
-                    </Nav.Link>
-                  </Nav.Item>
-                ))}
+                {tabItems.map((item, index) => {
+                  if (isLoggedIn) {
+                    return (
+                      <Nav.Item key={index}>
+                        <Nav.Link
+                          as={Link}
+                          to={item.link}
+                          className={
+                            location.pathname === item.link ? 'active' : ''
+                          }
+                        >
+                          {item.title}
+                        </Nav.Link>
+                      </Nav.Item>
+                    );
+                  } else {
+                    if (item.isLoggedIn) {
+                      return (
+                        <Nav.Item key={index}>
+                          <Nav.Link
+                            as={Link}
+                            to={item.link}
+                            className={
+                              location.pathname === item.link ? 'active' : ''
+                            }
+                          >
+                            {item.title}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                    }
+                  }
+                  // <Nav.Item key={index}>
+                  //   <Nav.Link
+                  //     as={Link}
+                  //     to={item.link}
+                  //     className={
+                  //       location.pathname === item.link ? 'active' : ''
+                  //     }
+                  //   >
+                  //     {item.title}
+                  //   </Nav.Link>
+                  // </Nav.Item>;
+                })}
               </Nav>
             </Col>
           </Row>

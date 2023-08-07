@@ -33,7 +33,7 @@ const ApplyForm = ({ Auth, file }) => {
     alert(JSON.stringify(formDataToSend));
     const user = Auth.getUser();
     apiUtils
-      .AddCompetition(user, formDataToSend)
+      .AddFileInfo(user, formDataToSend)
       .then((response) => {
         console.log(response.data);
         // const { accessToken, refreshToken } = response.data;
@@ -43,6 +43,7 @@ const ApplyForm = ({ Auth, file }) => {
         handleLogError(error);
       });
   };
+
   return (
     <div className="mt-2 mb-12">
       <Card className="bg-light shadow-none">
@@ -78,9 +79,12 @@ const ApplyForm = ({ Auth, file }) => {
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formFile">
               <Form.Label>
-                Cover letter <span className="text-danger">*</span>
+                파일 업로드 <span className="text-danger">*</span> 업로드 가능한
+                파일 종류
               </Form.Label>
-              <Form.Control type="file" required />
+              <Form.Control type="file" required accept=".pdf" />
+              {/* 기간 만료 */}
+              {/* <Form.Control type="file" disabled /> */}
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit

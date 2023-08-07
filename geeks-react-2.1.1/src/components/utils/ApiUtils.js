@@ -8,6 +8,8 @@ export const apiUtils = {
   signUp,
   getUserInfo,
   AddCompetition,
+  AddParticipation,
+  GetUserByCompetition,
   GetCompetitionInfo,
   GetCompetitionInfoByUserId,
   GetCompetitionInfoChkByUserId,
@@ -69,6 +71,51 @@ function getUserInfo(user) {
 // 공모전 개설
 function AddCompetition(user, data) {
   const url = `/add-competition`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+/* 공모전 참가
+// Input
+data = {
+  competitionId: 1
+}
+// 예상 output
+{
+  msg:1,
+}
+0: 참가 완료
+1: 이미 참가 중
+*/
+function AddParticipation(user, data) {
+  const url = `/add/participation`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+/* 공모전 참가여부 확인 
+// Input
+data = {
+  competitionId: 1
+}
+// 예상 output
+{
+  competition_id: 1,
+  team_id: 1,
+  user_id: 1,
+  role_type: 'Creator',
+}
+*/
+function GetUserByCompetition(user, data) {
+  const url = `/get/userbycompetition`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'multipart/form-data',
@@ -537,7 +584,7 @@ function GetFileInfoByPostId(data) {
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 게시물 요청 by PostId - data
+// 파일 요청 요청 by PostId - data
 // [
 //   {
 //     "file_info_id": 1,
@@ -562,6 +609,7 @@ function GetFileInfoByPostId(data) {
 // ]
 
 // 게시물 파일 업로드
+// geeks-react-2.1.1/src/components/marketing/pages/jobs/company/ApplyForm.js
 function AddFileInfo(user, data) {
   const url = `/add/fileInfo/`;
   return instance.post(url, data, {
@@ -614,11 +662,11 @@ instance.interceptors.response.use(
             })
             // 만약 refresh token 도 유효하지 않아서 오류가 발생한다면 로그인 페이지로 이동
             .catch((error) => {
-              window.location.href = '/signIn';
+              window.location.href = '/authentication/sign-in/';
             })
         );
       } else {
-        window.location.href = '/signIn';
+        window.location.href = '/authentication/sign-in/';
       }
     }
     return Promise.reject(error);

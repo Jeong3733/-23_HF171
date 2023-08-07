@@ -112,6 +112,38 @@ const EvaluateFileList = () => {
       .then((response) => {
         const getFileList = response.data;
         setFileList(getFileList);
+        if (getFileList.length === 0) {
+          const getFileList = [
+            {
+              file_id: 'file_id_1',
+              user_id: 'user_id_1',
+              path: 'path_1',
+              file_title: 'file_title_1',
+              file_extension: 'file_extension_1',
+              upload_datetime: 'upload_datetime_1',
+              post_info_id: 'post_info_id_1',
+            },
+            {
+              file_id: 'file_id_2',
+              user_id: 'user_id_2',
+              path: 'path_2',
+              file_title: 'file_title_2',
+              file_extension: 'file_extension_2',
+              upload_datetime: 'upload_datetime_2',
+              post_info_id: 'post_info_id_2',
+            },
+            {
+              file_id: 'file_id_3',
+              user_id: 'user_id_3',
+              path: 'path_3',
+              file_title: 'file_title_3',
+              file_extension: 'file_extension_3',
+              upload_datetime: 'upload_datetime_3',
+              post_info_id: 'post_info_id_3',
+            },
+          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+          setFileList(getFileList);
+        }
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -163,11 +195,6 @@ const EvaluateFileList = () => {
                 <Breadcrumb.Item href="#">{postInfo.title}</Breadcrumb.Item>
                 <Breadcrumb.Item active>파일 리스트</Breadcrumb.Item>
               </Breadcrumb>
-            </div>
-            <div>
-              <Link to="/cms/add-new-post" className="btn btn-primary">
-                New Post
-              </Link>
             </div>
           </div>
         </Col>

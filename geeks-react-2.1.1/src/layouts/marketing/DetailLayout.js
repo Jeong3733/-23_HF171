@@ -86,7 +86,7 @@ const DetailLayout = () => {
           const getCompetitionInfo = [
             {
               competition_info_id: 1,
-              competition_name: 'ICT 택관컴퍼니',
+              competition_name: 'ICT 택관222컴퍼니',
               competition_image: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
               competition_readme: '<p>ICT 택관컴퍼니 입니다~</p>',
               competition_description: 'ICT 택관컴퍼니',
@@ -121,9 +121,9 @@ const DetailLayout = () => {
         });
     }
   }, [isLoggedIn]);
-  const data = ComapniesListData[0];
+
   return (
-    <CommonHeaderTabs info={competitionInfo}>
+    <CommonHeaderTabs isLoggedIn={isLoggedIn} info={competitionInfo}>
       <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
     </CommonHeaderTabs>
   );

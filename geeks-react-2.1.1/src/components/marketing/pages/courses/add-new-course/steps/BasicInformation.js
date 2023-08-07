@@ -97,6 +97,7 @@ const BasicInformation = (props) => {
                 type="file"
                 // className="form-control"
                 onChange={handleChange}
+                accept="image/*" // 이미지 파일만 허용
               />
             </InputGroup>
             <Form.Text className="text-muted">
