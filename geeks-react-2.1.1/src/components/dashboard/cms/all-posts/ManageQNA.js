@@ -25,7 +25,7 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const ManageEvaluate = () => {
+const ManageQNA = () => {
   const { competition_id } = useParams();
   // alert(competition_id);
   const [show, setShow] = useState(false);
@@ -37,11 +37,11 @@ const ManageEvaluate = () => {
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">평가 항목 관리</h1>
+              <h1 className="mb-1 h2 fw-bold">QNA 관리</h1>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
                 <Breadcrumb.Item href="#">관리</Breadcrumb.Item>
-                <Breadcrumb.Item active>평가 항목 관리</Breadcrumb.Item>
+                <Breadcrumb.Item active>QNA 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div>
@@ -129,4 +129,4 @@ const ManageEvaluate = () => {
   );
 };
 
-export default ManageEvaluate;
+export default ManageQNA;

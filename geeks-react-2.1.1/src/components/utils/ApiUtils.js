@@ -11,6 +11,7 @@ export const apiUtils = {
   AddParticipation,
   GetUserByCompetition,
   GetCompetitionInfo,
+  GetUseInforByCompetitionId,
   GetCompetitionInfoByUserId,
   GetCompetitionInfoChkByUserId,
   GetCompetitionInfoByCompetitionId,
@@ -101,7 +102,7 @@ function AddParticipation(user, data) {
   });
 }
 
-/* 공모전 참가여부 확인 
+/* user의 공모전 참가여부 확인 
 // Input
 data = {
   competitionId: 1
@@ -121,6 +122,32 @@ function GetUserByCompetition(user, data) {
       'Content-type': 'multipart/form-data',
       Authorization: bearerAccess(user),
     },
+  });
+}
+
+/* 해당 공모전 관련 인원 모두
+// Input
+data = {
+  competitionId: 1
+}
+// 예상 output
+{
+  competition_id: 1,
+  team_id: 1,
+  user_id: 1,
+  role_type: 'Creator',
+  email: 
+  user_id: 1
+  social: 1
+  user_name: 1
+  password: 1
+  role: 1
+}
+*/
+function GetUseInforByCompetitionId(data) {
+  const url = `/get/userInfo/competitionId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
   });
 }
 

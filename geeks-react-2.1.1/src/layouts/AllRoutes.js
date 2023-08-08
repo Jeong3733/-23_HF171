@@ -41,6 +41,7 @@ import EvaluatesFile from 'components/dashboard/cms/all-posts/EvaluatesFile';
 import ManageReadme from 'components/dashboard/cms/all-posts/ManageReadme';
 import ManageMembers from 'components/dashboard/cms/all-posts/ManageMembers';
 import ManageSubmits from 'components/dashboard/cms/all-posts/ManageSubmits';
+import ManageQNA from 'components/dashboard/cms/all-posts/ManageQNA';
 import ManageAnnouncements from 'components/dashboard/cms/all-posts/ManageAnnouncements';
 import ManageEvaluates from 'components/dashboard/cms/all-posts/ManageEvaluates';
 
@@ -147,6 +148,7 @@ const AllRoutes = () => {
           path="/manage/:competition_id/submits/"
           element={<ManageSubmits />}
         />
+        <Route path="/manage/:competition_id/qna/" element={<ManageQNA />} />
         <Route
           path="/manage/:competition_id/announcements/"
           element={<ManageAnnouncements />}

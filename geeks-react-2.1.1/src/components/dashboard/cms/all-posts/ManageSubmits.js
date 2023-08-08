@@ -1,10 +1,20 @@
 // import node module libraries
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
+import React, { Fragment, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  Col,
+  Row,
+  Card,
+  Nav,
+  Button,
+  Modal,
+  Tab,
+  Breadcrumb,
+} from 'react-bootstrap';
 
 // import sub components
 import PostsTable from './PostsTable';
+import AddNewCategoryPopup from './AddNewCategoryPopup';
 
 // import data files
 import {
@@ -16,23 +26,45 @@ import {
 } from 'data/courses/AllPostsData';
 
 const ManageSubmits = () => {
+  const { competition_id } = useParams();
+  // alert(competition_id);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Fragment>
       <Row>
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">제출물 관리</h1>
+              <h1 className="mb-1 h2 fw-bold">제출 게시판 관리</h1>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
                 <Breadcrumb.Item href="#">관리</Breadcrumb.Item>
-                <Breadcrumb.Item active>제출물 관리</Breadcrumb.Item>
+                <Breadcrumb.Item active>제출 게시판 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
             <div>
-              <Link to="/cms/add-new-post" className="btn btn-primary">
-                New Post
-              </Link>
+              <Button variant="primary" onClick={handleShow}>
+                Add New Category
+              </Button>
+              <Modal show={show} onHide={handleClose} size="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title>Create New Category</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <AddNewCategoryPopup />
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+                  {/*  Action Buttons  */}
+                  <Button variant="primary" onClick={handleClose}>
+                    Add New Category
+                  </Button>
+                  <Button variant="outline-secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
           </div>
         </Col>

@@ -48,15 +48,21 @@ export const DashboardMenu = [
   },
   {
     id: uuid(),
-    title: '제출물 관리',
-    icon: 'book-open',
-    link: 'submits',
-  },
-  {
-    id: uuid(),
     title: '공지사항 관리',
     icon: 'book-open',
     link: 'announcements',
+  },
+  {
+    id: uuid(),
+    title: 'QNA 관리',
+    icon: 'book',
+    link: 'qna',
+  },
+  {
+    id: uuid(),
+    title: '제출물 관리',
+    icon: 'book-open',
+    link: 'submits',
   },
   {
     id: uuid(),
