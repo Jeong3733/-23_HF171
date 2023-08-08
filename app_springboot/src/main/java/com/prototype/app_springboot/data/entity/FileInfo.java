@@ -1,7 +1,6 @@
 package com.prototype.app_springboot.data.entity;
 
 import com.prototype.app_springboot.data.type.ProgressStatusType;
-import com.prototype.app_springboot.data.type.UploadType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,8 +28,7 @@ public class FileInfo {
 
     private String fileTitle;
 
-    @Enumerated(EnumType.STRING)
-    private UploadType fileExtension;
+    private String fileExtension;
 
     private UUID path;
     @CreatedDate
@@ -46,7 +44,7 @@ public class FileInfo {
     private List<CheckFile> checkFileList = new ArrayList<CheckFile>();
 
     @Builder
-    public FileInfo(int id, UserInfo userInfo, String fileTitle, UploadType fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, ProgressStatusType progressStatusType, List<CheckFile> checkFileList) {
+    public FileInfo(int id, UserInfo userInfo, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, ProgressStatusType progressStatusType, List<CheckFile> checkFileList) {
         this.id = id;
         this.userInfo = userInfo;
         this.fileTitle = fileTitle;

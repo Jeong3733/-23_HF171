@@ -26,6 +26,7 @@ public class CompetitionInfo {
 
     private UUID competitionImage;
 
+    @Column(columnDefinition = "TEXT")
     private String competitionReadme;
 
     private String competitionDescription;

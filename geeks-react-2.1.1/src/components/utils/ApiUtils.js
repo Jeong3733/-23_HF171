@@ -74,7 +74,7 @@ function AddCompetition(user, data) {
   const url = `/add-competition`;
   return instance.post(url, data, {
     headers: {
-      'Content-type': 'application/json',
+      'Content-type': 'multipart/form-data',
       Authorization: bearerAccess(user),
     },
   });

@@ -5,17 +5,21 @@ import com.prototype.app_springboot.data.entity.CompetitionDocs;
 import com.prototype.app_springboot.data.entity.CompetitionInfo;
 import com.prototype.app_springboot.data.entity.CompetitionType;
 import com.prototype.app_springboot.data.entity.UserByCompetition;
+import com.prototype.app_springboot.data.repository.UserInfoRepository;
 import com.prototype.app_springboot.data.repository.competition.CompetitionDocsRepository;
 import com.prototype.app_springboot.data.repository.competition.CompetitionInfoRepository;
 import com.prototype.app_springboot.data.repository.competition.CompetitionTypeRepository;
 import com.prototype.app_springboot.data.repository.competition.UserByCompetitionRepository;
+import com.prototype.app_springboot.data.type.RoleType;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -26,13 +30,15 @@ public class CompetitionService {
     private final CompetitionDocsRepository competitionDocsRepository;
     private final CompetitionTypeRepository competitionTypeRepository;
     private final UserByCompetitionRepository userByCompetitionRepository;
+    private final UserInfoRepository userInfoRepository;
 
-    public CompetitionService(AwsService awsService, CompetitionInfoRepository competitionInfoRepository, CompetitionDocsRepository competitionDocsRepository, CompetitionTypeRepository competitionTypeRepository, UserByCompetitionRepository userByCompetitionRepository) {
+    public CompetitionService(AwsService awsService, CompetitionInfoRepository competitionInfoRepository, CompetitionDocsRepository competitionDocsRepository, CompetitionTypeRepository competitionTypeRepository, UserByCompetitionRepository userByCompetitionRepository, UserInfoRepository userInfoRepository) {
         this.awsService = awsService;
         this.competitionInfoRepository = competitionInfoRepository;
         this.competitionDocsRepository = competitionDocsRepository;
         this.competitionTypeRepository = competitionTypeRepository;
         this.userByCompetitionRepository = userByCompetitionRepository;
+        this.userInfoRepository = userInfoRepository;
     }
 
     @Transactional
@@ -72,7 +78,7 @@ public class CompetitionService {
     }
 
     @Transactional
-    public void saveCompetition(AddCompetitionRequestDto addCompetitionRequestDto, MultipartFile competitionImageFile, List<MultipartFile> competitionDocsFileList) {
+    public void saveCompetition(AddCompetitionRequestDto addCompetitionRequestDto, MultipartFile competitionImageFile, List<MultipartFile> competitionDocsFileList, String userId) {
         LocalDateTime competitionStartDate = LocalDateTime.parse(addCompetitionRequestDto.getCompetitionDateStart() + "T00:00:00");
         LocalDateTime competitionEndDate = LocalDateTime.parse(addCompetitionRequestDto.getCompetitionDateEnd() + "T00:00:00");
 
@@ -86,17 +92,30 @@ public class CompetitionService {
                 .build();
         competitionInfoRepository.save(competitionInfo);
 
+        UserByCompetition userByCompetition = UserByCompetition.builder()
+                .userInfo(userInfoRepository.findByUserId(userId))
+                .competitionInfo(competitionInfo)
+                .roleType(RoleType.CREATOR)
+                .build();
+        userByCompetitionRepository.save(userByCompetition);
+
+
+
         competitionDocsFileList.forEach(competitionDocsFile -> {
+            if (competitionDocsFile.isEmpty()) {
+                return;
+            }
+
             CompetitionDocs competitionDocs = CompetitionDocs.builder()
                     .competitionInfo(competitionInfo)
-                    .docsPath(awsService.uploadFileListToS3(competitionDocsFile))
+                    .path(awsService.uploadFileListToS3(competitionDocsFile))
+                    .fileExtension(Objects.requireNonNull(FilenameUtils.getExtension(competitionDocsFile.getOriginalFilename())).toUpperCase())
                     .fileTitle(competitionDocsFile.getName())
                     .build();
             competitionDocsRepository.save(competitionDocs);
         });
 
         addCompetitionRequestDto.getCompetitionTypeList().forEach(type -> {
-            System.out.println("type = " + type);
             CompetitionType competitionType = CompetitionType.builder()
                     .competitionInfo(competitionInfo)
                     .type(type)

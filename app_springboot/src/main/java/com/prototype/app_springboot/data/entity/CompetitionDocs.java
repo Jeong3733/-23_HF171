@@ -6,7 +6,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +21,21 @@ public class CompetitionDocs {
     @JoinColumn(name = "competition_id")
     private CompetitionInfo competitionInfo;
     @Id
-    private UUID docsPath;
+    private UUID path;
+
     private String fileTitle;
 
+    private String fileExtension;
+
+    @CreatedDate
+    private LocalDateTime uploadDatetime;
+
     @Builder
-    public CompetitionDocs(CompetitionInfo competitionInfo, String fileTitle, UUID docsPath) {
+    public CompetitionDocs(CompetitionInfo competitionInfo, UUID path, String fileTitle, String fileExtension, LocalDateTime uploadDatetime) {
         this.competitionInfo = competitionInfo;
+        this.path = path;
         this.fileTitle = fileTitle;
-        this.docsPath = docsPath;
+        this.fileExtension = fileExtension;
+        this.uploadDatetime = uploadDatetime;
     }
 }

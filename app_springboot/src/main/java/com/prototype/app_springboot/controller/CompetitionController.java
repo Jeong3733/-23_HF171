@@ -102,12 +102,28 @@ public class CompetitionController {
     }
 
     @PostMapping(value = "/add-competition", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void addCompetition(
+    public ResponseEntity<String> addCompetition(
             @RequestPart(value = "data") AddCompetitionRequestDto addCompetitionRequestDto,
             @RequestPart(value = "competitionImage", required = false) MultipartFile competitionImage,
             @RequestPart(value = "competitionDocs", required = false) List<MultipartFile> competitionDocsList
     ) {
-        competitionService.saveCompetition(addCompetitionRequestDto, competitionImage, competitionDocsList);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (competitionImage == null) {
+            return new ResponseEntity<>("대표 이미지를 등록해주세요", HttpStatus.BAD_REQUEST);
+        }
+
+        if (competitionDocsList == null) {
+            return new ResponseEntity<>("자료를 등록해주세요", HttpStatus.BAD_REQUEST);
+        }
+
+        // TODO: 알맞은 예외 코드 작성하기
+        if (authentication == null || authentication.getName().equals("anonymousUser")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String userId = authentication.getName();
+        competitionService.saveCompetition(addCompetitionRequestDto, competitionImage, competitionDocsList, userId);
+        return new ResponseEntity<>("공모전 등록 완료", HttpStatus.OK);
     }
 
 //        // Check if files list is not empty

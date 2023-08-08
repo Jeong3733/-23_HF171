@@ -23,7 +23,6 @@ public class UserByCompetition {
     @JoinColumn(name = "competition_id", nullable = false)
     private CompetitionInfo competitionInfo;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private TeamInfo teamInfo;
