@@ -22,7 +22,7 @@ import { numberWithCommas, s3Link } from 'helper/utils';
 
 const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
   const link = `/detail/${item.competition_info_id}/`;
-  console.log(item);
+  // console.log(item);
   /** Used in Course Index, Course Category, Course Filter Page, Student Dashboard etc...  */
   const GridView = () => {
     return (

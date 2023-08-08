@@ -21,6 +21,9 @@ export const apiUtils = {
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
   AddFileInfo,
+  AddCompFileInfo,
+  GetCompPageInfo,
+  GetCompFileInfo,
 };
 
 const cookies = new Cookies();
@@ -74,7 +77,7 @@ function AddCompetition(user, data) {
   const url = `/add-competition`;
   return instance.post(url, data, {
     headers: {
-      'Content-type': 'application/json',
+      'Content-type': 'multipart/form-data',
       Authorization: bearerAccess(user),
     },
   });
@@ -96,7 +99,7 @@ function AddParticipation(user, data) {
   const url = `/add/participation`;
   return instance.post(url, data, {
     headers: {
-      'Content-type': 'multipart/form-data',
+      'Content-type': 'application/json',
       Authorization: bearerAccess(user),
     },
   });
@@ -642,6 +645,42 @@ function AddFileInfo(user, data) {
   return instance.post(url, data, {
     headers: {
       'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+// 표절 검사 파일 업로드
+// geeks-react-2.1.1/src/components/dashboard/cms/all-posts/DBUpload.js
+function AddCompFileInfo(user, data) {
+  const url = `/add/compFileInfo/`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+/* GetCompPageInfo
+CompPageInfo - CompFileInfo Left Join
+*/
+function GetCompPageInfo(user) {
+  const url = `/get/compPageInfo`;
+  return instance.get(url, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
+// GetCompFileInfo
+function GetCompFileInfo(user) {
+  const url = `/get/compFileInfo`;
+  return instance.get(url, {
+    headers: {
+      'Content-type': 'application/json',
       Authorization: bearerAccess(user),
     },
   });

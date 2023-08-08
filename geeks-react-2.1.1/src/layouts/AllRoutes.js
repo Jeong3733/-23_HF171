@@ -45,6 +45,8 @@ import ManageQNA from 'components/dashboard/cms/all-posts/ManageQNA';
 import ManageAnnouncements from 'components/dashboard/cms/all-posts/ManageAnnouncements';
 import ManageEvaluates from 'components/dashboard/cms/all-posts/ManageEvaluates';
 
+import DBUpload from 'components/dashboard/cms/all-posts/DBUpload';
+
 // Study
 import ChatLayout from './dashboard/ChatLayout'; // ( added in v2.0.0 )
 import Chat from 'components/dashboard/chat/Chat';
@@ -65,6 +67,7 @@ const AllRoutes = () => {
         {/* <Route path="/" element={<CourseIndex />} /isLoggedIn> */}
         <Route path="/" element={<IndexPage />} />
 
+        <Route path="/dbupload/" element={<DBUpload />} />
         {/* 1.0 전체 공모전 */}
         <Route path="/explore" element={<CourseFilterPage />} />
 

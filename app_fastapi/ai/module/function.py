@@ -197,10 +197,12 @@ class DoucmentInit(AI):
     def upload(self, fileInfo):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         file_path = self._getFileFromS3(fileInfo=fileInfo)
+        print(fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
             fileInfo['path']
         # docVectorDB_directory = 'docVectorDBs/newTest'
-        analyticsReport_format = config['DoucmentInit']['analyticsReport_format']
+        analyticsReportCommand = config['DoucmentInit']['analyticsReportFormat']
+        analyticsReportFormat = config['DoucmentInit']['analyticsReportFormat']
         print(file_path)
         file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
         print(file_path)
@@ -229,47 +231,54 @@ class DoucmentInit(AI):
 
         # print(getVectorDBInfo)
 
-        def analysis(analyticsReport_prompt):
-            return len(analyticsReport_prompt)
+        def analysis(analyticsReportPrompt):
+            return len(analyticsReportPrompt)
 
-        getResultCheck = []
-        pagesInfo = []
-        for checkID, checkDoc, checkVector, checkMetaDatas in zip(getVectorDBInfo['ids'],
+        pageResultInfo = []
+        pageInfo = []
+        fileResultInfo = [{
+            'fileId': 'pageID',
+            'compFileId': 'compID',
+            'score': 'score',
+            'report': 'report',
+        }]
+        for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-            print(fileInfo['path'], checkID, checkMetaDatas['page'],
-                  checkMetaDatas['start_index'])
-            pagesInfo.append({
-                'file_id': fileInfo['path'],
-                'page_id': checkID,
-                'page_num': checkMetaDatas['page'],
-                'start_index': checkMetaDatas['start_index'],
+            print(fileInfo['path'], pageID, pageMetaDatas['page'],
+                  pageMetaDatas['start_index'])
+            pageInfo.append({
+                'fileId': fileInfo['path'],
+                'pageId': pageID,
+                'pageNum': pageMetaDatas['page'],
+                'startIndex': pageMetaDatas['start_index'],
                 'summary': 'pageSummary'
             })
 
-            similarDocuments = compVectorDB.similarity_search_by_vector_with_score(
-                embedding=checkVector,
+            similarPages = compVectorDB.similarity_search_by_vector_with_score(
+                embedding=pageVector,
                 distance_metric="cos",
                 k=4)
 
-            for compDoc, compID, score in similarDocuments:
-                analyticsReport_prompt = f"""당신은 표절 검사 분석 전문가입니다. 표절 검사를 진행한 결과, 특정 비교 문서와 유사하다는 결과가 나왔습니다.
-            세 개의 역 따옴표, 세 개의 따옴표, 세 개의 큰 따옴표로 구분된 각 텍스트들은 검사 문서 중 일부분,비교 문서 중 일부분, 분석 결과 보고서 포맷입니다.
-            분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReport_format}\"\"\""""
-                report = analysis(analyticsReport_prompt)
-                getResultCheck.append({
-                    'page_id': checkID,
-                    'comp_page_id': compID,
+            for compDoc, compID, score in similarPages:
+                analyticsReportPrompt = f"""{analyticsReportCommand}\n```{pageContent}```\
+                    \n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReportFormat}\"\"\""""
+                report = analysis(analyticsReportPrompt)
+                pageResultInfo.append({
+                    'pageId': pageID,
+                    'compPageId': compID,
                     'score': score,
                     'report': report,
                 })
-                getResultCheck.append((checkID, compID, score, report))
-            # print(getResultCheck)
+                pageResultInfo.append((pageID, compID, score, report))
+            # print(pageResultInfo)
+        # FileResultInfo 계산
         resDict = {'status': True,
                    'result': {'fileSummary': fileSummary,
-                              'pagesInfo': pagesInfo,
-                              'getResultCheck': getResultCheck}}
+                              'pageInfo': pageInfo,
+                              'pageResultInfo': pageResultInfo,
+                              'fileResultInfo': fileResultInfo}}
         return resDict
 
 

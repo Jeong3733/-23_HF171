@@ -129,7 +129,7 @@ const MyCategories = (props) => {
         setCompetitionList(getCompetitionList);
         handleLogError(error);
       });
-  }, [isLoggedIn]);
+  }, []);
   const title = '나의 공모전';
   // const subtitle = 'Browse Categories';
   // const description = `Choose from 32,000 online video courses with new additions published every month.`;

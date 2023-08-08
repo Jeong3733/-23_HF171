@@ -35,6 +35,11 @@ const HeroHeader = (props) => {
                 <Link to="/authentication/sign-in/" className="btn btn-white">
                   로그인하러 가는 길 🧐
                 </Link>
+              )}{' '}
+              {isLoggedIn && (
+                <Link to="/dbupload/" className="btn btn-white">
+                  표절DB 추가
+                </Link>
               )}
             </div>
           </Col>
