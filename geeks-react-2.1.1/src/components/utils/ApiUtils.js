@@ -109,10 +109,10 @@ data = {
 }
 // 예상 output
 {
-  competition_id: 1,
-  team_id: 1,
-  user_id: 1,
-  role_type: 'Creator',
+    "competition_id": 2,
+    "team_id": -1, -> TEAM 이 없을 경우 -1
+    "user_id": "www",
+    "role_type": "CREATOR"
 }
 */
 function GetUserByCompetition(user, data) {
@@ -131,18 +131,28 @@ data = {
   competitionId: 1
 }
 // 예상 output
-{
-  competition_id: 1,
-  team_id: 1,
-  user_id: 1,
-  role_type: 'Creator',
-  email: 
-  user_id: 1
-  social: 1
-  user_name: 1
-  password: 1
-  role: 1
-}
+[
+    {
+        "competition_id": 2,
+        "team_id": -1,
+        "user_id": "www",
+        "role_type": "CREATOR",
+        "email": "www@naver.com",
+        "user_name": "정재욱",
+        "social": "NONE",
+        "system_role_type": "USER"
+    },
+    {
+        "competition_id": 2,
+        "team_id": 1,
+        "user_id": "www2",
+        "role_type": "PARTICIPANT_LEADER",
+        "email": "www2@naver.com",
+        "user_name": "정재욱2",
+        "social": "NONE",
+        "system_role_type": "USER"
+    }
+]
 */
 function GetUseInforByCompetitionId(data) {
   const url = `/get/userInfo/competitionId`;

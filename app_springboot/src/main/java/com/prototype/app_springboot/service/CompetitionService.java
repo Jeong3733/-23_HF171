@@ -78,6 +78,11 @@ public class CompetitionService {
     }
 
     @Transactional
+    public List<UserByCompetition> getCompetitionInfoListByCompetitionId(int competitionId) {
+        return userByCompetitionRepository.findAllByCompetitionInfoId(competitionId);
+    }
+
+    @Transactional
     public void saveCompetition(AddCompetitionRequestDto addCompetitionRequestDto, MultipartFile competitionImageFile, List<MultipartFile> competitionDocsFileList, String userId) {
         LocalDateTime competitionStartDate = LocalDateTime.parse(addCompetitionRequestDto.getCompetitionDateStart() + "T00:00:00");
         LocalDateTime competitionEndDate = LocalDateTime.parse(addCompetitionRequestDto.getCompetitionDateEnd() + "T00:00:00");

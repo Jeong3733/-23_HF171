@@ -1,8 +1,6 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.CompetitionDtos.AddCompetitionRequestDto;
-import com.prototype.app_springboot.data.dto.CompetitionDtos.CompetitionDto;
-import com.prototype.app_springboot.data.dto.CompetitionDtos.CompetitionWithUserByCompDto;
+import com.prototype.app_springboot.data.dto.CompetitionDtos.*;
 import com.prototype.app_springboot.data.entity.CompetitionInfo;
 import com.prototype.app_springboot.data.entity.UserByCompetition;
 import com.prototype.app_springboot.service.CompetitionService;
@@ -26,6 +24,25 @@ public class CompetitionController {
 
     public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
+    }
+
+    @PostMapping("/get/userInfo/competitionId")
+    public ResponseEntity<List<UserInfoWithUserByCompDto>> getAllUserInfoWithUserByCompByCompetitionId(@RequestBody Map<String, String> competitionIdMap) {
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        List<UserByCompetition> userByCompetitionList = competitionService.getCompetitionInfoListByCompetitionId(competitionId);
+        List<UserInfoWithUserByCompDto> userInfoWithUserByCompList = userByCompetitionList.stream()
+                .map(UserInfoWithUserByCompDto::new)
+                .toList();
+        return new ResponseEntity<>(userInfoWithUserByCompList, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/userbycompetition")
+    public ResponseEntity<UserByCompetitionDto> getUserByCompetition(@RequestBody Map<String, String> competitionIdMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        UserByCompetition userByCompetition = competitionService.getUserAndCompetitionByUserIdAndCompetitionId(authentication.getName(), competitionId);
+        UserByCompetitionDto userByCompetitionDto = new UserByCompetitionDto(userByCompetition);
+        return new ResponseEntity<>(userByCompetitionDto, HttpStatus.OK);
     }
 
     @GetMapping("/get/competitionInfo")
