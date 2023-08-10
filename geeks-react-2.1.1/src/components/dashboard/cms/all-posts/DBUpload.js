@@ -31,6 +31,10 @@ const DBUpload = () => {
 
     let formData = {
       competitionName: e.target.formCompetitionName,
+      formDepth1: e.target.formDepth1,
+      formDepth2: e.target.formDepth2,
+      formDepth3: e.target.formDepth3,
+      formDepth4: e.target.formDepth4,
       link: e.target.formLink,
     };
 
@@ -39,13 +43,13 @@ const DBUpload = () => {
       'data',
       new Blob([JSON.stringify(formData)], { type: 'application/json' }),
     );
-    formDataToSend.append('file', e.target.formFile);
+    formDataToSend.append('file', e.target.formFile[0]);
 
     // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
     const user = Auth.getUser();
     apiUtils
-      .AddFileInfo(user, formDataToSend)
+      .AddCompFileInfo(user, formDataToSend)
       .then((response) => {
         console.log(response.data);
         // const { accessToken, refreshToken } = response.data;
@@ -74,6 +78,30 @@ const DBUpload = () => {
                 <Form.Group className="mb-3" controlId="formLink">
                   <Form.Label>
                     링크 <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formDepth1">
+                  <Form.Label>
+                    formDepth1 <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formDepth2">
+                  <Form.Label>
+                    formDepth2 <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formDepth3">
+                  <Form.Label>
+                    formDepth3 <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formDepth4">
+                  <Form.Label>
+                    formDepth4 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control type="text" required />
                 </Form.Group>

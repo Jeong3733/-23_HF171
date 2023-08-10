@@ -29,6 +29,8 @@ import FileListPopup from 'components/dashboard/courses/FileListPopup';
 import SummaryPopup from 'components/dashboard/courses/SummaryPopup';
 import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
 import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
+import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
+import InfoPopup from 'components/dashboard/courses/InfoPopup';
 
 // import routes file
 import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
@@ -39,6 +41,8 @@ const EvaluateDetailVertical = (props) => {
     SummaryPopup: <SummaryPopup />,
     DocumentQAPopup: <DocumentQAPopup />,
     PlagiarismCheckPopup: <PlagiarismCheckPopup />,
+    EvaluationPopup: <EvaluationPopup />,
+    InfoPopup: <InfoPopup />,
   };
 
   const [show, setShow] = useState({
@@ -46,6 +50,8 @@ const EvaluateDetailVertical = (props) => {
     SummaryPopup: false,
     DocumentQAPopup: false,
     PlagiarismCheckPopup: false,
+    EvaluationPopup: false,
+    InfoPopup: false,
   });
 
   // const [show, setShow] = useState(false);

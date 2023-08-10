@@ -67,13 +67,14 @@ export const DashboardMenu = [
     id: uuid(),
     title: '평가',
     icon: 'clipboard',
-    link: '/dashboard/changelog',
+    popup: 'EvaluationPopup',
+    // link: 'EvaluationPopup',
   },
   {
     id: uuid(),
     title: '정보',
     icon: 'help-circle',
-    link: '/dashboard/changelog',
+    popup: 'InfoPopup',
   },
 ];
 
