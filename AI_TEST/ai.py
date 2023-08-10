@@ -195,7 +195,7 @@ class DoucmentInit(AI):
         file_path = '/Users/ktg/Desktop/23_HF171/AI_TEST/data/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
         docVectorDB_directory = None
         docVectorDB_directory = 'newTest'
-        analyticsReport_format = f"""format"""
+        analyticsReportFormat = f"""format"""
 
         docs = self._upload_document(file_path=file_path)
 
@@ -235,7 +235,7 @@ class DoucmentInit(AI):
             for compDoc, compID, score in similarDocuments:
                 analyticsReport_prompt = f"""당신은 표절 검사 분석 전문가입니다. 표절 검사를 진행한 결과, 특정 비교 문서와 유사하다는 결과가 나왔습니다.
             세 개의 역 따옴표, 세 개의 따옴표, 세 개의 큰 따옴표로 구분된 각 텍스트들은 검사 문서 중 일부분,비교 문서 중 일부분, 분석 결과 보고서 포맷입니다.
-            분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReport_format}\"\"\""""
+            분석 결과 보고서 작성해주세요.\n```{checkDoc}```\n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReportFormat}\"\"\""""
                 report = analysis(analyticsReport_prompt)
                 getResultCheck.append((checkID, compID, score, report))
             print(getResultCheck)
