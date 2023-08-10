@@ -29,10 +29,11 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const SummaryPopup = () => {
+const SummaryPopup = ({ data }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
-
+  console.log(data.file_info);
+  console.log(data.page_info);
   return (
     <Fragment>
       <Row>
@@ -66,10 +67,16 @@ const SummaryPopup = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    File
+                    data.file_info.summary: {data.file_info.summary}
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    Page
+                    data.page_info:{' '}
+                    {data.page_info.map((page) => (
+                      <div key={page.page_id}>
+                        <div>page.page_id: {page.page_id}</div>
+                        <div>page.summary: {page.summary}</div>
+                      </div>
+                    ))}
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

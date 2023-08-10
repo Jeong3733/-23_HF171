@@ -18,7 +18,7 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
 import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import PlagiarismCheckByFile from 'components/dashboard/courses/contents/PlagiarismCheckByFile';
+import ListNav from 'components/dashboard/courses/contents/ListNav';
 
 // import data files
 import {
@@ -29,7 +29,7 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const PlagiarismCheckPopup = () => {
+const PlagiarismCheckPopup = ({ data }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
@@ -66,10 +66,10 @@ const PlagiarismCheckPopup = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    <PlagiarismCheckByFile />
+                    <ListNav data={data} type={'file'} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    <PlagiarismCheckByFile />
+                    <ListNav data={data} type={'page'} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

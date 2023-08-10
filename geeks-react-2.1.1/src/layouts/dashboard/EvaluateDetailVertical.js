@@ -35,14 +35,14 @@ import InfoPopup from 'components/dashboard/courses/InfoPopup';
 // import routes file
 import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 
-const EvaluateDetailVertical = (props) => {
+const EvaluateDetailVertical = ({ data }) => {
   const popupList = {
-    FileListPopup: <FileListPopup />,
-    SummaryPopup: <SummaryPopup />,
-    DocumentQAPopup: <DocumentQAPopup />,
-    PlagiarismCheckPopup: <PlagiarismCheckPopup />,
-    EvaluationPopup: <EvaluationPopup />,
-    InfoPopup: <InfoPopup />,
+    FileListPopup: <FileListPopup data={data.fileList} />,
+    SummaryPopup: <SummaryPopup data={data.resultData} />,
+    DocumentQAPopup: <DocumentQAPopup data={data.resultData} />,
+    PlagiarismCheckPopup: <PlagiarismCheckPopup data={data.resultData} />,
+    EvaluationPopup: <EvaluationPopup data={data.resultData} />,
+    InfoPopup: <InfoPopup data={data.resultData} />,
   };
 
   const [show, setShow] = useState({
@@ -73,6 +73,7 @@ const EvaluateDetailVertical = (props) => {
 
   const location = useLocation();
 
+  console.log(data);
   return (
     <Fragment>
       <SimpleBar style={{ maxHeight: '100vh' }}>

@@ -18,7 +18,7 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
 import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import PlagiarismCheckByFile from 'components/dashboard/courses/contents/PlagiarismCheckByFile';
+import PlagiarismCheckByFile from 'components/dashboard/courses/contents/FileText';
 
 // import data files
 import {
