@@ -1,6 +1,8 @@
 package com.prototype.app_springboot.service;
 
+import com.prototype.app_springboot.data.entity.CompFileInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
+import com.prototype.app_springboot.data.repository.CompFileInfoRepository;
 import com.prototype.app_springboot.data.repository.FileInfoRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +11,11 @@ import java.util.List;
 @Service
 public class FileService {
     private final FileInfoRepository fileInfoRepository;
-    public FileService(FileInfoRepository fileInfoRepository) {
+    private final CompFileInfoRepository compFileInfoRepository;
+
+    public FileService(FileInfoRepository fileInfoRepository, CompFileInfoRepository compFileInfoRepository) {
         this.fileInfoRepository = fileInfoRepository;
+        this.compFileInfoRepository = compFileInfoRepository;
     }
 
     public List<FileInfo> getFileInfoListByPostId(int postId) {
@@ -18,5 +23,9 @@ public class FileService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("해당 PostId의 파일이 존재하지 않습니다.")
                 );
+    }
+
+    public List<CompFileInfo> getAllCompFileInfoList() {
+        return compFileInfoRepository.findAll();
     }
 }
