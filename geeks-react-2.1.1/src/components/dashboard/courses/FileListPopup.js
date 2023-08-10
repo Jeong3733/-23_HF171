@@ -1,7 +1,15 @@
 // import node module libraries
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
+import {
+  Container,
+  Col,
+  Row,
+  Card,
+  Nav,
+  Tab,
+  Breadcrumb,
+} from 'react-bootstrap';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
@@ -10,6 +18,7 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
 import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
+import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
 
 // import data files
 import {
@@ -26,14 +35,48 @@ const FileListPopup = () => {
 
   return (
     <Fragment>
-      <div className="d-md-flex align-items-center">
-        <span>competition_id : {competition_id}</span>
-        <span>post_id : {post_id}</span>
-        <span>
-          참고
-          /Users/ktg/Desktop/23_HF171/geeks-react-2.1.1/src/components/dashboard/cms/all-posts/EvaluateFileList.js
-        </span>
-      </div>
+      <Row>
+        <Col>
+          <div>
+            {
+              '문서(페이지) 내용과 유사한 문서(페이지)가 있는지 확인하고, 어떠한 부분에서 유사하다고 판단했는지 알려드립니다. '
+            }
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <Tab.Container defaultActiveKey="File">
+            <Card className="bg-transparent shadow-none ">
+              <Card.Header className="border-0 p-0 bg-transparent">
+                <Nav className="nav-lb-tab">
+                  <Nav.Item className="ms-0">
+                    <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
+                      {' '}
+                      File
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
+                      Page
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Card.Header>
+              <Card.Body className="p-0">
+                <Tab.Content>
+                  <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
+                    File
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
+                    Page
+                  </Tab.Pane>
+                </Tab.Content>
+              </Card.Body>
+            </Card>
+          </Tab.Container>
+        </Col>
+      </Row>
     </Fragment>
   );
 };

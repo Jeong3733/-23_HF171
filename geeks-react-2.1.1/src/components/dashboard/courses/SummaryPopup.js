@@ -1,98 +1,82 @@
 // import node module libraries
-import { Fragment } from 'react';
-import { Form, FormControl, InputGroup } from 'react-bootstrap';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  Container,
+  Col,
+  Row,
+  Card,
+  Nav,
+  Tab,
+  Breadcrumb,
+} from 'react-bootstrap';
 
-// import custom components
-import ReactQuillEditorPopup from 'components/elements/editor/ReactQuillEditorPopup';
-import { FormSelect } from 'components/elements/form-select/FormSelect';
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+
+// import sub components
+import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
+import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
+
+// import data files
+import {
+  allposts,
+  allPublishedPosts,
+  allScheduledPosts,
+  allDraftPosts,
+  allDeletedPosts,
+} from 'data/courses/AllPostsData';
 
 const SummaryPopup = () => {
-  const parentOptions = [
-    { value: '', label: 'Select' },
-    { value: 'ocean', label: 'Course' },
-    { value: 'blue', label: 'Tutorial' },
-    { value: 'purple', label: 'Workshop' },
-    { value: 'red', label: 'Company' },
-  ];
-
-  const initialValue = `<h4>One Ring to Rule Them All</h4>
-	<br />
-	<p>
-	Three Rings for the
-	<p>
-	One Ring to
-	<b>rule</b> them all, <br />
-	One Ring to find them, <br />
-	One Ring to bring them all and in the darkness bind
-	them. <br />
-	In the Land of Mordor where the Shadows lie.
-	</p>
-	<p>
-	<br />
-	</p>`;
-
-  const onChange = () => {
-    console.log('onChange was called!');
-  };
+  const { competition_id, post_id } = useParams();
+  // console.log(competition_id);
 
   return (
     <Fragment>
-      {/*  Form  */}
-      <Form>
-        {/* Title  */}
-        <Form.Group className="mb-3">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Write a Category"
-            id="category-name"
-          />
-          <Form.Text className="text-muted">
-            Field must contain a unique value
-          </Form.Text>
-        </Form.Group>
-
-        {/*   Slug  */}
-        <Form.Group className="mb-3">
-          <Form.Label>Slug</Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon3">
-              https://example.com/
-            </InputGroup.Text>
-            <FormControl
-              id="basic-url"
-              aria-describedby="basic-addon3"
-              placeholder="designcourses"
-            />
-          </InputGroup>
-          <Form.Text className="text-muted">
-            Field must contain a unique value
-          </Form.Text>
-        </Form.Group>
-
-        {/* Parent  */}
-        <Form.Group className="mb-3">
-          <Form.Label>Parent</Form.Label>
-          <FormSelect options={parentOptions} />
-        </Form.Group>
-
-        {/*  Editor  */}
-        <Form.Group className="mb-3">
-          <ReactQuillEditorPopup initialValue={initialValue} />
-        </Form.Group>
-
-        {/* Parent  */}
-        <Form.Group className="mb-3">
-          <Form.Label>Enabled</Form.Label>
-          <Form.Check
-            type="checkbox"
-            defaultChecked
-            label=""
-            className=" form-switch"
-            onChange={onChange}
-          />
-        </Form.Group>
-      </Form>
+      <Row>
+        <Col>
+          <div>
+            {
+              '문서(페이지) 내용과 유사한 문서(페이지)가 있는지 확인하고, 어떠한 부분에서 유사하다고 판단했는지 알려드립니다. '
+            }
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <Tab.Container defaultActiveKey="File">
+            <Card className="bg-transparent shadow-none ">
+              <Card.Header className="border-0 p-0 bg-transparent">
+                <Nav className="nav-lb-tab">
+                  <Nav.Item className="ms-0">
+                    <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
+                      {' '}
+                      File
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
+                      Page
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Card.Header>
+              <Card.Body className="p-0">
+                <Tab.Content>
+                  <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
+                    File
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
+                    Page
+                  </Tab.Pane>
+                </Tab.Content>
+              </Card.Body>
+            </Card>
+          </Tab.Container>
+        </Col>
+      </Row>
     </Fragment>
   );
 };
