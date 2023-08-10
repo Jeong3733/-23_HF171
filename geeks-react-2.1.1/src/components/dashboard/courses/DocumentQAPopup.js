@@ -17,8 +17,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
+import Chat from 'components/dashboard/chat/Chat';
 
 // import data files
 import {
@@ -40,6 +39,7 @@ const DocumentQAPopup = ({ data }) => {
       post_id: {post_id}
       <br />
       data.file_info.file_id: {data.file_info.file_id}
+      <Chat />
     </Fragment>
   );
 };
