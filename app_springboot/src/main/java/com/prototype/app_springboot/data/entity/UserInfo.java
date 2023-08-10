@@ -40,9 +40,6 @@ public class UserInfo {
     @OneToMany(mappedBy = "userInfo")
     private final List<PostInfo> postInfoList = new ArrayList<PostInfo>();
 
-    @OneToMany(mappedBy = "userInfo")
-    private final List<CheckFileInfo> checkFileInfoList = new ArrayList<CheckFileInfo>();
-
     @Builder
     public UserInfo(String userId, String userName, String password, String email, SocialType social, SystemRoleType role) {
         this.userId = userId;

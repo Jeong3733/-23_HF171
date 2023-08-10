@@ -1,6 +1,5 @@
 package com.prototype.app_springboot.data.entity;
 
-import com.prototype.app_springboot.data.type.ProgressStatusType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,25 +25,30 @@ public class FileInfo {
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private PostInfo postInfo;
+
     private String fileTitle;
 
     private String fileExtension;
 
     private UUID path;
+
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
     @CreatedDate
     private LocalDateTime uploadDatetime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private PostInfo postInfo;
+    @OneToMany(mappedBy = "fileInfo")
+    private final List<PageInfo> pageInfoList = new ArrayList<PageInfo>();
 
-    private ProgressStatusType progressStatusType;
-
-    @OneToMany(mappedBy = "userUploadedFileInfo")
-    private List<CheckFile> checkFileList = new ArrayList<CheckFile>();
+    @OneToMany(mappedBy = "fileInfo")
+    private final List<FileResultInfo> fileResultInfoList = new ArrayList<FileResultInfo>();
 
     @Builder
-    public FileInfo(int id, UserInfo userInfo, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, ProgressStatusType progressStatusType, List<CheckFile> checkFileList) {
+    public FileInfo(int id, UserInfo userInfo, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, String summary) {
         this.id = id;
         this.userInfo = userInfo;
         this.fileTitle = fileTitle;
@@ -52,7 +56,6 @@ public class FileInfo {
         this.path = path;
         this.uploadDatetime = uploadDatetime;
         this.postInfo = postInfo;
-        this.progressStatusType = progressStatusType;
-        this.checkFileList = checkFileList;
+        this.summary = summary;
     }
 }

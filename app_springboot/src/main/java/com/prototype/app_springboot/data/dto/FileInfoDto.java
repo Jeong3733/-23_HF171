@@ -14,6 +14,7 @@ public class FileInfoDto {
     private String user_info_id;
     private UUID path;
     private String file_title;
+    private String summary;
     private ProgressStatusType file_type;
     private String file_extension;
     private LocalDateTime upload_datetime;
@@ -24,7 +25,7 @@ public class FileInfoDto {
         user_info_id = fileInfo.getUserInfo().getUserId();
         path = fileInfo.getPath();
         file_title = fileInfo.getFileTitle();
-        file_type = fileInfo.getProgressStatusType();
+        summary = fileInfo.getSummary();
         upload_datetime = fileInfo.getUploadDatetime();
         file_extension = fileInfo.getFileExtension();
     }

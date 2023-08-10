@@ -15,14 +15,24 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CheckFileInfo {
+public class CompFileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int file_id;
-
-    @ManyToOne
+    @Column(name = "file_id")
+    private int id;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
+
+    private String depth1;
+
+    private String depth2;
+
+    private String depth3;
+
+    private String depth4;
+
+    private String competitionName;
 
     private String link;
 
@@ -31,17 +41,21 @@ public class CheckFileInfo {
     private String fileExtension;
 
     private UUID path;
-
     @CreatedDate
     private LocalDateTime uploadDatetime;
 
-    @OneToMany(mappedBy = "standardFileInfo")
-    private final List<CheckFile> checkFileList = new ArrayList<CheckFile>();
+    @OneToMany(mappedBy = "compFileInfo")
+    private final List<FileResultInfo> fileResultInfoList = new ArrayList<FileResultInfo>();
 
     @Builder
-    public CheckFileInfo(int file_id, UserInfo userInfo, String link, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime) {
-        this.file_id = file_id;
+    public CompFileInfo(int id, UserInfo userInfo, String depth1, String depth2, String depth3, String depth4, String competitionName, String link, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime) {
+        this.id = id;
         this.userInfo = userInfo;
+        this.depth1 = depth1;
+        this.depth2 = depth2;
+        this.depth3 = depth3;
+        this.depth4 = depth4;
+        this.competitionName = competitionName;
         this.link = link;
         this.fileTitle = fileTitle;
         this.fileExtension = fileExtension;
