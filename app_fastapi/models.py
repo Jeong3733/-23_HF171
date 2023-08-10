@@ -26,3 +26,7 @@ class FileInfo(BaseModel):
     file_title: str
     path: str
     user_id: str
+
+
+class PageIdList(BaseModel):
+    page_id_list: List[str]

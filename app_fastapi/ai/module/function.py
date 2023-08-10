@@ -148,6 +148,14 @@ class AI:
         vectordb.persist()
         return vectordb
 
+    def _add_vectordb(self, vectorDB, docs):
+        """
+        텍스트를 기존 벡터 DB에 저장하는 함수
+        """
+        res = vectorDB.add_documents(documents=docs)
+        vectorDB.persist()
+        return res
+
     def _load_vectordb(self, persist_directory):
         """
         기존 벡터 DB에 불러오는 함수
@@ -193,6 +201,59 @@ class AI:
 class DoucmentInit(AI):
     def __init__(self) -> None:
         super().__init__()
+
+    def addInCompDB(self, fileInfo):
+        print(fileInfo)
+
+        # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        file_path = self._getFileFromS3(fileInfo=fileInfo)
+        print(file_path)
+
+        file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
+        print(file_path)
+
+        docs = self._upload_document(file_path=file_path)
+
+        compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
+        compVectorDB = self._load_vectordb(
+            persist_directory=compVectorDB_directory)
+
+        ids = self._add_vectordb(vectorDB=compVectorDB, docs=docs)
+
+        pageInfo = []
+        getVectorDBInfo = compVectorDB.get(ids=ids,
+                                           include=['embeddings', 'documents', 'metadatas'])
+        for pageID, pageMetaDatas in zip(getVectorDBInfo['ids'],
+                                         getVectorDBInfo['metadatas']):
+            # print(fileInfo['path'], pageID, pageMetaDatas['page'],
+            #       pageMetaDatas['start_index'])
+            pageInfo.append({
+                'fileId': fileInfo['path'],
+                'pageId': pageID,
+                'pageNum': pageMetaDatas['page'],
+                'startIndex': pageMetaDatas['start_index'],
+            })
+
+        resDict = {'pageInfo': pageInfo}
+        return resDict
+
+    def getContentsFromCompDB(self, ids: list):
+        compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
+        compVectorDB = self._load_vectordb(
+            persist_directory=compVectorDB_directory)
+
+        pageInfo = []
+        getVectorDBInfo = compVectorDB.get(ids=ids,
+                                           include=['embeddings', 'documents', 'metadatas'])
+        for pageID, pageContent in zip(getVectorDBInfo['ids'],
+                                       getVectorDBInfo['documents']):
+            pageInfo.append({
+                'pageId': pageID,
+                'pageContent': pageContent
+            })
+
+        resDict = {'pageInfo': pageInfo}
+        return resDict
 
     def upload(self, fileInfo):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
@@ -274,11 +335,10 @@ class DoucmentInit(AI):
                 pageResultInfo.append((pageID, compID, score, report))
             # print(pageResultInfo)
         # FileResultInfo 계산
-        resDict = {'status': True,
-                   'result': {'fileSummary': fileSummary,
-                              'pageInfo': pageInfo,
-                              'pageResultInfo': pageResultInfo,
-                              'fileResultInfo': fileResultInfo}}
+        resDict = {'fileSummary': fileSummary,
+                   'pageInfo': pageInfo,
+                   'pageResultInfo': pageResultInfo,
+                   'fileResultInfo': fileResultInfo}
         return resDict
 
 
