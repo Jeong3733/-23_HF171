@@ -34,37 +34,74 @@ const AddPostForm = () => {
   ];
 
   const postId = 1;
+  const [form, setForm] = useState({
+    competitionType: {
+      pdf: false,
+      pptx: false,
+      ppt: false,
+      docx: false,
+    },
+    formCompetitionName: '',
+    formDepth1: '',
+    formDepth2: '',
+    formDepth3: '',
+    formDepth4: '',
+    formLink: '',
+  });
 
-  const handleSubmit = (e) => {
-    console.log(e);
+  const [file, setFile] = useState(null);
 
-    let formData = {
-      boardType: e.target.formBoardType,
-      title: e.target.formTitle,
-      contents: e.target.formContents,
-      postInfoId: postId,
-    };
-    alert(formData);
+  const handleChange = (e) => {
+    const newData = {};
+    if (e.target.type === 'checkbox') {
+      const [parentName, myName] = e.target.getAttribute('name').split(':');
+      newData[parentName] = form[parentName];
+      newData[parentName][myName] = e.target.checked;
+    }
+    if (e.target.id === 'formFile') {
+      if (e.target.files[0]) {
+        setFile(e.target.files[0]);
+        console.log('formFile 입니다.');
+      }
+    }
+    setForm({ ...form, [e.target.id]: e.target.value });
+    console.log(form);
+  };
+
+  const resetForm = () => {
+    setForm({
+      competitionName: '',
+      depth1: '',
+      depth2: '',
+      depth3: '',
+      depth4: '',
+      link: '',
+    });
+  };
+
+  const handleSubmit = () => {
+    // alert(JSON.stringify(formData));
     const formDataToSend = new FormData();
     formDataToSend.append(
       'data',
-      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+      new Blob([JSON.stringify(form)], { type: 'application/json' }),
     );
-    formDataToSend.append('file', e.target.formFile[0]);
+    formDataToSend.append('file', file);
 
     // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
-    // const user = Auth.getUser();
-    // apiUtils
-    //   .AddCompFileInfo(user, formDataToSend)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     // const { accessToken, refreshToken } = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
+    const user = Auth.getUser();
+    apiUtils
+      .AddCompFileInfo(user, formDataToSend)
+      .then((response) => {
+        console.log(response.data);
+        // const { accessToken, refreshToken } = response.data;
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+      });
+    resetForm();
   };
 
   return (
@@ -77,13 +114,23 @@ const AddPostForm = () => {
             <Form.Label>
               게시물 종류 <span className="text-danger">*</span>
             </Form.Label>
-            <Form.Control type="text" required />
+            <Form.Control
+              value={form.formBoardType}
+              onChange={handleChange}
+              type="text"
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formTitle">
             <Form.Label>
               제목 <span className="text-danger">*</span>
             </Form.Label>
-            <Form.Control type="text" required />
+            <Form.Control
+              value={form.formTitle}
+              onChange={handleChange}
+              type="text"
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formContents">
             <Form.Label>
@@ -92,16 +139,16 @@ const AddPostForm = () => {
             <Form.Control type="text" required />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>공모전 분류</Form.Label>
+            <Form.Label>업로드 가능한 파일 종류</Form.Label>
             <Form.Text>최대 3개까지 선택할 수 있습니다.</Form.Text>
-            <div className="mb-3" id="competitionType" name="competitionType">
+            <div className="mb-3" id="formFileType">
               {fileType.map((item, index) => (
                 <Form.Check
                   key={index}
                   inline
                   type="checkbox"
                   label={item.label}
-                  name={'competitionType' + ':' + item.value}
+                  id={'formFileType' + ':' + item.value}
                 />
               ))}
             </div>

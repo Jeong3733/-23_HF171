@@ -26,12 +26,12 @@ const DBUpload = () => {
   //   navigate('/');
   // }
   const [form, setForm] = useState({
-    formCompetitionName: '',
-    formDepth1: '',
-    formDepth2: '',
-    formDepth3: '',
-    formDepth4: '',
-    formLink: '',
+    competitionName: '',
+    depth1: '',
+    depth2: '',
+    depth3: '',
+    depth4: '',
+    link: '',
   });
 
   const [file, setFile] = useState(null);
@@ -92,51 +92,51 @@ const DBUpload = () => {
               <h3 className="mb-4">표절 DB 파일 추가 </h3>
               {/* form to apply for the job */}
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formCompetitionName">
+                <Form.Group className="mb-3" controlId="competitionName">
                   <Form.Label>
                     공모전명 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formCompetitionName}
+                    value={form.competitionName}
                     onChange={handleChange}
                     type="text"
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formLink">
+                <Form.Group className="mb-3" controlId="link">
                   <Form.Label>
                     링크 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formLink}
+                    value={form.link}
                     onChange={handleChange}
                     type="text"
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formDepth1">
+                <Form.Group className="mb-3" controlId="depth1">
                   <Form.Label>
                     formDepth1 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formDepth1}
+                    value={form.depth1}
                     onChange={handleChange}
                     type="text"
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formDepth2">
+                <Form.Group className="mb-3" controlId="depth2">
                   <Form.Label>
                     formDepth2 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formDepth2}
+                    value={form.depth2}
                     onChange={handleChange}
                     type="text"
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formDepth3">
+                <Form.Group className="mb-3" controlId="depth3">
                   <Form.Label>
                     formDepth3 <span className="text-danger">*</span>
                   </Form.Label>
@@ -147,12 +147,12 @@ const DBUpload = () => {
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formDepth4">
+                <Form.Group className="mb-3" controlId="depth4">
                   <Form.Label>
                     formDepth4 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formDepth4}
+                    value={form.depth3}
                     onChange={handleChange}
                     type="text"
                     required
