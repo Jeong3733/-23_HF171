@@ -8,6 +8,7 @@ export const apiUtils = {
   signUp,
   getUserInfo,
   AddCompetition,
+  AddPost,
   AddParticipation,
   GetUserByCompetition,
   GetCompetitionInfo,

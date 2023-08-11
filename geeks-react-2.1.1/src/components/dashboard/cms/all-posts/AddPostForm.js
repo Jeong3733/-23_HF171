@@ -94,16 +94,16 @@ const AddPostForm = ({ Auth }) => {
     // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
     const user = Auth.getUser();
-    // apiUtils
-    //   .AddCompFileInfo(user, formDataToSend)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     // const { accessToken, refreshToken } = response.data;
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
+    apiUtils
+      .AddPost(user, formDataToSend)
+      .then((response) => {
+        console.log(response.data);
+        // const { accessToken, refreshToken } = response.data;
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+      });
     resetForm();
   };
 
