@@ -122,7 +122,7 @@ function GetUserByCompetition(user, data) {
   const url = `/get/userbycompetition`;
   return instance.post(url, data, {
     headers: {
-      'Content-type': 'multipart/form-data',
+      'Content-type': 'application/json',
       Authorization: bearerAccess(user),
     },
   });

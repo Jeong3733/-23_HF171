@@ -123,7 +123,11 @@ const DetailLayout = () => {
   }, [isLoggedIn]);
 
   return (
-    <CommonHeaderTabs isLoggedIn={isLoggedIn} info={competitionInfo}>
+    <CommonHeaderTabs
+      Auth={Auth}
+      isLoggedIn={isLoggedIn}
+      info={competitionInfo}
+    >
       <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
     </CommonHeaderTabs>
   );

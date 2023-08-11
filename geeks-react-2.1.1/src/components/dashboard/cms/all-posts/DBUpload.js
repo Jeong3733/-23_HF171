@@ -21,10 +21,10 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 const DBUpload = () => {
   const { isLoggedIn, Auth } = useOutletContext();
-  const navigate = useNavigate();
-  if (!isLoggedIn) {
-    navigate('/');
-  }
+  // const navigate = useNavigate();
+  // if (!isLoggedIn) {
+  //   navigate('/');
+  // }
 
   const handleSubmit = (e) => {
     console.log(e);

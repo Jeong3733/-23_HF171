@@ -1,4 +1,5 @@
 // import node module libraries
+import { Fragment, useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import {
   Col,
@@ -10,7 +11,6 @@ import {
   Nav,
   Badge,
 } from 'react-bootstrap';
-import { Fragment } from 'react';
 
 // import media files
 import CompanyBG from 'assets/images/background/company-bg.jpg';
@@ -18,13 +18,16 @@ import CompanyBG from 'assets/images/background/company-bg.jpg';
 // import utility filedata
 import { s3Link } from 'helper/utils';
 
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
+
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { info, isLoggedIn } = props;
+  const { info, isLoggedIn, Auth } = props;
   const location = useLocation();
-  console.log(info);
-  console.log(info);
-  console.log(info);
+
   const tabItems = [
     {
       title: '소개글',
@@ -61,6 +64,50 @@ const CommonHeaderTabs = (props) => {
       isLoggedIn: false,
     },
   ];
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    // postList
+    const data8 = {
+      competitionId: competition_id,
+    };
+    const user = Auth.getUser();
+    apiUtils
+      .GetUserByCompetition(user, data8)
+      .then((response) => {
+        console.log(response.data);
+        const getStatus = response.data;
+        setStatus(getStatus);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        const getStatus = {
+          competition_id: 1,
+          team_id: 1,
+          user_id: 1,
+          role_type: 'Creator',
+        };
+        setStatus(getStatus);
+        handleLogError(error);
+      });
+  }, [competition_id]);
+
+  const handleClick = () => {
+    const data7 = {
+      competitionId: competition_id,
+    };
+    const user = Auth.getUser();
+    apiUtils
+      .AddParticipation(user, data7)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+      });
+  };
+
   return (
     <Fragment>
       {/* 커버 이미지 (없애도 되려나?) */}
@@ -126,7 +173,11 @@ const CommonHeaderTabs = (props) => {
                         {'+23 day'}
                       </span>
                     </Badge>
-                    <Button to="#" variant="outline-primary">
+                    <Button
+                      to="#"
+                      variant="outline-primary"
+                      onClick={handleClick}
+                    >
                       참가 신청
                     </Button>
                     {/* button */}

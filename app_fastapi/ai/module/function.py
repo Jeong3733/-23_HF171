@@ -295,6 +295,9 @@ class DoucmentInit(AI):
         def analysis(analyticsReportPrompt):
             return len(analyticsReportPrompt)
 
+        def pageSummary(data):
+            return len(data)
+
         pageResultInfo = []
         pageInfo = []
         fileResultInfo = [{
@@ -303,19 +306,14 @@ class DoucmentInit(AI):
             'score': 'score',
             'report': 'report',
         }]
+        prev_page = None
+        prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
             print(fileInfo['path'], pageID, pageMetaDatas['page'],
                   pageMetaDatas['start_index'])
-            pageInfo.append({
-                'fileId': fileInfo['path'],
-                'pageId': pageID,
-                'pageNum': pageMetaDatas['page'],
-                'startIndex': pageMetaDatas['start_index'],
-                'summary': 'pageSummary'
-            })
 
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=pageVector,
@@ -333,7 +331,46 @@ class DoucmentInit(AI):
                     'report': report,
                 })
                 pageResultInfo.append((pageID, compID, score, report))
-            # print(pageResultInfo)
+
+            page = pageMetaDatas['page']
+            start_index = pageMetaDatas['start_index']
+            if prev_page != page:
+                if prev_page is not None:
+                    # 이전 페이지 작업 종료 처리
+                    # 페이지 요약
+                    page_summary = pageSummary(prev_page_info)
+                    # 저장
+                    for info in prev_page_info:
+                        info['summary'] = page_summary
+                        pageInfo.append(info)
+                    # 초기화
+                    prev_page_info = []
+                    print(f"Finished processing page {prev_page}...")
+
+                # 현재 페이지 작업 시작 처리
+                print(f"Processing page {page}...")
+                prev_page_info.append({
+                    'fileId': fileInfo['path'],
+                    'pageId': pageID,
+                    'pageNum': page,
+                    'startIndex': start_index,
+                    'summary': pageContent
+                })
+                prev_page = page
+
+        # 마지막 페이지 작업 종료 처리
+        if prev_page is not None:
+            # 이전 페이지 작업 종료 처리
+            # 페이지 요약
+            page_summary = pageSummary(prev_page_info)
+            # 저장
+            for info in prev_page_info:
+                info['summary'] = page_summary
+                pageInfo.append(info)
+            # 초기화
+            prev_page_info = []
+            print(f"Finished processing page {prev_page}...")
+
         # FileResultInfo 계산
         resDict = {'fileSummary': fileSummary,
                    'pageInfo': pageInfo,
