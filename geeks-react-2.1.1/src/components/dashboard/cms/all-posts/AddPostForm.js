@@ -123,6 +123,7 @@ const AddPostForm = ({ Auth }) => {
               required
               aria-label="게시물 종류 선택하기"
             >
+              <option>게시물 종류 선택하기</option>
               <option value="QNA">QNA</option>
               <option value="SUBMIT">SUBMIT</option>
               <option value="NOTICE">NOTICE</option>

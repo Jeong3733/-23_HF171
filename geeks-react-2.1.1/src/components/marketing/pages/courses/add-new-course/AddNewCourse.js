@@ -104,8 +104,6 @@ const AddNewCourse = () => {
       formDataToSend.append('competitionDocs', competitionDocs);
     }
 
-    alert(JSON.stringify(formDataToSend));
-    console.log(formDataToSend);
     // 로그인 정보 가져오기
     const user = Auth.getUser();
     apiUtils

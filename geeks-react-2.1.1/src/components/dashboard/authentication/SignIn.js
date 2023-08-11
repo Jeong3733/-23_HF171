@@ -52,7 +52,7 @@ const SignIn = () => {
         navigate('/');
       })
       .catch((error) => {
-        alert(error.response.data);
+        alert(error);
         handleLogError(error);
       });
   };

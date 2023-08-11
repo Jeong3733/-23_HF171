@@ -41,6 +41,7 @@ const DBUpload = () => {
       if (e.target.files[0]) {
         setFile(e.target.files[0]);
         console.log('formFile 입니다.');
+        console.log(e.target.files);
       }
     }
     setForm({ ...form, [e.target.id]: e.target.value });
@@ -65,9 +66,10 @@ const DBUpload = () => {
       'data',
       new Blob([JSON.stringify(form)], { type: 'application/json' }),
     );
-    formDataToSend.append('file', file);
+    if (file != null) {
+      formDataToSend.append('file', file);
+    }
 
-    // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
     const user = Auth.getUser();
     apiUtils
@@ -77,6 +79,7 @@ const DBUpload = () => {
         // const { accessToken, refreshToken } = response.data;
       })
       .catch((error) => {
+        alert(error);
         // alert(error.response.data);
         handleLogError(error);
       });
@@ -163,6 +166,15 @@ const DBUpload = () => {
                     파일 업로드 <span className="text-danger">*</span>
                     <br /> 업로드 가능한 파일 종류
                   </Form.Label>
+                  {/* <Form.Control
+                    id="formFile"
+                    name="formFile"
+                    type="file"
+                    // className="form-control"
+                    // required
+                    onChange={handleChange}
+                    accept=".pdf"
+                  /> */}
                   <Form.Control
                     onChange={handleChange}
                     type="file"
@@ -173,6 +185,9 @@ const DBUpload = () => {
                   {/* <Form.Control type="file" disabled /> */}
                 </Form.Group>
                 <Button variant="primary" type="submit">
+                  업로드
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
                   업로드
                 </Button>
               </Form>
