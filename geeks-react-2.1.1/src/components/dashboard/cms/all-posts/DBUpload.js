@@ -25,25 +25,47 @@ const DBUpload = () => {
   // if (!isLoggedIn) {
   //   navigate('/');
   // }
+  const [form, setForm] = useState({
+    formCompetitionName: '',
+    formDepth1: '',
+    formDepth2: '',
+    formDepth3: '',
+    formDepth4: '',
+    formLink: '',
+  });
 
-  const handleSubmit = (e) => {
-    console.log(e);
+  const [file, setFile] = useState(null);
 
-    let formData = {
-      competitionName: e.target.formCompetitionName,
-      formDepth1: e.target.formDepth1,
-      formDepth2: e.target.formDepth2,
-      formDepth3: e.target.formDepth3,
-      formDepth4: e.target.formDepth4,
-      link: e.target.formLink,
-    };
+  const handleChange = (e) => {
+    if (e.target.id === 'formFile') {
+      if (e.target.files[0]) {
+        setFile(e.target.files[0]);
+        console.log('formFile 입니다.');
+      }
+    }
+    setForm({ ...form, [e.target.id]: e.target.value });
+    console.log(form);
+  };
 
+  const resetForm = () => {
+    setForm({
+      competitionName: '',
+      depth1: '',
+      depth2: '',
+      depth3: '',
+      depth4: '',
+      link: '',
+    });
+  };
+
+  const handleSubmit = () => {
+    // alert(JSON.stringify(formData));
     const formDataToSend = new FormData();
     formDataToSend.append(
       'data',
-      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+      new Blob([JSON.stringify(form)], { type: 'application/json' }),
     );
-    formDataToSend.append('file', e.target.formFile[0]);
+    formDataToSend.append('file', file);
 
     // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
@@ -58,6 +80,7 @@ const DBUpload = () => {
         // alert(error.response.data);
         handleLogError(error);
       });
+    resetForm();
   };
 
   return (
@@ -73,44 +96,79 @@ const DBUpload = () => {
                   <Form.Label>
                     공모전명 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formCompetitionName}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formLink">
                   <Form.Label>
                     링크 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formLink}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDepth1">
                   <Form.Label>
                     formDepth1 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formDepth1}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDepth2">
                   <Form.Label>
                     formDepth2 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formDepth2}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDepth3">
                   <Form.Label>
                     formDepth3 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formDepth3}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDepth4">
                   <Form.Label>
                     formDepth4 <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control type="text" required />
+                  <Form.Control
+                    value={form.formDepth4}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formFile">
                   <Form.Label>
                     파일 업로드 <span className="text-danger">*</span>
                     <br /> 업로드 가능한 파일 종류
                   </Form.Label>
-                  <Form.Control type="file" required accept=".pdf" />
+                  <Form.Control
+                    onChange={handleChange}
+                    type="file"
+                    required
+                    accept=".pdf"
+                  />
                   {/* 기간 만료 */}
                   {/* <Form.Control type="file" disabled /> */}
                 </Form.Group>

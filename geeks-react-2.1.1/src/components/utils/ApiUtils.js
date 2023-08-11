@@ -606,7 +606,6 @@ function GetPostInfoByBoardType(data) {
 // ]
 
 // 파일 리스트 요청 by PostId
-
 function GetFileInfoByPostId(data) {
   const url = `/get/fileInfo/postId`;
   return instance.post(url, data, {

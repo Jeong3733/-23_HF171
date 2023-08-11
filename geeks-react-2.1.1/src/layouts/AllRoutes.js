@@ -135,7 +135,6 @@ const AllRoutes = () => {
         />
       </Route>
 
-      {/* ---------------------------------------- */}
       {/* 5.0 관리 */}
       <Route element={<ManageIndex />}>
         <Route path="/manage/:competition_id/" element={<ManageReadme />} />

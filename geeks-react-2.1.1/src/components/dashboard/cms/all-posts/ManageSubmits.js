@@ -15,6 +15,7 @@ import {
 // import sub components
 import PostsTable from './PostsTable';
 import AddNewCategoryPopup from './AddNewCategoryPopup';
+import AddPostForm from './AddPostForm';
 
 // import data files
 import {
@@ -46,23 +47,23 @@ const ManageSubmits = () => {
             </div>
             <div>
               <Button variant="primary" onClick={handleShow}>
-                Add New Category
+                게시물 추가
               </Button>
               <Modal show={show} onHide={handleClose} size="lg">
                 <Modal.Header closeButton>
-                  <Modal.Title>Create New Category</Modal.Title>
+                  <Modal.Title>게시물 추가 페이지</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <AddNewCategoryPopup />
+                  <AddPostForm />
                 </Modal.Body>
                 <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
                   {/*  Action Buttons  */}
-                  <Button variant="primary" onClick={handleClose}>
+                  {/* <Button variant="primary" onClick={handleClose}>
                     Add New Category
-                  </Button>
-                  <Button variant="outline-secondary" onClick={handleClose}>
+                  </Button> */}
+                  {/* <Button variant="outline-secondary" onClick={handleClose}>
                     Close
-                  </Button>
+                  </Button> */}
                 </Modal.Footer>
               </Modal>
             </div>
