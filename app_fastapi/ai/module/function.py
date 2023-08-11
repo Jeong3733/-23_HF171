@@ -234,6 +234,12 @@ class DoucmentInit(AI):
                 'pageNum': pageMetaDatas['page'],
                 'startIndex': pageMetaDatas['start_index'],
             })
+            # pageInfo.append({
+            #     'file_id': fileInfo['path'],
+            #     'page_id': pageID,
+            #     'page_num': pageMetaDatas['page'],
+            #     'start_index': pageMetaDatas['start_index'],
+            # })
 
         resDict = {'pageInfo': pageInfo}
         return resDict
