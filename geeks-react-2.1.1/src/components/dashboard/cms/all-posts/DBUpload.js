@@ -25,7 +25,7 @@ const DBUpload = () => {
   // if (!isLoggedIn) {
   //   navigate('/');
   // }
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     competitionName: '',
     depth1: '',
     depth2: '',
@@ -34,22 +34,22 @@ const DBUpload = () => {
     link: '',
   });
 
-  const [file, setFile] = useState(null);
+  const [fileData, setFileData] = useState(null);
 
   const handleChange = (e) => {
-    if (e.target.id === 'formFile') {
+    if (e.target.id === 'formFileData') {
       if (e.target.files[0]) {
-        setFile(e.target.files[0]);
-        console.log('formFile 입니다.');
+        setFileData(e.target.files[0]);
+        console.log('formFileData 입니다.');
         console.log(e.target.files);
       }
     }
-    setForm({ ...form, [e.target.id]: e.target.value });
-    console.log(form);
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    console.log(formData);
   };
 
   const resetForm = () => {
-    setForm({
+    setFormData({
       competitionName: '',
       depth1: '',
       depth2: '',
@@ -64,10 +64,10 @@ const DBUpload = () => {
     const formDataToSend = new FormData();
     formDataToSend.append(
       'data',
-      new Blob([JSON.stringify(form)], { type: 'application/json' }),
+      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
     );
-    if (file != null) {
-      formDataToSend.append('file', file);
+    if (fileData != null) {
+      formDataToSend.append('file', fileData);
     }
 
     alert(JSON.stringify(formDataToSend));
@@ -79,7 +79,7 @@ const DBUpload = () => {
         // const { accessToken, refreshToken } = response.data;
       })
       .catch((error) => {
-        alert(error);
+        // alert(error);
         // alert(error.response.data);
         handleLogError(error);
       });
@@ -100,7 +100,7 @@ const DBUpload = () => {
                     공모전명 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.competitionName}
+                    value={formData.competitionName}
                     onChange={handleChange}
                     type="text"
                     required
@@ -111,7 +111,7 @@ const DBUpload = () => {
                     링크 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.link}
+                    value={formData.link}
                     onChange={handleChange}
                     type="text"
                     required
@@ -122,7 +122,7 @@ const DBUpload = () => {
                     formDepth1 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.depth1}
+                    value={formData.depth1}
                     onChange={handleChange}
                     type="text"
                     required
@@ -133,7 +133,7 @@ const DBUpload = () => {
                     formDepth2 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.depth2}
+                    value={formData.depth2}
                     onChange={handleChange}
                     type="text"
                     required
@@ -144,7 +144,7 @@ const DBUpload = () => {
                     formDepth3 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.depth3}
+                    value={formData.depth3}
                     onChange={handleChange}
                     type="text"
                     required
@@ -155,20 +155,20 @@ const DBUpload = () => {
                     formDepth4 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.depth4}
+                    value={formData.depth4}
                     onChange={handleChange}
                     type="text"
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formFile">
+                <Form.Group className="mb-3" controlId="formFileData">
                   <Form.Label>
                     파일 업로드 <span className="text-danger">*</span>
                     <br /> 업로드 가능한 파일 종류
                   </Form.Label>
                   {/* <Form.Control
-                    id="formFile"
-                    name="formFile"
+                    id="formFileData"
+                    name="formFileData"
                     type="file"
                     // className="form-control"
                     // required
