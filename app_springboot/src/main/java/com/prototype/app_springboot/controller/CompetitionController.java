@@ -26,6 +26,14 @@ public class CompetitionController {
         this.competitionService = competitionService;
     }
 
+    @PostMapping("/add/participation")
+    public ResponseEntity<Integer> participateCompetition(@RequestBody Map<String, String> competitionIdMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        int ret = competitionService.setUserByCompetition(authentication.getName(), competitionId);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
     @PostMapping("/get/userInfo/competitionId")
     public ResponseEntity<List<UserInfoWithUserByCompDto>> getAllUserInfoWithUserByCompByCompetitionId(@RequestBody Map<String, String> competitionIdMap) {
         int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
@@ -126,11 +134,11 @@ public class CompetitionController {
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (competitionImage == null) {
+        if (competitionImage == null || competitionImage.isEmpty()) {
             return new ResponseEntity<>("대표 이미지를 등록해주세요", HttpStatus.BAD_REQUEST);
         }
 
-        if (competitionDocsList == null) {
+        if (competitionDocsList == null || competitionDocsList.isEmpty()) {
             return new ResponseEntity<>("자료를 등록해주세요", HttpStatus.BAD_REQUEST);
         }
 

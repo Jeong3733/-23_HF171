@@ -1,7 +1,6 @@
 package com.prototype.app_springboot.data.dto;
 
 import com.prototype.app_springboot.data.entity.FileInfo;
-import com.prototype.app_springboot.data.type.ProgressStatusType;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ public class FileInfoDto {
     private UUID path;
     private String file_title;
     private String summary;
-    private ProgressStatusType file_type;
     private String file_extension;
     private LocalDateTime upload_datetime;
 

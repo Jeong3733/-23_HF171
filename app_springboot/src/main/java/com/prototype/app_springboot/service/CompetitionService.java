@@ -42,6 +42,23 @@ public class CompetitionService {
     }
 
     @Transactional
+    public int setUserByCompetition(String userId, int competitionId) {
+        if (userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId) == null) {
+            UserByCompetition userByCompetition = UserByCompetition.builder()
+                    .competitionInfo(getCompetitionInfoByCompetitionId(competitionId))
+                    .userInfo(userInfoRepository.findByUserId(userId))
+                    // TODO: 나중에 팀하고 바꿔야 댐
+                    .teamInfo(null)
+                    .roleType(RoleType.PARTICIPANT_BASE)
+                    .build();
+            userByCompetitionRepository.save(userByCompetition);
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    @Transactional
     public UserByCompetition getUserAndCompetitionByUserIdAndCompetitionId(String userId, int competitionId) {
         return userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId);
     }
@@ -103,8 +120,6 @@ public class CompetitionService {
                 .roleType(RoleType.CREATOR)
                 .build();
         userByCompetitionRepository.save(userByCompetition);
-
-
 
         competitionDocsFileList.forEach(competitionDocsFile -> {
             if (competitionDocsFile.isEmpty()) {
