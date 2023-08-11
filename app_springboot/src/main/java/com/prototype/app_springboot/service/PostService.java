@@ -22,6 +22,10 @@ public class PostService {
                 );
     }
 
+    public PostInfo getPostInfoByPostIdAndUserId(int postId, String userId) {
+        return postInfoRepository.findByIdAndUserInfoUserId(postId, userId);
+    }
+
     public List<PostInfo> getPostInfoListByCompetitionIdAndBoardType(int competitionId, String boardType) {
         return postInfoRepository.findAllByCompetitionInfoIdAndBoardType(competitionId, BoardType.valueOf(boardType.toUpperCase()));
     }

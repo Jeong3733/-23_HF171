@@ -50,7 +50,12 @@ public class CompetitionWithUserByCompDto {
             return;
         }
         user_id = userByCompetition.getUserInfo().getUserId();
-        team_id = userByCompetition.getTeamInfo().getId();
+
+        if (team_id == null){
+            team_id = null;
+        } else {
+            team_id = userByCompetition.getTeamInfo().getId();
+        }
         role_type = userByCompetition.getRoleType();
     }
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PostInfoRepository extends JpaRepository<PostInfo, Integer> {
     List<PostInfo> findAllByCompetitionInfoIdAndBoardType(int competitionId, BoardType boardType);
+
+    PostInfo findByIdAndUserInfoUserId(int postId, String userId);
 }

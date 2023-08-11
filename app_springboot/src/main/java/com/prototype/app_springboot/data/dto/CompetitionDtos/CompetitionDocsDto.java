@@ -13,7 +13,7 @@ public class CompetitionDocsDto {
 
     public CompetitionDocsDto(CompetitionDocs competitionDocs) {
         competition_info_id = competitionDocs.getCompetitionInfo().getId();
-        docs_path = competitionDocs.getDocsPath();
+        docs_path = competitionDocs.getPath();
         file_title = competitionDocs.getFileTitle();
     }
 }

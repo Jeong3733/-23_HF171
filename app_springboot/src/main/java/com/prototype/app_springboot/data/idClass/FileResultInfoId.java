@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class UserByCompetitionId implements Serializable {
-    private String userInfo;
-    private int competitionInfo;
+public class FileResultInfoId implements Serializable {
+    private int fileInfo;
+    private int compFileInfo;
 }

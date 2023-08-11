@@ -17,47 +17,51 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class FileInfo {
+public class CompFileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
     private int id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private PostInfo postInfo;
+    private String depth1;
+
+    private String depth2;
+
+    private String depth3;
+
+    private String depth4;
+
+    private String competitionName;
+
+    private String link;
 
     private String fileTitle;
 
     private String fileExtension;
 
     private UUID path;
-
-    @Column(columnDefinition = "TEXT")
-    private String summary;
-
     @CreatedDate
     private LocalDateTime uploadDatetime;
 
-    @OneToMany(mappedBy = "fileInfo")
-    private final List<PageInfo> pageInfoList = new ArrayList<PageInfo>();
-
-    @OneToMany(mappedBy = "fileInfo")
+    @OneToMany(mappedBy = "compFileInfo")
     private final List<FileResultInfo> fileResultInfoList = new ArrayList<FileResultInfo>();
 
     @Builder
-    public FileInfo(int id, UserInfo userInfo, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime, PostInfo postInfo, String summary) {
+    public CompFileInfo(int id, UserInfo userInfo, String depth1, String depth2, String depth3, String depth4, String competitionName, String link, String fileTitle, String fileExtension, UUID path, LocalDateTime uploadDatetime) {
         this.id = id;
         this.userInfo = userInfo;
+        this.depth1 = depth1;
+        this.depth2 = depth2;
+        this.depth3 = depth3;
+        this.depth4 = depth4;
+        this.competitionName = competitionName;
+        this.link = link;
         this.fileTitle = fileTitle;
         this.fileExtension = fileExtension;
         this.path = path;
         this.uploadDatetime = uploadDatetime;
-        this.postInfo = postInfo;
-        this.summary = summary;
     }
 }

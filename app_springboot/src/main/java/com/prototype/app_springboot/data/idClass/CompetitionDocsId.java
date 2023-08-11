@@ -10,5 +10,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CompetitionDocsId  implements Serializable {
     private int competitionInfo;
-    private UUID docsPath;
+    private UUID path;
 }

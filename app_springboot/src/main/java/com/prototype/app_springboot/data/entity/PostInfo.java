@@ -29,7 +29,7 @@ public class PostInfo {
 
     private String title;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     private LocalDateTime createdDate;

@@ -1,8 +1,6 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.CompetitionDtos.AddCompetitionRequestDto;
-import com.prototype.app_springboot.data.dto.CompetitionDtos.CompetitionDto;
-import com.prototype.app_springboot.data.dto.CompetitionDtos.CompetitionWithUserByCompDto;
+import com.prototype.app_springboot.data.dto.CompetitionDtos.*;
 import com.prototype.app_springboot.data.entity.CompetitionInfo;
 import com.prototype.app_springboot.data.entity.UserByCompetition;
 import com.prototype.app_springboot.service.CompetitionService;
@@ -26,6 +24,33 @@ public class CompetitionController {
 
     public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
+    }
+
+    @PostMapping("/add/participation")
+    public ResponseEntity<Integer> participateCompetition(@RequestBody Map<String, String> competitionIdMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        int ret = competitionService.setUserByCompetition(authentication.getName(), competitionId);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/userInfo/competitionId")
+    public ResponseEntity<List<UserInfoWithUserByCompDto>> getAllUserInfoWithUserByCompByCompetitionId(@RequestBody Map<String, String> competitionIdMap) {
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        List<UserByCompetition> userByCompetitionList = competitionService.getCompetitionInfoListByCompetitionId(competitionId);
+        List<UserInfoWithUserByCompDto> userInfoWithUserByCompList = userByCompetitionList.stream()
+                .map(UserInfoWithUserByCompDto::new)
+                .toList();
+        return new ResponseEntity<>(userInfoWithUserByCompList, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/userbycompetition")
+    public ResponseEntity<UserByCompetitionDto> getUserByCompetition(@RequestBody Map<String, String> competitionIdMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int competitionId = Integer.parseInt(competitionIdMap.get("competitionId"));
+        UserByCompetition userByCompetition = competitionService.getUserAndCompetitionByUserIdAndCompetitionId(authentication.getName(), competitionId);
+        UserByCompetitionDto userByCompetitionDto = new UserByCompetitionDto(userByCompetition);
+        return new ResponseEntity<>(userByCompetitionDto, HttpStatus.OK);
     }
 
     @GetMapping("/get/competitionInfo")
@@ -102,12 +127,28 @@ public class CompetitionController {
     }
 
     @PostMapping(value = "/add-competition", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void addCompetition(
+    public ResponseEntity<String> addCompetition(
             @RequestPart(value = "data") AddCompetitionRequestDto addCompetitionRequestDto,
             @RequestPart(value = "competitionImage", required = false) MultipartFile competitionImage,
             @RequestPart(value = "competitionDocs", required = false) List<MultipartFile> competitionDocsList
     ) {
-        competitionService.saveCompetition(addCompetitionRequestDto, competitionImage, competitionDocsList);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (competitionImage == null || competitionImage.isEmpty()) {
+            return new ResponseEntity<>("대표 이미지를 등록해주세요", HttpStatus.BAD_REQUEST);
+        }
+
+        if (competitionDocsList == null || competitionDocsList.isEmpty()) {
+            return new ResponseEntity<>("자료를 등록해주세요", HttpStatus.BAD_REQUEST);
+        }
+
+        // TODO: 알맞은 예외 코드 작성하기
+        if (authentication == null || authentication.getName().equals("anonymousUser")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String userId = authentication.getName();
+        competitionService.saveCompetition(addCompetitionRequestDto, competitionImage, competitionDocsList, userId);
+        return new ResponseEntity<>("공모전 등록 완료", HttpStatus.OK);
     }
 
 //        // Check if files list is not empty

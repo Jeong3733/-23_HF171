@@ -112,10 +112,10 @@ data = {
 }
 // 예상 output
 {
-  competition_id: 1,
-  team_id: 1,
-  user_id: 1,
-  role_type: 'Creator',
+    "competition_id": 2,
+    "team_id": -1, -> TEAM 이 없을 경우 -1
+    "user_id": "www",
+    "role_type": "CREATOR"
 }
 */
 function GetUserByCompetition(user, data) {
@@ -134,18 +134,28 @@ data = {
   competitionId: 1
 }
 // 예상 output
-{
-  competition_id: 1,
-  team_id: 1,
-  user_id: 1,
-  role_type: 'Creator',
-  email: 
-  user_id: 1
-  social: 1
-  user_name: 1
-  password: 1
-  role: 1
-}
+[
+    {
+        "competition_id": 2,
+        "team_id": -1,
+        "user_id": "www",
+        "role_type": "CREATOR",
+        "email": "www@naver.com",
+        "user_name": "정재욱",
+        "social": "NONE",
+        "system_role_type": "USER"
+    },
+    {
+        "competition_id": 2,
+        "team_id": 1,
+        "user_id": "www2",
+        "role_type": "PARTICIPANT_LEADER",
+        "email": "www2@naver.com",
+        "user_name": "정재욱2",
+        "social": "NONE",
+        "system_role_type": "USER"
+    }
+]
 */
 function GetUseInforByCompetitionId(data) {
   const url = `/get/userInfo/competitionId`;
@@ -512,33 +522,74 @@ function GetPostInfoByPostId(data) {
  해당 postId와 연결된 upload_post 와 file_info 정보가 필요
  연결 안되어 있으면 null 값으로
 
-{
-  post_info_id: 1,
-  user_info_id: '게시물 작성자',
-  competition_info_id: 1,
-  board_type: 'NOTICE',
-  title: 'notice1',
-  contents: '공지에요',
-  created_date: '2023-08-04T20:18:21',
-  upload_post_type_list: [
-    {
-      post_info_id: 1,
-      type: 'pdf',
-    },
-    {
-      post_info_id: 1,
-      type: 'ppt',
-    },
-  ],
-  file_info_id: 1,
-  user_info_id: '로그인 한 아이디',
-  path: 'a941fab3-812a-4a6a-a008-28c70b01e52f',
-  file_title: 'sdfsdf',
-  file_type: null,
-  file_extension: 'HWP',
-  upload_datetime: '2023-08-05T00:09:12',
-};
+ {
+    "post_info_id": 1,
+    "user_info_id": "www",
+    "competition_id": 2,
+    "board_type": "NOTICE",
+    "title": "ㅎㅎㅎㅎ",
+    "contents": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+    "created_date": "2023-08-11T23:07:48",
+    "upload_post_type_list": [],
+    "file_info_list": []
 }
+
+ {
+    "post_info_id": 5,
+    "user_info_id": "www",
+    "competition_id": 3,
+    "board_type": "NOTICE",
+    "title": "ㅎㅎㅎㅎ",
+    "contents": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+    "created_date": "2023-08-11T23:07:48",
+    "upload_post_type_list": [
+        {
+            "post_info_id": 5,
+            "upload_type": "hahahaha1"
+        },
+        {
+            "post_info_id": 5,
+            "upload_type": "hahahaha2"
+        },
+        {
+            "post_info_id": 5,
+            "upload_type": "hahahaha3"
+        }
+    ],
+    "file_info_list": [
+        {
+            "file_info_id": 3,
+            "post_id": 5,
+            "user_info_id": "www",
+            "path": "8c616499-dc9c-4218-a43c-6101acd80a23",
+            "file_title": "스크린샷 2023-07-22 133117",
+            "summary": null,
+            "file_extension": "PNG",
+            "upload_datetime": "2023-08-11T23:26:35.359355"
+        },
+        {
+            "file_info_id": 4,
+            "post_id": 5,
+            "user_info_id": "www",
+            "path": "951ef6d2-0a26-4eae-9003-f47624338f2a",
+            "file_title": "스크린샷 2023-07-22 133117",
+            "summary": null,
+            "file_extension": "PNG",
+            "upload_datetime": "2023-08-11T23:26:48.990563"
+        },
+        {
+            "file_info_id": 5,
+            "post_id": 5,
+            "user_info_id": "www",
+            "path": "97f9a8e8-dfdf-45f0-8983-6f409bbf0dcf",
+            "file_title": "소프트웨어_보안약점_진단가이드(2021)",
+            "summary": null,
+            "file_extension": "PDF",
+            "upload_datetime": "2023-08-11T23:26:59.530341"
+        }
+    ]
+}
+
 
 */
 function GetPostInfoChkByPostId(user, data) {
@@ -640,7 +691,7 @@ function GetFileInfoByPostId(data) {
 // 게시물 파일 업로드
 // geeks-react-2.1.1/src/components/marketing/pages/jobs/company/ApplyForm.js
 function AddFileInfo(user, data) {
-  const url = `/add/fileInfo/`;
+  const url = `/add/fileInfo`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'multipart/form-data',
@@ -652,7 +703,7 @@ function AddFileInfo(user, data) {
 // 표절 검사 파일 업로드
 // geeks-react-2.1.1/src/components/dashboard/cms/all-posts/DBUpload.js
 function AddCompFileInfo(user, data) {
-  const url = `/add/compFileInfo/`;
+  const url = `/add/compFileInfo`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'multipart/form-data',
@@ -664,6 +715,50 @@ function AddCompFileInfo(user, data) {
 /* GetCompPageInfo
 CompPageInfo - CompFileInfo Left Join
 */
+// [
+//   {
+//     "page_id": "aa",
+//     "comp_file_id": 2,
+//     "page_num": "344",
+//     "start_index": "234"
+//   },
+//   {
+//     "page_id": "aaa",
+//     "comp_file_id": 5,
+//     "page_num": "5",
+//     "start_index": "12"
+//   },
+//   {
+//     "page_id": "asdfsadfasdf",
+//     "comp_file_id": 2,
+//     "page_num": "2",
+//     "start_index": "333"
+//   },
+//   {
+//     "page_id": "ff",
+//     "comp_file_id": 2,
+//     "page_num": "3",
+//     "start_index": "55"
+//   },
+//   {
+//     "page_id": "fff",
+//     "comp_file_id": 3,
+//     "page_num": "12",
+//     "start_index": "122"
+//   },
+//   {
+//     "page_id": "ss",
+//     "comp_file_id": 6,
+//     "page_num": "33",
+//     "start_index": "155"
+//   },
+//   {
+//     "page_id": "sss",
+//     "comp_file_id": 4,
+//     "page_num": "2",
+//     "start_index": "333"
+//   }
+// ]
 function GetCompPageInfo(user) {
   const url = `/get/compPageInfo`;
   return instance.get(url, {
@@ -675,6 +770,78 @@ function GetCompPageInfo(user) {
 }
 
 // GetCompFileInfo
+// [
+//   {
+//     "comp_file_id": 2,
+//     "competition_name": "2",
+//     "file_extension": "PNG",
+//     "file_title": "스크린샷 2023-07-22 133117",
+//     "user_id": "www",
+//     "depth1": "2",
+//     "depth2": "2",
+//     "depth3": "2",
+//     "depth4": "2",
+//     "link": "2",
+//     "path": "d15ab610-37b1-4f65-829d-898bcac81d6a",
+//     "upload_datetime": "2023-08-11T23:15:47.403195"
+//   },
+//   {
+//     "comp_file_id": 3,
+//     "competition_name": "2",
+//     "file_extension": "PNG",
+//     "file_title": "스크린샷 2023-07-22 133117",
+//     "user_id": "www",
+//     "depth1": "3",
+//     "depth2": "3",
+//     "depth3": "3",
+//     "depth4": "3",
+//     "link": "3",
+//     "path": "af389ecd-abb0-46ae-914d-71f898a0610e",
+//     "upload_datetime": "2023-08-11T23:23:15.698044"
+//   },
+//   {
+//     "comp_file_id": 4,
+//     "competition_name": "3",
+//     "file_extension": "PNG",
+//     "file_title": "스크린샷 2023-07-22 133117",
+//     "user_id": "www",
+//     "depth1": "312",
+//     "depth2": "312",
+//     "depth3": "312",
+//     "depth4": "312",
+//     "link": "312",
+//     "path": "b87b890c-3864-4c2c-b6d4-488a0ebc567d",
+//     "upload_datetime": "2023-08-11T23:23:27.972501"
+//   },
+//   {
+//     "comp_file_id": 5,
+//     "competition_name": "3",
+//     "file_extension": "PNG",
+//     "file_title": "스크린샷 2023-07-22 133117",
+//     "user_id": "www",
+//     "depth1": "3121",
+//     "depth2": "3121",
+//     "depth3": "3121",
+//     "depth4": "3121",
+//     "link": "3121",
+//     "path": "7c60b8e8-b3ff-472a-a79a-84832eed87a8",
+//     "upload_datetime": "2023-08-11T23:23:35.209539"
+//   },
+//   {
+//     "comp_file_id": 6,
+//     "competition_name": "4",
+//     "file_extension": "PNG",
+//     "file_title": "스크린샷 2023-07-22 133117",
+//     "user_id": "www",
+//     "depth1": "3121111",
+//     "depth2": "3121111",
+//     "depth3": "3121111",
+//     "depth4": "3121111",
+//     "link": "3121111",
+//     "path": "f6ac6a6c-b380-4602-86f1-2c704b52e64d",
+//     "upload_datetime": "2023-08-11T23:23:44.278861"
+//   }
+// ]
 function GetCompFileInfo(user) {
   const url = `/get/compFileInfo`;
   return instance.get(url, {
