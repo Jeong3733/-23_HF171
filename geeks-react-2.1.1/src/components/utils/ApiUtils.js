@@ -83,6 +83,31 @@ function AddCompetition(user, data) {
   });
 }
 
+/* 게시물 추가
+{
+  fileType: {
+    pdf: false,
+    pptx: false,
+    ppt: false,
+    docx: false,
+  },
+  competitionId: competition_id,
+  postId: post_id,
+  boardType: '',
+  title: '',
+  contents: '',
+}
+*/
+function AddPost(user, data) {
+  const url = `/add/postInfo`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'multipart/form-data',
+      Authorization: bearerAccess(user),
+    },
+  });
+}
+
 /* 공모전 참가
 // Input
 data = {

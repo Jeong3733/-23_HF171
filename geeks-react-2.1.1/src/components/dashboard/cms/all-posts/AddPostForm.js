@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment, useState } from 'react';
-import { useOutletContext, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Col, Row, Card, Nav, Button, Form, Tab } from 'react-bootstrap';
 
 // import sub components
@@ -19,13 +19,12 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 // import { downloadFile, s3Link } from 'helper/utils';
 
-const AddPostForm = () => {
-  // const { isLoggedIn, Auth } = useOutletContext();
+const AddPostForm = ({ Auth }) => {
   // const navigate = useNavigate();
   // if (!isLoggedIn) {
   //   navigate('/');
   // }
-
+  const { competition_id, post_id } = useParams();
   const fileType = [
     { value: 'pdf', label: 'pdf' },
     { value: 'pptx', label: 'pptx' },
@@ -33,7 +32,6 @@ const AddPostForm = () => {
     { value: 'docx', label: 'docx' },
   ];
 
-  const postId = 1;
   const [form, setForm] = useState({
     fileType: {
       pdf: false,
@@ -41,12 +39,11 @@ const AddPostForm = () => {
       ppt: false,
       docx: false,
     },
+    competitionId: competition_id,
+    postId: post_id,
+    boardType: '',
     title: '',
     contents: '',
-    formDepth2: '',
-    formDepth3: '',
-    formDepth4: '',
-    formLink: '',
   });
 
   const [file, setFile] = useState(null);
@@ -63,7 +60,7 @@ const AddPostForm = () => {
         console.log('formFile 입니다.');
       }
     } else {
-      newData[e.target.name] = e.target.value;
+      newData[e.target.id] = e.target.value;
     }
     setForm({ ...form, ...newData });
     console.log(form);
@@ -71,12 +68,17 @@ const AddPostForm = () => {
 
   const resetForm = () => {
     setForm({
+      fileType: {
+        pdf: false,
+        pptx: false,
+        ppt: false,
+        docx: false,
+      },
+      competitionId: competition_id,
+      postId: post_id,
       boardType: '',
       title: '',
       contents: '',
-      depth3: '',
-      depth4: '',
-      link: '',
     });
   };
 
@@ -90,8 +92,8 @@ const AddPostForm = () => {
     formDataToSend.append('file', file);
 
     // 'Content-type': 'multipart/form-data',
-    // alert(JSON.stringify(formDataToSend));
-    // const user = Auth.getUser();
+    alert(JSON.stringify(formDataToSend));
+    const user = Auth.getUser();
     // apiUtils
     //   .AddCompFileInfo(user, formDataToSend)
     //   .then((response) => {
@@ -115,12 +117,16 @@ const AddPostForm = () => {
             <Form.Label>
               게시물 종류 <span className="text-danger">*</span>
             </Form.Label>
-            <Form.Control
+            <Form.Select
               value={form.boardType}
               onChange={handleChange}
-              type="text"
               required
-            />
+              aria-label="게시물 종류 선택하기"
+            >
+              <option value="QNA">QNA</option>
+              <option value="SUBMIT">SUBMIT</option>
+              <option value="NOTICE">NOTICE</option>
+            </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3" controlId="title">
             <Form.Label>
@@ -147,21 +153,23 @@ const AddPostForm = () => {
           <Form.Group className="mb-3">
             <Form.Label>업로드 가능한 파일 종류</Form.Label>
             <Form.Text>최대 3개까지 선택할 수 있습니다.</Form.Text>
-            <div className="mb-3" id="formFileType">
+            <div className="mb-3" id="fileType">
               {fileType.map((item, index) => (
                 <Form.Check
                   key={index}
                   inline
                   type="checkbox"
                   label={item.label}
-                  id={'formFileType' + ':' + item.value}
+                  id={'fileType' + ':' + item.value}
+                  checked={form.fileType[item.label]}
+                  onChange={handleChange}
                 />
               ))}
             </div>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formFile">
             <Form.Label>파일 업로드</Form.Label>
-            <Form.Control type="file" accept=".pdf" />
+            <Form.Control onChange={handleChange} type="file" accept=".pdf" />
           </Form.Group>
           <Button variant="primary" type="submit">
             업로드

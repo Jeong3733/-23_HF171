@@ -1,6 +1,11 @@
 // import node module libraries
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
 import ManageVertical from './ManageVertical';
@@ -12,6 +17,14 @@ const ManageIndex = (props) => {
   const ToggleMenu = () => {
     return setShowMenu(!showMenu);
   };
+
+  const Auth = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const isLoggedInChk = Auth.userIsAuthenticated();
+    setIsLoggedIn(isLoggedInChk);
+  }, [isLoggedIn]);
 
   return (
     <div
@@ -37,7 +50,7 @@ const ManageIndex = (props) => {
         </div>
         <div className={`container-fluid ${className ? className : 'p-4'}`}>
           {children}
-          <Outlet />
+          <Outlet context={{ isLoggedIn, Auth }} />
         </div>
       </section>
     </div>

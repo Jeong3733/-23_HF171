@@ -26,6 +26,7 @@ const DefaultLayout = (props) => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);
   }, [isLoggedIn]);
+
   return (
     <Fragment>
       <NavbarDefault isLoggedIn={isLoggedIn} doLogOut={doLogOut} />

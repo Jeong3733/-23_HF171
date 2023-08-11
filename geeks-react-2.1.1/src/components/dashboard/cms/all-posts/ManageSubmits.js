@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import {
   Col,
   Row,
@@ -27,6 +27,7 @@ import {
 } from 'data/courses/AllPostsData';
 
 const ManageSubmits = () => {
+  const { isLoggedIn, Auth } = useOutletContext();
   const { competition_id } = useParams();
   // alert(competition_id);
   const [show, setShow] = useState(false);
@@ -54,7 +55,7 @@ const ManageSubmits = () => {
                   <Modal.Title>게시물 추가 페이지</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <AddPostForm />
+                  <AddPostForm Auth={Auth} />
                 </Modal.Body>
                 <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
                   {/*  Action Buttons  */}
