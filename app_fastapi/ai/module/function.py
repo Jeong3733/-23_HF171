@@ -218,7 +218,8 @@ class DoucmentInit(AI):
         compVectorDB = self._load_vectordb(
             persist_directory=compVectorDB_directory)
 
-        ids = self._add_vectordb(vectorDB=compVectorDB, docs=docs)
+        ids = compVectorDB.add_documents(documents=docs)
+        compVectorDB.persist()
 
         pageInfo = []
         getVectorDBInfo = compVectorDB.get(ids=ids,

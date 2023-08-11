@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from api import (api_image, api_xai, api_nlp,
                  api_test, api_service, api_doc2vector,
-                 api_chroma, api_function)
+                 api_function)
 
 # from unicorn import UnicornMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,8 +18,8 @@ def include_router(app):
     app.include_router(api_test.router, prefix='/test')
     app.include_router(api_service.router, prefix='/service')
     app.include_router(api_doc2vector.router, prefix='/doc2vec')
-    app.include_router(api_chroma.router, prefix='/chroma')
     app.include_router(api_function.router, prefix='/function')
+    # app.include_router(api_chroma.router, prefix='/chroma')
 
 
 def start_application():

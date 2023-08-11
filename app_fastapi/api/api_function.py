@@ -44,9 +44,10 @@ async def uploadInCompFileInfo(fileInfo: FileInfo):
 
 @router.post("/compFileInfo/get/pageId", tags=['Function'])
 async def getContentsFromCompPageInfo(pageIdList: PageIdList):
-    pageIdList = ["891e0716-37af-11ee-bdab-56cc850cf3c0",
-                  "891e0770-37af-11ee-bdab-56cc850cf3c0"]
-    resDict = initObj.getContentsFromCompDB(pageIdList)
+    # print(pageIdList.page_id_list)
+    # pageIdList = ["891e0716-37af-11ee-bdab-56cc850cf3c0",
+    #               "891e0770-37af-11ee-bdab-56cc850cf3c0"]
+    resDict = initObj.getContentsFromCompDB(pageIdList.page_id_list)
     resDict = util.convert_numpy_to_list(resDict)
     resJson = jsonable_encoder(resDict)
     return JSONResponse(content=resJson)
