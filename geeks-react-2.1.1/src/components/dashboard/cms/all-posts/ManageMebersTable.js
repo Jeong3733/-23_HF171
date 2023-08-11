@@ -28,7 +28,7 @@ import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
-const SubmitTable = ({ table_data }) => {
+const ManageMebersTable = ({ table_data }) => {
   const { competition_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
@@ -79,36 +79,29 @@ const SubmitTable = ({ table_data }) => {
 
   const columns = useMemo(
     () => [
-      { accessor: 'post_info_id', Header: 'ID', show: false },
+      { accessor: 'user_id', Header: 'ID', show: false },
       {
-        accessor: 'title',
-        Header: '제출 게시물 이름',
-        Cell: ({ value, row }) => {
-          // console.log(row.original);
-          return (
-            <h5 className="mb-0">
-              <Link
-                to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/`}
-                className="text-inherit"
-              >
-                {value}
-              </Link>
-            </h5>
-          );
-        },
-      },
-      {
-        accessor: 'user_info_id',
-        Header: '작성자',
+        accessor: 'user_name',
+        Header: '유저 이름',
         Cell: ({ value }) => {
-          return (
-            <Link to="#" className="text-inherit">
-              {value}
-            </Link>
-          );
+          // console.log(row.original);
+          return <h5 className="mb-0">{value}</h5>;
         },
       },
-      { accessor: 'created_date', Header: '생성일' },
+      {
+        accessor: 'email',
+        Header: '이메일',
+        Cell: ({ value }) => {
+          return <div>{value + 1}</div>;
+        },
+      },
+      {
+        accessor: 'role_type',
+        Header: '역할',
+        Cell: ({ value }) => {
+          return <div>{value}</div>;
+        },
+      },
       {
         accessor: 'shortcutmenu',
         Header: '',
@@ -225,4 +218,4 @@ const SubmitTable = ({ table_data }) => {
   );
 };
 
-export default SubmitTable;
+export default ManageMebersTable;

@@ -5,6 +5,7 @@ import { Col, Row, Card, Nav, Button, Form, Tab } from 'react-bootstrap';
 
 // import sub components
 import PostsTable from './PostsTable';
+import ReactQuillEditorPost from 'components/elements/editor/ReactQuillEditorPost';
 
 // import data files
 import {
@@ -32,7 +33,7 @@ const AddPostForm = ({ Auth }) => {
     { value: 'docx', label: 'docx' },
   ];
 
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     fileType: {
       pdf: false,
       pptx: false,
@@ -46,28 +47,28 @@ const AddPostForm = ({ Auth }) => {
     contents: '',
   });
 
-  const [file, setFile] = useState(null);
+  const [fileData, setFileData] = useState(null);
 
   const handleChange = (e) => {
     const newData = {};
     if (e.target.type === 'checkbox') {
       const [parentName, myName] = e.target.getAttribute('id').split(':');
-      newData[parentName] = form[parentName];
+      newData[parentName] = formData[parentName];
       newData[parentName][myName] = e.target.checked;
     } else if (e.target.id === 'formFile') {
       if (e.target.files[0]) {
-        setFile(e.target.files[0]);
+        setFileData(e.target.files[0]);
         console.log('formFile 입니다.');
       }
     } else {
       newData[e.target.id] = e.target.value;
     }
-    setForm({ ...form, ...newData });
-    console.log(form);
+    setFormData({ ...formData, ...newData });
+    console.log(formData);
   };
 
   const resetForm = () => {
-    setForm({
+    setFormData({
       fileType: {
         pdf: false,
         pptx: false,
@@ -87,9 +88,9 @@ const AddPostForm = ({ Auth }) => {
     const formDataToSend = new FormData();
     formDataToSend.append(
       'data',
-      new Blob([JSON.stringify(form)], { type: 'application/json' }),
+      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
     );
-    formDataToSend.append('file', file);
+    formDataToSend.append('file', fileData);
 
     // 'Content-type': 'multipart/form-data',
     alert(JSON.stringify(formDataToSend));
@@ -112,13 +113,13 @@ const AddPostForm = ({ Auth }) => {
       <Card.Body className="p-md-4">
         <h3 className="mb-4">표절 DB 파일 추가 </h3>
         {/* form to apply for the job */}
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Form.Group className="mb-3" controlId="boardType">
             <Form.Label>
               게시물 종류 <span className="text-danger">*</span>
             </Form.Label>
             <Form.Select
-              value={form.boardType}
+              value={formData.boardType}
               onChange={handleChange}
               required
               aria-label="게시물 종류 선택하기"
@@ -134,22 +135,23 @@ const AddPostForm = ({ Auth }) => {
               제목 <span className="text-danger">*</span>
             </Form.Label>
             <Form.Control
-              value={form.title}
+              value={formData.title}
               onChange={handleChange}
               type="text"
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="contents">
-            <Form.Label>
-              내용 <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control
-              value={form.contents}
-              onChange={handleChange}
-              type="text"
-              required
+          <Form.Group className="mb-3">
+            <Form.Label>소개글 내용</Form.Label>
+            <ReactQuillEditorPost
+              initialValue={formData.contents}
+              id="contents"
+              value={formData.contents}
+              handleChange={handleChange}
             />
+            <Form.Text className="text-muted">
+              A brief summary of your courses.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>업로드 가능한 파일 종류</Form.Label>
@@ -162,7 +164,7 @@ const AddPostForm = ({ Auth }) => {
                   type="checkbox"
                   label={item.label}
                   id={'fileType' + ':' + item.value}
-                  checked={form.fileType[item.label]}
+                  checked={formData.fileType[item.label]}
                   onChange={handleChange}
                 />
               ))}
@@ -172,7 +174,7 @@ const AddPostForm = ({ Auth }) => {
             <Form.Label>파일 업로드</Form.Label>
             <Form.Control onChange={handleChange} type="file" accept=".pdf" />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" onClick={handleSubmit}>
             업로드
           </Button>
         </Form>

@@ -15,6 +15,7 @@ import {
 // import sub components
 import PostsTable from './PostsTable';
 import AddNewCategoryPopup from './AddNewCategoryPopup';
+import ManageMebersTable from 'components/dashboard/cms/all-posts/ManageMebersTable';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
@@ -125,12 +126,12 @@ const ManageMembers = () => {
         </Row>
         <Row>
           <Col lg={12} md={12} sm={12}>
-            <Tab.Container defaultActiveKey="all">
+            <Tab.Container defaultActiveKey="All">
               <Card>
                 <Card.Header className="border-bottom-0 p-0 bg-white">
                   <Nav className="nav-lb-tab">
                     <Nav.Item>
-                      <Nav.Link eventKey="0" className="mb-sm-3 mb-md-0">
+                      <Nav.Link eventKey="All" className="mb-sm-3 mb-md-0">
                         전체
                       </Nav.Link>
                     </Nav.Item>
@@ -153,32 +154,17 @@ const ManageMembers = () => {
                 </Card.Header>
                 <Card.Body className="p-0">
                   <Tab.Content>
-                    <Tab.Pane eventKey="0" className="pb-0">
-                      {userInfoList.map((userInfo) => (
-                        <>
-                          <div>
-                            userInfo.competition_id: {userInfo.competition_id}
-                          </div>
-                          <div>userInfo.team_id: {userInfo.team_id}</div>
-                          <div>userInfo.user_id: {userInfo.user_id}</div>
-                          <div>userInfo.role_type: {userInfo.role_type}</div>
-                          <div>userInfo.email: {userInfo.email}</div>
-                          <div>userInfo.social: {userInfo.social}</div>
-                          <div>userInfo.user_name: {userInfo.user_name}</div>
-                          <div>userInfo.password: {userInfo.password}</div>
-                          <div>userInfo.role: {userInfo.role}</div>
-                        </>
-                      ))}
-                      <PostsTable table_data={allposts} />
+                    <Tab.Pane eventKey="All" className="pb-0">
+                      <ManageMebersTable table_data={userInfoList} />
                     </Tab.Pane>
                     <Tab.Pane eventKey="1" className="pb-0">
-                      <PostsTable table_data={allPublishedPosts} />
+                      <ManageMebersTable table_data={userInfoList} />
                     </Tab.Pane>
                     <Tab.Pane eventKey="2" className="pb-4">
-                      <PostsTable table_data={allScheduledPosts} />
+                      <ManageMebersTable table_data={userInfoList} />
                     </Tab.Pane>
                     <Tab.Pane eventKey="3" className="pb-4">
-                      <PostsTable table_data={allDraftPosts} />
+                      <ManageMebersTable table_data={userInfoList} />
                     </Tab.Pane>
                   </Tab.Content>
                 </Card.Body>

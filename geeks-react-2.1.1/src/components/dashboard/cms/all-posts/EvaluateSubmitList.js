@@ -9,7 +9,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import SubmitTable from './SubmitTable';
+import EvaluateSubmitTable from './EvaluateSubmitTable';
 
 // import data files
 import {
@@ -159,13 +159,13 @@ const EvaluateSubmitList = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <SubmitTable table_data={postList} />
+                    <EvaluateSubmitTable table_data={postList} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
-                    <SubmitTable table_data={allPublishedPosts} />
+                    <EvaluateSubmitTable table_data={allPublishedPosts} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="done" className="pb-4">
-                    <SubmitTable table_data={allScheduledPosts} />
+                    <EvaluateSubmitTable table_data={allScheduledPosts} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>
