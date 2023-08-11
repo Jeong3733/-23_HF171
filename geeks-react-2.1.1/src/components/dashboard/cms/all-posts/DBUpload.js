@@ -141,7 +141,7 @@ const DBUpload = () => {
                     formDepth3 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.formDepth3}
+                    value={form.depth3}
                     onChange={handleChange}
                     type="text"
                     required
@@ -152,7 +152,7 @@ const DBUpload = () => {
                     formDepth4 <span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    value={form.depth3}
+                    value={form.depth4}
                     onChange={handleChange}
                     type="text"
                     required

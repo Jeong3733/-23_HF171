@@ -35,14 +35,14 @@ const AddPostForm = () => {
 
   const postId = 1;
   const [form, setForm] = useState({
-    competitionType: {
+    fileType: {
       pdf: false,
       pptx: false,
       ppt: false,
       docx: false,
     },
-    formCompetitionName: '',
-    formDepth1: '',
+    title: '',
+    contents: '',
     formDepth2: '',
     formDepth3: '',
     formDepth4: '',
@@ -54,25 +54,26 @@ const AddPostForm = () => {
   const handleChange = (e) => {
     const newData = {};
     if (e.target.type === 'checkbox') {
-      const [parentName, myName] = e.target.getAttribute('name').split(':');
+      const [parentName, myName] = e.target.getAttribute('id').split(':');
       newData[parentName] = form[parentName];
       newData[parentName][myName] = e.target.checked;
-    }
-    if (e.target.id === 'formFile') {
+    } else if (e.target.id === 'formFile') {
       if (e.target.files[0]) {
         setFile(e.target.files[0]);
         console.log('formFile 입니다.');
       }
+    } else {
+      newData[e.target.name] = e.target.value;
     }
-    setForm({ ...form, [e.target.id]: e.target.value });
+    setForm({ ...form, ...newData });
     console.log(form);
   };
 
   const resetForm = () => {
     setForm({
-      competitionName: '',
-      depth1: '',
-      depth2: '',
+      boardType: '',
+      title: '',
+      contents: '',
       depth3: '',
       depth4: '',
       link: '',
@@ -89,18 +90,18 @@ const AddPostForm = () => {
     formDataToSend.append('file', file);
 
     // 'Content-type': 'multipart/form-data',
-    alert(JSON.stringify(formDataToSend));
-    const user = Auth.getUser();
-    apiUtils
-      .AddCompFileInfo(user, formDataToSend)
-      .then((response) => {
-        console.log(response.data);
-        // const { accessToken, refreshToken } = response.data;
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
-      });
+    // alert(JSON.stringify(formDataToSend));
+    // const user = Auth.getUser();
+    // apiUtils
+    //   .AddCompFileInfo(user, formDataToSend)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     // const { accessToken, refreshToken } = response.data;
+    //   })
+    //   .catch((error) => {
+    //     // alert(error.response.data);
+    //     handleLogError(error);
+    //   });
     resetForm();
   };
 
@@ -110,33 +111,38 @@ const AddPostForm = () => {
         <h3 className="mb-4">표절 DB 파일 추가 </h3>
         {/* form to apply for the job */}
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBoardType">
+          <Form.Group className="mb-3" controlId="boardType">
             <Form.Label>
               게시물 종류 <span className="text-danger">*</span>
             </Form.Label>
             <Form.Control
-              value={form.formBoardType}
+              value={form.boardType}
               onChange={handleChange}
               type="text"
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formTitle">
+          <Form.Group className="mb-3" controlId="title">
             <Form.Label>
               제목 <span className="text-danger">*</span>
             </Form.Label>
             <Form.Control
-              value={form.formTitle}
+              value={form.title}
               onChange={handleChange}
               type="text"
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formContents">
+          <Form.Group className="mb-3" controlId="contents">
             <Form.Label>
               내용 <span className="text-danger">*</span>
             </Form.Label>
-            <Form.Control type="text" required />
+            <Form.Control
+              value={form.contents}
+              onChange={handleChange}
+              type="text"
+              required
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>업로드 가능한 파일 종류</Form.Label>
