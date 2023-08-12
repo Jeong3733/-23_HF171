@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { Fragment, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // impoort Auth module
@@ -22,6 +22,7 @@ import {
 
 const EvaluateFileList = () => {
   const { competition_id, post_id } = useParams();
+  const { isLoggedIn, Auth } = useOutletContext();
   // console.log(competition_id);
 
   const [competitionInfo, setCompetitionInfo] = useState({});
@@ -30,6 +31,7 @@ const EvaluateFileList = () => {
 
   useEffect(() => {
     // competitionInfo
+    console.log('competitionInfo');
     const data1 = {
       competitionId: competition_id,
     };
@@ -112,41 +114,9 @@ const EvaluateFileList = () => {
       .then((response) => {
         const getFileList = response.data;
         setFileList(getFileList);
-        if (getFileList.length === 0) {
-          const getFileList = [
-            {
-              file_id: 'file_id_1',
-              user_id: 'user_id_1',
-              path: 'path_1',
-              file_title: 'file_title_1',
-              file_extension: 'file_extension_1',
-              upload_datetime: 'upload_datetime_1',
-              post_info_id: 'post_info_id_1',
-            },
-            {
-              file_id: 'file_id_2',
-              user_id: 'user_id_2',
-              path: 'path_2',
-              file_title: 'file_title_2',
-              file_extension: 'file_extension_2',
-              upload_datetime: 'upload_datetime_2',
-              post_info_id: 'post_info_id_2',
-            },
-            {
-              file_id: 'file_id_3',
-              user_id: 'user_id_3',
-              path: 'path_3',
-              file_title: 'file_title_3',
-              file_extension: 'file_extension_3',
-              upload_datetime: 'upload_datetime_3',
-              post_info_id: 'post_info_id_3',
-            },
-          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setFileList(getFileList);
-        }
       })
       .catch((error) => {
-        // alert(error.response.data);
+        alert(error.response.data);
         const getFileList = [
           {
             file_id: 'file_id_1',
@@ -179,7 +149,9 @@ const EvaluateFileList = () => {
         setFileList(getFileList);
         handleLogError(error);
       });
-  }, [competition_id, post_id]);
+  }, [isLoggedIn]);
+
+  console.log(fileList);
   return (
     <Fragment>
       <Row>
@@ -213,12 +185,12 @@ const EvaluateFileList = () => {
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
-                      미완료
+                      평가 미완료
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
-                      완료
+                      평가 완료
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>

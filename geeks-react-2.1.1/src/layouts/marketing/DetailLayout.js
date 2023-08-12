@@ -15,6 +15,7 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 import CommonHeaderTabs from 'components/marketing/pages/jobs/company/CommonHeaderTabs';
 // import data files
 import ComapniesListData from 'data/marketing/jobs/CompaniesListData';
+import { isNotEmptyObj } from 'helper/utils';
 
 const DetailLayout = () => {
   const { competition_id } = useParams();
@@ -122,15 +123,17 @@ const DetailLayout = () => {
     }
   }, [isLoggedIn]);
 
-  return (
-    <CommonHeaderTabs
-      Auth={Auth}
-      isLoggedIn={isLoggedIn}
-      info={competitionInfo}
-    >
-      <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
-    </CommonHeaderTabs>
-  );
+  if (isNotEmptyObj(competitionInfo)) {
+    return (
+      <CommonHeaderTabs
+        Auth={Auth}
+        isLoggedIn={isLoggedIn}
+        info={competitionInfo}
+      >
+        <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
+      </CommonHeaderTabs>
+    );
+  }
 };
 
 export default DetailLayout;

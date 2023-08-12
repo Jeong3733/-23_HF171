@@ -19,7 +19,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import DBUploadFileTable from 'components/dashboard/cms/all-posts/DBUploadFileTable';
 import DBUploadPageTable from 'components/dashboard/cms/all-posts/DBUploadPageTable';
-import { isNotEmptyObj } from 'helper/utils';
+import { isNotEmptyObj, refreshPage } from 'helper/utils';
 // import { downloadFile, s3Link } from 'helper/utils';
 
 const DBUpload = () => {
@@ -79,6 +79,7 @@ const DBUpload = () => {
       .AddCompFileInfo(user, formDataToSend)
       .then((response) => {
         console.log(response.data);
+        refreshPage();
         // const { accessToken, refreshToken } = response.data;
       })
       .catch((error) => {
@@ -250,15 +251,6 @@ const DBUpload = () => {
                       파일 업로드 <span className="text-danger">*</span>
                       <br /> 업로드 가능한 파일 종류
                     </Form.Label>
-                    {/* <Form.Control
-                    id="formFileData"
-                    name="formFileData"
-                    type="file"
-                    // className="form-control"
-                    // required
-                    onChange={handleChange}
-                    accept=".pdf"
-                  /> */}
                     <Form.Control
                       onChange={handleChange}
                       type="file"

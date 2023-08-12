@@ -16,6 +16,14 @@ export const isNotEmptyObj = (obj) => {
 };
 
 /**
+ * 페이지 리로드
+ * v1.0.0
+ */
+export const refreshPage = () => {
+  window.location.reload();
+};
+
+/**
  * 빈 객체 확인
  * v1.0.0
  */

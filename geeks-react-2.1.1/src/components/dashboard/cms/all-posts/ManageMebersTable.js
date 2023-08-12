@@ -92,7 +92,7 @@ const ManageMebersTable = ({ table_data }) => {
         accessor: 'email',
         Header: '이메일',
         Cell: ({ value }) => {
-          return <div>{value + 1}</div>;
+          return <div>{value}</div>;
         },
       },
       {
