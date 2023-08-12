@@ -20,13 +20,166 @@ class FileRequest(BaseModel):
 
 class FileInfo(BaseModel):
     file_id: str
-    post_id: str
-    upload_datetime: datetime
     file_extension: str
-    file_title: str
     path: str
-    user_id: str
+
+    class Config:
+        schema_extra = {'example': {'file_id': 'file_id',
+                                    'file_extension': 'pdf',
+                                    'path': 'uuid'}}
 
 
 class PageIdList(BaseModel):
     page_id_list: List[str]
+
+    class Config:
+        schema_extra = {'example': {'page_id_list': ["891e0716-37af-11ee-bdab-56cc850cf3c0",
+                                                     "891e0770-37af-11ee-bdab-56cc850cf3c0"]}}
+
+
+class PageContents(BaseModel):
+    pageId: str
+    pageContent: str
+
+    class Config:
+        schema_extra = {'example': {
+            'pageId': "891e0716-37af-11ee-bdab-56cc850cf3c0",
+            'pageContent': "pageContent pageContent pageContent"
+        }}
+
+
+class PagesContents(BaseModel):
+    pageInfo: List[PageContents]
+
+    class Config:
+        schema_extra = {'example': {'pageInfo': [{
+            'pageId': "891e0716-37af-11ee-bdab-56cc850cf3c0",
+            'pageContent': "pageContent pageContent pageContent"
+        }, {
+            'pageId': "891e0770-37af-11ee-bdab-56cc850cf3c0",
+            'pageContent': "pageContent pageContent pageContent"
+        }]}}
+
+
+class PageInfo(BaseModel):
+    fileId: str
+    pageId: str
+    pageNum: int
+    startIndex: int
+    summary: str
+
+    class Config:
+        schema_extra = {'example': {
+            'fileId': 1,
+            'pageId': 'pageId',
+            'pageNum': 0,
+            'startIndex': 12,
+            'summary': 'summary summary'
+        }}
+
+
+class CompPageInfo(BaseModel):
+    fileId: str
+    pageId: str
+    pageNum: int
+    startIndex: int
+
+    class Config:
+        schema_extra = {'example': {
+            'fileId': 1,
+            'pageId': 'pageId',
+            'pageNum': 0,
+            'startIndex': 12,
+        }}
+
+
+class CompPageList(BaseModel):
+    pageInfo: List[CompPageInfo]
+
+    class Config:
+        schema_extra = {'example': {'pageInfo': [{
+            'fileId': 1,
+            'pageId': 'pageId',
+            'pageNum': 0,
+            'startIndex': 12,
+        }, {
+            'fileId': 1,
+            'pageId': 'pageId',
+            'pageNum': 1,
+            'startIndex': 12,
+        }]}}
+
+
+class PageResultInfo(BaseModel):
+    pageId: str
+    compPageId: str
+    score: float
+    report: str
+
+    class Config:
+        schema_extra = {'example': {
+            'pageId': 'pageID',
+            'compPageId': 'compID',
+            'score': 12.3,
+            'report': 'report report report',
+        }}
+
+
+class FileResultInfo(BaseModel):
+    fileId: int
+    compFileId: int
+    score: float
+    report: str
+
+    class Config:
+        schema_extra = {'example': {
+            'fileId': 1,
+            'compFileId': 2,
+            'score': 12.3,
+            'report': 'report report report',
+        }}
+
+
+class ResultInfo(BaseModel):
+    fileSummary: str
+    pageInfo: List[PageInfo]
+    pageResultInfo: List[PageResultInfo]
+    fileResultInfo: List[FileResultInfo]
+
+    class Config:
+        schema_extra = {'example': {'fileSummary': 'fileSummary fileSummary',
+                                    'pageInfo': [{
+                                        'fileId': 1,
+                                        'pageId': 'pageId',
+                                        'pageNum': 0,
+                                        'startIndex': 12,
+                                        'summary': 'summary summary'
+                                    }, {
+                                        'fileId': 1,
+                                        'pageId': 'pageId',
+                                        'pageNum': 0,
+                                        'startIndex': 12,
+                                        'summary': 'summary summary'
+                                    }],
+                                    'pageResultInfo': [{
+                                        'pageId': 'pageID',
+                                        'compPageId': 'compID',
+                                        'score': 12.3,
+                                        'report': 'report report report',
+                                    }, {
+                                        'pageId': 'pageID',
+                                        'compPageId': 'compID',
+                                        'score': 12.3,
+                                        'report': 'report report report',
+                                    }],
+                                    'fileResultInfo': [{
+                                        'fileId': 1,
+                                        'compFileId': 2,
+                                        'score': 12.3,
+                                        'report': 'report report report',
+                                    }, {
+                                        'fileId': 1,
+                                        'compFileId': 2,
+                                        'score': 12.3,
+                                        'report': 'report report report',
+                                    }]}}

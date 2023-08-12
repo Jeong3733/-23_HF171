@@ -166,12 +166,12 @@ class AI:
         return vectordb
 
     def _getFileFromBoto3(self, fileInfo):
-        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        filePath = f"data/{fileInfo.path}.{fileInfo.file_extension}"
         # filePath = "data/test.pdf"
         s3 = boto3.client("s3")
         s3.download_file(
             Bucket=config['DoucmentInit']['s3_bucket'],
-            # key=fileInfo['path'],
+            # key=fileInfo.path,
             Key="test.pdf",
             # Filename=filePath
             Filename=filePath
@@ -179,7 +179,7 @@ class AI:
         return filePath
 
     def _getFileFromS3(self, fileInfo):
-        filePath = f"data/{fileInfo['path']}.{fileInfo['file_extension']}"
+        filePath = f"data/{fileInfo.path}.{fileInfo.file_extension}"
         # filePath = "data/test.pdf"
         return filePath
 
@@ -226,20 +226,14 @@ class DoucmentInit(AI):
                                            include=['embeddings', 'documents', 'metadatas'])
         for pageID, pageMetaDatas in zip(getVectorDBInfo['ids'],
                                          getVectorDBInfo['metadatas']):
-            # print(fileInfo['path'], pageID, pageMetaDatas['page'],
+            # print(fileInfo.path, pageID, pageMetaDatas['page'],
             #       pageMetaDatas['start_index'])
             pageInfo.append({
-                'fileId': fileInfo['path'],
+                'fileId': fileInfo.file_id,
                 'pageId': pageID,
                 'pageNum': pageMetaDatas['page'],
                 'startIndex': pageMetaDatas['start_index'],
             })
-            # pageInfo.append({
-            #     'file_id': fileInfo['path'],
-            #     'page_id': pageID,
-            #     'page_num': pageMetaDatas['page'],
-            #     'start_index': pageMetaDatas['start_index'],
-            # })
 
         resDict = {'pageInfo': pageInfo}
         return resDict
@@ -267,7 +261,7 @@ class DoucmentInit(AI):
         file_path = self._getFileFromS3(fileInfo=fileInfo)
         print(fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
-            fileInfo['path']
+            fileInfo.path
         # docVectorDB_directory = 'docVectorDBs/newTest'
         analyticsReportCommand = config['DoucmentInit']['analyticsReportFormat']
         analyticsReportFormat = config['DoucmentInit']['analyticsReportFormat']
@@ -308,18 +302,23 @@ class DoucmentInit(AI):
         pageResultInfo = []
         pageInfo = []
         fileResultInfo = [{
-            'fileId': 'pageID',
-            'compFileId': 'compID',
-            'score': 'score',
-            'report': 'report',
-        }]
+            "fileId": 1,
+            "compFileId": 2,
+            "score": 12.3,
+            "report": "report report report"
+        },
+            {"fileId": 1,
+             "compFileId": 4,
+             "score": 1222.3,
+             "report": "report report report"
+             }]
         prev_page = None
         prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-            print(fileInfo['path'], pageID, pageMetaDatas['page'],
+            print(fileInfo.path, pageID, pageMetaDatas['page'],
                   pageMetaDatas['start_index'])
 
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
@@ -357,7 +356,7 @@ class DoucmentInit(AI):
                 # 현재 페이지 작업 시작 처리
                 print(f"Processing page {page}...")
                 prev_page_info.append({
-                    'fileId': fileInfo['path'],
+                    'fileId': fileInfo.file_id,
                     'pageId': pageID,
                     'pageNum': page,
                     'startIndex': start_index,
