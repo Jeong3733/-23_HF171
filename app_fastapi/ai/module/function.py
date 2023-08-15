@@ -294,10 +294,10 @@ class DoucmentInit(AI):
         # print(getVectorDBInfo)
 
         def analysis(analyticsReportPrompt):
-            return len(analyticsReportPrompt)
+            return 'analysis(analyticsReportPrompt)'
 
         def pageSummary(data):
-            return len(data)
+            return 'pageSummary(data)'
 
         pageResultInfo = []
         pageInfo = []
