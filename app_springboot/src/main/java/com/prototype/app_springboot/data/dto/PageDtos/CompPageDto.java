@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto;
+package com.prototype.app_springboot.data.dto.PageDtos;
 
 import com.prototype.app_springboot.data.entity.CompPageInfo;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.Getter;
 public class CompPageDto {
     private String page_id;
     private int comp_file_id;
-    private String page_num;
-    private String start_index;
+    private int page_num;
+    private int start_index;
 
     public CompPageDto(CompPageInfo compPageInfo) {
         this.page_id = compPageInfo.getPageId();

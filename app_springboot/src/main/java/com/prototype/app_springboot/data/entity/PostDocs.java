@@ -1,5 +1,6 @@
 package com.prototype.app_springboot.data.entity;
 
+import com.prototype.app_springboot.data.idClass.PostDocsId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,14 +16,20 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+@IdClass(PostDocsId.class)
 public class PostDocs {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     PostInfo postInfo;
-    private String fileExtension;
+
+    @Id
     private UUID path;
+
+    private String fileExtension;
+
     private String fileTitle;
+
     @CreatedDate
     private LocalDateTime uploadDatetime;
 

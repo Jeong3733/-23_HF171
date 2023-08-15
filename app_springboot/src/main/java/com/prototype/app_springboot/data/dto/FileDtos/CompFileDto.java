@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto;
+package com.prototype.app_springboot.data.dto.FileDtos;
 
 import com.prototype.app_springboot.data.entity.CompFileInfo;
 import lombok.Getter;

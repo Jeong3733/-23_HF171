@@ -83,7 +83,7 @@ public class CompetitionController {
         return new ResponseEntity<>(competitionWithUserByCompDto, HttpStatus.OK);
     }
 
-    @PostMapping("/get/competitionInfo/userId")
+    @GetMapping("/get/competitionInfo/userId")
     public ResponseEntity<?> getCompetitionWithUserByCompListByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
