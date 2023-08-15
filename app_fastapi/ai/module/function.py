@@ -336,7 +336,6 @@ class DoucmentInit(AI):
                     'score': score,
                     'report': report,
                 })
-                pageResultInfo.append((pageID, compID, score, report))
 
             page = pageMetaDatas['page']
             start_index = pageMetaDatas['start_index']
