@@ -10,7 +10,8 @@ config = \
             'persist_directory': None,
             'n_similar': 3,
             's3_bucket': 'ict-competition-file-list',
-        },
+            'save_path': 'dummy_data'
+                },
         'DoucmentInit':
         {
             'docVectorDB_directory': 'vectorDB/docVectorDBs',
@@ -19,5 +20,5 @@ config = \
                     분석 결과 보고서 작성해주세요.""",
             'analyticsReportFormat': """format""",
             'compVectorDB_directory': 'vectorDB/compVectorDB'
-        }
+                }
     }

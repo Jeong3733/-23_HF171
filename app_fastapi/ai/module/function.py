@@ -166,10 +166,8 @@ class AI:
         return vectordb
 
     def _getFileFromBoto3(self, fileInfo):
-        filePath = f"dummy_data/{fileInfo.file_id}.{fileInfo.file_extension}"
-        filePath = f"dummy_data/{fileInfo.file_id}.pdf"
-        # filePath = "data/test.pdf"
-        print(filePath)
+        filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.{fileInfo.file_extension}"
+        # filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.pdf"
         s3 = boto3.client("s3")
         print(config['AI']['s3_bucket'])
         print(fileInfo.path)
@@ -181,8 +179,7 @@ class AI:
         return filePath
 
     def _getFileFromS3(self, fileInfo):
-        filePath = f"dummy_data/{fileInfo.file_id}.{fileInfo.file_extension}"
-        # filePath = "data/test.pdf"
+        filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.{fileInfo.file_extension}"
         return filePath
 
     def _convert_to_prompt(self, text):
@@ -198,6 +195,14 @@ class AI:
         """
         res = prompt
         return res
+
+    def _delete_AllFiles(self, filePath=config['AI']['save_path']):
+        if os.path.exists(filePath):
+            for file in os.scandir(filePath):
+                os.remove(file.path)
+            return 'Remove All File'
+        else:
+            return 'Directory Not Found'
 
 
 class DoucmentInit(AI):
@@ -237,6 +242,7 @@ class DoucmentInit(AI):
                 'startIndex': pageMetaDatas['start_index'],
             })
 
+        self._delete_AllFiles()
         resDict = {'pageInfo': pageInfo}
         return resDict
 
@@ -379,6 +385,7 @@ class DoucmentInit(AI):
             prev_page_info = []
             print(f"Finished processing page {prev_page}...")
 
+        self._delete_AllFiles()
         # FileResultInfo 계산
         resDict = {'fileSummary': fileSummary,
                    'pageInfo': pageInfo,
