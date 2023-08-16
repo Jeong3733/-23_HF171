@@ -11,7 +11,7 @@ config = \
             'n_similar': 3,
             's3_bucket': 'ict-competition-file-list',
             'save_path': 'dummy_data',
-            'system_message_prompt': 'You are an expert in plagiarism check analysis. You have run a plagiarism check and found similarities to certain comparison documents. The following text, separated by three inverted quotation marks, three quotation marks, and three double quotation marks, is part of the checked document, part of the comparison document, and the format of the analysis report. Please write the analysis result report in Korean.',
+            'system_message_prompt': 'You are an expert in plagiarism check analysis. You ran a plagiarism check and found that it is similar to certain comparison documents: three inverted quotes, each text separated by three quotation marks, part of the checked document, part of the comparison document. Output a Korean report of the analysis results.',
             'format_prompt': '### Output:\n\"\"\"1.\n2.\n...\"\"\"',
         },
         'DoucmentInit':

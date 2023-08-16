@@ -29,6 +29,7 @@ import boto3
 from ai.module.conf import config
 # from conf import config
 
+
 load_dotenv()
 # DEFAULT_K = 4  # Number of Documents to return.
 
@@ -211,31 +212,8 @@ class AI:
         else:
             return 'Directory Not Found'
 
-    def _set_chain(self, temperature: int = 0):
-        chat = ChatOpenAI(
-            temperature=temperature,
-            # max_tokens=3500,
-            # model_name='text-davinci-003',
-        )
-        system_message_prompt = SystemMessagePromptTemplate(
-            prompt=PromptTemplate(
-                template=config['AI']['system_message_prompt'],
-                input_variables=[]
-            )
-        )
-        human_message_prompt = HumanMessagePromptTemplate(
-            prompt=PromptTemplate(
-                template="{data_prompt}\n{format_prompt}",
-                input_variables=["data_prompt", "format_prompt"]
-            )
-        )
-        chat_prompt = ChatPromptTemplate.from_messages(
-            [system_message_prompt, human_message_prompt]
-        )
-        return LLMChain(llm=chat, prompt=chat_prompt)
-
-    def _process_run(self, a, b):
-        # print('_process_run')
+    def _pageAnalysisRun(self, a, b):
+        # print('_pageAnalysisRun')
         chat = ChatOpenAI(
             temperature=0,
             # max_tokens=3500,
@@ -249,8 +227,8 @@ class AI:
         )
         human_message_prompt = HumanMessagePromptTemplate(
             prompt=PromptTemplate(
-                template="{data_prompt}\n{format_prompt}",
-                input_variables=["data_prompt", "format_prompt"]
+                template="{data_prompt}",
+                input_variables=["data_prompt"]
             )
         )
         chat_prompt = ChatPromptTemplate.from_messages(
@@ -263,6 +241,8 @@ class AI:
         with get_openai_callback() as cb:
             res = chain.run(data_prompt=data_prompt,
                             format_prompt=config['AI']['format_prompt'])
+            prompt = chain.prompt
+            print(prompt)
             # topics = re.findall(r"\d+\.\s(.+)", res)
             res_tokens = cb.total_tokens
         # print(res)
@@ -335,7 +315,7 @@ class DoucmentInit(AI):
         docs = self._upload_document(file_path=file_path)
 
         def analysis(a, b):
-            res = self._process_run(a=a, b=b)
+            res = self._pageAnalysisRun(a=a, b=b)
             return res['data']
 
         def _pageSummary(data):
@@ -388,17 +368,15 @@ class DoucmentInit(AI):
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-
+            print(len(pageVector))
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=pageVector,
                 distance_metric="cos",
                 k=4)
 
             for idx, (compDoc, compID, score) in enumerate(similarPages):
-                if idx == 0:
-                    report = analysis(a=pageContent, b=compDoc.page_content)
-                else:
-                    report = ''
+                # report = analysis(a=pageContent, b=compDoc.page_content)
+                report = ''
                 pageResultInfo.append({
                     'pageId': pageID,
                     'compPageId': compID,
@@ -454,21 +432,11 @@ class DoucmentInit(AI):
         return resDict
 
 
-class DocumentQA(AI):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def newinit(self, file_path):
-        docs = self._upload_document(file_path=file_path)
-        vectordb = self._get_vectordb(docs)
-
-    def question(self, query):
-        self._get_retriever()
-
-
 def main():
-    init = DoucmentInit()
-    print(init.upload())
+    # init = DoucmentInit()
+    # print(init.upload())
+    ai = AI()
+    print(ai._pageAnalysisRun('a', 'b'))
 
 
 if __name__ == '__main__':
