@@ -166,20 +166,22 @@ class AI:
         return vectordb
 
     def _getFileFromBoto3(self, fileInfo):
-        filePath = f"data/{fileInfo.path}.{fileInfo.file_extension}"
+        filePath = f"dummy_data/{fileInfo.file_id}.{fileInfo.file_extension}"
+        filePath = f"dummy_data/{fileInfo.file_id}.pdf"
         # filePath = "data/test.pdf"
+        print(filePath)
         s3 = boto3.client("s3")
+        print(config['AI']['s3_bucket'])
+        print(fileInfo.path)
         s3.download_file(
-            Bucket=config['DoucmentInit']['s3_bucket'],
-            # key=fileInfo.path,
-            Key="test.pdf",
-            # Filename=filePath
+            Bucket=config['AI']['s3_bucket'],
+            Key=fileInfo.path,
             Filename=filePath
         )
         return filePath
 
     def _getFileFromS3(self, fileInfo):
-        filePath = f"data/{fileInfo.path}.{fileInfo.file_extension}"
+        filePath = f"dummy_data/{fileInfo.file_id}.{fileInfo.file_extension}"
         # filePath = "data/test.pdf"
         return filePath
 
@@ -205,12 +207,12 @@ class DoucmentInit(AI):
     def addInCompDB(self, fileInfo):
         print(fileInfo)
 
-        # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
-        file_path = self._getFileFromS3(fileInfo=fileInfo)
+        file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        # file_path = self._getFileFromS3(fileInfo=fileInfo)
         print(file_path)
 
-        file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
-        print(file_path)
+        # file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
+        # print(file_path)
 
         docs = self._upload_document(file_path=file_path)
 
@@ -257,17 +259,17 @@ class DoucmentInit(AI):
         return resDict
 
     def upload(self, fileInfo):
-        # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
-        file_path = self._getFileFromS3(fileInfo=fileInfo)
+        file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        # file_path = self._getFileFromS3(fileInfo=fileInfo)
         print(fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
-            fileInfo.path
+            fileInfo.file_id
         # docVectorDB_directory = 'docVectorDBs/newTest'
         analyticsReportCommand = config['DoucmentInit']['analyticsReportFormat']
         analyticsReportFormat = config['DoucmentInit']['analyticsReportFormat']
         print(file_path)
-        file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
-        print(file_path)
+        # file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
+        # print(file_path)
         docs = self._upload_document(file_path=file_path)
 
         # --- QA Setting ---
@@ -287,9 +289,10 @@ class DoucmentInit(AI):
         getVectorDBInfo = docVectorDB.get(
             include=['embeddings', 'documents', 'metadatas'])
 
-        # compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
-        # compVectorDB = self._load_vectordb(persist_directory=compVectorDB_directory)
-        compVectorDB = docVectorDB
+        compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
+        compVectorDB = self._load_vectordb(
+            persist_directory=compVectorDB_directory)
+        # compVectorDB = docVectorDB
 
         # print(getVectorDBInfo)
 
@@ -302,13 +305,13 @@ class DoucmentInit(AI):
         pageResultInfo = []
         pageInfo = []
         fileResultInfo = [{
-            "fileId": 1,
-            "compFileId": 2,
+            "fileId": fileInfo.file_id,
+            "compFileId": 3,
             "score": 12.3,
             "report": "report report report"
         },
-            {"fileId": 1,
-             "compFileId": 4,
+            {"fileId": fileInfo.file_id,
+             "compFileId": 3,
              "score": 1222.3,
              "report": "report report report"
              }]
@@ -318,8 +321,8 @@ class DoucmentInit(AI):
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-            print(fileInfo.path, pageID, pageMetaDatas['page'],
-                  pageMetaDatas['start_index'])
+            # print(fileInfo.path, pageID, pageMetaDatas['page'],
+            #       pageMetaDatas['start_index'])
 
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=pageVector,
