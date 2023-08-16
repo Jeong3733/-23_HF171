@@ -5,8 +5,8 @@ import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
 import com.prototype.app_springboot.data.dto.FastApiDtos.PageInfoOfCompFileDto;
 import com.prototype.app_springboot.data.entity.CompFileInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
-import com.prototype.app_springboot.data.entity.PageInfo;
 import com.prototype.app_springboot.data.repository.PageInfoRepository;
+import com.prototype.app_springboot.data.repository.PageResultInfoRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,11 @@ public class FastApiService {
     private String FastApiUrl;
 
     private final PageInfoRepository pageInfoRepository;
+    private final PageResultInfoRepository pageResultInfoRepository;
 
-    public FastApiService(PageInfoRepository pageInfoRepository) {
+    public FastApiService(PageInfoRepository pageInfoRepository, PageResultInfoRepository pageResultInfoRepository) {
         this.pageInfoRepository = pageInfoRepository;
+        this.pageResultInfoRepository = pageResultInfoRepository;
     }
 
     @Transactional
@@ -39,13 +42,6 @@ public class FastApiService {
         body.put("file_id", String.valueOf(fileInfo.getId()));
         body.put("file_extension", fileInfo.getFileExtension());
         body.put("path", fileInfo.getPath().toString());
-
-        System.out.println(webClient.post()
-                .uri(new URI(FastApiUrl + "/function/fileInfo/update"))
-                .bodyValue(body)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block());
 
         return webClient.post()
                 .uri(new URI(FastApiUrl + "/function/fileInfo/update"))
@@ -75,13 +71,22 @@ public class FastApiService {
     @Transactional
     public PageContentDto getPageContentByPageId(FileInfo fileInfo) throws URISyntaxException {
         WebClient webClient = WebClient.create();
+        List<String> pageIdList = new ArrayList<>();
 
-        List<String> pageIdList = pageInfoRepository.findAllByFileInfo(fileInfo).stream()
-                .map(PageInfo::getPageId)
-                .toList();
+        pageInfoRepository.findAllByFileInfo(fileInfo)
+                .forEach(pageInfo -> {
+                    pageResultInfoRepository.findAllByPageInfoPageId(pageInfo.getPageId())
+                            .forEach(pageResultInfo -> {
+                                String compPageId = pageResultInfo.getCompPageInfo().getPageId();
+                                if (!pageIdList.contains(compPageId)) {
+                                    pageIdList.add(pageResultInfo.getCompPageInfo().getPageId());
+                                }
+                            });
+                });
 
         Map<String, List<String>> body = new HashMap<>();
         body.put("page_id_list", pageIdList);
+
 
         return webClient.post()
                 .uri(new URI(FastApiUrl + "/function/compFileInfo/get/pageId"))

@@ -4,13 +4,13 @@ import com.prototype.app_springboot.data.entity.FileResultInfo;
 
 public class FileResultInfoDto {
     private int file_id;
-    private int comp_file_id;
+    private CompFileDto comp_file;
     private double score;
     private String report;
 
     public FileResultInfoDto(FileResultInfo fileResultInfo) {
         this.file_id = fileResultInfo.getFileInfo().getId();
-        this.comp_file_id = fileResultInfo.getCompFileInfo().getId();
+        this.comp_file = new CompFileDto(fileResultInfo.getCompFileInfo());
         this.score = fileResultInfo.getScore();
         this.report = fileResultInfo.getReport();
     }

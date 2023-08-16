@@ -110,6 +110,13 @@ public class FileService {
         fileInfoRepository.save(fileInfo);
 
         CompareResultOfFileDto compareResultOfFileDto = fastApiService.getCompareResultOfFile(fileInfo);
+        System.out.println(compareResultOfFileDto);
+        compareResultOfFileDto.getPageInfo().forEach(pageInfo -> {
+            System.out.println("PageInfo 에서의 pageId : " + pageInfo.getPageId());
+        });
+        compareResultOfFileDto.getPageResultInfo().forEach(pageResultInfoDto -> {
+            System.out.println("PageResultInfo 에서의 pageId : " +pageResultInfoDto.getPageId());
+        });
 
         FileInfo savedFileInfo = fileInfoRepository.findById(fileInfo.getId()).orElseThrow(() -> {
             log.error("FileId의 : {}의 FileInfo 가 존재하지 않습니다.", fileInfo.getId());
@@ -150,21 +157,21 @@ public class FileService {
             pageResultInfoRepository.save(pageResultInfo);
         });
 
-        compareResultOfFileDto.getFileResultInfo().forEach(fileResultInfoDto -> {
-            CompFileInfo compFileInfo = compFileInfoRepository.findById(fileResultInfoDto.getCompFileId()).orElseThrow(() -> {
-                log.error("CompFileId : {} 의 CompFileInfo 가 존재하지 않습니다.", fileResultInfoDto.getCompFileId());
-                throw new EntityNotFoundException("해당 CompFileId의 CompFileInfo 가 존재하지 않습니다.");
-            });
-
-            FileResultInfo fileResultInfo = FileResultInfo.builder()
-                    .fileInfo(savedFileInfo)
-                    .compFileInfo(compFileInfo)
-                    .score(fileResultInfoDto.getScore())
-                    .report(fileResultInfoDto.getReport())
-                    .build();
-
-            fileResultInfoRepository.save(fileResultInfo);
-        });
+//        compareResultOfFileDto.getFileResultInfo().forEach(fileResultInfoDto -> {
+//            CompFileInfo compFileInfo = compFileInfoRepository.findById(fileResultInfoDto.getCompFileId()).orElseThrow(() -> {
+//                log.error("CompFileId : {} 의 CompFileInfo 가 존재하지 않습니다.", fileResultInfoDto.getCompFileId());
+//                throw new EntityNotFoundException("해당 CompFileId의 CompFileInfo 가 존재하지 않습니다.");
+//            });
+//
+//            FileResultInfo fileResultInfo = FileResultInfo.builder()
+//                    .fileInfo(savedFileInfo)
+//                    .compFileInfo(compFileInfo)
+//                    .score(fileResultInfoDto.getScore())
+//                    .report(fileResultInfoDto.getReport())
+//                    .build();
+//
+//            fileResultInfoRepository.save(fileResultInfo);
+//        });
     }
 
     @Transactional
