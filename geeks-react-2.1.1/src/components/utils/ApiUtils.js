@@ -21,6 +21,7 @@ export const apiUtils = {
   GetPostInfoChkByPostId,
   GetPostInfoByBoardType,
   GetFileInfoByPostId,
+  GetFileInfoByFileId,
   AddFileInfo,
   AddCompFileInfo,
   GetCompPageInfo,
@@ -85,19 +86,19 @@ function AddCompetition(user, data) {
 }
 
 /* 게시물 추가
-{
-  fileType: {
-    pdf: false,
-    pptx: false,
-    ppt: false,
-    docx: false,
-  },
-  competitionId: competition_id,
-  postId: post_id,
-  boardType: '',
-  title: '',
-  contents: '',
-}
+  {
+    fileType: {
+      pdf: false,
+      pptx: false,
+      ppt: false,
+      docx: false,
+    },
+    competitionId: competition_id,
+    postId: post_id,
+    boardType: '',
+    title: '',
+    contents: '',
+  }
 */
 function AddPost(user, data) {
   const url = `/add/postInfo`;
@@ -190,9 +191,8 @@ function GetUseInforByCompetitionId(data) {
   });
 }
 
-// 공모전 리스트 요청
-/**
- * 공모전 리스트 요청
+/* 공모전 리스트 요청
+ *
  * // 공모전 리스트 요청 - output
  * [
  *   {
@@ -460,10 +460,8 @@ function GetCompetitionInfoByCompetitionId(data) {
   });
 }
 
-// 공모전 정보 요청 by competitionId (내가 참가여부도 같이)
-// competitionInfo - UserByCompetition left join
-/**
- * 공모전 정보 요청 by competitionId (내가 참가여부도 같이)
+/* 공모전 정보 요청 by competitionId (내가 참가여부도 같이)
+ *
  * competitionInfo - UserByCompetition left join
  *
  * // 공모전 정보 요청 by competitionId - data
@@ -541,7 +539,6 @@ function GetPostInfoByPostId(data) {
 //   "created_date": "2023-08-04T20:18:21"
 // }
 
-// 게시물 디테일 요청 by postId
 /** 게시물 디테일 요청 by postId
  * 해당 게시물에 내가 파일 업로드 했는지 확인 유무 확인
  * 
@@ -615,8 +612,6 @@ function GetPostInfoByPostId(data) {
         }
     ]
 }
-
-
 */
 function GetPostInfoChkByPostId(user, data) {
   const url = `/get/postInfo/chk/postId`;
@@ -690,29 +685,21 @@ function GetFileInfoByPostId(data) {
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 파일 요청 요청 by PostId - data
-// [
-//   {
-//     "file_info_id": 1,
-//     "post_id": 1,
-//     "user_info_id": "www",
-//     "path": "a941fab3-812a-4a6a-a008-28c70b01e52f",
-//     "file_title": "sdfsdf",
-//     "file_type": null,
-//     "file_extension": "HWP",
-//     "upload_datetime": "2023-08-05T00:09:12"
-//   },
-//   {
-//     "file_info_id": 2,
-//     "post_id": 1,
-//     "user_info_id": "www",
-//     "path": "d5e83864-bbd5-4b31-8aeb-ed0d7527554d",
-//     "file_title": "sdfsdfsdfsdf",
-//     "file_type": null,
-//     "file_extension": "PDF",
-//     "upload_datetime": "2023-08-05T00:09:12"
-//   }
-// ]
+
+/* 파일 디테일 디테일 요청 by fileId
+  해당 파일 관련 검사 관련 정보 요청
+
+  {
+    "fileId": 1
+  }
+*/
+function GetFileInfoByFileId(data) {
+  const url = `/get/fileInfo/fileId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+    // headers: { Authorization: bearerAccess(user) },
+  });
+}
 
 // 게시물 파일 업로드
 // geeks-react-2.1.1/src/components/marketing/pages/jobs/company/ApplyForm.js

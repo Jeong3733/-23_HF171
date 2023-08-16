@@ -294,10 +294,10 @@ class DoucmentInit(AI):
         # print(getVectorDBInfo)
 
         def analysis(analyticsReportPrompt):
-            return len(analyticsReportPrompt)
+            return 'analysis(analyticsReportPrompt)'
 
         def pageSummary(data):
-            return len(data)
+            return 'pageSummary(data)'
 
         pageResultInfo = []
         pageInfo = []
@@ -336,7 +336,6 @@ class DoucmentInit(AI):
                     'score': score,
                     'report': report,
                 })
-                pageResultInfo.append((pageID, compID, score, report))
 
             page = pageMetaDatas['page']
             start_index = pageMetaDatas['start_index']
