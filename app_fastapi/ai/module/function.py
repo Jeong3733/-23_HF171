@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Tuple, Type
+import re
 
 import chromadb
 import chromadb.config
@@ -6,19 +7,27 @@ from langchain.embeddings.base import Embeddings
 from langchain.utils import xor_args
 from langchain.docstore.document import Document
 
-from langchain.document_loaders import PyMuPDFLoader, DirectoryLoader
+from langchain.callbacks import get_openai_callback
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
+from langchain.document_loaders import PyMuPDFLoader, JSONLoader, DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA, LLMChain
 from langchain.chains.summarize import load_summarize_chain
+from langchain.chat_models import ChatOpenAI
 
 import os
 from dotenv import load_dotenv
 import boto3
 from ai.module.conf import config
+# from conf import config
 
 load_dotenv()
 # DEFAULT_K = 4  # Number of Documents to return.
@@ -169,8 +178,6 @@ class AI:
         filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.{fileInfo.file_extension}"
         # filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.pdf"
         s3 = boto3.client("s3")
-        print(config['AI']['s3_bucket'])
-        print(fileInfo.path)
         s3.download_file(
             Bucket=config['AI']['s3_bucket'],
             Key=fileInfo.path,
@@ -204,17 +211,73 @@ class AI:
         else:
             return 'Directory Not Found'
 
+    def _set_chain(self, temperature: int = 0):
+        chat = ChatOpenAI(
+            temperature=temperature,
+            # max_tokens=3500,
+            # model_name='text-davinci-003',
+        )
+        system_message_prompt = SystemMessagePromptTemplate(
+            prompt=PromptTemplate(
+                template=config['AI']['system_message_prompt'],
+                input_variables=[]
+            )
+        )
+        human_message_prompt = HumanMessagePromptTemplate(
+            prompt=PromptTemplate(
+                template="{data_prompt}\n{format_prompt}",
+                input_variables=["data_prompt", "format_prompt"]
+            )
+        )
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [system_message_prompt, human_message_prompt]
+        )
+        return LLMChain(llm=chat, prompt=chat_prompt)
+
+    def _process_run(self, a, b):
+        # print('_process_run')
+        chat = ChatOpenAI(
+            temperature=0,
+            # max_tokens=3500,
+            # model_name='text-davinci-003',
+        )
+        system_message_prompt = SystemMessagePromptTemplate(
+            prompt=PromptTemplate(
+                template=config['AI']['system_message_prompt'],
+                input_variables=[]
+            )
+        )
+        human_message_prompt = HumanMessagePromptTemplate(
+            prompt=PromptTemplate(
+                template="{data_prompt}\n{format_prompt}",
+                input_variables=["data_prompt", "format_prompt"]
+            )
+        )
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [system_message_prompt, human_message_prompt]
+        )
+        chain = LLMChain(llm=chat, prompt=chat_prompt)
+
+        data_prompt = f'```{a}```\n\'\'\'{b}\'\'\''
+
+        with get_openai_callback() as cb:
+            res = chain.run(data_prompt=data_prompt,
+                            format_prompt=config['AI']['format_prompt'])
+            # topics = re.findall(r"\d+\.\s(.+)", res)
+            res_tokens = cb.total_tokens
+        # print(res)
+        # res = re.findall(r"\d+\.\s(.+)", res)
+        return {'data': res,
+                'total_tokens': res_tokens}
+
 
 class DoucmentInit(AI):
     def __init__(self) -> None:
         super().__init__()
 
     def addInCompDB(self, fileInfo):
-        print(fileInfo)
-
         file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
-        print(file_path)
 
         # file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
         # print(file_path)
@@ -267,28 +330,34 @@ class DoucmentInit(AI):
     def upload(self, fileInfo):
         file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
-        print(fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
             fileInfo.file_id
-        # docVectorDB_directory = 'docVectorDBs/newTest'
-        analyticsReportCommand = config['DoucmentInit']['analyticsReportFormat']
-        analyticsReportFormat = config['DoucmentInit']['analyticsReportFormat']
-        print(file_path)
-        # file_path = 'testdata/서울특별시 버스노선 혼잡도 예측을 통한 다람쥐버스 신규 노선제안(장려).pdf'
-        # print(file_path)
         docs = self._upload_document(file_path=file_path)
+
+        def analysis(a, b):
+            res = self._process_run(a=a, b=b)
+            return res['data']
+
+        def _pageSummary(data):
+
+            # print(data)
+            return 'pageSummary(data)'
+
+        def _fileSummary(docs):
+            # map-reduce 를 통해 긴 전체 문서를 요약합니다.
+            # llm = OpenAI(temperature=0)
+            # chain = load_summarize_chain(llm=llm,
+            #                              chain_type="map_reduce",
+            #                              verbose=False)
+            # output_summary = chain.run(docs)
+            return 'output_summary'
 
         # --- QA Setting ---
         docVectorDB = self._get_vectordb(docs=docs,
                                          persist_directory=docVectorDB_directory)
 
         # --- Summary ---
-        llm = OpenAI(temperature=0)
-        chain = load_summarize_chain(llm=llm,
-                                     chain_type="map_reduce",
-                                     verbose=True)
-        # fileSummary = chain.run(docs)
-        fileSummary = 'fileSummary'
+        fileSummary = _fileSummary(docs=docs)
         # print(fileSummary)
 
         # --- 표절 검사 ---
@@ -299,14 +368,6 @@ class DoucmentInit(AI):
         compVectorDB = self._load_vectordb(
             persist_directory=compVectorDB_directory)
         # compVectorDB = docVectorDB
-
-        # print(getVectorDBInfo)
-
-        def analysis(analyticsReportPrompt):
-            return 'analysis(analyticsReportPrompt)'
-
-        def pageSummary(data):
-            return 'pageSummary(data)'
 
         pageResultInfo = []
         pageInfo = []
@@ -327,18 +388,17 @@ class DoucmentInit(AI):
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-            # print(fileInfo.path, pageID, pageMetaDatas['page'],
-            #       pageMetaDatas['start_index'])
 
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=pageVector,
                 distance_metric="cos",
                 k=4)
 
-            for compDoc, compID, score in similarPages:
-                analyticsReportPrompt = f"""{analyticsReportCommand}\n```{pageContent}```\
-                    \n\'\'\'{compDoc.page_content}\'\'\'\n\"\"\"{analyticsReportFormat}\"\"\""""
-                report = analysis(analyticsReportPrompt)
+            for idx, (compDoc, compID, score) in enumerate(similarPages):
+                if idx == 0:
+                    report = analysis(a=pageContent, b=compDoc.page_content)
+                else:
+                    report = ''
                 pageResultInfo.append({
                     'pageId': pageID,
                     'compPageId': compID,
@@ -352,7 +412,7 @@ class DoucmentInit(AI):
                 if prev_page is not None:
                     # 이전 페이지 작업 종료 처리
                     # 페이지 요약
-                    page_summary = pageSummary(prev_page_info)
+                    page_summary = _pageSummary(prev_page_info)
                     # 저장
                     for info in prev_page_info:
                         info['summary'] = page_summary
@@ -376,7 +436,7 @@ class DoucmentInit(AI):
         if prev_page is not None:
             # 이전 페이지 작업 종료 처리
             # 페이지 요약
-            page_summary = pageSummary(prev_page_info)
+            page_summary = _pageSummary(prev_page_info)
             # 저장
             for info in prev_page_info:
                 info['summary'] = page_summary
