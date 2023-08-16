@@ -386,6 +386,7 @@ class DoucmentInit(AI):
 
             page = pageMetaDatas['page']
             start_index = pageMetaDatas['start_index']
+
             if prev_page != page:
                 if prev_page is not None:
                     # 이전 페이지 작업 종료 처리
@@ -399,6 +400,17 @@ class DoucmentInit(AI):
                     prev_page_info = []
                     print(f"Finished processing page {prev_page}...")
 
+                # 현재 페이지 작업 시작 처리
+                print(f"Processing page {page}...")
+                prev_page_info.append({
+                    'fileId': fileInfo.file_id,
+                    'pageId': pageID,
+                    'pageNum': page,
+                    'startIndex': start_index,
+                    'summary': pageContent
+                })
+                prev_page = page
+            else:
                 # 현재 페이지 작업 시작 처리
                 print(f"Processing page {page}...")
                 prev_page_info.append({
