@@ -144,7 +144,7 @@ class ResultInfo(BaseModel):
     fileSummary: str
     pageInfo: List[PageInfo]
     pageResultInfo: List[PageResultInfo]
-    fileResultInfo: List[FileResultInfo]
+    # fileResultInfo: List[FileResultInfo]
 
     class Config:
         schema_extra = {'example': {'fileSummary': 'fileSummary fileSummary',
@@ -169,17 +169,6 @@ class ResultInfo(BaseModel):
                                     }, {
                                         'pageId': 'pageID',
                                         'compPageId': 'compID',
-                                        'score': 12.3,
-                                        'report': 'report report report',
-                                    }],
-                                    'fileResultInfo': [{
-                                        'fileId': 1,
-                                        'compFileId': 2,
-                                        'score': 12.3,
-                                        'report': 'report report report',
-                                    }, {
-                                        'fileId': 1,
-                                        'compFileId': 2,
                                         'score': 12.3,
                                         'report': 'report report report',
                                     }]}}

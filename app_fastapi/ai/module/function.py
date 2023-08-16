@@ -351,17 +351,17 @@ class DoucmentInit(AI):
 
         pageResultInfo = []
         pageInfo = []
-        fileResultInfo = [{
-            "fileId": fileInfo.file_id,
-            "compFileId": 3,
-            "score": 12.3,
-            "report": "report report report"
-        },
-            {"fileId": fileInfo.file_id,
-             "compFileId": 3,
-             "score": 1222.3,
-             "report": "report report report"
-             }]
+        # fileResultInfo = [{
+        #     "fileId": fileInfo.file_id,
+        #     "compFileId": 3,
+        #     "score": 12.3,
+        #     "report": "report report report"
+        # },
+        #     {"fileId": fileInfo.file_id,
+        #      "compFileId": 3,
+        #      "score": 1222.3,
+        #      "report": "report report report"
+        #      }]
         prev_page = None
         prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
@@ -439,8 +439,7 @@ class DoucmentInit(AI):
         # FileResultInfo 계산
         resDict = {'fileSummary': fileSummary,
                    'pageInfo': pageInfo,
-                   'pageResultInfo': pageResultInfo,
-                   'fileResultInfo': fileResultInfo}
+                   'pageResultInfo': pageResultInfo}
         return resDict
 
 
