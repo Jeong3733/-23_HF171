@@ -26,7 +26,9 @@ from langchain.chat_models import ChatOpenAI
 import os
 from dotenv import load_dotenv
 import boto3
+
 from ai.module.conf import config
+from ai.module.prompt_template import qa_template
 # from conf import config
 
 
@@ -351,6 +353,7 @@ class DoucmentInit(AI):
 
         pageResultInfo = []
         pageInfo = []
+        
         # fileResultInfo = [{
         #     "fileId": fileInfo.file_id,
         #     "compFileId": 3,
@@ -362,6 +365,7 @@ class DoucmentInit(AI):
         #      "score": 1222.3,
         #      "report": "report report report"
         #      }]
+        
         prev_page = None
         prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
@@ -441,6 +445,35 @@ class DoucmentInit(AI):
                    'pageInfo': pageInfo,
                    'pageResultInfo': pageResultInfo}
         return resDict
+    
+    def qaAboutFile(self, questionForm):
+        # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        # file_path = self._getFileFromS3(fileInfo=fileInfo)
+        docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
+            questionForm.file_id
+
+        # --- QA DB load ---
+        docVectorDB = self._load_vectordb(
+            persist_directory=docVectorDB_directory)
+
+        prompt_template = qa_template
+        PROMPT = PromptTemplate(
+            template=prompt_template, input_variables=["context", "question"]
+        )
+        chain_type_kwargs = {"prompt": PROMPT}
+        retriever = docVectorDB.as_retriever(search_kwargs={'k': 3})
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
+                                         chain_type="stuff", 
+                                         retriever=retriever, 
+                                         chain_type_kwargs=chain_type_kwargs,
+                                         return_source_documents=True)
+        
+        result = qa({"query": questionForm.query})
+        source = [docs.page_content for docs in result["source_documents"]]
+        resDict = {'result': result["result"],
+                   'source': source}
+        return resDict
+
 
 
 def main():

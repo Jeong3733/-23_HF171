@@ -69,7 +69,7 @@ const AllRoutes = () => {
 
         <Route path="/dbupload/" element={<DBUpload />} />
         {/* 1.0 전체 공모전 */}
-        <Route path="/explore" element={<CourseFilterPage />} />
+        <Route path="/explore/" element={<CourseFilterPage />} />
 
         <Route element={<DetailLayout />}>
           {/* 2.0 공모전 상세 */}

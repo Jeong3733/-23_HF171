@@ -5,7 +5,9 @@ from fastapi.responses import JSONResponse
 
 from ai.module.function import DoucmentInit
 from ai.module.util import Util
-from models import FileInfo, PageIdList, PagesContents, ResultInfo, CompPageList
+from models import (FileInfo, PageIdList, PagesContents,
+                    ResultInfo, CompPageList,
+                    QuestionForm, AnswerForm)
 
 router = APIRouter()
 util = Util()
@@ -48,6 +50,14 @@ async def getContentsFromCompPageInfo(pageIdList: PageIdList):
     # pageIdList = ["891e0716-37af-11ee-bdab-56cc850cf3c0",
     #               "891e0770-37af-11ee-bdab-56cc850cf3c0"]
     resDict = initObj.getContentsFromCompDB(pageIdList.page_id_list)
+    resDict = util.convert_numpy_to_list(resDict)
+    resJson = jsonable_encoder(resDict)
+    return JSONResponse(content=resJson)
+
+
+@router.post("/qa", tags=['Function'], response_model=AnswerForm)
+async def uploadInFileInfo(questionForm: QuestionForm):
+    resDict = initObj.qaAboutFile(questionForm)
     resDict = util.convert_numpy_to_list(resDict)
     resJson = jsonable_encoder(resDict)
     return JSONResponse(content=resJson)

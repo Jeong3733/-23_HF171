@@ -172,3 +172,25 @@ class ResultInfo(BaseModel):
                                         'score': 12.3,
                                         'report': 'report report report',
                                     }]}}
+
+
+class QuestionForm(BaseModel):
+    file_id: str
+    query: str
+
+    class Config:
+        schema_extra = {'example': {
+            'file_id': 'file_id',
+            'query': '이 문서의 이름은 무엇인가요?'
+        }}
+
+
+class AnswerForm(BaseModel):
+    result: str
+    source: List[str]
+
+    class Config:
+        schema_extra = {'example': {
+            'result': 'file_id',
+            'source': ['source_1', 'source_2', 'source_3']
+        }}
