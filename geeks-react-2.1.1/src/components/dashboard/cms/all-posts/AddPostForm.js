@@ -96,7 +96,7 @@ const AddPostForm = ({ Auth }) => {
     alert(JSON.stringify(formDataToSend));
     const user = Auth.getUser();
     apiUtils
-      .AddPost(user, formDataToSend)
+      .AddCompFileInfo(user, formDataToSend)
       .then((response) => {
         console.log(response.data);
         // const { accessToken, refreshToken } = response.data;
