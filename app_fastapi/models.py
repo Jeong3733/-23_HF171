@@ -18,18 +18,38 @@ class FileRequest(BaseModel):
     user_id: str
 
 
-class FileInfo(BaseModel):
-    file_id: str
+class ReqGetFileInfo(BaseModel):
+    file_id: int
     file_extension: str
     path: str
 
     class Config:
-        schema_extra = {'example': {'file_id': 'file_id',
+        schema_extra = {'example': {'file_id': 1,
                                     'file_extension': 'pdf',
                                     'path': 'uuid'}}
 
 
-class PageIdList(BaseModel):
+class ReqGetCompetitonFileInfo(BaseModel):
+    file_id: int
+    file_extension: str
+    path: str
+    competition_id: int
+
+    class Config:
+        schema_extra = {'example': {'file_id': 1,
+                                    'file_extension': 'pdf',
+                                    'path': 'uuid',
+                                    'competition_id': 1}}
+
+
+class ResGetCompetitonFileInfo(BaseModel):
+    status: int
+
+    class Config:
+        schema_extra = {'example': {'status': 1}}
+
+
+class ReqPageIdList(BaseModel):
     page_id_list: List[str]
 
     class Config:
@@ -48,7 +68,7 @@ class PageContents(BaseModel):
         }}
 
 
-class PagesContents(BaseModel):
+class ResPagesContents(BaseModel):
     pageInfo: List[PageContents]
 
     class Config:
@@ -93,7 +113,7 @@ class CompPageInfo(BaseModel):
         }}
 
 
-class CompPageList(BaseModel):
+class ResCompPageList(BaseModel):
     pageInfo: List[CompPageInfo]
 
     class Config:
@@ -140,7 +160,7 @@ class FileResultInfo(BaseModel):
         }}
 
 
-class ResultInfo(BaseModel):
+class ResResultInfo(BaseModel):
     fileSummary: str
     pageInfo: List[PageInfo]
     pageResultInfo: List[PageResultInfo]
@@ -174,23 +194,56 @@ class ResultInfo(BaseModel):
                                     }]}}
 
 
-class QuestionForm(BaseModel):
-    file_id: str
+class ReqGetFileQNA(BaseModel):
+    file_id: int
     query: str
 
     class Config:
         schema_extra = {'example': {
-            'file_id': 'file_id',
+            'file_id': 1,
             'query': '이 문서의 이름은 무엇인가요?'
         }}
 
 
-class AnswerForm(BaseModel):
+class ResGetFileQNA(BaseModel):
     result: str
     source: List[str]
 
     class Config:
         schema_extra = {'example': {
-            'result': 'file_id',
+            'result': 1,
             'source': ['source_1', 'source_2', 'source_3']
+        }}
+
+
+class ReqGetCompetitionFileQNA(BaseModel):
+    competition_id: int
+    query: str
+
+    class Config:
+        schema_extra = {'example': {
+            'competition_id': 1,
+            'query': '해당 공모전은 어떠한 공모전인가요?'
+        }}
+
+
+class ReqFileReport(BaseModel):
+    file_id: int
+    page_id: str
+    comp_page_id: str
+
+    class Config:
+        schema_extra = {'example': {
+            'file_id': 1,
+            'page_id': 'page_id',
+            'comp_page_id': 'comp_page_id',
+        }}
+
+
+class ResFileReport(BaseModel):
+    report: str
+
+    class Config:
+        schema_extra = {'example': {
+            'report': 'report report report'
         }}

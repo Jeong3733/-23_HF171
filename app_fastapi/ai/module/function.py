@@ -164,9 +164,9 @@ class AI:
         """
         텍스트를 기존 벡터 DB에 저장하는 함수
         """
-        res = vectorDB.add_documents(documents=docs)
+        ids = vectorDB.add_documents(documents=docs)
         vectorDB.persist()
-        return res
+        return ids, vectorDB
 
     def _load_vectordb(self, persist_directory):
         """
@@ -178,7 +178,7 @@ class AI:
         return vectordb
 
     def _getFileFromBoto3(self, fileInfo):
-        filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.{fileInfo.file_extension}"
+        filePath = f"{config['AI']['save_path']}/{str(fileInfo.file_id)}.{fileInfo.file_extension}"
         # filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.pdf"
         s3 = boto3.client("s3")
         s3.download_file(
@@ -189,7 +189,7 @@ class AI:
         return filePath
 
     def _getFileFromS3(self, fileInfo):
-        filePath = f"{config['AI']['save_path']}/{fileInfo.file_id}.{fileInfo.file_extension}"
+        filePath = f"{config['AI']['save_path']}/{str(fileInfo.file_id)}.{fileInfo.file_extension}"
         return filePath
 
     def _convert_to_prompt(self, text):
@@ -214,7 +214,7 @@ class AI:
         else:
             return 'Directory Not Found'
 
-    def _pageAnalysisRun(self, a, b):
+    def _pageAnalysisRun(self, pageContent, compPageContent):
         # print('_pageAnalysisRun')
         chat = ChatOpenAI(
             temperature=0,
@@ -238,19 +238,21 @@ class AI:
         )
         chain = LLMChain(llm=chat, prompt=chat_prompt)
 
-        data_prompt = f'```{a}```\n\'\'\'{b}\'\'\''
+        data_prompt = f'```{pageContent}```\n\'\'\'{compPageContent}\'\'\''
 
         with get_openai_callback() as cb:
-            res = chain.run(data_prompt=data_prompt,
+            report = chain.run(data_prompt=data_prompt,
                             format_prompt=config['AI']['format_prompt'])
             prompt = chain.prompt
             print(prompt)
-            # topics = re.findall(r"\d+\.\s(.+)", res)
+            print(report)
+            # topics = re.findall(r"\d+\.\s(.+)", report)
             res_tokens = cb.total_tokens
-        # print(res)
-        # res = re.findall(r"\d+\.\s(.+)", res)
-        return {'data': res,
-                'total_tokens': res_tokens}
+        # print(report)
+        # report = re.findall(r"\d+\.\s(.+)", report)
+        # return {'data': report,
+        #         'total_tokens': res_tokens}
+        return report
 
 
 class DoucmentInit(AI):
@@ -270,8 +272,7 @@ class DoucmentInit(AI):
         compVectorDB = self._load_vectordb(
             persist_directory=compVectorDB_directory)
 
-        ids = compVectorDB.add_documents(documents=docs)
-        compVectorDB.persist()
+        ids, compVectorDB = self._add_vectordb(compVectorDB, docs=docs)
 
         pageInfo = []
         getVectorDBInfo = compVectorDB.get(ids=ids,
@@ -290,6 +291,36 @@ class DoucmentInit(AI):
         self._delete_AllFiles()
         resDict = {'pageInfo': pageInfo}
         return resDict
+    
+    def addInCompetitionDB(self, fileInfo):
+        file_path = self._getFileFromBoto3(fileInfo=fileInfo)
+        docs = self._upload_document(file_path=file_path)
+
+        competitionVectorDB_directory = config['DoucmentInit']['competitionVectorDB_directory'] \
+            + '/' + str(fileInfo.competition_id)
+        competitionVectorDB = self._load_vectordb(
+            persist_directory=competitionVectorDB_directory)
+
+        _ = self._add_vectordb(competitionVectorDB, docs=docs)
+        # ids, compVectorDB =  = self._add_vectordb(competitionVectorDB, docs=docs)
+
+        # pageInfo = []
+        # getVectorDBInfo = competitionVectorDB.get(ids=ids,
+        #                                    include=['embeddings', 'documents', 'metadatas'])
+        # for pageID, pageMetaDatas in zip(getVectorDBInfo['ids'],
+        #                                  getVectorDBInfo['metadatas']):
+        #     # print(fileInfo.path, pageID, pageMetaDatas['page'],
+        #     #       pageMetaDatas['start_index'])
+        #     pageInfo.append({
+        #         'fileId': fileInfo.file_id,
+        #         'pageId': pageID,
+        #         'pageNum': pageMetaDatas['page'],
+        #         'startIndex': pageMetaDatas['start_index'],
+        #     })
+
+        self._delete_AllFiles()
+        resDict = {'status': 1}
+        return resDict
 
     def getContentsFromCompDB(self, ids: list):
         compVectorDB_directory = config['DoucmentInit']['compVectorDB_directory']
@@ -297,8 +328,27 @@ class DoucmentInit(AI):
             persist_directory=compVectorDB_directory)
 
         pageInfo = []
-        getVectorDBInfo = compVectorDB.get(ids=ids,
-                                           include=['embeddings', 'documents', 'metadatas'])
+        getVectorDBInfo = compVectorDB.get(ids=list(set(ids)),
+                                           include=['documents'])
+        for pageID, pageContent in zip(getVectorDBInfo['ids'],
+                                       getVectorDBInfo['documents']):
+            pageInfo.append({
+                'pageId': pageID,
+                'pageContent': pageContent
+            })
+
+        resDict = {'pageInfo': pageInfo}
+        return resDict
+
+    def getContentsFromFile(self, file_id, ids: list):
+        docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] \
+            + '/' + str(file_id)
+        docVectorDB = self._load_vectordb(
+            persist_directory=docVectorDB_directory)
+
+        pageInfo = []
+        getVectorDBInfo = docVectorDB.get(ids=list(set(ids)),
+                                           include=['documents'])
         for pageID, pageContent in zip(getVectorDBInfo['ids'],
                                        getVectorDBInfo['documents']):
             pageInfo.append({
@@ -313,12 +363,8 @@ class DoucmentInit(AI):
         file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
-            fileInfo.file_id
+            str(fileInfo.file_id)
         docs = self._upload_document(file_path=file_path)
-
-        def analysis(a, b):
-            res = self._pageAnalysisRun(a=a, b=b)
-            return res['data']
 
         def _pageSummary(data):
 
@@ -379,7 +425,6 @@ class DoucmentInit(AI):
                 k=4)
 
             for idx, (compDoc, compID, score) in enumerate(similarPages):
-                # report = analysis(a=pageContent, b=compDoc.page_content)
                 report = ''
                 pageResultInfo.append({
                     'pageId': pageID,
@@ -450,7 +495,7 @@ class DoucmentInit(AI):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
         docVectorDB_directory = config['DoucmentInit']['docVectorDB_directory'] + '/' + \
-            questionForm.file_id
+            str(questionForm.file_id)
 
         # --- QA DB load ---
         docVectorDB = self._load_vectordb(
@@ -474,6 +519,49 @@ class DoucmentInit(AI):
                    'source': source}
         return resDict
 
+    def qaAboutCompetitionFile(self, questionForm):
+        competitionVectorDB_directory = config['DoucmentInit']['competitionVectorDB_directory'] \
+            + '/' + str(questionForm.competition_id)
+
+        # --- QA DB load ---
+        competitionVectorDB = self._load_vectordb(
+            persist_directory=competitionVectorDB_directory)
+
+        prompt_template = qa_template
+        PROMPT = PromptTemplate(
+            template=prompt_template, input_variables=["context", "question"]
+        )
+        chain_type_kwargs = {"prompt": PROMPT}
+        retriever = competitionVectorDB.as_retriever(search_kwargs={'k': 3})
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
+                                         chain_type="stuff", 
+                                         retriever=retriever, 
+                                         chain_type_kwargs=chain_type_kwargs,
+                                         return_source_documents=True)
+        
+        result = qa({"query": questionForm.query})
+        source = [docs.page_content for docs in result["source_documents"]]
+        resDict = {'result': result["result"],
+                   'source': source}
+        return resDict
+
+    def createReport(self, reqFileReport):
+        file = self.getContentsFromFile(
+            file_id=reqFileReport.file_id, ids=[reqFileReport.page_id])
+        comp_file = self.getContentsFromCompDB(ids=[reqFileReport.comp_page_id])
+        
+        def extractContent(file):
+            print(file['pageInfo'])
+            return file['pageInfo'][0]['pageContent']
+        
+        pageContent = extractContent(file)
+        compPageContent = extractContent(comp_file)
+                
+        report = self._pageAnalysisRun(
+            pageContent=pageContent, compPageContent=compPageContent)
+        
+        resDict = {'report': report}
+        return resDict
 
 
 def main():
