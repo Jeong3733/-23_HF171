@@ -16,6 +16,7 @@ import {
 import PostsTable from './PostsTable';
 import AddNewCategoryPopup from './AddNewCategoryPopup';
 import AddPostForm from './AddPostForm';
+import ManageJudgeForm from './ManageJudgeForm';
 import ManageSubmitTable from 'components/dashboard/cms/all-posts/ManageSubmitTable';
 
 // import data files
@@ -35,9 +36,13 @@ const ManageSubmits = () => {
   const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
   const { competition_id } = useParams();
   // alert(competition_id);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showAdd, setShowAdd] = useState(false);
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
+
+  const [showJudge, setShowJudge] = useState(false);
+  const handleCloseJudge = () => setShowJudge(false);
+  const handleShowJudge = () => setShowJudge(true);
 
   const [postList, setPostList] = useState([]);
 
@@ -93,27 +98,49 @@ const ManageSubmits = () => {
                 <Breadcrumb.Item active>제출 게시판 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
-            <div>
-              <Button variant="primary" onClick={handleShow}>
-                게시물 추가
-              </Button>
-              <Modal show={show} onHide={handleClose} size="lg">
-                <Modal.Header closeButton>
-                  <Modal.Title>게시물 추가 페이지</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <AddPostForm Auth={Auth} />
-                </Modal.Body>
-                <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
-                  {/*  Action Buttons  */}
-                  {/* <Button variant="primary" onClick={handleClose}>
-                    Add New Category
-                  </Button> */}
-                  {/* <Button variant="outline-secondary" onClick={handleClose}>
-                    Close
-                  </Button> */}
-                </Modal.Footer>
-              </Modal>
+            <div className="d-md-flex align-items-center justify-content-between">
+              <div>
+                <Button variant="primary" onClick={handleShowJudge}>
+                  심사위원 관리
+                </Button>
+                <Modal show={showJudge} onHide={handleCloseJudge} size="lg">
+                  <Modal.Header closeButton>
+                    <Modal.Title>심사위원 관리 페이지</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <ManageJudgeForm />
+                  </Modal.Body>
+                  <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={handleCloseJudge}
+                    >
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </div>
+              <div>
+                <Button variant="primary" onClick={handleShowAdd}>
+                  게시물 추가
+                </Button>
+                <Modal show={showAdd} onHide={handleCloseAdd} size="lg">
+                  <Modal.Header closeButton>
+                    <Modal.Title>게시물 추가 페이지</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <AddPostForm Auth={Auth} />
+                  </Modal.Body>
+                  <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={handleCloseAdd}
+                    >
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </div>
             </div>
           </div>
         </Col>
@@ -131,12 +158,12 @@ const ManageSubmits = () => {
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
-                      미완료
+                      평가 미완료
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
-                      완료
+                      평가 완료
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>

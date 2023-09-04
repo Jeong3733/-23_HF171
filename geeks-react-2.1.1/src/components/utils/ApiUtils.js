@@ -26,6 +26,9 @@ export const apiUtils = {
   AddCompFileInfo,
   GetCompPageInfo,
   GetCompFileInfo,
+  AddJudge,
+  GetJudgeByPostId,
+  GetJudgeByCompetitionId,
 };
 
 const cookies = new Cookies();
@@ -861,6 +864,39 @@ function GetCompFileInfo(user) {
     headers: {
       'Content-type': 'application/json',
       Authorization: bearerAccess(user),
+    },
+  });
+}
+
+/* 심사위원 추가
+ */
+function AddJudge(data) {
+  const url = `/add/judge`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 리스트 요청 by postId
+ */
+function GetJudgeByPostId(data) {
+  const url = `/get/judge/postId`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 리스트 요청 by competitionId
+ */
+function GetJudgeByCompetitionId(data) {
+  const url = `/get/judge/competitionId`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
     },
   });
 }
