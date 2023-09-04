@@ -12,4 +12,5 @@ public class EvaluationScoreId implements Serializable {
     private UUID judgeInfo;
     private int postInfo;
     private int evaluationInfo;
+    private String userInfo;
 }
