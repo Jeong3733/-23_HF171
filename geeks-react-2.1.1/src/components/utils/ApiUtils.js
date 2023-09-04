@@ -30,6 +30,7 @@ export const apiUtils = {
   GetJudgeByPostId,
   GetJudgeByCompetitionId,
   GetCheckJudge,
+  GetCheckJudgeByPostId,
 };
 
 const cookies = new Cookies();
@@ -902,10 +903,21 @@ async function GetJudgeByCompetitionId(data) {
   });
 }
 
-/* 심사위원 리스트 요청 by competitionId
+/* 심사위원 검증 및 데이터 요청
  */
 async function GetCheckJudge(data) {
   const url = `/validate/judge`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 검증 및 데이터 요청
+ */
+async function GetCheckJudgeByPostId(data) {
+  const url = `/validate/judge/postId`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

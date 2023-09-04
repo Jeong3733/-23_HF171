@@ -112,9 +112,21 @@ const EvaluateVertical = (props) => {
         },
         {
           id: uuid(),
-          name: '심사위원 리스트',
+          name: '심사위원 관리',
           post_id: post.post_info_id,
           link: 'judge',
+        },
+        {
+          id: uuid(),
+          name: '평가 항목 관리',
+          post_id: post.post_info_id,
+          link: 'item',
+        },
+        {
+          id: uuid(),
+          name: '평가 결과 조회',
+          post_id: post.post_info_id,
+          link: 'result',
         },
       ],
     }));

@@ -1,15 +1,15 @@
 // import node module libraries
-import React, { useState, Fragment } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Link, useParams, useOutletContext } from 'react-router-dom';
 import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
-// import { Logger } from 'logging-library';
-// import FileViewer from 'react-file-viewer';
-// import { CustomErrorComponent } from 'custom-error';
+// impoort Auth module
+import { useAuth } from 'components/AuthContext';
+import { apiUtils } from 'components/utils/ApiUtils';
+import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import PostsTable from './PostsTable';
-import { s3Link } from 'helper/utils';
+import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
 
 // import data files
 import {
@@ -20,7 +20,7 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const EvaluatesFile = () => {
+const EvaluateFile = () => {
   const { judge_id, post_id, file_id } = useParams();
 
   // const file = "/logo192.png";
@@ -50,16 +50,16 @@ const EvaluatesFile = () => {
       <h5 className="mb-0">{file_id}</h5>
 
       {/* <button onClick={handleView}>View</button>
-      {view && (
-        <FileViewer
-          fileType={type}
-          filePath={s3Link(file)}
-          errorComponent={CustomErrorComponent}
-          onError={onError}
-        />
-      )} */}
+    {view && (
+      <FileViewer
+        fileType={type}
+        filePath={s3Link(file)}
+        errorComponent={CustomErrorComponent}
+        onError={onError}
+      />
+    )} */}
     </Fragment>
   );
 };
 
-export default EvaluatesFile;
+export default EvaluateFile;

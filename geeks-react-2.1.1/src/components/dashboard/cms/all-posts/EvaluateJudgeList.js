@@ -133,14 +133,14 @@ const EvaluateJudgeList = () => {
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">심사위원 리스트</h1>
+              <h1 className="mb-1 h2 fw-bold">심사위원 관리</h1>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">
                   {competitionInfo.competition_name}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
                 <Breadcrumb.Item href="#">{postInfo.title}</Breadcrumb.Item>
-                <Breadcrumb.Item active>심사위원 리스트</Breadcrumb.Item>
+                <Breadcrumb.Item active>심사위원 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
           </div>

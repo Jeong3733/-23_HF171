@@ -6,7 +6,7 @@ import 'assets/scss/theme.scss';
 // ** Import Layouts
 import EvaluateIndex from 'layouts/dashboard/EvaluateIndex';
 import ManageIndex from 'layouts/dashboard/ManageIndex';
-import EvaluateDetailIndex from 'layouts/dashboard/EvaluateDetailIndex';
+import JudgeDetailIndex from 'layouts/dashboard/JudgeDetailIndex';
 
 import IndexPage from 'components/marketing/pages/IndexPage';
 import AddNewCourse from 'components/marketing/pages/courses/add-new-course/AddNewCourse';
@@ -28,23 +28,25 @@ import QNA from 'components/marketing/pages/jobs/company/QNA';
 // import Submits from 'components/marketing/pages/jobs/company/Announcements';
 import Submits from 'components/marketing/pages/jobs/company/Submits';
 import ItemPage from 'components/marketing/pages/jobs/company/ItemPage';
-// 4.0 평가 리스트
-import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
 
+// 4.0 평가 관리 리스트
 import EvaluateSubmitList from 'components/dashboard/cms/all-posts/EvaluateSubmitList';
 import EvaluateFileList from 'components/dashboard/cms/all-posts/EvaluateFileList';
 import EvaluateMemberList from 'components/dashboard/cms/all-posts/EvaluateMemberList';
 import EvaluateJudgeList from 'components/dashboard/cms/all-posts/EvaluateJudgeList';
 
-import EvaluatesFile from 'components/dashboard/cms/all-posts/EvaluatesFile';
+// 6.0 평가 관리 리스트
+import JudgeSignIn from 'components/dashboard/judge/JudgeSignIn';
+import JudgeFileList from 'components/dashboard/judge/JudgeFileList';
+import EvaluateFile from 'components/dashboard/judge/EvaluateFile';
 
-// 5.0 관리 리스트
+// 6.0 관리 리스트
 import ManageReadme from 'components/dashboard/cms/all-posts/ManageReadme';
 import ManageMembers from 'components/dashboard/cms/all-posts/ManageMembers';
 import ManageSubmits from 'components/dashboard/cms/all-posts/ManageSubmits';
 import ManageQNA from 'components/dashboard/cms/all-posts/ManageQNA';
 import ManageAnnouncements from 'components/dashboard/cms/all-posts/ManageAnnouncements';
-import ManageEvaluates from 'components/dashboard/cms/all-posts/ManageEvaluates';
+import EvaluateItemList from 'components/dashboard/cms/all-posts/EvaluateItemList';
 
 import DBUpload from 'components/dashboard/cms/all-posts/DBUpload';
 
@@ -52,7 +54,7 @@ import DBUpload from 'components/dashboard/cms/all-posts/DBUpload';
 import ChatLayout from './dashboard/ChatLayout'; // ( added in v2.0.0 )
 import Chat from 'components/dashboard/chat/Chat';
 import LandingCourses from 'components/marketing/landings/landing-courses/LandingCourses';
-import JudgeSignIn from 'components/dashboard/judge/JudgeSignIn';
+import EvaluateResultList from 'components/dashboard/cms/all-posts/EvaluateResultList';
 
 // 심사위원 평가
 
@@ -134,6 +136,14 @@ const AllRoutes = () => {
           path="/evaluate/:competition_id/:post_id/judge/"
           element={<EvaluateJudgeList />}
         />
+        <Route
+          path="/evaluate/:competition_id/:post_id/item/"
+          element={<EvaluateItemList />}
+        />
+        <Route
+          path="/evaluate/:competition_id/:post_id/result/"
+          element={<EvaluateResultList />}
+        />
       </Route>
 
       {/* 5.0 심사위원 평가 */}
@@ -141,12 +151,12 @@ const AllRoutes = () => {
       <Route path="/judge/sign-in/" element={<JudgeSignIn />} />
       <Route
         path="/judge/evaluate/:judge_id/:post_id/files/"
-        element={<EvaluatesFile />}
+        element={<JudgeFileList />}
       />
-      <Route element={<EvaluateDetailIndex />}>
+      <Route element={<JudgeDetailIndex />}>
         <Route
           path="/judge/evaluate/:judge_id/:post_id/files/:file_id/"
-          element={<EvaluatesFile />}
+          element={<EvaluateFile />}
         />
       </Route>
 
@@ -169,10 +179,6 @@ const AllRoutes = () => {
         <Route
           path="/manage/:competition_id/announcements/"
           element={<ManageAnnouncements />}
-        />
-        <Route
-          path="/manage/:competition_id/evaluate/"
-          element={<ManageEvaluates />}
         />
       </Route>
 

@@ -1,9 +1,9 @@
 // import node module libraries
 import React, { useState, useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
-import EvaluateDetailVertical from './EvaluateDetailVertical';
+import JudgeDetailVertical from './JudgeDetailVertical';
 import HeaderDefault from './HeaderDefault';
 
 // impoort Auth module
@@ -11,18 +11,22 @@ import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
-const EvaluateDetailIndex = (props) => {
+const JudgeDetailIndex = (props) => {
   const { children, className, overflowHidden } = props;
+  const { judge_id, file_id, post_id } = useParams();
+  const navigate = useNavigate();
+
   const [showMenu, setShowMenu] = useState(true);
   const ToggleMenu = () => {
     return setShowMenu(!showMenu);
   };
 
-  const { file_id, post_id } = useParams();
   const [fileList, setFileList] = useState([]);
   const [resultData, setResultData] = useState({});
 
-  useEffect(() => {
+  const getAllData = () => {
+    // fileList
+    alert('데이터를 불러옵니다.');
     // fileList
     const data3 = {
       postId: post_id,
@@ -272,6 +276,34 @@ const EvaluateDetailIndex = (props) => {
     //     setResultData(getResultData);
     //     handleLogError(error);
     //   });
+  };
+
+  useEffect(() => {
+    // 접근 유무 확인
+    const formData = { judgeId: judge_id, postId: post_id };
+    apiUtils
+      .GetCheckJudgeByPostId(formData)
+      .then((response) => {
+        const check = response.data.check;
+        if (check) {
+          getAllData();
+        } else {
+          alert('심사위원 인증을 실패했습니다.');
+          navigate(`/judge/sign-in/`);
+        }
+      })
+      .catch((error) => {
+        // alert(error.response.data);
+        handleLogError(error);
+
+        // case 1: 심사위원 인증 실패
+        // alert('심사위원 인증을 실패했습니다.');
+        // navigate(`/judge/sign-in/`);
+
+        // case 2: 더미데이터를 사용하는 경우
+        alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
+        getAllData();
+      });
   }, []);
 
   console.log(fileList);
@@ -284,7 +316,7 @@ const EvaluateDetailIndex = (props) => {
       }`}
     >
       <div className="navbar-vertical navbar">
-        <EvaluateDetailVertical
+        <JudgeDetailVertical
           showMenu={showMenu}
           onClick={(value) => setShowMenu(value)}
           data={{ fileList: fileList, resultData: resultData }}
@@ -307,4 +339,4 @@ const EvaluateDetailIndex = (props) => {
     </div>
   );
 };
-export default EvaluateDetailIndex;
+export default JudgeDetailIndex;

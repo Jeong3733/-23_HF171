@@ -44,6 +44,8 @@ const JudgeSignIn = () => {
       })
       .catch((error) => {
         // alert(error.response.data);
+        handleLogError(error);
+
         // case 1: 심사위원이 아닌 경우
         // alert('올바르지 않은 심사위원 ID 입니다.');
         // handleLogError(error);
