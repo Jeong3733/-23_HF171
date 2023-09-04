@@ -1,8 +1,6 @@
 package com.prototype.app_springboot.service;
 
-import com.prototype.app_springboot.data.dto.FastApiDtos.CompareResultOfFileDto;
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageInfoOfCompFileDto;
+import com.prototype.app_springboot.data.dto.FastApiDtos.*;
 import com.prototype.app_springboot.data.entity.CompFileInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.data.repository.PageInfoRepository;
@@ -15,10 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -32,6 +27,55 @@ public class FastApiService {
     public FastApiService(PageInfoRepository pageInfoRepository, PageResultInfoRepository pageResultInfoRepository) {
         this.pageInfoRepository = pageInfoRepository;
         this.pageResultInfoRepository = pageResultInfoRepository;
+    }
+
+    @Transactional
+    public ResGetFileQNA getFileQNA(ReqGetQNA reqGetFileQNA) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", String.valueOf(reqGetFileQNA.getFile_id()));
+        body.put("query", reqGetFileQNA.getQuery());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/file/qna"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResGetFileQNA.class)
+                .block();
+    }
+
+    @Transactional
+    public ResGetFileQNA getCompetitionQNA(ReqGetCompetitionQNA reqGetCompetitionFileQNA) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("competition_id", String.valueOf(reqGetCompetitionFileQNA.getCompetition_id()));
+        body.put("query", reqGetCompetitionFileQNA.getQuery());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/competitionFile/qna"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResGetFileQNA.class)
+                .block();
+    }
+
+    @Transactional
+    public ResFileReport getFileReport(ReqFileReport reqFileReport) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", reqFileReport.getFile_id());
+        body.put("page_id", reqFileReport.getPage_id());
+        body.put("comp_page_id", reqFileReport.getComp_page_id());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/file/report"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResFileReport.class)
+                .block();
     }
 
     @Transactional

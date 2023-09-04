@@ -1,10 +1,7 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
-import com.prototype.app_springboot.data.dto.FileDtos.AllFileInfoRelatedInfosDto;
-import com.prototype.app_springboot.data.dto.FileDtos.CompFileAddRequestDto;
-import com.prototype.app_springboot.data.dto.FileDtos.CompFileDto;
-import com.prototype.app_springboot.data.dto.FileDtos.FileInfoDto;
+import com.prototype.app_springboot.data.dto.FastApiDtos.*;
+import com.prototype.app_springboot.data.dto.FileDtos.*;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.service.FastApiService;
 import com.prototype.app_springboot.service.FileService;
@@ -88,5 +85,23 @@ public class FileController {
         PageContentDto pageContentDto = fastApiService.getPageContentByPageId(fileInfo);
         AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfo, pageContentDto);
         return new ResponseEntity<>(allFileInfoRelatedInfosDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/file/qna")
+    public ResponseEntity<ResGetFileQNA> getFileQNA(@RequestBody ReqGetQNA reqGetFileQNA) throws URISyntaxException {
+        ResGetFileQNA resGetFileQNA = fastApiService.getFileQNA(reqGetFileQNA);
+        return new ResponseEntity<>(resGetFileQNA, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/competitionFile/qna")
+    public ResponseEntity<ResGetFileQNA> getCompetitionQNA(@RequestBody ReqGetCompetitionQNA reqGetCompetitionQNA) throws URISyntaxException {
+        ResGetFileQNA resGetCompetitionQNA = fastApiService.getCompetitionQNA(reqGetCompetitionQNA);
+        return new ResponseEntity<>(resGetCompetitionQNA, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/file/report")
+    public ResponseEntity<ResFileReport> getFileReport(@RequestBody ReqFileReport reqFileReport) throws URISyntaxException {
+        ResFileReport resFileReport = fastApiService.getFileReport(reqFileReport);
+        return new ResponseEntity<>(resFileReport, HttpStatus.OK);
     }
 }
