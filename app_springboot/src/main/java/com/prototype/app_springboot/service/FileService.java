@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +62,12 @@ public class FileService {
     public void saveCompFile(MultipartFile compFile, CompFileAddRequestDto compFileAddRequestDto, String userId) throws URISyntaxException {
         UUID path = awsService.uploadFileListToS3(compFile);
 
+        UserInfo userInfo = userInfoRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                    throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                });
+
         CompFileInfo compFileInfo = CompFileInfo.builder()
                 .competitionName(compFileAddRequestDto.getCompetitionName())
                 .link(compFileAddRequestDto.getLink())
@@ -68,7 +75,7 @@ public class FileService {
                 .depth2(compFileAddRequestDto.getDepth2())
                 .depth3(compFileAddRequestDto.getDepth3())
                 .depth4(compFileAddRequestDto.getDepth4())
-                .userInfo(userInfoRepository.findByUserId(userId))
+                .userInfo(userInfo)
                 .path(path)
                 .fileExtension(Objects.requireNonNull(FilenameUtils.getExtension(compFile.getOriginalFilename())).toUpperCase())
                 .fileTitle(FilenameUtils.getBaseName(compFile.getOriginalFilename()))

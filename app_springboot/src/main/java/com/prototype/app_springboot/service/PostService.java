@@ -8,17 +8,20 @@ import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.repository.PostDocsRepository;
 import com.prototype.app_springboot.data.repository.PostInfoRepository;
 import com.prototype.app_springboot.data.repository.UserInfoRepository;
-import com.prototype.app_springboot.data.repository.competition.CompetitionInfoRepository;
+import com.prototype.app_springboot.data.repository.CompetitionInfoRepository;
 import com.prototype.app_springboot.data.type.BoardType;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 public class PostService {
     private final PostInfoRepository postInfoRepository;
@@ -65,7 +68,13 @@ public class PostService {
                 .orElseThrow(() ->
                         new EntityNotFoundException("해당 CompetitionId의 대회가 존재하지 않습니다.")
                 );
-        UserInfo userInfo = userInfoRepository.findByUserId(userId);
+
+        UserInfo userInfo = userInfoRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                    throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                });
+
         PostInfo postInfo = PostInfo.builder()
                 .competitionInfo(competitionInfo)
                 .userInfo(userInfo)

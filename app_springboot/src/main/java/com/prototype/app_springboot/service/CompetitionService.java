@@ -1,19 +1,13 @@
 package com.prototype.app_springboot.service;
 
 import com.prototype.app_springboot.data.dto.CompetitionDtos.AddCompetitionRequestDto;
-import com.prototype.app_springboot.data.entity.CompetitionDocs;
-import com.prototype.app_springboot.data.entity.CompetitionInfo;
-import com.prototype.app_springboot.data.entity.CompetitionType;
-import com.prototype.app_springboot.data.entity.UserByCompetition;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
-import com.prototype.app_springboot.data.repository.competition.CompetitionDocsRepository;
-import com.prototype.app_springboot.data.repository.competition.CompetitionInfoRepository;
-import com.prototype.app_springboot.data.repository.competition.CompetitionTypeRepository;
-import com.prototype.app_springboot.data.repository.competition.UserByCompetitionRepository;
+import com.prototype.app_springboot.data.entity.*;
+import com.prototype.app_springboot.data.repository.*;
 import com.prototype.app_springboot.data.type.RoleType;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,13 +38,20 @@ public class CompetitionService {
     @Transactional
     public int setUserByCompetition(String userId, int competitionId) {
         if (userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId) == null) {
+            UserInfo userInfo = userInfoRepository.findById(userId)
+                    .orElseThrow(() -> {
+                        log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                        throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                    });
+
             UserByCompetition userByCompetition = UserByCompetition.builder()
                     .competitionInfo(getCompetitionInfoByCompetitionId(competitionId))
-                    .userInfo(userInfoRepository.findByUserId(userId))
+                    .userInfo(userInfo)
                     // TODO: 나중에 팀하고 바꿔야 댐
                     .teamInfo(null)
                     .roleType(RoleType.PARTICIPANT_BASE)
                     .build();
+
             userByCompetitionRepository.save(userByCompetition);
             return 0;
         } else {
@@ -114,8 +115,14 @@ public class CompetitionService {
                 .build();
         competitionInfoRepository.save(competitionInfo);
 
+        UserInfo userInfo = userInfoRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                    throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                });
+
         UserByCompetition userByCompetition = UserByCompetition.builder()
-                .userInfo(userInfoRepository.findByUserId(userId))
+                .userInfo(userInfo)
                 .competitionInfo(competitionInfo)
                 .roleType(RoleType.CREATOR)
                 .build();
