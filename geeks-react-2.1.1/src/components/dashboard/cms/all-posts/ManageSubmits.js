@@ -47,7 +47,6 @@ const ManageSubmits = () => {
   };
 
   const [postList, setPostList] = useState([]);
-  const [judgeList, setJudgeList] = useState([]);
 
   useEffect(() => {
     // postList
@@ -82,30 +81,9 @@ const ManageSubmits = () => {
         setPostList(getPostList);
         handleLogError(error);
       });
-
-    // judgeList
-    const formDataToSend = { competitionId: competition_id };
-    apiUtils
-      .GetJudgeByCompetitionId(formDataToSend)
-      .then((response) => {
-        const getJudgeList = response.data;
-        setJudgeList(getJudgeList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getJudgeList = [
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setJudgeList(getJudgeList);
-        handleLogError(error);
-        console.log(judgeList);
-      });
   }, []);
 
-  if (postList.length !== 0 && judgeList.length !== 0) {
+  if (postList.length !== 0) {
     return (
       <Fragment>
         <Row>
@@ -124,7 +102,7 @@ const ManageSubmits = () => {
                 </Breadcrumb>
               </div>
               <div className="d-md-flex align-items-center justify-content-between">
-                <div>
+                {/* <div>
                   <Button variant="primary" onClick={handleShowJudge}>
                     심사위원 관리
                   </Button>
@@ -147,7 +125,7 @@ const ManageSubmits = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                </div>
+                </div> */}
                 <div>
                   <Button variant="primary" onClick={handleShowAdd}>
                     게시물 추가

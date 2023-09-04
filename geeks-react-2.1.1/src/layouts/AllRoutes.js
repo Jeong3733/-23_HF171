@@ -34,6 +34,7 @@ import EvaluateList from 'components/dashboard/cms/all-posts/EvaluateList';
 import EvaluateSubmitList from 'components/dashboard/cms/all-posts/EvaluateSubmitList';
 import EvaluateFileList from 'components/dashboard/cms/all-posts/EvaluateFileList';
 import EvaluateMemberList from 'components/dashboard/cms/all-posts/EvaluateMemberList';
+import EvaluateJudgeList from 'components/dashboard/cms/all-posts/EvaluateJudgeList';
 
 import EvaluatesFile from 'components/dashboard/cms/all-posts/EvaluatesFile';
 
@@ -124,6 +125,10 @@ const AllRoutes = () => {
         <Route
           path="/evaluate/:competition_id/:post_id/member/"
           element={<EvaluateMemberList />}
+        />
+        <Route
+          path="/evaluate/:competition_id/:post_id/judge/"
+          element={<EvaluateJudgeList />}
         />
       </Route>
 

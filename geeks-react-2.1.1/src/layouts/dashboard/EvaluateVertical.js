@@ -110,6 +110,12 @@ const EvaluateVertical = (props) => {
           post_id: post.post_info_id,
           link: 'member',
         },
+        {
+          id: uuid(),
+          name: '심사위원 리스트',
+          post_id: post.post_info_id,
+          link: 'judge',
+        },
       ],
     }));
   };
