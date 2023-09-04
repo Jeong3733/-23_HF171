@@ -98,10 +98,16 @@ public class FileService {
     }
 
     @Transactional
-    public void saveFile(MultipartFile file, int postId) throws URISyntaxException {
+    public void saveFile(MultipartFile file, int postId, String userId) throws URISyntaxException {
         PostInfo postInfo = postInfoRepository.findById(postId).orElseThrow(() -> {
             log.error("PostId의 : {}의 게시글이 존재하지 않습니다.", postId);
             throw new EntityNotFoundException("해당 PostId의 게시글이 존재하지 않습니다.");
+        });
+
+        UserInfo userInfo = userInfoRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                    throw new EntityNotFoundException("해당 유저를 찾을 수 없습니다.");
         });
 
         UUID path = awsService.uploadFileListToS3(file);
@@ -111,7 +117,7 @@ public class FileService {
                 .path(path)
                 .fileExtension(Objects.requireNonNull(FilenameUtils.getExtension(file.getOriginalFilename())).toUpperCase())
                 .fileTitle(FilenameUtils.getBaseName(file.getOriginalFilename()))
-                .userInfo(postInfo.getUserInfo())
+                .userInfo(userInfo)
                 .build();
 
         fileInfoRepository.save(fileInfo);

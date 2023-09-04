@@ -56,8 +56,9 @@ public class FileController {
         if (file == null || file.isEmpty()) {
             return new ResponseEntity<>("파일을 등록해주세요", HttpStatus.BAD_REQUEST);
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int postId = Integer.parseInt(postIdMap.get("postId"));
-        fileService.saveFile(file, postId);
+        fileService.saveFile(file, postId, authentication.getName());
 
         return new ResponseEntity<>("파일 등록 완료", HttpStatus.OK);
     }
