@@ -52,6 +52,9 @@ import DBUpload from 'components/dashboard/cms/all-posts/DBUpload';
 import ChatLayout from './dashboard/ChatLayout'; // ( added in v2.0.0 )
 import Chat from 'components/dashboard/chat/Chat';
 import LandingCourses from 'components/marketing/landings/landing-courses/LandingCourses';
+import JudgeSignIn from 'components/dashboard/judge/JudgeSignIn';
+
+// 심사위원 평가
 
 const AllRoutes = () => {
   return (
@@ -103,12 +106,13 @@ const AllRoutes = () => {
             element={<ItemPage />}
           />
         </Route>
+
         {/* 3.0 공모전 개설 */}
         <Route path="/add-new-competition/" element={<AddNewCourse />} />
       </Route>
 
       {/* ---------------------------------------- */}
-      {/* 4.0 평가 리스트 */}
+      {/* 4.0 평가 관리 */}
       <Route element={<EvaluateIndex />}>
         <Route
           path="/evaluate/:competition_id/"
@@ -132,15 +136,21 @@ const AllRoutes = () => {
         />
       </Route>
 
-      {/* 4.1 평가 세부 */}
+      {/* 5.0 심사위원 평가 */}
+      <Route path="/judge/" element={<JudgeSignIn />} />
+      <Route path="/judge/sign-in/" element={<JudgeSignIn />} />
+      <Route
+        path="/judge/evaluate/:judge_id/:post_id/files/"
+        element={<EvaluatesFile />}
+      />
       <Route element={<EvaluateDetailIndex />}>
         <Route
-          path="/evaluate/:competition_id/:post_id/files/:file_id/"
+          path="/judge/evaluate/:judge_id/:post_id/files/:file_id/"
           element={<EvaluatesFile />}
         />
       </Route>
 
-      {/* 5.0 관리 */}
+      {/* 6.0 관리 */}
       <Route element={<ManageIndex />}>
         <Route path="/manage/:competition_id/" element={<ManageReadme />} />
         <Route

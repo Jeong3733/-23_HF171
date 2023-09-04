@@ -29,6 +29,7 @@ export const apiUtils = {
   AddJudge,
   GetJudgeByPostId,
   GetJudgeByCompetitionId,
+  GetCheckJudge,
 };
 
 const cookies = new Cookies();
@@ -894,6 +895,17 @@ function GetJudgeByPostId(data) {
  */
 async function GetJudgeByCompetitionId(data) {
   const url = `/get/judge/competitionId`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 리스트 요청 by competitionId
+ */
+async function GetCheckJudge(data) {
+  const url = `/validate/judge`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

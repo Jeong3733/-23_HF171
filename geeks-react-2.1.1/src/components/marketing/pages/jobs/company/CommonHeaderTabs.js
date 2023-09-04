@@ -49,18 +49,18 @@ const CommonHeaderTabs = (props) => {
       isLoggedIn: true,
     },
     {
-      title: '제출',
+      title: '제출 게시판',
       link: '/detail/' + competition_id + '/submits',
       isLoggedIn: false,
     },
     {
-      title: '평가',
-      link: '/evaluate/' + competition_id,
+      title: '공모전 관리',
+      link: '/manage/' + competition_id,
       isLoggedIn: false,
     },
     {
-      title: '관리',
-      link: '/manage/' + competition_id,
+      title: '평가 관리',
+      link: '/evaluate/' + competition_id,
       isLoggedIn: false,
     },
   ];
