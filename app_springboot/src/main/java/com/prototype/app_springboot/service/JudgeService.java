@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,5 +66,15 @@ public class JudgeService {
     @Transactional
     public List<JudgeInfo> getAllJudgeInfoByPostId(int postId) {
         return judgeInfoRepository.findAllByPostInfoId(postId);
+    }
+
+    @Transactional
+    public List<JudgeInfo> getAllJudgeInfoByCompetitionId(int competitionId) {
+        List<JudgeInfo> judgeInfoList = new ArrayList<JudgeInfo>();
+        postInfoRepository.findAllByCompetitionInfoId(competitionId)
+                .forEach(postInfo -> {
+                    judgeInfoList.addAll(judgeInfoRepository.findAllByPostInfoId(postInfo.getId()));
+        });
+        return judgeInfoList;
     }
 }

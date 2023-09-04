@@ -1,5 +1,6 @@
 package com.prototype.app_springboot.controller;
 
+import com.prototype.app_springboot.data.dto.JudgeDtos.ResGetPostAndCompetitionJudge;
 import com.prototype.app_springboot.data.entity.JudgeInfo;
 import com.prototype.app_springboot.service.JudgeService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +38,24 @@ public class JudgeController {
         return new ResponseEntity<>("심사위원 삭제 완료", HttpStatus.OK);
     }
 
-    @PostMapping("/get/judge")
-    public ResponseEntity<List<JudgeInfo>> getAllJudgeByPostId(@RequestBody Map<String, Integer> postIdMap) {
+    @PostMapping("/get/judge/postId")
+    public ResponseEntity<ResGetPostAndCompetitionJudge> getAllJudgeByPostId(@RequestBody Map<String, Integer> postIdMap) {
         int postId = postIdMap.get("postId");
         List<JudgeInfo> judgeInfoList = judgeService.getAllJudgeInfoByPostId(postId);
-        return new ResponseEntity<>(judgeInfoList, HttpStatus.OK);
+        ResGetPostAndCompetitionJudge resGetPostJudge = ResGetPostAndCompetitionJudge.builder()
+                .judge_info_list(judgeInfoList)
+                .build();
+        return new ResponseEntity<>(resGetPostJudge, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/judge/competitionId")
+    public ResponseEntity<ResGetPostAndCompetitionJudge> getAllJudgeByCompetitionId(@RequestBody Map<String, Integer> competitionIdMap) {
+        int competitionId = competitionIdMap.get("competitionId");
+        List<JudgeInfo> judgeInfoList = judgeService.getAllJudgeInfoByCompetitionId(competitionId);
+        ResGetPostAndCompetitionJudge resGetPostJudge = ResGetPostAndCompetitionJudge.builder()
+                .judge_info_list(judgeInfoList)
+                .build();
+        return new ResponseEntity<>(resGetPostJudge, HttpStatus.OK);
     }
 
     @PostMapping("/validate/judge")
