@@ -35,6 +35,9 @@ public class UserInfo {
     private final List<FileInfo> fileList = new ArrayList<FileInfo>();
 
     @OneToMany(mappedBy = "userInfo")
+    private final List<EvaluationScore> evaluationScoreList = new ArrayList<EvaluationScore>();
+
+    @OneToMany(mappedBy = "userInfo")
     private final List<UserByCompetition> userByCompetitionList = new ArrayList<UserByCompetition>();
 
     @OneToMany(mappedBy = "userInfo")

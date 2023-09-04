@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,15 +19,18 @@ public class PageInfo {
     @JoinColumn(name = "file_id")
     private FileInfo fileInfo;
 
-    private String pageNum;
+    private int pageNum;
 
-    private String startIndex;
+    private int startIndex;
 
     @Column(columnDefinition = "TEXT")
     private String summary;
 
+    @OneToMany(mappedBy = "pageInfo")
+    private final List<PageResultInfo> pageResultInfoList = new java.util.ArrayList<PageResultInfo>();
+
     @Builder
-    public PageInfo(String pageId, FileInfo fileInfo, String pageNum, String startIndex, String summary) {
+    public PageInfo(String pageId, FileInfo fileInfo, int pageNum, int startIndex, String summary) {
         this.pageId = pageId;
         this.fileInfo = fileInfo;
         this.pageNum = pageNum;

@@ -1,6 +1,6 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.CompPageDto;
+import com.prototype.app_springboot.data.dto.PageDtos.CompPageDto;
 import com.prototype.app_springboot.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,8 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.PostInfoDto;
-import com.prototype.app_springboot.data.dto.PostInfoWithPostTypeDto;
+import com.prototype.app_springboot.data.dto.PostDtos.AddPostRequestDto;
+import com.prototype.app_springboot.data.dto.PostDtos.PostInfoDto;
+import com.prototype.app_springboot.data.dto.PostDtos.PostInfoWithPostTypeDto;
 import com.prototype.app_springboot.data.entity.PostInfo;
 import com.prototype.app_springboot.service.PostService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,16 @@ public class PostController {
 
     public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @PostMapping("/add/postInfo")
+    public ResponseEntity<String> addPost(
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart(value = "data") AddPostRequestDto addPostRequestDto
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        postService.addPostInfoAndPostDocs(file, addPostRequestDto, authentication.getName());
+        return new ResponseEntity<>("Post 등록이 완료되었습니다.", HttpStatus.OK);
     }
 
     @PostMapping("/get/postInfo/postId")

@@ -83,8 +83,8 @@ public class CompetitionController {
         return new ResponseEntity<>(competitionWithUserByCompDto, HttpStatus.OK);
     }
 
-    @PostMapping("/get/competitionInfo/userId")
-    public ResponseEntity<?> getCompetitionWithUserByCompListByUserId() {
+    @GetMapping("/get/competitionInfo/userId")
+    public ResponseEntity<List<CompetitionWithUserByCompDto>> getCompetitionWithUserByCompListByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // TODO: 알맞은 예외 코드 작성하기

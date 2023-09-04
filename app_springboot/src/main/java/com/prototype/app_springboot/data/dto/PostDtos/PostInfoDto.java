@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.dto;
+package com.prototype.app_springboot.data.dto.PostDtos;
 
 import com.prototype.app_springboot.data.entity.PostInfo;
 import com.prototype.app_springboot.data.type.BoardType;

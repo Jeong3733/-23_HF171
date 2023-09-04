@@ -7,8 +7,8 @@ import com.prototype.app_springboot.config.oauth.provider.NaverUserInfo;
 import com.prototype.app_springboot.config.oauth.provider.Oauth2UserInfo;
 import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.repository.UserInfoRepository;
-import com.prototype.app_springboot.data.type.SystemRoleType;
 import com.prototype.app_springboot.data.type.SocialType;
+import com.prototype.app_springboot.data.type.SystemRoleType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -59,9 +60,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2UserInfo.getEmail();
         String nickname = oAuth2UserInfo.getNickname();
 
-        UserInfo userEntity = userInfoRepository.findByUserId(username);
-        if (userEntity == null) {
-            userEntity = UserInfo.builder()
+        Optional<UserInfo> userEntity = userInfoRepository.findById(username);
+
+        if (userEntity.isEmpty()) {
+            UserInfo newUserInfoEntity = UserInfo.builder()
                     .userId(username)
                     .userName(null)
                     .password(password)
@@ -69,9 +71,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .role(SystemRoleType.USER)
                     .social(provider)
                     .build();
-            userInfoRepository.save(userEntity);
+            userInfoRepository.save(newUserInfoEntity);
+            userEntity = Optional.of(newUserInfoEntity);
         }
 
-        return new PrincipalDetails(userEntity, oAuth2User.getAttributes());
+        return new PrincipalDetails(userEntity.get(), oAuth2User.getAttributes());
     }
 }

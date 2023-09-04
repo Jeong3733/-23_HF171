@@ -37,7 +37,6 @@ public class AwsController {
         }
 
         String contentType = s3Object.getObjectMetadata().getContentType();
-        System.out.println(MediaType.parseMediaType(contentType));
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.parseMediaType(contentType));
         httpHeaders.setContentLength(file.length);

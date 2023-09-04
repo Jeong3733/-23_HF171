@@ -1,10 +1,7 @@
 package com.prototype.app_springboot.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -37,6 +34,7 @@ public class FileInfo {
 
     private UUID path;
 
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String summary;
 

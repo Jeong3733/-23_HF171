@@ -17,12 +17,12 @@ public class CompPageInfo {
     @JoinColumn(name = "file_id")
     private CompFileInfo compFileInfo;
 
-    private String pageNum;
+    private int pageNum;
 
-    private String startIndex;
+    private int startIndex;
 
     @Builder
-    public CompPageInfo(String pageId, CompFileInfo compFileInfo, String pageNum, String startIndex) {
+    public CompPageInfo(String pageId, CompFileInfo compFileInfo, int pageNum, int startIndex) {
         this.pageId = pageId;
         this.compFileInfo = compFileInfo;
         this.pageNum = pageNum;

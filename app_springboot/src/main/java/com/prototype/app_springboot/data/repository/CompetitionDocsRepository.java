@@ -1,4 +1,4 @@
-package com.prototype.app_springboot.data.repository.competition;
+package com.prototype.app_springboot.data.repository;
 
 import com.prototype.app_springboot.data.entity.CompetitionDocs;
 import com.prototype.app_springboot.data.idClass.CompetitionDocsId;

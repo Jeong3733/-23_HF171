@@ -4,10 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class PageResultInfoId implements Serializable {
-    private String pageInfo;
-    private String compPageInfo;
+public class PostDocsId implements Serializable {
+    private int postInfo;
+    private UUID path;
 }

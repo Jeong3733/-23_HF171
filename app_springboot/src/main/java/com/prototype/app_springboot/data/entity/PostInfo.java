@@ -39,16 +39,23 @@ public class PostInfo {
     private CompetitionInfo competitionInfo;
 
     @OneToMany(mappedBy = "postInfo")
-    private List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
+    private final List<JudgeInfo> judgeInfoList = new ArrayList<JudgeInfo>();
 
     @OneToMany(mappedBy = "postInfo")
-    private List<UploadPostType> uploadPostTypeList = new ArrayList<UploadPostType>();
+    private final List<EvaluationInfo> evaluationInfoList = new ArrayList<EvaluationInfo>();
 
     @OneToMany(mappedBy = "postInfo")
-    private List<PostDocs> postDocsList = new ArrayList<PostDocs>();
+    private final List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
+
+    @OneToMany(mappedBy = "postInfo")
+    private final List<UploadPostType> uploadPostTypeList = new ArrayList<UploadPostType>();
+
+    @OneToMany(mappedBy = "postInfo")
+    private final List<PostDocs> postDocsList = new ArrayList<PostDocs>();
 
     @Builder
-    public PostInfo(int id, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo, List<FileInfo> fileInfoList, List<UploadPostType> uploadPostTypeList, List<PostDocs> postDocsList) {
+
+    public PostInfo(int id, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo) {
         this.id = id;
         this.boardType = boardType;
         this.userInfo = userInfo;
@@ -56,8 +63,5 @@ public class PostInfo {
         this.contents = contents;
         this.createdDate = createdDate;
         this.competitionInfo = competitionInfo;
-        this.fileInfoList = fileInfoList;
-        this.uploadPostTypeList = uploadPostTypeList;
-        this.postDocsList = postDocsList;
     }
 }
