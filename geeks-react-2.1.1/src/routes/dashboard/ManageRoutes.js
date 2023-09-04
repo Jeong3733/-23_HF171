@@ -60,7 +60,7 @@ export const DashboardMenu = [
   },
   {
     id: uuid(),
-    title: '제출물 관리',
+    title: '제출 게시판 관리',
     icon: 'book-open',
     link: 'submits',
   },
