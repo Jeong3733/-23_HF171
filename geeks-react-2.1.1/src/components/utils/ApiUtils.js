@@ -892,9 +892,9 @@ function GetJudgeByPostId(data) {
 
 /* 심사위원 리스트 요청 by competitionId
  */
-function GetJudgeByCompetitionId(data) {
+async function GetJudgeByCompetitionId(data) {
   const url = `/get/judge/competitionId`;
-  return instance.post(url, data, {
+  return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },

@@ -49,12 +49,9 @@ import {
 import { refreshPage } from 'helper/utils';
 // import { downloadFile, s3Link } from 'helper/utils';
 
-const ManageJudgeForm = () => {
-  const { competition_id } = useParams();
-
+const ManageJudgeForm = ({ judgeList, postList }) => {
   const handleSubmit = () => {
     console.log('handleSubmit');
-    console.log(filterSelect);
     let formDataToSend = { post_id: filterSelect };
     apiUtils
       .AddJudge(formDataToSend)
@@ -70,43 +67,20 @@ const ManageJudgeForm = () => {
 
   const handleClickAdd = () => {
     console.log('handleClickAdd');
-    if (filterSelect === '') {
-      alert('심사위원을 추가할 제출 게시물을 선택해주세요.');
-    } else {
+    if (filterSelect) {
       handleSubmit();
+    } else {
+      alert('심사위원을 추가할 제출 게시물을 선택해주세요.');
     }
   };
 
-  const [judgeList, setJudgeList] = useState([]);
-
-  useEffect(() => {
-    // judgeList
-    const formDataToSend = { competitionId: competition_id };
-    apiUtils
-      .GetJudgeByCompetitionId(formDataToSend)
-      .then((response) => {
-        const getJudgeList = response.data;
-        setJudgeList(getJudgeList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getJudgeList = [
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setJudgeList(getJudgeList);
-        handleLogError(error);
-        console.log(judgeList);
-      });
-  }, []);
-
-  const data = useMemo(() => judgeList, []);
-  const filterOptions = [{ value: 'value', label: 'label' }];
+  const filterOptions = postList.map((post) => ({
+    value: post.post_info_id,
+    label: post.title,
+  }));
 
   // Create a state
-  const [filterSelect, setFilterSelect] = useState('');
+  const [filterSelect, setFilterSelect] = useState();
 
   // Update the state when Select changes
   const handleFilterChange = (e) => {
@@ -114,6 +88,11 @@ const ManageJudgeForm = () => {
     setFilter('post_id', value);
     setFilterSelect(value);
   };
+
+  function getTitleByPostId(postId) {
+    const matchingJudge = postList.find((post) => post.post_info_id === postId);
+    return matchingJudge ? matchingJudge.title : null;
+  }
 
   const columns = useMemo(
     () => [
@@ -128,7 +107,13 @@ const ManageJudgeForm = () => {
           );
         },
       },
-      { accessor: 'post_id', Header: '' },
+      {
+        accessor: 'post_id',
+        Header: '제출 게시물 Title',
+        Cell: ({ value }) => {
+          return <div className="text-inherit">{getTitleByPostId(value)}</div>;
+        },
+      },
       {
         accessor: 'options',
         Header: 'Options',
@@ -156,7 +141,7 @@ const ManageJudgeForm = () => {
   } = useTable(
     {
       columns,
-      data,
+      data: judgeList,
       initialState: {
         pageSize: 10,
         hiddenColumns: columns.map((column) => {
@@ -224,7 +209,7 @@ const ManageJudgeForm = () => {
                         </tr>
                       );
                     })}
-                    {filterSelect !== '' ? (
+                    {filterSelect && (
                       <tr>
                         <td className="align-middle " colSpan="7">
                           <div className="d-flex align-items-center">
@@ -245,7 +230,7 @@ const ManageJudgeForm = () => {
                           </div>
                         </td>
                       </tr>
-                    ) : null}
+                    )}
                   </tbody>
                 </Table>
               </div>
@@ -267,5 +252,4 @@ const ManageJudgeForm = () => {
     </Fragment>
   );
 };
-
 export default ManageJudgeForm;
