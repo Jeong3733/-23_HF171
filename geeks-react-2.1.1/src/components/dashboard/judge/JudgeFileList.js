@@ -26,7 +26,7 @@ const JudgeFileList = () => {
 
   const getFileList = () => {
     // fileList
-    alert('파일 리스트를 불러옵니다.');
+    // alert('파일 리스트를 불러옵니다.');
     const data3 = {
       postId: post_id,
     };
