@@ -40,11 +40,11 @@ const ManageSubmits = () => {
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
 
-  const [showJudge, setShowJudge] = useState(false);
-  const handleCloseJudge = () => setShowJudge(false);
-  const handleShowJudge = () => {
-    setShowJudge(true);
-  };
+  // const [showJudge, setShowJudge] = useState(false);
+  // const handleCloseJudge = () => setShowJudge(false);
+  // const handleShowJudge = () => {
+  //   setShowJudge(true);
+  // };
 
   const [postList, setPostList] = useState([]);
 

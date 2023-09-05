@@ -31,6 +31,8 @@ export const apiUtils = {
   GetJudgeByCompetitionId,
   GetCheckJudge,
   GetCheckJudgeByPostId,
+  GetEvaluationItemByPostId,
+  AddEvaluationItem,
 };
 
 const cookies = new Cookies();
@@ -914,10 +916,32 @@ async function GetCheckJudge(data) {
   });
 }
 
-/* 심사위원 검증 및 데이터 요청
+/* 심사위원 검증 by postId
  */
 async function GetCheckJudgeByPostId(data) {
   const url = `/validate/judge/postId`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 평가 항목 조회 by postId
+ */
+async function GetEvaluationItemByPostId(data) {
+  const url = `/get/eval`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 평가 항목 추가
+ */
+async function AddEvaluationItem(data) {
+  const url = `/add/eval`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

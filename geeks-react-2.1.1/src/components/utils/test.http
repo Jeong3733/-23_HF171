@@ -33,8 +33,46 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-    "postId": "2"
+    "postId": "1"
 }
+
+
+
+
+### 평가 항목 조회 by postId
+POST http://{{host}}/get/eval
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "postId": "1"
+}
+
+
+### 평가 항목 추가
+POST http://{{host}}/add/eval
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"postId" : "1",
+	"name" : "string",
+	"max" : 5
+}
+
+
+### 평가 결과 조회
+POST http://{{host}}/get/allScore
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"postId" : "1"
+}
+
+
+
+
 
 ### 게시물 정보 조회 by postId
 POST http://{{host}}/get/postInfo/postId

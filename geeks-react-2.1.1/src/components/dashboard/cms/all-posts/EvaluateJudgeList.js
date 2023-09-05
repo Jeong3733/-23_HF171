@@ -105,9 +105,9 @@ const EvaluateJudgeList = () => {
       });
 
     // judgeList
-    const formDataToSend = { competitionId: competition_id };
+    const formDataToSend = { postId: post_id };
     apiUtils
-      .GetJudgeByCompetitionId(formDataToSend)
+      .GetJudgeByPostId(formDataToSend)
       .then((response) => {
         const getJudgeList = response.data;
         setJudgeList(getJudgeList.judge_info_list);

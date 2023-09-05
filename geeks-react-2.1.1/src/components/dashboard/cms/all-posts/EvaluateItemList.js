@@ -1,33 +1,41 @@
 // import node module libraries
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link, useParams, useOutletContext } from 'react-router-dom';
-import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
+import {
+  Col,
+  Row,
+  Card,
+  Nav,
+  Tab,
+  Breadcrumb,
+  Button,
+  Modal,
+} from 'react-bootstrap';
 
 // impoort Auth module
-import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import JudgeTable from 'components/dashboard/cms/all-posts/JudgeTable';
-
-// import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
+import ItemTable from './ItemTable';
+import AddItemForm from './AddItemForm';
+import { refreshPage } from 'helper/utils';
 
 const EvaluateItemList = () => {
   const { competition_id, post_id } = useParams();
   const { isLoggedIn, Auth } = useOutletContext();
   // console.log(competition_id);
 
+  const [showAdd, setShowAdd] = useState(false);
+  const handleCloseAdd = () => {
+    setShowAdd(false);
+    refreshPage();
+  };
+  const handleShowAdd = () => setShowAdd(true);
+
   const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
-  const [judgeList, setJudgeList] = useState([]);
+  const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
     // competitionInfo
@@ -84,7 +92,7 @@ const EvaluateItemList = () => {
       postId: post_id,
     };
     apiUtils
-      .GetPostInfoByPostId(data2)
+      .GetEvaluationItemByPostId(data2)
       .then((response) => {
         const getPostInfo = response.data;
         setPostInfo(getPostInfo);
@@ -104,56 +112,89 @@ const EvaluateItemList = () => {
         handleLogError(error);
       });
 
-    // judgeList
-    const formDataToSend = { competitionId: competition_id };
+    // itemList
+    const formDataToSend = { postId: post_id };
     apiUtils
-      .GetJudgeByCompetitionId(formDataToSend)
+      .GetEvaluationItemByPostId(formDataToSend)
       .then((response) => {
-        const getJudgeList = response.data;
-        setJudgeList(getJudgeList);
+        const getItemList = response.data;
+        console.log(getItemList);
+        setItemList(getItemList.evaluation_info_list);
       })
       .catch((error) => {
         // alert(error.response.data);
-        const getJudgeList = [
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setJudgeList(getJudgeList);
+        const getItemList = {
+          judge_info_list: [
+            {
+              judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+              post_id: 1,
+            },
+            {
+              judge_id: '365e1ca6-bd3d-413d-ba09-eb31c54849e2',
+              post_id: 1,
+            },
+          ],
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setItemList(getItemList.evaluation_info_list);
         handleLogError(error);
-        console.log(judgeList);
+        console.log(itemList);
       });
   }, [isLoggedIn]);
 
-  console.log(judgeList);
-  return (
-    <Fragment>
-      <Row>
-        <Col lg={12} md={12} sm={12}>
-          <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
-            <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">평가 항목 관리</h1>
-              <Breadcrumb>
-                <Breadcrumb.Item href="#">
-                  {competitionInfo.competition_name}
-                </Breadcrumb.Item>
-                <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
-                <Breadcrumb.Item href="#">{postInfo.title}</Breadcrumb.Item>
-                <Breadcrumb.Item active>평가 항목 관리</Breadcrumb.Item>
-              </Breadcrumb>
+  console.log(itemList);
+  if (itemList.length !== 0) {
+    return (
+      <Fragment>
+        <Row>
+          <Col lg={12} md={12} sm={12}>
+            <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+              <div className="mb-3 mb-md-0">
+                <h1 className="mb-1 h2 fw-bold">평가 항목 관리</h1>
+                <Breadcrumb>
+                  <Breadcrumb.Item
+                    href={`/detail/${competitionInfo.competition_info_id}/`}
+                  >
+                    {competitionInfo.competition_name}
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>평가</Breadcrumb.Item>
+                  <Breadcrumb.Item>{postInfo.title}</Breadcrumb.Item>
+                  <Breadcrumb.Item active>평가 항목 관리</Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
+              <div className="d-md-flex align-items-center justify-content-between">
+                <div>
+                  <Button variant="primary" onClick={handleShowAdd}>
+                    평가 항목 추가
+                  </Button>
+                  <Modal show={showAdd} onHide={handleCloseAdd} size="lg">
+                    <Modal.Header closeButton>
+                      <Modal.Title>평가 항목 추가 페이지</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <AddItemForm Auth={Auth} />
+                    </Modal.Body>
+                    <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+                      <Button
+                        variant="outline-secondary"
+                        onClick={handleCloseAdd}
+                      >
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </div>
+              </div>
             </div>
-          </div>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12} md={12} sm={12}>
-          <JudgeTable table_data={judgeList} />
-        </Col>
-      </Row>
-    </Fragment>
-  );
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12} md={12} sm={12}>
+            <ItemTable table_data={itemList} />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
 };
 
 export default EvaluateItemList;
