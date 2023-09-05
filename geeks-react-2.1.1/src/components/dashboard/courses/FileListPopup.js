@@ -71,7 +71,7 @@ const FileListPopup = ({ data }) => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={data} />
+                    <FilesTable table_data={data} evaluate={true} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
                     <FilesTable table_data={allPublishedPosts} />

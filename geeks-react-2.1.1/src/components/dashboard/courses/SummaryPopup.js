@@ -17,8 +17,8 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
+// import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
+// import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
 
 // import data files
 import {

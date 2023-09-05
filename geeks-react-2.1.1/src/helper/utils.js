@@ -4,6 +4,8 @@ import { config } from 'components/utils/Constants';
  * Functions in utils
  */
 
+const baseURL = config.url.API_BASE_URL;
+
 /**
  * 빈 객체 확인
  * v1.0.0
@@ -24,15 +26,28 @@ export const refreshPage = () => {
 };
 
 /**
- * 빈 객체 확인
+ * 현재 링크 클립보드 복사
  * v1.0.0
  */
-const baseURL = config.url.API_BASE_URL;
-export const handleCopyClipBoard = async (text) => {
+export const handleCopyLinkClipBoard = async (text) => {
   try {
     await navigator.clipboard.writeText(`${baseURL}${text}`);
     console.log(`${baseURL}${text}`);
     alert('클립보드에 링크가 복사되었어요.');
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/**
+ * 현재 링크 클립보드 복사
+ * v1.0.0
+ */
+export const handleCopyTextClipBoard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(`${text}`);
+    console.log(`${text}`);
+    alert(`클립보드에 ${text}가 복사되었어요.`);
   } catch (err) {
     console.log(err);
   }

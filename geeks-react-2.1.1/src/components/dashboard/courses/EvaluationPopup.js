@@ -11,15 +11,6 @@ import {
   Breadcrumb,
 } from 'react-bootstrap';
 
-// impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
-
-// import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import PlagiarismCheckByFile from 'components/dashboard/courses/contents/FileText';
-
 // import data files
 import {
   allposts,
@@ -37,11 +28,7 @@ const EvaluationPopup = () => {
     <Fragment>
       <Row>
         <Col>
-          <div>
-            {
-              '문서(페이지) 내용과 유사한 문서(페이지)가 있는지 확인하고, 어떠한 부분에서 유사하다고 판단했는지 알려드립니다. '
-            }
-          </div>
+          <div>{'평가 페이지 '}</div>
         </Col>
       </Row>
       <Row>

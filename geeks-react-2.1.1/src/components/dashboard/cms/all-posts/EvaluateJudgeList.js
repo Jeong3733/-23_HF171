@@ -9,7 +9,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
+import JudgeTable from 'components/dashboard/cms/all-posts/JudgeTable';
 
 // import data files
 import {
@@ -20,14 +20,14 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const EvaluateFileList = () => {
+const EvaluateJudgeList = () => {
   const { competition_id, post_id } = useParams();
   const { isLoggedIn, Auth } = useOutletContext();
   // console.log(competition_id);
 
   const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
-  const [fileList, setFileList] = useState([]);
+  const [judgeList, setJudgeList] = useState([]);
 
   useEffect(() => {
     // competitionInfo
@@ -104,68 +104,49 @@ const EvaluateFileList = () => {
         handleLogError(error);
       });
 
-    // fileList
-    const data3 = {
-      postId: post_id,
-    };
-
+    // judgeList
+    const formDataToSend = { postId: post_id };
     apiUtils
-      .GetFileInfoByPostId(data3)
+      .GetJudgeByPostId(formDataToSend)
       .then((response) => {
-        const getFileList = response.data;
-        setFileList(getFileList);
+        const getJudgeList = response.data;
+        setJudgeList(getJudgeList.judge_info_list);
       })
       .catch((error) => {
-        alert(error.response.data);
-        const getFileList = [
-          {
-            file_id: 'file_id_1',
-            user_id: 'user_id_1',
-            path: 'path_1',
-            file_title: 'file_title_1',
-            file_extension: 'file_extension_1',
-            upload_datetime: 'upload_datetime_1',
-            post_info_id: 'post_info_id_1',
-          },
-          {
-            file_id: 'file_id_2',
-            user_id: 'user_id_2',
-            path: 'path_2',
-            file_title: 'file_title_2',
-            file_extension: 'file_extension_2',
-            upload_datetime: 'upload_datetime_2',
-            post_info_id: 'post_info_id_2',
-          },
-          {
-            file_id: 'file_id_3',
-            user_id: 'user_id_3',
-            path: 'path_3',
-            file_title: 'file_title_3',
-            file_extension: 'file_extension_3',
-            upload_datetime: 'upload_datetime_3',
-            post_info_id: 'post_info_id_3',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setFileList(getFileList);
+        // alert(error.response.data);
+        const getJudgeList = {
+          judge_info_list: [
+            {
+              judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+              post_id: 1,
+            },
+            {
+              judge_id: '365e1ca6-bd3d-413d-ba09-eb31c54849e2',
+              post_id: 1,
+            },
+          ],
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setJudgeList(getJudgeList.judge_info_list);
         handleLogError(error);
+        console.log(judgeList);
       });
   }, [isLoggedIn]);
 
-  console.log(fileList);
+  console.log(judgeList);
   return (
     <Fragment>
       <Row>
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">파일 리스트</h1>
+              <h1 className="mb-1 h2 fw-bold">심사위원 관리</h1>
               <Breadcrumb>
                 <Breadcrumb.Item href="#">
                   {competitionInfo.competition_name}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="#">평가</Breadcrumb.Item>
                 <Breadcrumb.Item href="#">{postInfo.title}</Breadcrumb.Item>
-                <Breadcrumb.Item active>파일 리스트</Breadcrumb.Item>
+                <Breadcrumb.Item active>심사위원 관리</Breadcrumb.Item>
               </Breadcrumb>
             </div>
           </div>
@@ -174,52 +155,11 @@ const EvaluateFileList = () => {
 
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <Tab.Container defaultActiveKey="all">
-            <Card>
-              <Card.Header className="border-bottom-0 p-0 bg-white">
-                <Nav className="nav-lb-tab">
-                  <Nav.Item>
-                    <Nav.Link eventKey="all" className="mb-sm-3 mb-md-0">
-                      전체
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
-                      평가 미완료
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
-                      평가 완료
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </Card.Header>
-              <Card.Body className="p-0">
-                <Tab.Content>
-                  <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={fileList} evaluate={false} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="undone" className="pb-0">
-                    <FilesTable
-                      table_data={allPublishedPosts}
-                      evaluate={false}
-                    />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="done" className="pb-4">
-                    <FilesTable
-                      table_data={allScheduledPosts}
-                      evaluate={false}
-                    />
-                  </Tab.Pane>
-                </Tab.Content>
-              </Card.Body>
-            </Card>
-          </Tab.Container>
+          <JudgeTable table_data={judgeList} />
         </Col>
       </Row>
     </Fragment>
   );
 };
 
-export default EvaluateFileList;
+export default EvaluateJudgeList;

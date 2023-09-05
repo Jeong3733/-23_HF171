@@ -35,7 +35,7 @@ import InfoPopup from 'components/dashboard/courses/InfoPopup';
 // import routes file
 import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 
-const EvaluateDetailVertical = ({ data }) => {
+const JudgeDetailVertical = ({ data }) => {
   const popupList = {
     FileListPopup: <FileListPopup data={data.fileList} />,
     SummaryPopup: <SummaryPopup data={data.resultData} />,
@@ -189,4 +189,4 @@ const EvaluateDetailVertical = ({ data }) => {
   );
 };
 
-export default EvaluateDetailVertical;
+export default JudgeDetailVertical;
