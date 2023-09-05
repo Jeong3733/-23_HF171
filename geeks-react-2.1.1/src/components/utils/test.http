@@ -79,12 +79,12 @@ Accept: */*
 
 {
 	"postId" : "1",
-    "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
 }
 
 
 ### [X] 심사위원 점수 입력 추가
-POST http://{{host}}/add/score
+POST http://{{host}}/update/score
 Content-Type: {{contentType}}
 Accept: */*
 
@@ -118,6 +118,14 @@ Accept: */*
       "comment": "string"
     }
   ]
+}
+### [X] 파일 디테일 조회
+POST http://{{host}}/get/fileInfo/fileId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "fileId": "56"
 }
 
 

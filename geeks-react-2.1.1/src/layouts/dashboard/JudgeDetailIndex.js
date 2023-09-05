@@ -22,62 +22,69 @@ const JudgeDetailIndex = (props) => {
   };
 
   const [fileList, setFileList] = useState([]);
-  const [resultData, setResultData] = useState({});
-
-  const getAllData = () => {
-    // fileList
-    const data3 = {
+  // loadFileList(post_id, setFileList);
+  function loadFileList() {
+    const formData = {
       postId: post_id,
     };
 
+    const sample = [
+      {
+        file_id: 'file_id_1',
+        user_id: 'user_id_1',
+        path: 'path_1',
+        file_title: 'file_title_1',
+        file_extension: 'file_extension_1',
+        upload_datetime: 'upload_datetime_1',
+        post_info_id: 'post_info_id_1',
+      },
+      {
+        file_id: 'file_id_2',
+        user_id: 'user_id_2',
+        path: 'path_2',
+        file_title: 'file_title_2',
+        file_extension: 'file_extension_2',
+        upload_datetime: 'upload_datetime_2',
+        post_info_id: 'post_info_id_2',
+      },
+      {
+        file_id: 'file_id_3',
+        user_id: 'user_id_3',
+        path: 'path_3',
+        file_title: 'file_title_3',
+        file_extension: 'file_extension_3',
+        upload_datetime: 'upload_datetime_3',
+        post_info_id: 'post_info_id_3',
+      },
+    ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
     apiUtils
-      .GetFileInfoByPostId(data3)
+      .GetFileInfoByPostId(formData)
       .then((response) => {
-        const getFileList = response.data;
-        setFileList(getFileList);
+        const getData = response.data;
+        setFileList(getData);
       })
       .catch((error) => {
-        // alert(error.response.data);
-        const getFileList = [
-          {
-            file_id: 'file_id_1',
-            user_id: 'user_id_1',
-            path: 'path_1',
-            file_title: 'file_title_1',
-            file_extension: 'file_extension_1',
-            upload_datetime: 'upload_datetime_1',
-            post_info_id: 'post_info_id_1',
-          },
-          {
-            file_id: 'file_id_2',
-            user_id: 'user_id_2',
-            path: 'path_2',
-            file_title: 'file_title_2',
-            file_extension: 'file_extension_2',
-            upload_datetime: 'upload_datetime_2',
-            post_info_id: 'post_info_id_2',
-          },
-          {
-            file_id: 'file_id_3',
-            user_id: 'user_id_3',
-            path: 'path_3',
-            file_title: 'file_title_3',
-            file_extension: 'file_extension_3',
-            upload_datetime: 'upload_datetime_3',
-            post_info_id: 'post_info_id_3',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setFileList(getFileList);
+        setFileList(sample);
         handleLogError(error);
       });
+  }
 
-    // 
+  const [fileInfo, setFileInfo] = useState({});
+  const [pageInfo, setPageInfo] = useState([]);
+  const [pageResultInfo, setPageResultInfo] = useState([]);
+  const [fileResultInfo, setFileResultInfo] = useState([]);
+  const [compFileInfo, setCompFileInfo] = useState([]);
+  const [compPageInfo, setCompPageInfo] = useState([]);
+  // loadResultData(file_id, setList);
+  function loadResultData() {
+    console.log('loadResultData');
     // resultData
-    const data5 = {
+    const formData = {
       fileId: file_id,
     };
 
-    const getResultData = {
+    const sample = {
       file_info: {
         file_id: '1',
         user_id: 'user_id',
@@ -201,49 +208,43 @@ const JudgeDetailIndex = (props) => {
         },
       ],
     }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    setResultData(getResultData);
 
     // apiUtils
-    //   .Test(data5)
+    //   .GetFileInfoByFileId(formData)
     //   .then((response) => {
-    //     const getResultData = response.data;
-    //     setResultData(getResultData);
+    //     const getData = response.data;
+
+    //     // setFileInfo(getData.file_info);
+    //     // setPageInfo(getData.page_info);
+    //     // setPageResultInfo(getData.page_result_info);
+    //     // setFileResultInfo(getData.file_result_info);
+    //     // setCompFileInfo(getData.comp_file_info);
+    //     // setCompPageInfo(getData.comp_page_info);
     //   })
     //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     const getResultData = [
-    //       {
-    //         file_id: 'file_id_1',
-    //         user_id: 'user_id_1',
-    //         path: 'path_1',
-    //         file_title: 'file_title_1',
-    //         file_extension: 'file_extension_1',
-    //         upload_datetime: 'upload_datetime_1',
-    //         post_info_id: 'post_info_id_1',
-    //       },
-    //       {
-    //         file_id: 'file_id_2',
-    //         user_id: 'user_id_2',
-    //         path: 'path_2',
-    //         file_title: 'file_title_2',
-    //         file_extension: 'file_extension_2',
-    //         upload_datetime: 'upload_datetime_2',
-    //         post_info_id: 'post_info_id_2',
-    //       },
-    //       {
-    //         file_id: 'file_id_3',
-    //         user_id: 'user_id_3',
-    //         path: 'path_3',
-    //         file_title: 'file_title_3',
-    //         file_extension: 'file_extension_3',
-    //         upload_datetime: 'upload_datetime_3',
-    //         post_info_id: 'post_info_id_3',
-    //       },
-    //     ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-    //     setResultData(getResultData);
     //     handleLogError(error);
+    //     console.log(sample);
+
+    //     // setFileInfo(sample.file_info);
+    //     // setPageInfo(sample.page_info);
+    //     // setPageResultInfo(sample.page_result_info);
+    //     // setFileResultInfo(sample.file_result_info);
+    //     // setCompFileInfo(sample.comp_file_info);
+    //     // setCompPageInfo(sample.comp_page_info);
     //   });
-  };
+
+    setFileInfo(sample.file_info);
+    setPageInfo(sample.page_info);
+    setPageResultInfo(sample.page_result_info);
+    setFileResultInfo(sample.file_result_info);
+    setCompFileInfo(sample.comp_file_info);
+    setCompPageInfo(sample.comp_page_info);
+  }
+
+  function getAllData() {
+    loadFileList();
+    loadResultData();
+  }
 
   useEffect(() => {
     // 접근 유무 확인
@@ -252,8 +253,11 @@ const JudgeDetailIndex = (props) => {
       .GetCheckJudgeByPostId(formData)
       .then((response) => {
         const check = response.data.check;
+        console.log(check);
         if (check) {
           getAllData();
+          loadFileList(post_id, setFileList);
+          // loadResultData(file_id, setList);
         } else {
           alert('심사위원 인증을 실패했습니다.');
           navigate(`/judge/sign-in/`);
@@ -269,12 +273,41 @@ const JudgeDetailIndex = (props) => {
 
         // case 2: 더미데이터를 사용하는 경우
         // alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
-        // getAllData();
+        // getFileList();
       });
   }, []);
 
-  console.log(fileList);
-  console.log(resultData);
+  const data = {
+    fileList: {
+      data: fileList,
+      setData: setFileList,
+    },
+    fileInfo: {
+      data: fileInfo,
+      setData: setFileInfo,
+    },
+    pageInfo: {
+      data: pageInfo,
+      setData: setPageInfo,
+    },
+    pageResultInfo: {
+      data: pageResultInfo,
+      setData: setPageResultInfo,
+    },
+    fileResultInfo: {
+      data: fileResultInfo,
+      setData: setFileResultInfo,
+    },
+    compFileInfo: {
+      data: compFileInfo,
+      setData: setCompFileInfo,
+    },
+    compPageInfo: {
+      data: compPageInfo,
+      setData: setCompPageInfo,
+    },
+  };
+
   return (
     <div
       id="db-wrapper"
@@ -286,7 +319,7 @@ const JudgeDetailIndex = (props) => {
         <JudgeDetailVertical
           showMenu={showMenu}
           onClick={(value) => setShowMenu(value)}
-          data={{ fileList: fileList, resultData: resultData }}
+          data={data}
         />
       </div>
       <section id="page-content">

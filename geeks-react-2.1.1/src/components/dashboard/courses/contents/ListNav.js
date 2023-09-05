@@ -21,11 +21,11 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 const ListNav = ({ data, type }) => {
-  if (type === 'file') {
-    const resData = data.file_result_info;
-  } else {
-    const resData = data.page_result_info;
-  }
+  // if (type === 'file') {
+  //   const resData = data.fileResultInfo;
+  // } else {
+  //   const resData = data.pageResultInfo;
+  // }
   return (
     <Container>
       <Tab.Container defaultActiveKey="1">
@@ -33,7 +33,7 @@ const ListNav = ({ data, type }) => {
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
             <Nav className="nav-lb-tab flex-column">
               {type === 'file'
-                ? data.file_result_info.map((result, index) => (
+                ? data.fileResultInfo.data.map((result, index) => (
                     <Nav.Item key={index} className="ms-0">
                       <Nav.Link
                         eventKey={index}
@@ -48,7 +48,7 @@ const ListNav = ({ data, type }) => {
                       </Nav.Link>
                     </Nav.Item>
                   ))
-                : data.page_result_info.map((result, index) => (
+                : data.pageResultInfo.data.map((result, index) => (
                     <Nav.Item key={index} className="ms-0">
                       <Nav.Link
                         eventKey={index}
@@ -69,7 +69,7 @@ const ListNav = ({ data, type }) => {
           <Col xl={{ span: 8, offset: 0 }} lg={8} xs={12}>
             <Tab.Content>
               {type === 'file'
-                ? data.file_result_info.map((result, index) => (
+                ? data.fileResultInfo.data.map((result, index) => (
                     <Tab.Pane
                       key={index}
                       eventKey={index}
@@ -78,7 +78,7 @@ const ListNav = ({ data, type }) => {
                       <FileText data={result} />
                     </Tab.Pane>
                   ))
-                : data.page_result_info.map((result, index) => (
+                : data.pageResultInfo.data.map((result, index) => (
                     <Tab.Pane
                       key={index}
                       eventKey={index}

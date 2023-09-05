@@ -36,11 +36,14 @@ import InfoPopup from 'components/dashboard/courses/InfoPopup';
 import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 
 const JudgeDetailVertical = ({ data }) => {
+  console.log(data);
   const popupList = {
-    FileListPopup: <FileListPopup data={data.fileList} />,
-    SummaryPopup: <SummaryPopup data={data.resultData} />,
-    DocumentQAPopup: <DocumentQAPopup data={data.resultData} />,
-    PlagiarismCheckPopup: <PlagiarismCheckPopup data={data.resultData} />,
+    FileListPopup: <FileListPopup fileList={data.fileList} />,
+    SummaryPopup: (
+      <SummaryPopup fileInfo={data.fileInfo} pageInfo={data.pageInfo} />
+    ),
+    DocumentQAPopup: <DocumentQAPopup fileInfo={data.fileInfo} />,
+    PlagiarismCheckPopup: <PlagiarismCheckPopup data={data} />,
     EvaluationPopup: <EvaluationPopup data={data.resultData} />,
     InfoPopup: <InfoPopup data={data.resultData} />,
   };
@@ -68,12 +71,11 @@ const JudgeDetailVertical = ({ data }) => {
       ...show,
       [e.target.name]: true,
     }));
-    console.log(show);
+    // console.log(show);
   };
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  console.log(data);
   return (
     <Fragment>
       <SimpleBar style={{ maxHeight: '100vh' }}>
