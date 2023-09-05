@@ -71,7 +71,7 @@ public class FastApiService {
         body.put("comp_page_id", reqFileReport.getComp_page_id());
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/get/file/report"))
+                .uri(new URI(FastApiUrl + "/function/get/page/report"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(ResFileReport.class)
@@ -113,7 +113,7 @@ public class FastApiService {
     }
 
     @Transactional
-    public PageContentDto getPageContentByPageId(FileInfo fileInfo) throws URISyntaxException {
+    public PageContentDto getPageContentByFile(FileInfo fileInfo) throws URISyntaxException {
         WebClient webClient = WebClient.create();
         List<String> pageIdList = new ArrayList<>();
 
@@ -131,9 +131,22 @@ public class FastApiService {
         Map<String, List<String>> body = new HashMap<>();
         body.put("page_id_list", pageIdList);
 
-
         return webClient.post()
                 .uri(new URI(FastApiUrl + "/function/get/compFile/pageId"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(PageContentDto.class)
+                .block();
+    }
+
+    @Transactional
+    public PageContentDto getPageContentByPageIdList(List<String> pageIdList) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+        Map<String, List<String>> body = new HashMap<>();
+        body.put("page_id_list", pageIdList);
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/file/pageId"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(PageContentDto.class)

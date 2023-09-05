@@ -2,6 +2,7 @@ package com.prototype.app_springboot.controller;
 
 import com.prototype.app_springboot.data.dto.FastApiDtos.*;
 import com.prototype.app_springboot.data.dto.FileDtos.*;
+import com.prototype.app_springboot.data.dto.FastApiDtos.ReqPageIdList;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.service.FastApiService;
 import com.prototype.app_springboot.service.FileService;
@@ -82,9 +83,15 @@ public class FileController {
     public ResponseEntity<AllFileInfoRelatedInfosDto> getFileInfoByFileId(@RequestBody Map<String, String> fileIdMap) throws URISyntaxException {
         int fileId = Integer.parseInt(fileIdMap.get("fileId"));
         FileInfo fileInfo = fileService.getFileInfoById(fileId);
-        PageContentDto pageContentDto = fastApiService.getPageContentByPageId(fileInfo);
+        PageContentDto pageContentDto = fastApiService.getPageContentByFile(fileInfo);
         AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfo, pageContentDto);
         return new ResponseEntity<>(allFileInfoRelatedInfosDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/file/pageId")
+    public ResponseEntity<PageContentDto> getPageContentList(@RequestBody ReqPageIdList pageIdList) throws URISyntaxException {
+        PageContentDto pageContentDtoList = fastApiService.getPageContentByPageIdList(pageIdList.getPage_id_list());
+        return new ResponseEntity<>(pageContentDtoList, HttpStatus.OK);
     }
 
     @PostMapping("/get/file/qna")
@@ -99,7 +106,7 @@ public class FileController {
         return new ResponseEntity<>(resGetCompetitionQNA, HttpStatus.OK);
     }
 
-    @PostMapping("/get/file/report")
+    @PostMapping("/add/page/report")
     public ResponseEntity<ResFileReport> getFileReport(@RequestBody ReqFileReport reqFileReport) throws URISyntaxException {
         ResFileReport resFileReport = fastApiService.getFileReport(reqFileReport);
         return new ResponseEntity<>(resFileReport, HttpStatus.OK);
