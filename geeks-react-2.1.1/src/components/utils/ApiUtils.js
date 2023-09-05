@@ -638,51 +638,6 @@ function GetPostInfoByBoardType(data) {
     // headers: { Authorization: bearerAccess(user) },
   });
 }
-// 게시물 요청 by BoardType - data
-// {
-//   "competitionId": "1",
-//   "boardType": "3",
-// }
-
-// 게시물 요청 by BoardType - output
-// [
-//   {
-//     "post_info_id": 2,
-//     "user_info_id": "www",
-//     "competition_info_id": 1,
-//     "board_type": "QNA",
-//     "title": "qna1",
-//     "contents": "QNA에요",
-//     "created_date": "2023-08-04T20:18:21"
-//   },
-//   {
-//     "post_info_id": 7,
-//     "user_info_id": "www",
-//     "competition_info_id": 1,
-//     "board_type": "QNA",
-//     "title": "qna1-2",
-//     "contents": "QNA에요2",
-//     "created_date": "2023-08-04T20:18:21"
-//   },
-//   {
-//     "post_info_id": 8,
-//     "user_info_id": "www",
-//     "competition_info_id": 1,
-//     "board_type": "QNA",
-//     "title": "qna1-3",
-//     "contents": "QNA에요3",
-//     "created_date": "2023-08-04T20:18:21"
-//   },
-//   {
-//     "post_info_id": 9,
-//     "user_info_id": "www",
-//     "competition_info_id": 1,
-//     "board_type": "QNA",
-//     "title": "qna1-4",
-//     "contents": "QNA에요4",
-//     "created_date": "2023-08-04T20:18:21"
-//   }
-// ]
 
 // 파일 리스트 요청 by PostId
 function GetFileInfoByPostId(data) {
@@ -735,50 +690,6 @@ function AddCompFileInfo(user, data) {
 /* GetCompPageInfo
 CompPageInfo - CompFileInfo Left Join
 */
-// [
-//   {
-//     "page_id": "aa",
-//     "comp_file_id": 2,
-//     "page_num": "344",
-//     "start_index": "234"
-//   },
-//   {
-//     "page_id": "aaa",
-//     "comp_file_id": 5,
-//     "page_num": "5",
-//     "start_index": "12"
-//   },
-//   {
-//     "page_id": "asdfsadfasdf",
-//     "comp_file_id": 2,
-//     "page_num": "2",
-//     "start_index": "333"
-//   },
-//   {
-//     "page_id": "ff",
-//     "comp_file_id": 2,
-//     "page_num": "3",
-//     "start_index": "55"
-//   },
-//   {
-//     "page_id": "fff",
-//     "comp_file_id": 3,
-//     "page_num": "12",
-//     "start_index": "122"
-//   },
-//   {
-//     "page_id": "ss",
-//     "comp_file_id": 6,
-//     "page_num": "33",
-//     "start_index": "155"
-//   },
-//   {
-//     "page_id": "sss",
-//     "comp_file_id": 4,
-//     "page_num": "2",
-//     "start_index": "333"
-//   }
-// ]
 function GetCompPageInfo(user) {
   const url = `/get/compPageInfo`;
   return instance.get(url, {
@@ -789,79 +700,6 @@ function GetCompPageInfo(user) {
   });
 }
 
-// GetCompFileInfo
-// [
-//   {
-//     "comp_file_id": 2,
-//     "competition_name": "2",
-//     "file_extension": "PNG",
-//     "file_title": "스크린샷 2023-07-22 133117",
-//     "user_id": "www",
-//     "depth1": "2",
-//     "depth2": "2",
-//     "depth3": "2",
-//     "depth4": "2",
-//     "link": "2",
-//     "path": "d15ab610-37b1-4f65-829d-898bcac81d6a",
-//     "upload_datetime": "2023-08-11T23:15:47.403195"
-//   },
-//   {
-//     "comp_file_id": 3,
-//     "competition_name": "2",
-//     "file_extension": "PNG",
-//     "file_title": "스크린샷 2023-07-22 133117",
-//     "user_id": "www",
-//     "depth1": "3",
-//     "depth2": "3",
-//     "depth3": "3",
-//     "depth4": "3",
-//     "link": "3",
-//     "path": "af389ecd-abb0-46ae-914d-71f898a0610e",
-//     "upload_datetime": "2023-08-11T23:23:15.698044"
-//   },
-//   {
-//     "comp_file_id": 4,
-//     "competition_name": "3",
-//     "file_extension": "PNG",
-//     "file_title": "스크린샷 2023-07-22 133117",
-//     "user_id": "www",
-//     "depth1": "312",
-//     "depth2": "312",
-//     "depth3": "312",
-//     "depth4": "312",
-//     "link": "312",
-//     "path": "b87b890c-3864-4c2c-b6d4-488a0ebc567d",
-//     "upload_datetime": "2023-08-11T23:23:27.972501"
-//   },
-//   {
-//     "comp_file_id": 5,
-//     "competition_name": "3",
-//     "file_extension": "PNG",
-//     "file_title": "스크린샷 2023-07-22 133117",
-//     "user_id": "www",
-//     "depth1": "3121",
-//     "depth2": "3121",
-//     "depth3": "3121",
-//     "depth4": "3121",
-//     "link": "3121",
-//     "path": "7c60b8e8-b3ff-472a-a79a-84832eed87a8",
-//     "upload_datetime": "2023-08-11T23:23:35.209539"
-//   },
-//   {
-//     "comp_file_id": 6,
-//     "competition_name": "4",
-//     "file_extension": "PNG",
-//     "file_title": "스크린샷 2023-07-22 133117",
-//     "user_id": "www",
-//     "depth1": "3121111",
-//     "depth2": "3121111",
-//     "depth3": "3121111",
-//     "depth4": "3121111",
-//     "link": "3121111",
-//     "path": "f6ac6a6c-b380-4602-86f1-2c704b52e64d",
-//     "upload_datetime": "2023-08-11T23:23:44.278861"
-//   }
-// ]
 function GetCompFileInfo(user) {
   const url = `/get/compFileInfo`;
   return instance.get(url, {
@@ -942,6 +780,29 @@ async function GetEvaluationItemByPostId(data) {
  */
 async function AddEvaluationItem(data) {
   const url = `/add/eval`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+// 심사위원 평가 페이지 - 평가
+/* 심사위원 점수 불러오기
+ */
+async function GetScore(data) {
+  const url = `/get/score`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 점수 불러오기
+ */
+async function AddScore(data) {
+  const url = `/add/score`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

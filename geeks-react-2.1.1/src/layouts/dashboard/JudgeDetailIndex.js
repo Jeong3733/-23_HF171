@@ -26,8 +26,6 @@ const JudgeDetailIndex = (props) => {
 
   const getAllData = () => {
     // fileList
-    alert('데이터를 불러옵니다.');
-    // fileList
     const data3 = {
       postId: post_id,
     };
@@ -37,38 +35,6 @@ const JudgeDetailIndex = (props) => {
       .then((response) => {
         const getFileList = response.data;
         setFileList(getFileList);
-        if (getFileList.length === 0) {
-          const getFileList = [
-            {
-              file_id: 'file_id_1',
-              user_id: 'user_id_1',
-              path: 'path_1',
-              file_title: 'file_title_1',
-              file_extension: 'file_extension_1',
-              upload_datetime: 'upload_datetime_1',
-              post_info_id: 'post_info_id_1',
-            },
-            {
-              file_id: 'file_id_2',
-              user_id: 'user_id_2',
-              path: 'path_2',
-              file_title: 'file_title_2',
-              file_extension: 'file_extension_2',
-              upload_datetime: 'upload_datetime_2',
-              post_info_id: 'post_info_id_2',
-            },
-            {
-              file_id: 'file_id_3',
-              user_id: 'user_id_3',
-              path: 'path_3',
-              file_title: 'file_title_3',
-              file_extension: 'file_extension_3',
-              upload_datetime: 'upload_datetime_3',
-              post_info_id: 'post_info_id_3',
-            },
-          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setFileList(getFileList);
-        }
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -105,6 +71,7 @@ const JudgeDetailIndex = (props) => {
         handleLogError(error);
       });
 
+    // 
     // resultData
     const data5 = {
       fileId: file_id,
@@ -297,12 +264,12 @@ const JudgeDetailIndex = (props) => {
         handleLogError(error);
 
         // case 1: 심사위원 인증 실패
-        // alert('심사위원 인증을 실패했습니다.');
-        // navigate(`/judge/sign-in/`);
+        alert('API 호출 실패했습니다.');
+        navigate(`/judge/sign-in/`);
 
         // case 2: 더미데이터를 사용하는 경우
-        alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
-        getAllData();
+        // alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
+        // getAllData();
       });
   }, []);
 
