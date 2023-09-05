@@ -68,7 +68,7 @@ async def qnaAboutFile(questionForm: ReqGetCompetitionFileQNA):
     return JSONResponse(content=resJson)
 
 
-@router.post("/get/file/report", tags=['Function'], response_model=ResFileReport)
+@router.post("/get/page/report", tags=['Function'], response_model=ResFileReport)
 async def getReportAboutFile(reqFileReport: ReqFileReport):
     resDict = initObj.createReport(reqFileReport)
     resDict = util.convert_numpy_to_list(resDict)
