@@ -77,7 +77,7 @@ const FilesTable = ({ table_data, evaluate }) => {
     );
   };
 
-  console.log(table_data);
+  // console.log(table_data);
   const columns = useMemo(
     () => [
       { accessor: 'file_info_id', Header: 'ID', show: false },

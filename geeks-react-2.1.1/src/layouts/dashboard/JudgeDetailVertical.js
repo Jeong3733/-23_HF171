@@ -36,7 +36,7 @@ import InfoPopup from 'components/dashboard/courses/InfoPopup';
 import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 
 const JudgeDetailVertical = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const popupList = {
     FileListPopup: <FileListPopup fileList={data.fileList} />,
     SummaryPopup: (
@@ -44,7 +44,7 @@ const JudgeDetailVertical = ({ data }) => {
     ),
     DocumentQAPopup: <DocumentQAPopup fileInfo={data.fileInfo} />,
     PlagiarismCheckPopup: <PlagiarismCheckPopup data={data} />,
-    EvaluationPopup: <EvaluationPopup data={data.resultData} />,
+    EvaluationPopup: <EvaluationPopup data={data} />,
     InfoPopup: <InfoPopup data={data.resultData} />,
   };
 

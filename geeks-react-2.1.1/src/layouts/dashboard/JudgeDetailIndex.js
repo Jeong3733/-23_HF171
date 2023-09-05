@@ -22,7 +22,6 @@ const JudgeDetailIndex = (props) => {
   };
 
   const [fileList, setFileList] = useState([]);
-  // loadFileList(post_id, setFileList);
   function loadFileList() {
     const formData = {
       postId: post_id,
@@ -70,13 +69,174 @@ const JudgeDetailIndex = (props) => {
       });
   }
 
+  const [itemList, setItemList] = useState([]);
+  function loadEvaluationItem() {
+    const formData = {
+      postId: post_id,
+    };
+
+    const sample = {
+      evaluation_info_list: [
+        {
+          evaluation_id: 3,
+          post_id: 1,
+          name: '테스트2',
+          max: 100,
+        },
+        {
+          evaluation_id: 4,
+          post_id: 1,
+          name: '테스트1',
+          max: 10,
+        },
+        {
+          evaluation_id: 5,
+          post_id: 1,
+          name: '테스트2',
+          max: 12,
+        },
+        {
+          evaluation_id: 6,
+          post_id: 1,
+          name: '테스트3',
+          max: 13,
+        },
+        {
+          evaluation_id: 7,
+          post_id: 1,
+          name: '테스트4',
+          max: 14,
+        },
+        {
+          evaluation_id: 8,
+          post_id: 1,
+          name: '테스트5',
+          max: 15,
+        },
+        {
+          evaluation_id: 18,
+          post_id: 1,
+          name: 'string',
+          max: 5,
+        },
+        {
+          evaluation_id: 19,
+          post_id: 1,
+          name: '평가 항목 추가',
+          max: 60,
+        },
+      ],
+    }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+    apiUtils
+      .GetEvaluationItemByPostId(formData)
+      .then((response) => {
+        const getData = response.data;
+        setItemList(getData.evaluation_info_list);
+      })
+      .catch((error) => {
+        setItemList(sample.evaluation_info_list);
+        handleLogError(error);
+      });
+  }
+
+  const [scoreList, setScoreList] = useState([]);
+  function loadScoreList() {
+    const formData = {
+      postId: post_id,
+      judgeId: judge_id,
+    };
+
+    const sample = {
+      evaluation_score_list: [
+        {
+          evaluation_id: 3,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 30,
+        },
+        {
+          evaluation_id: 4,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 4,
+        },
+        {
+          evaluation_id: 5,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 4,
+        },
+        {
+          evaluation_id: 6,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 10,
+        },
+        {
+          evaluation_id: 7,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 10,
+        },
+        {
+          evaluation_id: 8,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 10,
+        },
+        {
+          evaluation_id: 18,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: 'comment comment',
+          score: 0,
+        },
+        {
+          evaluation_id: 19,
+          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+          post_id: 1,
+          user_id: 1,
+          comment: '평가 항목 comment comment',
+          score: 40,
+        },
+      ],
+    }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+    // apiUtils
+    //   .GetScore(formData)
+    //   .then((response) => {
+    //     const getData = response.data;
+    //     setScoreList(getData.evaluation_score_list);
+    //   })
+    //   .catch((error) => {
+    //     setScoreList(sample.evaluation_score_list);
+    //     handleLogError(error);
+    //   });
+
+    setScoreList(sample.evaluation_score_list);
+    console.log(scoreList);
+  }
+
   const [fileInfo, setFileInfo] = useState({});
   const [pageInfo, setPageInfo] = useState([]);
   const [pageResultInfo, setPageResultInfo] = useState([]);
   const [fileResultInfo, setFileResultInfo] = useState([]);
   const [compFileInfo, setCompFileInfo] = useState([]);
   const [compPageInfo, setCompPageInfo] = useState([]);
-  // loadResultData(file_id, setList);
   function loadResultData() {
     console.log('loadResultData');
     // resultData
@@ -243,7 +403,9 @@ const JudgeDetailIndex = (props) => {
 
   function getAllData() {
     loadFileList();
+    loadEvaluationItem();
     loadResultData();
+    loadScoreList();
   }
 
   useEffect(() => {
@@ -253,10 +415,8 @@ const JudgeDetailIndex = (props) => {
       .GetCheckJudgeByPostId(formData)
       .then((response) => {
         const check = response.data.check;
-        console.log(check);
         if (check) {
           getAllData();
-          loadFileList(post_id, setFileList);
           // loadResultData(file_id, setList);
         } else {
           alert('심사위원 인증을 실패했습니다.');
@@ -306,8 +466,16 @@ const JudgeDetailIndex = (props) => {
       data: compPageInfo,
       setData: setCompPageInfo,
     },
+    itemList: {
+      data: itemList,
+      setData: setItemList,
+    },
+    scoreList: {
+      data: scoreList,
+      setData: setScoreList,
+    },
   };
-
+  console.log(data);
   return (
     <div
       id="db-wrapper"
