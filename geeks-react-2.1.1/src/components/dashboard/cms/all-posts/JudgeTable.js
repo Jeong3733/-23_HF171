@@ -37,7 +37,7 @@ const JudgeTable = ({ table_data }) => {
 
   const handleClick = () => {
     console.log('handleClick');
-    let formDataToSend = { post_id: post_id };
+    let formDataToSend = { postId: post_id };
     apiUtils
       .AddJudge(formDataToSend)
       .then((response) => {

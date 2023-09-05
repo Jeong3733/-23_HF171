@@ -222,7 +222,7 @@ const CommonHeaderTabs = (props) => {
                         <Button
                           to="#"
                           variant="outline-primary"
-                          // onClick={() => handleCopyClipBoard(location.pathname)}
+                          // onClick={() => handleCopyLinkClipBoard(location.pathname)}
                         >
                           링크 공유
                         </Button>

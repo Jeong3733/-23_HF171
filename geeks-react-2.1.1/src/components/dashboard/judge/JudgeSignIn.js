@@ -12,10 +12,16 @@ import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { parseJwt } from 'components/utils/JwtUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-import { isNotEmptyObj } from 'helper/utils';
+import { handleCopyTextClipBoard, isNotEmptyObj } from 'helper/utils';
 
 const JudgeSignIn = () => {
   const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    console.log('handleClick');
+    const judge_id = '32af249e-96e3-4524-a46d-c973c0d1b839';
+    handleCopyTextClipBoard(judge_id);
+  };
 
   const [formData, setFormData] = useState({
     judgeId: '',
@@ -47,19 +53,19 @@ const JudgeSignIn = () => {
         handleLogError(error);
 
         // case 1: 심사위원이 아닌 경우
-        // alert('올바르지 않은 심사위원 ID 입니다.');
-        // handleLogError(error);
-        // resetForm();
+        alert('올바르지 않은 심사위원 ID 입니다.');
+        handleLogError(error);
+        resetForm();
 
         // case 2: 더미데이터를 사용하는 경우
-        alert('더미데이터를 사용합니다.');
-        const checkJudge = {
-          post_id: 1,
-          judge_id: formData.judgeId,
-        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        navigate(
-          `/judge/evaluate/${checkJudge.judge_id}/${checkJudge.post_id}/files/`,
-        );
+        // alert('더미데이터를 사용합니다.');
+        // const checkJudge = {
+        //   post_id: 1,
+        //   judge_id: formData.judgeId,
+        // }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        // navigate(
+        //   `/judge/evaluate/${checkJudge.judge_id}/${checkJudge.post_id}/files/`,
+        // );
       });
   };
 
@@ -74,8 +80,12 @@ const JudgeSignIn = () => {
                   <Image src={Logo} className="mb-4" alt="" />
                 </Link>
                 <h1 className="mb-1 fw-bold">평가 페이지 Sign in</h1>
+                <button className="mb-1 fw-bold" onClick={handleClick}>
+                  임시 심사위원 ID 복사
+                </button>
               </div>
               {/* Form */}
+
               <Form>
                 <Form.Group className="mb-3" controlId="judgeId">
                   <Form.Label>심사위원 ID</Form.Label>

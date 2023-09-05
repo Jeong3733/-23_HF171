@@ -110,17 +110,23 @@ const EvaluateJudgeList = () => {
       .GetJudgeByCompetitionId(formDataToSend)
       .then((response) => {
         const getJudgeList = response.data;
-        setJudgeList(getJudgeList);
+        setJudgeList(getJudgeList.judge_info_list);
       })
       .catch((error) => {
         // alert(error.response.data);
-        const getJudgeList = [
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 1, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-          { competition_id: 1, post_id: 2, judge_id: 'str' },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setJudgeList(getJudgeList);
+        const getJudgeList = {
+          judge_info_list: [
+            {
+              judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+              post_id: 1,
+            },
+            {
+              judge_id: '365e1ca6-bd3d-413d-ba09-eb31c54849e2',
+              post_id: 1,
+            },
+          ],
+        }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+        setJudgeList(getJudgeList.judge_info_list);
         handleLogError(error);
         console.log(judgeList);
       });

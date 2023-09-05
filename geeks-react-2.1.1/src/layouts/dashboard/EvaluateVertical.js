@@ -124,7 +124,7 @@ const EvaluateVertical = (props) => {
         },
         {
           id: uuid(),
-          name: '평가 결과 조회',
+          name: '결과 조회',
           post_id: post.post_info_id,
           link: 'result',
         },
