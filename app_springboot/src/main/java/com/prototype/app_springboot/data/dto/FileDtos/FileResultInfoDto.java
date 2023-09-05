@@ -1,7 +1,9 @@
 package com.prototype.app_springboot.data.dto.FileDtos;
 
 import com.prototype.app_springboot.data.entity.FileResultInfo;
+import lombok.Getter;
 
+@Getter
 public class FileResultInfoDto {
     private int file_id;
     private CompFileDto comp_file;

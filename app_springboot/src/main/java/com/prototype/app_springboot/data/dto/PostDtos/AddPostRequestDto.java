@@ -17,7 +17,7 @@ public class AddPostRequestDto {
     private int postId;
     private String boardType;
     private String title;
-    private String content;
+    private String contents;
     @JsonIgnore
     private String fileTypeList;
     @JsonSetter("fileType")

@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ReqGetCompetitionQNA {
-    private int competition_id;
+    private int competitionId;
     private String query;
 }

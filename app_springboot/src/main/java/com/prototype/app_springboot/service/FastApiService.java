@@ -34,7 +34,7 @@ public class FastApiService {
         WebClient webClient = WebClient.create();
 
         Map<String, Object> body = new HashMap<>();
-        body.put("file_id", String.valueOf(reqGetFileQNA.getFile_id()));
+        body.put("file_id", reqGetFileQNA.getFileId());
         body.put("query", reqGetFileQNA.getQuery());
 
         return webClient.post()
@@ -50,7 +50,7 @@ public class FastApiService {
         WebClient webClient = WebClient.create();
 
         Map<String, Object> body = new HashMap<>();
-        body.put("competition_id", String.valueOf(reqGetCompetitionFileQNA.getCompetition_id()));
+        body.put("competition_id", String.valueOf(reqGetCompetitionFileQNA.getCompetitionId()));
         body.put("query", reqGetCompetitionFileQNA.getQuery());
 
         return webClient.post()
@@ -133,7 +133,7 @@ public class FastApiService {
 
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/compFileInfo/get/pageId"))
+                .uri(new URI(FastApiUrl + "/function/get/compFile/pageId"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(PageContentDto.class)

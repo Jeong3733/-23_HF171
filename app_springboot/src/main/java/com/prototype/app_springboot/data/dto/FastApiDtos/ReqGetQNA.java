@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ReqGetQNA {
-    private int file_id;
+    private int fileId;
     private String query;
 }
