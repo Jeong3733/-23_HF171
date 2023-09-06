@@ -321,29 +321,29 @@ const JudgeDetailIndex = (props) => {
       ],
     }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
 
-    // apiUtils
-    //   .GetFileInfoByFileId(formData)
-    //   .then((response) => {
-    //     const getData = response.data;
+    apiUtils
+      .GetFileInfoByFileId(formData)
+      .then((response) => {
+        const getData = response.data;
 
-    //     // setFileInfo(getData.file_info);
-    //     // setPageInfo(getData.page_info);
-    //     // setPageResultInfo(getData.page_result_info);
-    //     // setFileResultInfo(getData.file_result_info);
-    //     // setCompFileInfo(getData.comp_file_info);
-    //     // setCompPageInfo(getData.comp_page_info);
-    //   })
-    //   .catch((error) => {
-    //     handleLogError(error);
-    //     console.log(sample);
+        // setFileInfo(getData.file_info);
+        // setPageInfo(getData.page_info);
+        // setPageResultInfo(getData.page_result_info);
+        // setFileResultInfo(getData.file_result_info);
+        // setCompFileInfo(getData.comp_file_info);
+        // setCompPageInfo(getData.comp_page_info);
+      })
+      .catch((error) => {
+        handleLogError(error);
+        console.log(sample);
 
-    //     // setFileInfo(sample.file_info);
-    //     // setPageInfo(sample.page_info);
-    //     // setPageResultInfo(sample.page_result_info);
-    //     // setFileResultInfo(sample.file_result_info);
-    //     // setCompFileInfo(sample.comp_file_info);
-    //     // setCompPageInfo(sample.comp_page_info);
-    //   });
+        // setFileInfo(sample.file_info);
+        // setPageInfo(sample.page_info);
+        // setPageResultInfo(sample.page_result_info);
+        // setFileResultInfo(sample.file_result_info);
+        // setCompFileInfo(sample.comp_file_info);
+        // setCompPageInfo(sample.comp_page_info);
+      });
 
     setFileInfo(sample.file_info);
     setPageInfo(sample.page_info);

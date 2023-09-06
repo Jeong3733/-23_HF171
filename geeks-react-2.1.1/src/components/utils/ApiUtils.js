@@ -633,7 +633,7 @@ function GetPostInfoChkByPostId(user, data) {
 }
 
 // 게시물 요청 by BoardType
-function GetPostInfoByBoardType(data) {
+async function GetPostInfoByBoardType(data) {
   const url = `/get/postInfo/boardType`;
   return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },

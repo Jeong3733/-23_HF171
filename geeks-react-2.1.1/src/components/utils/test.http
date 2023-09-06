@@ -127,13 +127,13 @@ Accept: */*
     }
   ]
 }
-### [X] 파일 디테일 조회
+### 파일 디테일 조회
 POST http://{{host}}/get/fileInfo/fileId
 Content-Type: {{contentType}}
 Accept: */*
 
 {
-  "fileId": "56"
+  "fileId": "54"
 }
 
 
@@ -167,3 +167,14 @@ Accept: */*
 {
   "competitionId": "1"
 }
+
+### 게시물 리스트 요청 by BoardType
+POST http://{{host}}/get/postInfo/boardType
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId":1,
+  "boardType":"NOTICE"
+}
+
