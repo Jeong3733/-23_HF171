@@ -33,6 +33,8 @@ export const apiUtils = {
   GetCheckJudgeByPostId,
   GetEvaluationItemByPostId,
   AddEvaluationItem,
+  GetScore,
+  UpdateScore,
 };
 
 const cookies = new Cookies();
@@ -801,8 +803,8 @@ async function GetScore(data) {
 
 /* 심사위원 점수 불러오기
  */
-async function AddScore(data) {
-  const url = `/add/score`;
+async function UpdateScore(data) {
+  const url = `/update/score`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

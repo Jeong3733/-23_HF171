@@ -78,52 +78,28 @@ const JudgeDetailIndex = (props) => {
     const sample = {
       evaluation_info_list: [
         {
-          evaluation_id: 3,
+          evaluation_id: 1,
+          post_id: 1,
+          name: '테스트1',
+          max: 100,
+        },
+        {
+          evaluation_id: 2,
           post_id: 1,
           name: '테스트2',
-          max: 100,
+          max: 10,
+        },
+        {
+          evaluation_id: 3,
+          post_id: 1,
+          name: '테스트3',
+          max: 12,
         },
         {
           evaluation_id: 4,
           post_id: 1,
-          name: '테스트1',
-          max: 10,
-        },
-        {
-          evaluation_id: 5,
-          post_id: 1,
-          name: '테스트2',
-          max: 12,
-        },
-        {
-          evaluation_id: 6,
-          post_id: 1,
-          name: '테스트3',
-          max: 13,
-        },
-        {
-          evaluation_id: 7,
-          post_id: 1,
           name: '테스트4',
-          max: 14,
-        },
-        {
-          evaluation_id: 8,
-          post_id: 1,
-          name: '테스트5',
-          max: 15,
-        },
-        {
-          evaluation_id: 18,
-          post_id: 1,
-          name: 'string',
-          max: 5,
-        },
-        {
-          evaluation_id: 19,
-          post_id: 1,
-          name: '평가 항목 추가',
-          max: 60,
+          max: 13,
         },
       ],
     }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
@@ -150,14 +126,6 @@ const JudgeDetailIndex = (props) => {
     const sample = {
       evaluation_score_list: [
         {
-          evaluation_id: 3,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 30,
-        },
-        {
           evaluation_id: 4,
           judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
           post_id: 1,
@@ -182,28 +150,12 @@ const JudgeDetailIndex = (props) => {
           score: 10,
         },
         {
-          evaluation_id: 7,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 10,
-        },
-        {
           evaluation_id: 8,
           judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
           post_id: 1,
           user_id: 1,
           comment: 'comment comment',
           score: 10,
-        },
-        {
-          evaluation_id: 18,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 0,
         },
         {
           evaluation_id: 19,
@@ -216,19 +168,19 @@ const JudgeDetailIndex = (props) => {
       ],
     }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
 
-    // apiUtils
-    //   .GetScore(formData)
-    //   .then((response) => {
-    //     const getData = response.data;
-    //     setScoreList(getData.evaluation_score_list);
-    //   })
-    //   .catch((error) => {
-    //     setScoreList(sample.evaluation_score_list);
-    //     handleLogError(error);
-    //   });
+    apiUtils
+      .GetScore(formData)
+      .then((response) => {
+        const getData = response.data;
+        setScoreList(getData.evaluation_score_list);
+      })
+      .catch((error) => {
+        setScoreList(sample.evaluation_score_list);
+        handleLogError(error);
+      });
 
-    setScoreList(sample.evaluation_score_list);
-    console.log(scoreList);
+    // setScoreList(sample.evaluation_score_list);
+    // console.log(scoreList);
   }
 
   const [fileInfo, setFileInfo] = useState({});
