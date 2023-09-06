@@ -26,7 +26,7 @@ const AddPostForm = ({ Auth }) => {
   // if (!isLoggedIn) {
   //   navigate('/');
   // }
-  const { competition_id, post_id } = useParams();
+  const { competition_id } = useParams();
   const fileType = [
     { value: 'pdf', label: 'pdf' },
     { value: 'pptx', label: 'pptx' },
@@ -42,7 +42,6 @@ const AddPostForm = ({ Auth }) => {
       docx: false,
     },
     competitionId: competition_id,
-    postId: post_id,
     boardType: '',
     title: '',
     contents: '',
@@ -77,7 +76,6 @@ const AddPostForm = ({ Auth }) => {
         docx: false,
       },
       competitionId: competition_id,
-      postId: post_id,
       boardType: '',
       title: '',
       contents: '',
@@ -91,7 +89,8 @@ const AddPostForm = ({ Auth }) => {
       'data',
       new Blob([JSON.stringify(formData)], { type: 'application/json' }),
     );
-    if (fileData != null) {
+    if (fileData !== null) {
+      console.log('fileData is not null');
       formDataToSend.append('file', fileData);
     }
 

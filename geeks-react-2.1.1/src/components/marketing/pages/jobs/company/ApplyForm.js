@@ -38,7 +38,7 @@ const ApplyForm = ({ Auth, fileList }) => {
       'data',
       new Blob([JSON.stringify(formData)], { type: 'application/json' }),
     );
-    if (fileData != null) {
+    if (fileData !== null) {
       formDataToSend.append('file', fileData);
     }
 
