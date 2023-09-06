@@ -43,9 +43,6 @@ async def uploadInCompetitionFileInfo(fileInfo: ReqGetCompetitonFileInfo):
 
 @router.post("/get/compFile/pageId", tags=['Function'], response_model=ResPagesContents)
 async def getContentsFromCompPageInfo(pageIdList: ReqPageIdList):
-    # print(pageIdList.page_id_list)
-    # pageIdList = ["891e0716-37af-11ee-bdab-56cc850cf3c0",
-    #               "891e0770-37af-11ee-bdab-56cc850cf3c0"]
     resDict = initObj.getContentsFromCompDB(pageIdList.page_id_list)
     resDict = util.convert_numpy_to_list(resDict)
     resJson = jsonable_encoder(resDict)
@@ -54,7 +51,7 @@ async def getContentsFromCompPageInfo(pageIdList: ReqPageIdList):
 
 @router.post("/get/file/qna", tags=['Function'], response_model=ResGetFileQNA)
 async def qnaAboutFile(questionForm: ReqGetFileQNA):
-    resDict = initObj.qaAboutCompetitionFile(questionForm)
+    resDict = initObj.qaAboutFile(questionForm)
     resDict = util.convert_numpy_to_list(resDict)
     resJson = jsonable_encoder(resDict)
     return JSONResponse(content=resJson)
