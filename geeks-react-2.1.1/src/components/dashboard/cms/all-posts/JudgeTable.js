@@ -31,8 +31,9 @@ import DotBadge from 'components/elements/bootstrap/DotBadge';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { refreshPage } from 'helper/utils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadJudgeList } from 'components/utils/LoadData';
 
-const JudgeTable = ({ table_data }) => {
+const JudgeTable = ({ table_data, setJudgeList }) => {
   const { post_id } = useParams();
 
   const handleClick = () => {
@@ -42,7 +43,9 @@ const JudgeTable = ({ table_data }) => {
       .AddJudge(formDataToSend)
       .then((response) => {
         console.log(response.data);
-        refreshPage();
+        loadJudgeList(post_id).then((getData) => {
+          setJudgeList(getData.judge_info_list);
+        });
       })
       .catch((error) => {
         // alert(error.response.data);

@@ -1,7 +1,7 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { useParams, useOutletContext, useNavigate } from 'react-router-dom';
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row, Container, Card } from 'react-bootstrap';
 
 // import layouts
 import NavbarDefault from 'layouts/marketing/navbars/NavbarDefault';
@@ -42,7 +42,7 @@ const ItemPage = () => {
             competition_info_id: 1,
             board_type: 'SUBMIT',
             // board_type: 'NOTICE',
-            title: 'notice1',
+            title: 'API 에러',
             contents: '공지에요',
             created_date: '2023-08-04T20:18:21',
             upload_post_type_list: [
@@ -57,7 +57,7 @@ const ItemPage = () => {
             ],
             file_info_id: 1,
             path: '168eeb95-883d-4252-969e-d3fb93f6cf11',
-            file_title: 'sdfsdf',
+            file_title: 'API 에러',
             file_type: null,
             file_extension: 'HWP',
             upload_datetime: '2023-08-05T00:09:12',
@@ -71,7 +71,7 @@ const ItemPage = () => {
     }
   }, [post_id]);
 
-  console.log(postInfo);
+  console.log(postInfo.board_type);
   if (isNotEmptyObj(postInfo)) {
     return (
       <section className="bg-white">
@@ -86,34 +86,42 @@ const ItemPage = () => {
             </div>
           </Row>
           <Row>
-            {postInfo.board_type === 'SUBMIT' && postInfo.file_info_list ? (
-              // 업로드한 상태
-              <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
-                <ApplyForm Auth={Auth} fileList={postInfo.file_info_list} />
-              </Col>
-            ) : (
-              <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
-                <ApplyForm Auth={Auth} />
+            {postInfo.board_type === 'SUBMIT' && (
+              <Col
+                xl={{ span: 4, offset: 0 }}
+                lg={{ span: 4, offset: 0 }}
+                xs={12}
+              >
+                {postInfo.file_info_list ? ( // 제출 게시물 - 업로드한 상태
+                  <ApplyForm Auth={Auth} fileList={postInfo.file_info_list} />
+                ) : (
+                  // 제출 게시물 - 업로드 안한 상태
+                  <ApplyForm Auth={Auth} />
+                )}
               </Col>
             )}
             <Col
               xl={{
                 span: 8,
-                offset: `${postInfo.board_type === 'SUBMIT' ? 4 : 2}`,
+                offset: `${postInfo.board_type !== 'SUBMIT' && 2}`,
               }}
               lg={{
                 span: 8,
-                offset: `${postInfo.board_type === 'SUBMIT' ? 4 : 2}`,
+                offset: `${postInfo.board_type !== 'SUBMIT' && 2}`,
               }}
               xs={12}
             >
-              <div className="mb-5">
-                {/* heading */}
-                <div className="mt-2">
-                  <div className="mt-4">{postInfo.contents}</div>
-                </div>
-                {/* form to apply for this job */}
-              </div>
+              <Card className="mt-3 bg-light shadow-none">
+                <Card.Body className="p-md-4">
+                  <div className="mb-5">
+                    {/* heading */}
+                    <div className="mt-2">
+                      <div className="mt-4">{postInfo.contents}</div>
+                    </div>
+                    {/* form to apply for this job */}
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>

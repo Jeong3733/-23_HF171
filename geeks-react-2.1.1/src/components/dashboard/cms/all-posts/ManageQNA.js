@@ -28,8 +28,7 @@ import {
 } from 'data/courses/AllPostsData';
 
 // impoort Auth module
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadPostList } from 'components/utils/LoadData';
 
 const ManageQNA = () => {
   const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
@@ -40,41 +39,11 @@ const ManageQNA = () => {
   const handleShow = () => setShow(true);
 
   const [postList, setPostList] = useState([]);
-
   useEffect(() => {
-    // postList
-    const data4 = {
-      competitionId: competition_id,
-      boardType: 'QNA',
-    };
-    apiUtils
-      .GetPostInfoByBoardType(data4)
-      .then((response) => {
-        const getPostList = response.data;
-        setPostList(getPostList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getPostList = [
-          {
-            post_id: '1',
-            title: '제출 1',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-          {
-            post_id: '2',
-            title: '제출 2',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setPostList(getPostList);
-        handleLogError(error);
-      });
-  }, [competition_id]);
+    loadPostList(competition_id, 'QNA').then((postList) => {
+      setPostList(postList);
+    });
+  }, [show]);
 
   return (
     <Fragment>

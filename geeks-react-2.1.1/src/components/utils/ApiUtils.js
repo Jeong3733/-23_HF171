@@ -33,6 +33,8 @@ export const apiUtils = {
   GetCheckJudgeByPostId,
   GetEvaluationItemByPostId,
   AddEvaluationItem,
+  GetScore,
+  UpdateScore,
 };
 
 const cookies = new Cookies();
@@ -631,7 +633,7 @@ function GetPostInfoChkByPostId(user, data) {
 }
 
 // 게시물 요청 by BoardType
-function GetPostInfoByBoardType(data) {
+async function GetPostInfoByBoardType(data) {
   const url = `/get/postInfo/boardType`;
   return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
@@ -801,8 +803,8 @@ async function GetScore(data) {
 
 /* 심사위원 점수 불러오기
  */
-async function AddScore(data) {
-  const url = `/add/score`;
+async function UpdateScore(data) {
+  const url = `/update/score`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

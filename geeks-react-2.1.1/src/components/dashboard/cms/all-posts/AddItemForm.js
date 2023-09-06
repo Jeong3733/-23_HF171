@@ -19,9 +19,10 @@ import {
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import { refreshPage } from 'helper/utils';
+import { loadItemList } from 'components/utils/LoadData';
 // import { downloadFile, s3Link } from 'helper/utils';
 
-const AddItemForm = ({ Auth }) => {
+const AddItemForm = ({ Auth, setItemList }) => {
   // const navigate = useNavigate();
   // if (!isLoggedIn) {
   //   navigate('/');
@@ -56,6 +57,9 @@ const AddItemForm = ({ Auth }) => {
         const checkJudge = response.data;
         alert('평가 항목이 추가되었습니다.');
         resetForm();
+        loadItemList(post_id).then((getData) => {
+          setItemList(getData.evaluation_info_list);
+        });
       })
       .catch((error) => {
         // alert(error.response.data);

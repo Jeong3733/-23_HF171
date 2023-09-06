@@ -28,17 +28,13 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const DocumentQAPopup = ({ data }) => {
+const DocumentQAPopup = ({ fileInfo }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
   return (
     <Fragment>
-      competition_id: {competition_id}
-      <br />
-      post_id: {post_id}
-      <br />
-      data.file_info.file_id: {data.file_info.file_id}
+      file_info.data.file_id: {fileInfo.data.file_id}
       <Chat />
     </Fragment>
   );

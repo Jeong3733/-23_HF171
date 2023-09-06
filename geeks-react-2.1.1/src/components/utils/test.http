@@ -79,12 +79,12 @@ Accept: */*
 
 {
 	"postId" : "1",
-    "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
 }
 
 
-### [X] 심사위원 점수 입력 추가
-POST http://{{host}}/add/score
+### 심사위원 점수 입력 추가
+POST http://{{host}}/update/score
 Content-Type: {{contentType}}
 Accept: */*
 
@@ -96,28 +96,27 @@ Accept: */*
       "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
       "user_id": "1",
       "score": "20",
-      "comment": "string"
+      "comment": "김택관 Test 중입니다."
+    },
+    {
+      "evaluation_id": "8",
+      "post_id": "1",
+      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
+      "user_id": "1",
+      "score": "10",
+      "comment": "김택관 Test 중입니다."
     }
   ]
 }
 
 
-### [X] 제출물 파일 검사 데이터
-POST http://{{host}}/get/file/detail
+### 파일 디테일 조회
+POST http://{{host}}/get/fileInfo/fileId
 Content-Type: {{contentType}}
 Accept: */*
 
 {
-  "evaluation_score_list": [
-    {
-      "evaluation_id": "3",
-      "post_id": "1",
-      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
-      "user_id": "1",
-      "score": "20",
-      "comment": "string"
-    }
-  ]
+  "fileId": "54"
 }
 
 
@@ -133,6 +132,22 @@ Accept: */*
 {
   "postId": "1"
 }
+
+
+### 참가 인원 수 by competitionId
+POST http://{{host}}/get/userInfo/competitionId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId": "1"
+}
+
+
+
+
+
+
 
 ### 게시물 정보 조회 by postId
 POST http://{{host}}/get/postInfo/postId
@@ -151,3 +166,14 @@ Accept: */*
 {
   "competitionId": "1"
 }
+
+### 게시물 리스트 요청 by BoardType
+POST http://{{host}}/get/postInfo/boardType
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId":1,
+  "boardType":"NOTICE"
+}
+

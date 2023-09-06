@@ -32,7 +32,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { refreshPage } from 'helper/utils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
-const ItemTable = ({ table_data }) => {
+const ItemTable = ({ table_data, handleShow }) => {
   const { post_id } = useParams();
 
   const columns = useMemo(
@@ -144,7 +144,7 @@ const ItemTable = ({ table_data }) => {
                   <Button
                     variant="link"
                     className="text-muted border border-2 rounded-3 card-dashed-hover p-0"
-                    // onClick={() => {}}
+                    onClick={handleShow}
                   >
                     <div className="icon-shape icon-lg ">+</div>
                   </Button>
