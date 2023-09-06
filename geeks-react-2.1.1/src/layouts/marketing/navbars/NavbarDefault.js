@@ -28,7 +28,6 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
     query: '(min-width: 1024px)',
   });
   const [expandedMenu, setExpandedMenu] = useState(false);
-
   return (
     <Fragment>
       <Navbar

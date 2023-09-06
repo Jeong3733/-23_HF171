@@ -1,7 +1,16 @@
 // import node module libraries
 import React, { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Col, Row, Card, Nav, Button, Form, Tab } from 'react-bootstrap';
+import {
+  Col,
+  Row,
+  Card,
+  Nav,
+  Button,
+  Form,
+  Tab,
+  Spinner,
+} from 'react-bootstrap';
 
 // import sub components
 import PostsTable from './PostsTable';
@@ -82,7 +91,10 @@ const AddPostForm = ({ Auth }) => {
     });
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = () => {
+    setIsLoading(true); // Start loading
     // alert(JSON.stringify(formData));
     const formDataToSend = new FormData();
     formDataToSend.append(
@@ -103,7 +115,10 @@ const AddPostForm = ({ Auth }) => {
       .catch((error) => {
         // alert(error.response.data);
         handleLogError(error);
+      })
+      .finally(() => {
         resetForm();
+        setIsLoading(false); // Stop loading irrespective of success or failure
       });
   };
 
@@ -121,6 +136,11 @@ const AddPostForm = ({ Auth }) => {
 
   return (
     <>
+      {isLoading ? (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      ) : null}
       <Form>
         <Form.Group className="mb-3" controlId="boardType">
           <Form.Label>

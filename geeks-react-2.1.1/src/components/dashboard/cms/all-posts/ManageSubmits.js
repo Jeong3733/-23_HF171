@@ -83,117 +83,91 @@ const ManageSubmits = () => {
       });
   }, []);
 
-  if (postList.length !== 0) {
-    return (
-      <Fragment>
-        <Row>
-          <Col lg={12} md={12} sm={12}>
-            <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
-              <div className="mb-3 mb-md-0">
-                <h1 className="mb-1 h2 fw-bold">제출 게시판 관리</h1>
-                <Breadcrumb>
-                  <Breadcrumb.Item
-                    href={`/detail/${competitionInfo.competition_info_id}/`}
-                  >
-                    {competitionInfo.competition_name}
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>관리</Breadcrumb.Item>
-                  <Breadcrumb.Item active>제출 게시판 관리</Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
-              <div className="d-md-flex align-items-center justify-content-between">
-                {/* <div>
-                  <Button variant="primary" onClick={handleShowJudge}>
-                    심사위원 관리
-                  </Button>
-                  <Modal show={showJudge} onHide={handleCloseJudge} size="lg">
-                    <Modal.Header closeButton>
-                      <Modal.Title>심사위원 관리 페이지</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <ManageJudgeForm
-                        judgeList={judgeList}
-                        postList={postList}
-                      />
-                    </Modal.Body>
-                    <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
-                      <Button
-                        variant="outline-secondary"
-                        onClick={handleCloseJudge}
-                      >
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </div> */}
-                <div>
-                  <Button variant="primary" onClick={handleShowAdd}>
-                    게시물 추가
-                  </Button>
-                  <Modal show={showAdd} onHide={handleCloseAdd} size="lg">
-                    <Modal.Header closeButton>
-                      <Modal.Title>게시물 추가 페이지</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <AddPostForm Auth={Auth} />
-                    </Modal.Body>
-                    <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
-                      <Button
-                        variant="outline-secondary"
-                        onClick={handleCloseAdd}
-                      >
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </div>
+  return (
+    <Fragment>
+      <Row>
+        <Col lg={12} md={12} sm={12}>
+          <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+            <div className="mb-3 mb-md-0">
+              <h1 className="mb-1 h2 fw-bold">제출 게시판 관리</h1>
+              <Breadcrumb>
+                <Breadcrumb.Item
+                  href={`/detail/${competitionInfo.competition_info_id}/`}
+                >
+                  {competitionInfo.competition_name}
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>관리</Breadcrumb.Item>
+                <Breadcrumb.Item active>제출 게시판 관리</Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="d-md-flex align-items-center justify-content-between">
+              <div>
+                <Button variant="primary" onClick={handleShowAdd}>
+                  게시물 추가
+                </Button>
+                <Modal show={showAdd} onHide={handleCloseAdd} size="lg">
+                  <Modal.Header closeButton>
+                    <Modal.Title>게시물 추가 페이지</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <AddPostForm Auth={Auth} />
+                  </Modal.Body>
+                  <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={handleCloseAdd}
+                    >
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12} md={12} sm={12}>
-            <Tab.Container defaultActiveKey="all">
-              <Card>
-                <Card.Header className="border-bottom-0 p-0 bg-white">
-                  <Nav className="nav-lb-tab">
-                    <Nav.Item>
-                      <Nav.Link eventKey="all" className="mb-sm-3 mb-md-0">
-                        전체
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
-                        평가 미완료
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
-                        평가 완료
-                      </Nav.Link>
-                    </Nav.Item>
-                  </Nav>
-                </Card.Header>
-                <Card.Body className="p-0">
-                  <Tab.Content>
-                    <Tab.Pane eventKey="all" className="pb-0">
-                      <ManageSubmitTable table_data={postList} />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="undone" className="pb-0">
-                      <ManageSubmitTable table_data={allPublishedPosts} />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="done" className="pb-4">
-                      <ManageSubmitTable table_data={allScheduledPosts} />
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Card.Body>
-              </Card>
-            </Tab.Container>
-          </Col>
-        </Row>
-      </Fragment>
-    );
-  }
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12} md={12} sm={12}>
+          <Tab.Container defaultActiveKey="all">
+            <Card>
+              <Card.Header className="border-bottom-0 p-0 bg-white">
+                <Nav className="nav-lb-tab">
+                  <Nav.Item>
+                    <Nav.Link eventKey="all" className="mb-sm-3 mb-md-0">
+                      전체
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
+                      평가 미완료
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
+                      평가 완료
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Card.Header>
+              <Card.Body className="p-0">
+                <Tab.Content>
+                  <Tab.Pane eventKey="all" className="pb-0">
+                    <ManageSubmitTable table_data={postList} />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="undone" className="pb-0">
+                    <ManageSubmitTable table_data={allPublishedPosts} />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="done" className="pb-4">
+                    <ManageSubmitTable table_data={allScheduledPosts} />
+                  </Tab.Pane>
+                </Tab.Content>
+              </Card.Body>
+            </Card>
+          </Tab.Container>
+        </Col>
+      </Row>
+    </Fragment>
+  );
 };
 
 export default ManageSubmits;
