@@ -83,8 +83,11 @@ public class FileController {
     public ResponseEntity<AllFileInfoRelatedInfosDto> getFileInfoByFileId(@RequestBody Map<String, String> fileIdMap) throws URISyntaxException {
         int fileId = Integer.parseInt(fileIdMap.get("fileId"));
         FileInfo fileInfo = fileService.getFileInfoById(fileId);
+
         PageContentDto pageContentDto = fastApiService.getPageContentByFile(fileInfo);
-        AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfo, pageContentDto);
+        FileInfo fileInfoWithPageResult = fileService.getFileInfoById(fileId);
+
+        AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfoWithPageResult, pageContentDto);
         return new ResponseEntity<>(allFileInfoRelatedInfosDto, HttpStatus.OK);
     }
 

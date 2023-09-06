@@ -82,13 +82,13 @@ public class FastApiService {
     public CompareResultOfFileDto getCompareResultOfFile(FileInfo fileInfo) throws URISyntaxException {
         WebClient webClient = WebClient.create();
 
-        Map<String, String> body = new HashMap<>();
-        body.put("file_id", String.valueOf(fileInfo.getId()));
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", fileInfo.getId());
         body.put("file_extension", fileInfo.getFileExtension());
         body.put("path", fileInfo.getPath().toString());
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/fileInfo/update"))
+                .uri(new URI(FastApiUrl + "/function/get/file/detail"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(CompareResultOfFileDto.class)
@@ -105,7 +105,7 @@ public class FastApiService {
         body.put("path", compFileInfo.getPath().toString());
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/compFileInfo/update"))
+                .uri(new URI(FastApiUrl + "/function/get/compFile/detail"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(PageInfoOfCompFileDto.class)
