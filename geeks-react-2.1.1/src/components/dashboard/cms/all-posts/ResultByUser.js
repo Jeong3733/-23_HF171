@@ -21,8 +21,9 @@ import {
 // Import required custom components
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
+import ResultTable from './ResultTable';
 
-const ResultByUser = ({ table_data }) => {
+const ResultByUser = ({ resultList, itemList, judgeList }) => {
   const [groupUser, setGroupUser] = useState({});
   const transformGroupUserData = (arr) => {
     const result = {};
@@ -49,35 +50,27 @@ const ResultByUser = ({ table_data }) => {
   };
 
   useEffect(() => {
-    setGroupUser(transformGroupUserData(table_data));
-  }, [table_data]);
+    setGroupUser(transformGroupUserData(resultList));
+  }, [resultList]);
 
-  console.log(groupUser);
+  // console.log(groupUser);
   return (
     <Fragment>
       <Accordion defaultActiveKey={0} flush>
         <div>
           {Object.entries(groupUser).map(([userId, evaluations], index) => (
             <Accordion.Item eventKey={index} key={index}>
-              <Accordion.Header>Accordion Item #1</Accordion.Header>
-              <Accordion.Body>Accordion Item Content</Accordion.Body>
+              <Accordion.Header>최종 점수 : userId({userId}) </Accordion.Header>
+              <Accordion.Body>
+                <ResultTable
+                  evaluations={evaluations}
+                  itemList={itemList}
+                  judgeList={judgeList}
+                />
+              </Accordion.Body>
             </Accordion.Item>
           ))}
         </div>
-      </Accordion>
-      <Accordion defaultActiveKey="0" flush>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Accordion Item #1</Accordion.Header>
-          <Accordion.Body>Accordion Item Content</Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>Accordion Item #2</Accordion.Header>
-          <Accordion.Body>Accordion Item Content</Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="2">
-          <Accordion.Header>Accordion Item #3</Accordion.Header>
-          <Accordion.Body>Accordion Item Content</Accordion.Body>
-        </Accordion.Item>
       </Accordion>
     </Fragment>
   );
@@ -195,5 +188,45 @@ export default ResultByUser;
         judge_id_2: { score: 31, comment: '되나?' },
       },
     },
+  },
+];
+[
+  {
+    evaluation_id: 1,
+    post_id: 1,
+    judge_id: 'judge_id_1',
+    user_id: '1',
+    score: 11,
+    comment: '되나?',
+  },
+  {
+    evaluation_id: 2,
+    post_id: 1,
+    judge_id: 'judge_id_1',
+    user_id: '1',
+    score: 12,
+    comment: '하하하',
+  },
+  {
+    evaluation_id: 3,
+    post_id: 1,
+    judge_id: 'judge_id_1',
+    user_id: '2',
+    score: 21,
+    comment: '되나?',
+  },
+];
+
+[
+  {
+    judge_id_1: { score: 11, comment: '되나?' },
+    judge_id_2: { score: 11, comment: '되나?' },
+  },
+];
+
+[
+  {
+    length: 2,
+    total_score: 22,
   },
 ];

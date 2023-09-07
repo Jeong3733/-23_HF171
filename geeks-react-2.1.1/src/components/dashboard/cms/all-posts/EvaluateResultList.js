@@ -14,6 +14,8 @@ import ResultTable from './ResultTable';
 // import data files
 import {
   loadCompetitionInfo,
+  loadItemList,
+  loadJudgeList,
   loadPostInfo,
   loadResultList,
 } from 'components/utils/LoadData';
@@ -27,6 +29,8 @@ const EvaluateResultList = () => {
   const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
   const [resultList, setResultList] = useState([]);
+  const [itemList, setItemList] = useState([]);
+  const [judgeList, setJudgeList] = useState([]);
 
   useEffect(() => {
     // competitionInfo
@@ -43,9 +47,19 @@ const EvaluateResultList = () => {
     loadResultList(post_id).then((getData) => {
       setResultList(getData.evaluation_score_list);
     });
+
+    // itemList
+    loadItemList(post_id).then((getData) => {
+      setItemList(getData.evaluation_info_list);
+    });
+
+    loadJudgeList(post_id).then((getData) => {
+      setJudgeList(getData.judge_info_list);
+    });
   }, [isLoggedIn]);
 
   // console.log(resultList);
+  // console.log(itemList);
   return (
     <Fragment>
       <Row>
@@ -68,7 +82,11 @@ const EvaluateResultList = () => {
 
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <ResultByUser table_data={resultList} />
+          <ResultByUser
+            resultList={resultList}
+            itemList={itemList}
+            judgeList={judgeList}
+          />
         </Col>
       </Row>
     </Fragment>

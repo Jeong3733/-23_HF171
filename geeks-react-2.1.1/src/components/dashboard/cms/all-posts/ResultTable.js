@@ -1,5 +1,5 @@
 // import node module libraries
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   useTable,
   useFilters,
@@ -14,158 +14,80 @@ import { Col, Row, Dropdown, Image, Table, Button } from 'react-bootstrap';
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 
-const ResultTable = ({ table_data }) => {
-  // const { post_id } = useParams();
-
-  const handleClick = () => {
-    console.log('handleClick');
-    // let formDataToSend = { postId: post_id };
-    // apiUtils
-    //   .AddJudge(formDataToSend)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     loadJudgeList(post_id).then((getData) => {
-    //       setJudgeList(getData.judge_info_list);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     // alert(error.response.data);
-    //     handleLogError(error);
-    //   });
+const ResultTable = ({ evaluations, itemList, judgeList }) => {
+  const extractTotalScore = (judge_id) => {
+    let score = 0;
+    itemList.forEach((item) => {
+      if (evaluations[item.evaluation_id][judge_id]) {
+        score += evaluations[item.evaluation_id][judge_id].score;
+      } else {
+        return 'X';
+      }
+    });
+    return score;
   };
 
-  const columns = useMemo(
-    () => [
-      {
-        accessor: 'judge_id',
-        Header: '심사ID',
-        Cell: ({ value }) => {
-          return (
-            <Link to="#" className="text-inherit">
-              {value}
-            </Link>
-          );
-        },
-      },
-      {
-        accessor: 'options',
-        Header: 'Options',
-        Cell: ({ value, row }) => {
-          return <h3>test</h3>;
-        },
-      },
-    ],
-    [],
-  );
+  const extractMaxScore = () => {
+    let score = 0;
+    itemList.forEach((item) => {
+      if (item) {
+        score += item.max;
+      } else {
+        return 'X';
+      }
+    });
+    return score.toString();
+  };
 
-  const data = useMemo(() => table_data, [table_data]);
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    nextPage,
-    previousPage,
-    state,
-    gotoPage,
-    pageCount,
-    prepareRow,
-    // setGlobalFilter,
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: {
-        pageSize: 10,
-        hiddenColumns: columns.map((column) => {
-          if (column.show === false) return column.accessor || column.id;
-          else return false;
-        }),
-      },
-    },
-    useFilters,
-    useGlobalFilter,
-    usePagination,
-    useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        {
-          id: 'selection',
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <Checkbox {...getToggleAllRowsSelectedProps()} />
-          ),
-          Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
-        },
-        ...columns,
-      ]);
-    },
-  );
-
-  const { pageIndex, globalFilter } = state;
+  const searchItemName = (evaluation_id) => {
+    const foundItem = itemList.find(
+      (item) => item.evaluation_id === evaluation_id,
+    );
+    if (foundItem) {
+      return { name: foundItem.name, max: foundItem.max };
+    }
+    return { name: 'X', max: 'X' };
+  };
 
   return (
     <Fragment>
-      <div className="table-responsive border-0 overflow-y-hidden">
-        <Table
-          hover
-          {...getTableProps()}
-          className="text-nowrap table-centered"
-        >
-          <thead className="table-light">
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render('Header')}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
+      <Table className="text-nowrap">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            {itemList.map((item, index) => {
+              const search = searchItemName(item.evaluation_id);
               return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    );
-                  })}
-                </tr>
+                <th scope="col" key={index}>
+                  {search.name + '/' + search.max}
+                </th>
               );
             })}
-            {/* <tr>
-              <td className="align-middle " colSpan="7">
-                <div className="d-flex align-items-center">
-                  <Button
-                    variant="link"
-                    className="text-muted border border-2 rounded-3 card-dashed-hover p-0"
-                    onClick={handleClick}
-                  >
-                    <div className="icon-shape icon-lg ">+</div>
-                  </Button>
-                  <div className="ms-3">
-                    <h4 className="mb-0">
-                      <div className="text-inherit">심사위원 추가</div>
-                    </h4>
-                  </div>
-                </div>
-              </td>
-            </tr> */}
-          </tbody>
-        </Table>
-      </div>
-
-      {/* Pagination @ Footer */}
-      <Pagination
-        previousPage={previousPage}
-        pageCount={pageCount}
-        pageIndex={pageIndex}
-        gotoPage={gotoPage}
-        nextPage={nextPage}
-      />
+            <th scope="col">{'총점/' + extractMaxScore()}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {judgeList.map((judge, index) => (
+            <tr key={index}>
+              <th scope="col" key={index}>
+                {judge.judge_id.substr(0, 8) + '-...'}
+              </th>
+              {itemList.map((item, index) =>
+                evaluations[item.evaluation_id][judge.judge_id] ? (
+                  <td scope="col" key={index}>
+                    {evaluations[item.evaluation_id][judge.judge_id].score}
+                  </td>
+                ) : (
+                  <td scope="col" key={index}>
+                    X
+                  </td>
+                ),
+              )}
+              <td scope="col">총점 : {extractTotalScore(judge.judge_id)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </Fragment>
   );
 };

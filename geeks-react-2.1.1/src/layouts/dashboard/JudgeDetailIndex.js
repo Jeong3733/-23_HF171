@@ -290,7 +290,7 @@ const JudgeDetailIndex = (props) => {
 
     const samp_file_info = {
       file_id: 54,
-      user_id: 'www',
+      user_id: '1',
       file_title: '제10회 SW개발보안 경진대회_사전교육_메타버스_접속방법안내',
       file_extension: 'PDF',
       path: 'fbaf2aac-738e-4bfc-8270-9027931f9aa8',
