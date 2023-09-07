@@ -3,6 +3,7 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
+@judge_id = "106e0236-4ec7-4f43-9734-71da3aeaacc0"
 ###
 # @prompt username
 # @prompt refCode Your reference code display on webpage
@@ -72,6 +73,17 @@ Accept: */*
 
 #######################################
 
+### 심사위원 검증 by judgeId
+POST http://{{host}}/validate/judge
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "judgeId" : {{judge_id}}
+}
+
+
+
 ### 심사위원 평가 조회 by judgeId / postId
 POST http://{{host}}/get/score
 Content-Type: {{contentType}}
@@ -79,10 +91,8 @@ Accept: */*
 
 {
 	"postId" : "1",
-  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+  "judgeId" : {{judge_id}}
 }
-
-
 ### 심사위원 평가 조회 by judgeId / fileId
 POST http://{{host}}/get/score/fileId
 Content-Type: {{contentType}}
@@ -94,7 +104,6 @@ Accept: */*
 }
 
 
-
 ### 심사위원 점수 입력 추가
 POST http://{{host}}/update/score
 Content-Type: {{contentType}}
@@ -103,17 +112,17 @@ Accept: */*
 {
   "evaluation_score_list": [
     {
-      "evaluation_id": "33",
-      "post_id": "17",
-      "judge_id": "f312207e-1593-40c3-b59d-50de534a3c9a",
+      "evaluation_id": "3",
+      "post_id": "1",
+      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
       "user_id": "1",
       "score": "20",
-      "comment": "더ㅔㅈㄴ."
+      "comment": "김택관 Test 중입니다."
     },
     {
-      "evaluation_id": "34",
-      "post_id": "17",
-      "judge_id": "f312207e-1593-40c3-b59d-50de534a3c9a",
+      "evaluation_id": "8",
+      "post_id": "1",
+      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
       "user_id": "1",
       "score": "10",
       "comment": "김택관 Test 중입니다."
@@ -156,9 +165,14 @@ Accept: */*
 }
 
 
+### 파일 정보 by fileId
+POST http://{{host}}/get/fileInfo/fileId
+Content-Type: {{contentType}}
+Accept: */*
 
-
-
+{
+  "fileId": "74"
+}
 
 
 ### 게시물 정보 조회 by postId
