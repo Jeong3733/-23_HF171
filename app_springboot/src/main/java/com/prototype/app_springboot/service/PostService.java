@@ -23,14 +23,16 @@ public class PostService {
     private final UploadPostTypeRepository uploadPostTypeRepository;
     private final CompetitionInfoRepository competitionInfoRepository;
     private final PostDocsRepository postDocsRepository;
+    private final UserByCompetitionRepository userByCompetitionRepository;
     private final AwsService awsService;
 
-    public PostService(PostInfoRepository postInfoRepository, UserInfoRepository userInfoRepository, UploadPostTypeRepository uploadPostTypeRepository, CompetitionInfoRepository competitionInfoRepository, PostDocsRepository postDocsRepository, AwsService awsService) {
+    public PostService(PostInfoRepository postInfoRepository, UserInfoRepository userInfoRepository, UploadPostTypeRepository uploadPostTypeRepository, CompetitionInfoRepository competitionInfoRepository, PostDocsRepository postDocsRepository, UserByCompetitionRepository userByCompetitionRepository, AwsService awsService) {
         this.postInfoRepository = postInfoRepository;
         this.userInfoRepository = userInfoRepository;
         this.uploadPostTypeRepository = uploadPostTypeRepository;
         this.competitionInfoRepository = competitionInfoRepository;
         this.postDocsRepository = postDocsRepository;
+        this.userByCompetitionRepository = userByCompetitionRepository;
         this.awsService = awsService;
     }
 
@@ -44,7 +46,21 @@ public class PostService {
 
     @Transactional
     public PostInfo getPostInfoByPostIdAndUserId(int postId, String userId) {
-        return postInfoRepository.findByIdAndUserInfoUserId(postId, userId);
+        PostInfo postInfo = postInfoRepository.findById(postId)
+                .orElseThrow(() -> {
+                    log.error("PostId : {}의 게시글이 존재하지 않습니다.", postId);
+                    throw new EntityNotFoundException("해당 PostId의 게시글이 존재하지 않습니다.");
+                });
+
+        int competitionId = postInfo.getCompetitionInfo().getId();
+
+        boolean isExists = userByCompetitionRepository.existsByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId);
+        if (isExists) {
+            return postInfo;
+        } else {
+            log.error("UserId : {}의 유저가 CompetitionId : {}의 대회에 참가하지 않았습니다.", userId, competitionId);
+            throw new EntityNotFoundException("해당 유저가 해당 대회에 참가하지 않았습니다.");
+        }
     }
 
     @Transactional

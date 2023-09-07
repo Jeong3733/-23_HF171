@@ -98,13 +98,14 @@ public class EvaluationService {
                         throw new EntityNotFoundException("해당 JudgeId의 심사위원이 존재하지 않습니다.");
                     });
 
-            UserInfo userInfo = userInfoRepository.findById(evaluationScoreDto.getUser_id())
+            String userId = evaluationScoreDto.getUser_id();
+            UserInfo userInfo = userInfoRepository.findById(userId)
                     .orElseThrow(() -> {
                         log.error("UserId : {}의 사용자가 존재하지 않습니다.", evaluationScoreDto.getUser_id());
                         throw new EntityNotFoundException("해당 UserId의 사용자가 존재하지 않습니다.");
                     });
 
-            Optional<EvaluationScore> evaluationScoreOptional = evaluationScoreRepository.findByPostInfoIdAndEvaluationInfoIdAndJudgeInfoId(postId, evalId, judgeId);
+            Optional<EvaluationScore> evaluationScoreOptional = evaluationScoreRepository.findByPostInfoIdAndEvaluationInfoIdAndJudgeInfoIdAndUserInfo_UserId(postId, evalId, judgeId, userId);
 
             if (evaluationScoreOptional.isEmpty()) {
                 EvaluationScore evaluationScore = EvaluationScore.builder()
