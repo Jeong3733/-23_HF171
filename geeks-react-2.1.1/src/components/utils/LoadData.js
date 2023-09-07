@@ -417,6 +417,64 @@ export async function getPageReport(file_id, page_id, comp_page_id) {
     });
 }
 
+/* 유저 정보 by userId */
+export async function getUserInfo(user_id) {
+  const formDataToSend = {
+    userId: user_id,
+  };
+  const sample = {
+    user_id: '1',
+    email: 'email',
+    role: 'ADMIN',
+    user_name: '홍길동',
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetUserInfo(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 유저 정보 리스트by userIdList */
+export async function getUserInfoList(user_id_list) {
+  const formDataToSend = {
+    user_id_list: user_id_list,
+  };
+  const sample = [
+    {
+      user_id: '1',
+      email: 'email',
+      role: 'ADMIN',
+      user_name: '홍길동',
+    },
+    {
+      user_id: '1',
+      email: 'email',
+      role: 'ADMIN',
+      user_name: '홍길동',
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetUserInfoList(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
 // loadSample(competition_id).then((getData) => {
 //   setPostList(getData);
 // });

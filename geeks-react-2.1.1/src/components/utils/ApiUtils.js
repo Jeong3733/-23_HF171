@@ -40,6 +40,8 @@ export const apiUtils = {
   GetCompetitionFileQNA,
   GetPageReport,
   GetAllScore,
+  GetUserInfo,
+  GetUserInfoList,
 };
 
 const cookies = new Cookies();
@@ -200,6 +202,22 @@ data = {
 */
 function GetUseInforByCompetitionId(data) {
   const url = `/get/userInfo/competitionId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+  });
+}
+
+/* 유저 정보 by userId */
+function GetUserInfo(data) {
+  const url = `/get/userInfo/userId`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
+  });
+}
+
+/* 유저 정보 by userIdList */
+function GetUserInfoList(data) {
+  const url = `/get/userInfo/userIdList`;
   return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
   });

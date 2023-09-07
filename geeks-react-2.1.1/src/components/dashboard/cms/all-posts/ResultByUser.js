@@ -22,6 +22,8 @@ import {
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import ResultTable from './ResultTable';
+import { getUserInfo, getUserInfoList } from 'components/utils/LoadData';
+// import { getUserName } from 'components/utils/LoadData';
 
 const ResultByUser = ({ resultList, itemList, judgeList }) => {
   const [groupUser, setGroupUser] = useState({});
@@ -49,31 +51,99 @@ const ResultByUser = ({ resultList, itemList, judgeList }) => {
     return result;
   };
 
+  const calcScore = () => {
+    if (resultList.length === 0) {
+      return {};
+    } else {
+      return resultList.reduce((acc, item) => {
+        // user_id 별 score 합계
+        if (!acc[item.user_id]) {
+          acc[item.user_id] = { totalScore: 0, evaluations: {} };
+        }
+
+        // evaluation_id 별 score 합계
+        if (!acc[item.user_id].evaluations[item.evaluation_id]) {
+          acc[item.user_id].evaluations[item.evaluation_id] = 0;
+        }
+
+        acc[item.user_id].evaluations[item.evaluation_id] += item.score;
+        acc[item.user_id].totalScore += item.score;
+
+        return acc;
+      }, {});
+    }
+  };
+
+  const extractMaxScore = () => {
+    let score = 0;
+    itemList.forEach((item) => {
+      if (item) {
+        score += item.max;
+      } else {
+        return '-';
+      }
+    });
+    return score.toString();
+  };
+
+  const [userList, setUserList] = useState([]);
+  const [userInfoList, setUserInfoList] = useState({});
+  const [calcScoreList, setCalcScoreList] = useState({});
+  const [maxScore, setMaxScore] = useState(0);
+
   useEffect(() => {
     setGroupUser(transformGroupUserData(resultList));
+    setUserList([...new Set(resultList.map((item) => item.user_id))]);
+
+    getUserInfoList(userList).then((getData) => {
+      setUserInfoList(getData);
+    });
+    setCalcScoreList(calcScore());
+    setMaxScore(extractMaxScore());
   }, [resultList]);
 
-  // console.log(groupUser);
-  return (
-    <Fragment>
-      <Accordion defaultActiveKey={0} flush>
-        <div>
-          {Object.entries(groupUser).map(([userId, evaluations], index) => (
-            <Accordion.Item eventKey={index} key={index}>
-              <Accordion.Header>최종 점수 : userId({userId}) </Accordion.Header>
-              <Accordion.Body>
-                <ResultTable
-                  evaluations={evaluations}
-                  itemList={itemList}
-                  judgeList={judgeList}
-                />
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
-        </div>
-      </Accordion>
-    </Fragment>
-  );
+  const getUserName = (user_id) => {
+    if (userInfoList.length === 0) {
+      return 'X';
+    } else {
+      const foundUser = userInfoList.find((user) => user.user_id === user_id);
+      if (foundUser) {
+        return foundUser.user_name;
+      }
+      return 'X';
+    }
+  };
+
+  console.log(calcScoreList);
+  if (userList.length !== 0) {
+    if (userList.length === userInfoList.length) {
+      return (
+        <Fragment>
+          <Accordion defaultActiveKey={0} flush>
+            <div>
+              {Object.entries(groupUser).map(([userId, evaluations], index) => (
+                <Accordion.Item eventKey={index} key={index}>
+                  <Accordion.Header>
+                    | {getUserName(userId)} | {calcScoreList[userId].totalScore}
+                    점
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <ResultTable
+                      evaluations={evaluations}
+                      itemList={itemList}
+                      judgeList={judgeList}
+                      calcScoreItem={calcScoreList[userId]}
+                      maxScore={maxScore}
+                    />
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </div>
+          </Accordion>
+        </Fragment>
+      );
+    }
+  }
 };
 
 export default ResultByUser;
