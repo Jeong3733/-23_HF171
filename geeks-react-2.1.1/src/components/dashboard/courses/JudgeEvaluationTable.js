@@ -13,78 +13,14 @@ import {
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadScoreFile } from 'components/utils/LoadData';
 
 const JudgeEvaluationTable = ({ table_data }) => {
-  const { judge_id, post_id } = useParams();
+  const { judge_id, post_id, file_id } = useParams();
 
   const scoreList = table_data.scoreList.data;
   const setScoreList = table_data.scoreList.setData;
 
-  function loadScoreList() {
-    const formData = {
-      postId: post_id,
-      judgeId: judge_id,
-    };
-
-    const sample = {
-      evaluation_score_list: [
-        {
-          evaluation_id: 4,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '변경완료',
-          score: 4,
-        },
-        {
-          evaluation_id: 5,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '변경완료',
-          score: 4,
-        },
-        {
-          evaluation_id: 6,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '변경완료',
-          score: 10,
-        },
-        {
-          evaluation_id: 8,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '변경완료',
-          score: 10,
-        },
-        {
-          evaluation_id: 19,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '평가 항목 comment comment',
-          score: 40,
-        },
-      ],
-    }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-
-    apiUtils
-      .GetScore(formData)
-      .then((response) => {
-        const getData = response.data;
-        setScoreList(getData.evaluation_score_list);
-      })
-      .catch((error) => {
-        setScoreList(sample.evaluation_score_list);
-        handleLogError(error);
-      });
-
-    // setScoreList(sample.evaluation_score_list);
-    // console.log(scoreList);
-  }
   const itemList = table_data.itemList.data;
 
   const [formData, setFormData] = useState([]);
@@ -116,13 +52,15 @@ const JudgeEvaluationTable = ({ table_data }) => {
       .UpdateScore(reqData)
       .then((response) => {
         const getData = response.data;
-        loadScoreList();
+
+        loadScoreFile(file_id, judge_id).then((getData) => {
+          setScoreList(getData.evaluation_score_list);
+        });
       })
       .catch((error) => {
-        // console.log(error.message);
-        // handleLogError(error);
+        console.log(error.message);
+        handleLogError(error);
         // 임시 데이터
-        loadScoreList();
       });
     console.log(reqData);
   };

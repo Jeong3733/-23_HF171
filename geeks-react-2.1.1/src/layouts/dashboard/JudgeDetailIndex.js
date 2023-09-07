@@ -10,6 +10,7 @@ import HeaderDefault from './HeaderDefault';
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadScoreFile, loadScorePost } from 'components/utils/LoadData';
 
 const JudgeDetailIndex = (props) => {
   const { children, className, overflowHidden } = props;
@@ -117,71 +118,6 @@ const JudgeDetailIndex = (props) => {
   }
 
   const [scoreList, setScoreList] = useState([]);
-  function loadScoreList() {
-    const formData = {
-      postId: post_id,
-      judgeId: judge_id,
-    };
-
-    const sample = {
-      evaluation_score_list: [
-        {
-          evaluation_id: 4,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 4,
-        },
-        {
-          evaluation_id: 5,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 4,
-        },
-        {
-          evaluation_id: 6,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 10,
-        },
-        {
-          evaluation_id: 8,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: 'comment comment',
-          score: 10,
-        },
-        {
-          evaluation_id: 19,
-          judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
-          post_id: 1,
-          user_id: 1,
-          comment: '평가 항목 comment comment',
-          score: 40,
-        },
-      ],
-    }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-
-    apiUtils
-      .GetScore(formData)
-      .then((response) => {
-        const getData = response.data;
-        setScoreList(getData.evaluation_score_list);
-      })
-      .catch((error) => {
-        setScoreList(sample.evaluation_score_list);
-        handleLogError(error);
-      });
-
-    // setScoreList(sample.evaluation_score_list);
-    // console.log(scoreList);
-  }
 
   const [fileInfo, setFileInfo] = useState({});
   const [pageInfo, setPageInfo] = useState([]);
@@ -351,13 +287,27 @@ const JudgeDetailIndex = (props) => {
     setFileResultInfo(sample.file_result_info);
     setCompFileInfo(sample.comp_file_info);
     setCompPageInfo(sample.comp_page_info);
-  }
 
+    const samp_file_info = {
+      file_id: 54,
+      user_id: 'www',
+      file_title: '제10회 SW개발보안 경진대회_사전교육_메타버스_접속방법안내',
+      file_extension: 'PDF',
+      path: 'fbaf2aac-738e-4bfc-8270-9027931f9aa8',
+      summary: 'output_summary',
+      upload_datetime: '2023-08-16T17:27:56.847112',
+    };
+    setFileInfo(samp_file_info);
+  }
   function getAllData() {
     loadFileList();
     loadEvaluationItem();
     loadResultData();
-    loadScoreList();
+
+    // Score
+    loadScoreFile(file_id, judge_id).then((getData) => {
+      setScoreList(getData.evaluation_score_list);
+    });
   }
 
   useEffect(() => {

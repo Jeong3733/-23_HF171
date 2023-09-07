@@ -19,7 +19,7 @@ const JudgeSignIn = () => {
 
   const handleClick = (e) => {
     console.log('handleClick');
-    const judge_id = '32af249e-96e3-4524-a46d-c973c0d1b839';
+    const judge_id = 'f312207e-1593-40c3-b59d-50de534a3c9a';
     handleCopyTextClipBoard(judge_id);
   };
 

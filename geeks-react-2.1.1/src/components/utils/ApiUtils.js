@@ -34,7 +34,12 @@ export const apiUtils = {
   GetEvaluationItemByPostId,
   AddEvaluationItem,
   GetScore,
+  GetScoreFile,
   UpdateScore,
+  GetFileQNA,
+  GetCompetitionFileQNA,
+  GetPageReport,
+  GetAllScore,
 };
 
 const cookies = new Cookies();
@@ -789,8 +794,19 @@ async function AddEvaluationItem(data) {
   });
 }
 
+/* 평가 결과 by postId
+ */
+async function GetAllScore(data) {
+  const url = `/get/allScore`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
 // 심사위원 평가 페이지 - 평가
-/* 심사위원 점수 불러오기
+/* 심사위원 점수 불러오기 by postId
  */
 async function GetScore(data) {
   const url = `/get/score`;
@@ -801,10 +817,54 @@ async function GetScore(data) {
   });
 }
 
-/* 심사위원 점수 불러오기
+/* 심사위원 점수 불러오기 by fileId
+ */
+async function GetScoreFile(data) {
+  const url = `/get/score/fileId`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 심사위원 점수 업데이트
  */
 async function UpdateScore(data) {
   const url = `/update/score`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 제출물 파일 QNA 요청
+ */
+async function GetFileQNA(data) {
+  const url = `/get/file/qna`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 제출물 파일 QNA 요청
+ */
+async function GetCompetitionFileQNA(data) {
+  const url = `/get/competitionFile/qna`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 제출물 페이지 표절 검사 리포트 요청
+ */
+async function GetPageReport(data) {
+  const url = `/add/page/report`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

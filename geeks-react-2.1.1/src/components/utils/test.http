@@ -83,6 +83,18 @@ Accept: */*
 }
 
 
+### 심사위원 평가 조회 by judgeId / fileId
+POST http://{{host}}/get/score/fileId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"fileId" : 55,
+  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+}
+
+
+
 ### 심사위원 점수 입력 추가
 POST http://{{host}}/update/score
 Content-Type: {{contentType}}
@@ -91,17 +103,17 @@ Accept: */*
 {
   "evaluation_score_list": [
     {
-      "evaluation_id": "3",
-      "post_id": "1",
-      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
+      "evaluation_id": "33",
+      "post_id": "17",
+      "judge_id": "f312207e-1593-40c3-b59d-50de534a3c9a",
       "user_id": "1",
       "score": "20",
-      "comment": "김택관 Test 중입니다."
+      "comment": "더ㅔㅈㄴ."
     },
     {
-      "evaluation_id": "8",
-      "post_id": "1",
-      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
+      "evaluation_id": "34",
+      "post_id": "17",
+      "judge_id": "f312207e-1593-40c3-b59d-50de534a3c9a",
       "user_id": "1",
       "score": "10",
       "comment": "김택관 Test 중입니다."
