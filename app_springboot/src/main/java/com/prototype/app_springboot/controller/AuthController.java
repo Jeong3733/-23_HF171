@@ -5,6 +5,7 @@ import com.prototype.app_springboot.config.jwt.TokenProvider;
 import com.prototype.app_springboot.data.dto.AuthDtos.LoginRequestDto;
 import com.prototype.app_springboot.data.dto.AuthDtos.SignUpRequestDto;
 import com.prototype.app_springboot.data.dto.AuthDtos.TokenResponseDto;
+import com.prototype.app_springboot.data.dto.AuthDtos.UserInfoDto;
 import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.type.SocialType;
 import com.prototype.app_springboot.data.type.SystemRoleType;
@@ -21,6 +22,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -57,6 +61,24 @@ public class AuthController {
         authService.join(user);
 
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/get/userInfo/userId")
+    public ResponseEntity<UserInfoDto> getUserInfo(@RequestBody Map<String, String> userIdMap) {
+        String userId = userIdMap.get("userId");
+        UserInfo userInfo = authService.getUser(userId);
+        UserInfoDto userInfoDto = new UserInfoDto(userInfo);
+        return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/userInfo/userIdList")
+    public ResponseEntity<List<UserInfoDto>> getUserInfoList(@RequestBody Map<String, List<String>> userIdListMap) {
+        List<String> userIdList = userIdListMap.get("userIdList");
+        List<UserInfoDto> userInfoDtoList = authService.getUserList(userIdList)
+                .stream()
+                .map(UserInfoDto::new)
+                .toList();
+        return new ResponseEntity<>(userInfoDtoList, HttpStatus.OK);
     }
 
 
