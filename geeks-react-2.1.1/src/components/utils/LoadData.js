@@ -475,6 +475,92 @@ export async function getUserInfoList(user_id_list) {
     });
 }
 
+/* 파일 디테일 요청 by file_id */
+export async function loadResultData(file_id) {
+  const formDataToSend = {
+    fileId: file_id,
+  };
+  const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetFileInfoByFileId(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 파일 리스트 요청 by post_id */
+export async function loadFileList(post_id) {
+  const formDataToSend = {
+    postId: post_id,
+  };
+  const sample = [
+    {
+      file_id: 'file_id_1',
+      user_id: 'user_id_1',
+      path: 'path_1',
+      file_title: 'file_title_1',
+      file_extension: 'file_extension_1',
+      upload_datetime: 'upload_datetime_1',
+      post_info_id: 'post_info_id_1',
+    },
+    {
+      file_id: 'file_id_2',
+      user_id: 'user_id_2',
+      path: 'path_2',
+      file_title: 'file_title_2',
+      file_extension: 'file_extension_2',
+      upload_datetime: 'upload_datetime_2',
+      post_info_id: 'post_info_id_2',
+    },
+    {
+      file_id: 'file_id_3',
+      user_id: 'user_id_3',
+      path: 'path_3',
+      file_title: 'file_title_3',
+      file_extension: 'file_extension_3',
+      upload_datetime: 'upload_datetime_3',
+      post_info_id: 'post_info_id_3',
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetFileInfoByPostId(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 게시물 리스트 요청 by BoardType */
+export async function checkJudgeByPostId(judge_id, post_id) {
+  const formDataToSend = { judgeId: judge_id, postId: post_id };
+  const sample = false; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetCheckJudgeByPostId(formDataToSend)
+    .then((response) => {
+      const getData = true;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
 // loadSample(competition_id).then((getData) => {
 //   setPostList(getData);
 // });

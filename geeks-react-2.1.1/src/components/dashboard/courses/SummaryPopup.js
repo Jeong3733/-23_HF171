@@ -65,7 +65,7 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    fileInfo.data.summary: {fileInfo.data.summary}
+                    {fileInfo.data.summary}
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
                     pageInfo:{' '}

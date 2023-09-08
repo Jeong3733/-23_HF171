@@ -242,7 +242,7 @@ class AI:
 
         with get_openai_callback() as cb:
             report = chain.run(data_prompt=data_prompt,
-                            format_prompt=config['AI']['format_prompt'])
+                               format_prompt=config['AI']['format_prompt'])
             prompt = chain.prompt
             print(prompt)
             print(report)
@@ -291,7 +291,7 @@ class DoucmentInit(AI):
         self._delete_AllFiles()
         resDict = {'pageInfo': pageInfo}
         return resDict
-    
+
     def addInCompetitionDB(self, fileInfo):
         file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         docs = self._upload_document(file_path=file_path)
@@ -348,7 +348,7 @@ class DoucmentInit(AI):
 
         pageInfo = []
         getVectorDBInfo = docVectorDB.get(ids=list(set(ids)),
-                                           include=['documents'])
+                                          include=['documents'])
         for pageID, pageContent in zip(getVectorDBInfo['ids'],
                                        getVectorDBInfo['documents']):
             pageInfo.append({
@@ -399,7 +399,7 @@ class DoucmentInit(AI):
 
         pageResultInfo = []
         pageInfo = []
-        
+
         # fileResultInfo = [{
         #     "fileId": fileInfo.file_id,
         #     "compFileId": 3,
@@ -411,7 +411,7 @@ class DoucmentInit(AI):
         #      "score": 1222.3,
         #      "report": "report report report"
         #      }]
-        
+
         prev_page = None
         prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
@@ -490,7 +490,7 @@ class DoucmentInit(AI):
                    'pageInfo': pageInfo,
                    'pageResultInfo': pageResultInfo}
         return resDict
-    
+
     def qaAboutFile(self, questionForm):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
@@ -507,12 +507,12 @@ class DoucmentInit(AI):
         )
         chain_type_kwargs = {"prompt": PROMPT}
         retriever = docVectorDB.as_retriever(search_kwargs={'k': 3})
-        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
-                                         chain_type="stuff", 
-                                         retriever=retriever, 
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(),
+                                         chain_type="stuff",
+                                         retriever=retriever,
                                          chain_type_kwargs=chain_type_kwargs,
                                          return_source_documents=True)
-        
+
         result = qa({"query": questionForm.query})
         source = [docs.page_content for docs in result["source_documents"]]
         resDict = {'result': result["result"],
@@ -533,12 +533,12 @@ class DoucmentInit(AI):
         )
         chain_type_kwargs = {"prompt": PROMPT}
         retriever = competitionVectorDB.as_retriever(search_kwargs={'k': 3})
-        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
-                                         chain_type="stuff", 
-                                         retriever=retriever, 
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(),
+                                         chain_type="stuff",
+                                         retriever=retriever,
                                          chain_type_kwargs=chain_type_kwargs,
                                          return_source_documents=True)
-        
+
         result = qa({"query": questionForm.query})
         source = [docs.page_content for docs in result["source_documents"]]
         resDict = {'result': result["result"],
@@ -548,18 +548,19 @@ class DoucmentInit(AI):
     def createReport(self, reqFileReport):
         file = self.getContentsFromFile(
             file_id=reqFileReport.file_id, ids=[reqFileReport.page_id])
-        comp_file = self.getContentsFromCompDB(ids=[reqFileReport.comp_page_id])
-        
+        comp_file = self.getContentsFromCompDB(
+            ids=[reqFileReport.comp_page_id])
+
         def extractContent(file):
             print(file['pageInfo'])
             return file['pageInfo'][0]['pageContent']
-        
+
         pageContent = extractContent(file)
         compPageContent = extractContent(comp_file)
-                
+
         report = self._pageAnalysisRun(
             pageContent=pageContent, compPageContent=compPageContent)
-        
+
         resDict = {'report': report}
         return resDict
 
