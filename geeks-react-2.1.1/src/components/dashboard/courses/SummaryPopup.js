@@ -83,13 +83,6 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
                         getStyle={'style-1'}
                       />
                     </div>
-                    {/* pageInfo:{' '} */}
-                    {/* {pageInfo.data.map((page) => (
-                      <div key={page.page_id}>
-                        <div>page.page_id: {page.page_id}</div>
-                        <div>page.summary: {page.summary}</div>
-                      </div>
-                    ))} */}
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

@@ -38,6 +38,8 @@ const JudgeDetailIndex = (props) => {
   const [compFileInfo, setCompFileInfo] = useState([]);
   const [compPageInfo, setCompPageInfo] = useState([]);
 
+  function extractPageResultInfo(params) {}
+
   function getAllData() {
     // FileList
     loadFileList(post_id).then((getData) => {

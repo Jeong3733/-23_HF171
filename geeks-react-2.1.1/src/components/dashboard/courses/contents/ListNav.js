@@ -26,6 +26,7 @@ const ListNav = ({ data, type }) => {
   // } else {
   //   const resData = data.pageResultInfo;
   // }
+  console.log(data.pageResultInfo);
   return (
     <Container>
       <Tab.Container defaultActiveKey="1">
