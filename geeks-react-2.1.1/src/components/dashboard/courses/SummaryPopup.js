@@ -11,27 +11,27 @@ import {
   Breadcrumb,
 } from 'react-bootstrap';
 
-// impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
-
-// import sub components
-// import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-// import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
-
-// import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
+import SweetPagination from 'sweetpagination';
 
 const SummaryPopup = ({ fileInfo, pageInfo }) => {
-  const { competition_id, post_id } = useParams();
+  const [groupPageList, setGroupPageList] = useState({});
+  const [pageNumList, setPageNumList] = useState([]);
+  const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
 
+  function groupPage() {
+    const result = {};
+    for (const item of pageInfo.data) {
+      result[item.page_num] = item.summary;
+    }
+    setGroupPageList(result);
+    setPageNumList(Object.keys(result));
+  }
+  useEffect(() => {
+    groupPage();
+  }, [pageInfo]);
+
+  // console.log(groupPageList);
+  // console.log(groupPageList);
   return (
     <Fragment>
       <Row>
@@ -68,13 +68,28 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
                     {fileInfo.data.summary}
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    pageInfo:{' '}
-                    {pageInfo.data.map((page) => (
+                    <div>
+                      {currentPageData.map((item, index) => (
+                        <div key={index}>
+                          <h2>Page # {parseInt(item) + 1}</h2>
+                          <h3>Item # {groupPageList[item]}</h3>
+                        </div>
+                      ))}
+                      <SweetPagination
+                        currentPageData={setCurrentPageData}
+                        dataPerPage={1}
+                        getData={pageNumList}
+                        navigation={true}
+                        getStyle={'style-1'}
+                      />
+                    </div>
+                    {/* pageInfo:{' '} */}
+                    {/* {pageInfo.data.map((page) => (
                       <div key={page.page_id}>
                         <div>page.page_id: {page.page_id}</div>
                         <div>page.summary: {page.summary}</div>
                       </div>
-                    ))}
+                    ))} */}
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>
@@ -87,3 +102,38 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
 };
 
 export default SummaryPopup;
+
+// const A = [
+//   {
+//     file_id: 81,
+//     page_num: 0,
+//     start_index: 0,
+//     summary: '0 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 1,
+//     start_index: 0,
+//     summary: '1 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 1,
+//     start_index: 10,
+//     summary: '1 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 2,
+//     start_index: 0,
+//     summary: '2 page : summary',
+//   },
+// ];
+
+// const B = [
+//   {
+//     0: '0 page : summary',
+//     1: '0 page : summary',
+//     2: '0 page : summary',
+//   },
+// ];
