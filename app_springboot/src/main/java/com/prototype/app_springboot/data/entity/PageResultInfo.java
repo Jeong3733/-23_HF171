@@ -2,13 +2,11 @@ package com.prototype.app_springboot.data.entity;
 
 import com.prototype.app_springboot.data.idClass.PageResultInfoId;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(PageResultInfoId.class)
 public class PageResultInfo {
