@@ -561,6 +561,27 @@ export async function checkJudgeByPostId(judge_id, post_id) {
     });
 }
 
+/* PageResultInfo Json 요청 */
+export async function getPageResultInfo(page_id, comp_page_id) {
+  const formDataToSend = {
+    pageId: page_id,
+    compPageId: comp_page_id,
+  };
+  const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetPageResult(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
 // loadSample(competition_id).then((getData) => {
 //   setPostList(getData);
 // });

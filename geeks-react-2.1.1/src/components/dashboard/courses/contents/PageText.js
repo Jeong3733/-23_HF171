@@ -19,10 +19,45 @@ import ResultPageTable from 'components/dashboard/courses/contents/ResultPageTab
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import CreateReport from './CreateReport';
 
-const PageText = ({ data }) => {
+const PageText = ({ info, data }) => {
   // console.log(competition_id);
+  const [content, setContent] = useState('');
+  const [pageInfo, setPageInfo] = useState({});
 
+  function searchCompPage() {
+    let foundContent = null;
+    let foundItem = null;
+    for (let item of data.compPageContent.data) {
+      if (item.pageId === info.comp_page_id) {
+        foundContent = item.pageContent;
+        break;
+      }
+    }
+    for (let item of data.compPageInfo.data) {
+      if (item.page_id === info.comp_page_id) {
+        foundItem = item;
+        break;
+      }
+    }
+
+    if (foundContent) {
+      // console.log(foundContent);
+      setContent(foundContent);
+    } else {
+      setContent('실패');
+    }
+    if (foundItem) {
+      // console.log(foundItem);
+      setPageInfo(foundItem);
+    } else {
+      setPageInfo({});
+    }
+  }
+  useEffect(() => {
+    searchCompPage();
+  }, [info]);
   return (
     <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">
@@ -57,16 +92,46 @@ const PageText = ({ data }) => {
         <Card.Body className="p-0">
           <Tab.Content>
             <Tab.Pane eventKey="1" className="pb-4 p-4 ps-0 pe-0">
-              data.file_id: {data.page_id}
+              info.report: '{info.report}'
+              <br />
+              {info.report === '' ? (
+                <CreateReport
+                  file_id={data.fileInfo.data.file_id}
+                  page_id={info.page_id}
+                  comp_page_id={info.comp_page_id}
+                  data={data}
+                />
+              ) : (
+                ''
+              )}
             </Tab.Pane>
             <Tab.Pane eventKey="2" className="pb-4 p-4 ps-0 pe-0">
-              data.comp_file_id: {data.comp_page_id}
+              info.comp_page_id: {info.comp_page_id}
+              <br />
+              pageInfo.comp_file_id: {pageInfo.comp_file_id}
+              <br />
+              content: {content}
             </Tab.Pane>
             <Tab.Pane eventKey="3" className="pb-4 p-4 ps-0 pe-0">
-              data.score: {data.score}
+              info.page_id: {info.page_id}
+              <br />
+              info.score: {info.score}
             </Tab.Pane>
             <Tab.Pane eventKey="4" className="pb-4 p-4 ps-0 pe-0">
-              data.report: {data.report}
+              info.rank: {info.rank}
+              <br />
+              data.fileInfo.data.file_id: {data.fileInfo.data.file_id}
+              <br />
+              info.page_id: {info.page_id}
+              <br />
+              info.comp_file_id: {pageInfo.comp_file_id}
+              {/* {info.comp_page_id} */}
+              <br />
+              info.comp_page_id: {info.comp_page_id}
+              <br />
+              info.score: {info.score}
+              <br />
+              content: {content}
             </Tab.Pane>
           </Tab.Content>
         </Card.Body>

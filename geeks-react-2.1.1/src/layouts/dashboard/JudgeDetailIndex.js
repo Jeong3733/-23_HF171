@@ -37,8 +37,7 @@ const JudgeDetailIndex = (props) => {
   const [fileResultInfo, setFileResultInfo] = useState([]);
   const [compFileInfo, setCompFileInfo] = useState([]);
   const [compPageInfo, setCompPageInfo] = useState([]);
-
-  function extractPageResultInfo(params) {}
+  const [compPageContent, setCompPageContent] = useState([{}]);
 
   function getAllData() {
     // FileList
@@ -73,14 +72,22 @@ const JudgeDetailIndex = (props) => {
       });
 
       setPageInfo(getData.page_info_list);
-      const pageResultInfoLists = getData.page_info_list.map(
-        (item) => item.page_result_info_list,
-      );
+
+      const newPageResultInfo = [];
+      getData.page_info_list.forEach((item) => {
+        newPageResultInfo.push(...item.page_result_info_list);
+      });
       // console.log(pageResultInfoLists);
-      setPageResultInfo(pageResultInfoLists);
+      setPageResultInfo(newPageResultInfo);
       setFileResultInfo(getData.file_result_info_list);
-      setCompFileInfo(getData.comp_file_info_list);
+
+      const newCompFileInfo = {};
+      getData.comp_file_info_list.forEach((item) => {
+        newCompFileInfo[item.comp_file_id] = item;
+      });
+      setCompFileInfo(newCompFileInfo);
       setCompPageInfo(getData.comp_page_info_list);
+      setCompPageContent(getData.page_content_list.pageInfo);
     });
 
     // ScoreList
@@ -141,6 +148,10 @@ const JudgeDetailIndex = (props) => {
     compPageInfo: {
       data: compPageInfo,
       setData: setCompPageInfo,
+    },
+    compPageContent: {
+      data: compPageContent,
+      setData: setCompPageContent,
     },
     itemList: {
       data: itemList,
