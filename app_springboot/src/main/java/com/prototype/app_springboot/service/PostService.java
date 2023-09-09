@@ -1,14 +1,8 @@
 package com.prototype.app_springboot.service;
 
 import com.prototype.app_springboot.data.dto.PostDtos.AddPostRequestDto;
-import com.prototype.app_springboot.data.entity.CompetitionInfo;
-import com.prototype.app_springboot.data.entity.PostDocs;
-import com.prototype.app_springboot.data.entity.PostInfo;
-import com.prototype.app_springboot.data.entity.UserInfo;
-import com.prototype.app_springboot.data.repository.PostDocsRepository;
-import com.prototype.app_springboot.data.repository.PostInfoRepository;
-import com.prototype.app_springboot.data.repository.UserInfoRepository;
-import com.prototype.app_springboot.data.repository.CompetitionInfoRepository;
+import com.prototype.app_springboot.data.entity.*;
+import com.prototype.app_springboot.data.repository.*;
 import com.prototype.app_springboot.data.type.BoardType;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -26,15 +20,19 @@ import java.util.Objects;
 public class PostService {
     private final PostInfoRepository postInfoRepository;
     private final UserInfoRepository userInfoRepository;
+    private final UploadPostTypeRepository uploadPostTypeRepository;
     private final CompetitionInfoRepository competitionInfoRepository;
     private final PostDocsRepository postDocsRepository;
+    private final UserByCompetitionRepository userByCompetitionRepository;
     private final AwsService awsService;
 
-    public PostService(PostInfoRepository postInfoRepository, UserInfoRepository userInfoRepository, CompetitionInfoRepository competitionInfoRepository, PostDocsRepository postDocsRepository, AwsService awsService) {
+    public PostService(PostInfoRepository postInfoRepository, UserInfoRepository userInfoRepository, UploadPostTypeRepository uploadPostTypeRepository, CompetitionInfoRepository competitionInfoRepository, PostDocsRepository postDocsRepository, UserByCompetitionRepository userByCompetitionRepository, AwsService awsService) {
         this.postInfoRepository = postInfoRepository;
         this.userInfoRepository = userInfoRepository;
+        this.uploadPostTypeRepository = uploadPostTypeRepository;
         this.competitionInfoRepository = competitionInfoRepository;
         this.postDocsRepository = postDocsRepository;
+        this.userByCompetitionRepository = userByCompetitionRepository;
         this.awsService = awsService;
     }
 
@@ -48,7 +46,21 @@ public class PostService {
 
     @Transactional
     public PostInfo getPostInfoByPostIdAndUserId(int postId, String userId) {
-        return postInfoRepository.findByIdAndUserInfoUserId(postId, userId);
+        PostInfo postInfo = postInfoRepository.findById(postId)
+                .orElseThrow(() -> {
+                    log.error("PostId : {}의 게시글이 존재하지 않습니다.", postId);
+                    throw new EntityNotFoundException("해당 PostId의 게시글이 존재하지 않습니다.");
+                });
+
+        int competitionId = postInfo.getCompetitionInfo().getId();
+
+        boolean isExists = userByCompetitionRepository.existsByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId);
+        if (isExists) {
+            return postInfo;
+        } else {
+            log.error("UserId : {}의 유저가 CompetitionId : {}의 대회에 참가하지 않았습니다.", userId, competitionId);
+            return null;
+        }
     }
 
     @Transactional
@@ -59,7 +71,9 @@ public class PostService {
     @Transactional
     public void addPostInfoAndPostDocs(MultipartFile multipartFile, AddPostRequestDto addPostRequestDto, String userId) {
         PostInfo postInfo = addPostInfo(addPostRequestDto, userId);
-        addPostDocs(multipartFile, postInfo);
+        if (multipartFile != null) {
+            addPostDocs(multipartFile, postInfo);
+        }
     }
 
     @Transactional
@@ -84,6 +98,16 @@ public class PostService {
                 .build();
 
         postInfoRepository.save(postInfo);
+
+        addPostRequestDto.getFileTypeList().forEach(fileType -> {
+            UploadPostType uploadPostType = UploadPostType.builder()
+                    .postInfo(postInfo)
+                    .uploadType(fileType)
+                    .build();
+
+            uploadPostTypeRepository.save(uploadPostType);
+        });
+
         return postInfo;
     }
 
@@ -93,7 +117,7 @@ public class PostService {
                 .postInfo(postInfo)
                 .path(awsService.uploadFileListToS3(multipartfile))
                 .fileExtension(Objects.requireNonNull(FilenameUtils.getExtension(multipartfile.getOriginalFilename())).toUpperCase())
-                .fileTitle(multipartfile.getName())
+                .fileTitle(multipartfile.getOriginalFilename())
                 .build();
 
         postDocsRepository.save(postDocs);

@@ -15,7 +15,6 @@ public class PageInfoDto {
     private int file_id;
     private int page_num;
     private int start_index;
-    private String page_content;
     private String summary;
     private List<PageResultInfoDto> page_result_info_list;
 

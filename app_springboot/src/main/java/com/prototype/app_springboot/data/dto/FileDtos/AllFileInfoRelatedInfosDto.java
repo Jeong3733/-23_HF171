@@ -1,7 +1,10 @@
 package com.prototype.app_springboot.data.dto.FileDtos;
 
 import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
+import com.prototype.app_springboot.data.dto.PageDtos.CompPageInfoDto;
 import com.prototype.app_springboot.data.dto.PageDtos.PageInfoDto;
+import com.prototype.app_springboot.data.entity.CompFileInfo;
+import com.prototype.app_springboot.data.entity.CompPageInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +24,13 @@ public class AllFileInfoRelatedInfosDto {
     private UUID path;
     private String summary;
     private String upload_datetime;
+    private List<CompPageInfoDto> comp_page_info_list;
+    private List<CompFileInfoDto> comp_file_info_list;
     private List<FileResultInfoDto> file_result_info_list;
     private List<PageInfoDto> page_info_list;
     private PageContentDto page_content_list;
 
-    public AllFileInfoRelatedInfosDto(FileInfo fileInfo, PageContentDto pageContentDto) {
+    public AllFileInfoRelatedInfosDto(FileInfo fileInfo, PageContentDto pageContentDto, List<CompPageInfo> compPageInfoList, List<CompFileInfo> compFileInfoList) {
         this.file_id = fileInfo.getId();
         this.user_id = fileInfo.getUserInfo().getUserId();
         this.file_title = fileInfo.getFileTitle();
@@ -40,5 +45,11 @@ public class AllFileInfoRelatedInfosDto {
                 .map(PageInfoDto::new)
                 .toList();
         this.page_content_list = pageContentDto;
+        this.comp_page_info_list = compPageInfoList.stream()
+                .map(CompPageInfoDto::new)
+                .toList();
+        this.comp_file_info_list = compFileInfoList.stream()
+                .map(CompFileInfoDto::new)
+                .toList();
     }
 }

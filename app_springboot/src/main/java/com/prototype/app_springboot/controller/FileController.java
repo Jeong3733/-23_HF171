@@ -1,14 +1,15 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
+import com.prototype.app_springboot.data.dto.FastApiDtos.*;
 import com.prototype.app_springboot.data.dto.FileDtos.AllFileInfoRelatedInfosDto;
 import com.prototype.app_springboot.data.dto.FileDtos.CompFileAddRequestDto;
-import com.prototype.app_springboot.data.dto.FileDtos.CompFileDto;
+import com.prototype.app_springboot.data.dto.FileDtos.CompFileInfoDto;
 import com.prototype.app_springboot.data.dto.FileDtos.FileInfoDto;
+import com.prototype.app_springboot.data.entity.CompFileInfo;
+import com.prototype.app_springboot.data.entity.CompPageInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.service.FastApiService;
 import com.prototype.app_springboot.service.FileService;
-import com.prototype.app_springboot.service.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,10 @@ import java.util.Map;
 @Slf4j
 public class FileController {
     private final FileService fileService;
-    private final PageService pageService;
     private final FastApiService fastApiService;
 
-    public FileController(FileService fileService, PageService pageService, FastApiService fastApiService) {
+    public FileController(FileService fileService, FastApiService fastApiService) {
         this.fileService = fileService;
-        this.pageService = pageService;
         this.fastApiService = fastApiService;
     }
 
@@ -64,9 +63,9 @@ public class FileController {
     }
 
     @GetMapping("/get/compFileInfo")
-    public ResponseEntity<List<CompFileDto>> getAllCompFileInfoList() {
-        List<CompFileDto> compFileDtoList = fileService.getAllCompFileInfoList().stream()
-                .map(CompFileDto::new)
+    public ResponseEntity<List<CompFileInfoDto>> getAllCompFileInfoList() {
+        List<CompFileInfoDto> compFileDtoList = fileService.getAllCompFileInfoList().stream()
+                .map(CompFileInfoDto::new)
                 .toList();
         return new ResponseEntity<>(compFileDtoList, HttpStatus.OK);
     }
@@ -85,8 +84,38 @@ public class FileController {
     public ResponseEntity<AllFileInfoRelatedInfosDto> getFileInfoByFileId(@RequestBody Map<String, String> fileIdMap) throws URISyntaxException {
         int fileId = Integer.parseInt(fileIdMap.get("fileId"));
         FileInfo fileInfo = fileService.getFileInfoById(fileId);
-        PageContentDto pageContentDto = fastApiService.getPageContentByPageId(fileInfo);
-        AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfo, pageContentDto);
+
+        PageContentDto pageContentDto = fastApiService.getPageContentByFile(fileInfo);
+        FileInfo fileInfoWithPageResult = fileService.getFileInfoById(fileId);
+
+        List<CompPageInfo> compPageInfoList = fileService.getRelatedCompPageInfoList(fileId);
+        List<CompFileInfo> compFileInfoList = fileService.getRelatedCompFileInfoList(fileId);
+
+        AllFileInfoRelatedInfosDto allFileInfoRelatedInfosDto = new AllFileInfoRelatedInfosDto(fileInfoWithPageResult, pageContentDto, compPageInfoList, compFileInfoList);
         return new ResponseEntity<>(allFileInfoRelatedInfosDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/file/pageId")
+    public ResponseEntity<PageContentDto> getPageContentList(@RequestBody ReqPageIdList pageIdList) throws URISyntaxException {
+        PageContentDto pageContentDtoList = fastApiService.getPageContentByPageIdList(pageIdList.getPage_id_list());
+        return new ResponseEntity<>(pageContentDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/file/qna")
+    public ResponseEntity<ResGetFileQNA> getFileQNA(@RequestBody ReqGetQNA reqGetFileQNA) throws URISyntaxException {
+        ResGetFileQNA resGetFileQNA = fastApiService.getFileQNA(reqGetFileQNA);
+        return new ResponseEntity<>(resGetFileQNA, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/competitionFile/qna")
+    public ResponseEntity<ResGetFileQNA> getCompetitionQNA(@RequestBody ReqGetCompetitionQNA reqGetCompetitionQNA) throws URISyntaxException {
+        ResGetFileQNA resGetCompetitionQNA = fastApiService.getCompetitionQNA(reqGetCompetitionQNA);
+        return new ResponseEntity<>(resGetCompetitionQNA, HttpStatus.OK);
+    }
+
+    @PostMapping("/add/page/report")
+    public ResponseEntity<ResFileReport> getFileReport(@RequestBody ReqFileReport reqFileReport) throws URISyntaxException {
+        ResFileReport resFileReport = fastApiService.getFileReport(reqFileReport);
+        return new ResponseEntity<>(resFileReport, HttpStatus.OK);
     }
 }

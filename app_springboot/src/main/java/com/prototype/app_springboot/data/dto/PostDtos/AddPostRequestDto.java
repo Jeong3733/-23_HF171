@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -14,12 +16,12 @@ import java.util.Map;
 public class AddPostRequestDto {
     private int competitionId;
     private Map<String, Boolean> fileType;
-    private int postId;
     private String boardType;
     private String title;
-    private String content;
+    private String contents;
     @JsonIgnore
-    private String fileTypeList;
+    private List<String> fileTypeList;
+
     @JsonSetter("fileType")
     public void setFileType(Map<String, Boolean> fileType) {
         this.fileTypeList = fileType.entrySet().stream()
@@ -27,8 +29,7 @@ public class AddPostRequestDto {
                 .filter(Map.Entry::getValue)
                 // true 인 것들의 key 들을 get
                 .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toList());
     }
 }
 

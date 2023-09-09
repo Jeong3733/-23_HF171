@@ -3,10 +3,11 @@ package com.prototype.app_springboot.data.dto.EvaluationDtos;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @NoArgsConstructor
-public class ReqAddEvaluation {
-    private int postId;
-    private String name;
-    private int max;
+public class ReqGetScoreByFileAndJudge {
+    private UUID judgeId;
+    private int fileId;
 }

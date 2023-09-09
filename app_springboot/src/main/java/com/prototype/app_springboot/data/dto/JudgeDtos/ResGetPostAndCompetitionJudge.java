@@ -8,9 +8,11 @@ import java.util.List;
 
 @Getter
 public class ResGetPostAndCompetitionJudge {
-    private final List<JudgeInfo> judge_info_list;
+    private final List<JudgeInfoDto> judge_info_list;
     @Builder
     public ResGetPostAndCompetitionJudge(List<JudgeInfo> judge_info_list) {
-        this.judge_info_list = judge_info_list;
+        this.judge_info_list = judge_info_list.stream()
+                .map(JudgeInfoDto::new)
+                .toList();
     }
 }

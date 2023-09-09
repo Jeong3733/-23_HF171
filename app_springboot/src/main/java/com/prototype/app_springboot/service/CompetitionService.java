@@ -4,6 +4,7 @@ import com.prototype.app_springboot.data.dto.CompetitionDtos.AddCompetitionReque
 import com.prototype.app_springboot.data.entity.*;
 import com.prototype.app_springboot.data.repository.*;
 import com.prototype.app_springboot.data.type.RoleType;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -37,11 +38,11 @@ public class CompetitionService {
 
     @Transactional
     public int setUserByCompetition(String userId, int competitionId) {
-        if (userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId) == null) {
+        if (!userByCompetitionRepository.existsByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId)) {
             UserInfo userInfo = userInfoRepository.findById(userId)
                     .orElseThrow(() -> {
                         log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
-                        throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                        throw new EntityNotFoundException("해당 유저를 찾을 수 없습니다.");
                     });
 
             UserByCompetition userByCompetition = UserByCompetition.builder()
@@ -61,7 +62,11 @@ public class CompetitionService {
 
     @Transactional
     public UserByCompetition getUserAndCompetitionByUserIdAndCompetitionId(String userId, int competitionId) {
-        return userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId);
+        return userByCompetitionRepository.findByUserInfo_UserIdAndCompetitionInfoId(userId, competitionId)
+                .orElseThrow(() -> {
+                    log.error("CompetitionId : {} 에 UserId : {}의 유저가 참여하지 않았습니다.", competitionId, userId);
+                    throw new EntityNotFoundException("해당 유저가 해당 공모전에 참여하지 않았습니다.");
+                });
     }
 
     @Transactional

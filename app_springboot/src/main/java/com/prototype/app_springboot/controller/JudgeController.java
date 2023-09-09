@@ -1,5 +1,7 @@
 package com.prototype.app_springboot.controller;
 
+import com.prototype.app_springboot.data.dto.JudgeDtos.JudgeInfoDto;
+import com.prototype.app_springboot.data.dto.JudgeDtos.ReqCheckJudgePost;
 import com.prototype.app_springboot.data.dto.JudgeDtos.ResGetPostAndCompetitionJudge;
 import com.prototype.app_springboot.data.entity.JudgeInfo;
 import com.prototype.app_springboot.service.JudgeService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,10 +62,18 @@ public class JudgeController {
     }
 
     @PostMapping("/validate/judge")
-    public ResponseEntity<JudgeInfo> validateJudge(@RequestBody Map<String, String> judgeIdMap) {
+    public ResponseEntity<JudgeInfoDto> validateJudge(@RequestBody Map<String, String> judgeIdMap) {
         String judgeId = judgeIdMap.get("judgeId");
         JudgeInfo judgeInfo = judgeService.getJudgeInfoByJudgeId(judgeId);
-        return new ResponseEntity<>(judgeInfo, HttpStatus.OK);
+        JudgeInfoDto judgeInfoDto = new JudgeInfoDto(judgeInfo);
+        return new ResponseEntity<>(judgeInfoDto, HttpStatus.OK);
     }
 
+    @PostMapping("/validate/judge/postId")
+    public ResponseEntity<Map<String, Boolean>> validateJudgeByPostId(@RequestBody ReqCheckJudgePost reqCheckJudgePost) {
+        Boolean check = judgeService.getJudgeInfoByJudgeIdAndPostId(reqCheckJudgePost.getJudgeId(), reqCheckJudgePost.getPostId());
+        Map<String, Boolean> body = new HashMap<>();
+        body.put("check", check);
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
 }

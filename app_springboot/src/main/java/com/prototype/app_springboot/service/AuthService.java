@@ -9,8 +9,10 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -33,6 +35,20 @@ public class AuthService {
     @Transactional
     public void join(UserInfo user) {
         userInfoRepository.save(user);
+    }
+
+    @Transactional
+    public UserInfo getUser(String userId) {
+        return userInfoRepository.findById(userId)
+                .orElseThrow(() -> {
+                    log.error("UserId : {}의 유저가 존재하지 않습니다.", userId);
+                    throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+                });
+    }
+
+    @Transactional
+    public List<UserInfo> getUserList(List<String> userIdList) {
+        return userInfoRepository.findAllById(userIdList);
     }
 
     @Transactional

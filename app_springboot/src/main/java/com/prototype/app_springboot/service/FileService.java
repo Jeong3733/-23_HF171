@@ -1,8 +1,8 @@
 package com.prototype.app_springboot.service;
 
-import com.prototype.app_springboot.data.dto.FileDtos.CompFileAddRequestDto;
 import com.prototype.app_springboot.data.dto.FastApiDtos.CompareResultOfFileDto;
 import com.prototype.app_springboot.data.dto.FastApiDtos.PageInfoOfCompFileDto;
+import com.prototype.app_springboot.data.dto.FileDtos.CompFileAddRequestDto;
 import com.prototype.app_springboot.data.entity.*;
 import com.prototype.app_springboot.data.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -56,6 +56,34 @@ public class FileService {
             log.error("FileId의 : {}의 파일이 존재하지 않습니다.", fileId);
             throw new EntityNotFoundException("해당 FileId의 파일이 존재하지 않습니다.");
         });
+    }
+
+    @Transactional
+    public List<CompPageInfo> getRelatedCompPageInfoList(int fileId) {
+        FileInfo fileInfo = fileInfoRepository.findById(fileId).orElseThrow(() -> {
+            log.error("FileId의 : {}의 파일이 존재하지 않습니다.", fileId);
+            throw new EntityNotFoundException("해당 FileId의 파일이 존재하지 않습니다.");
+        });
+
+        List<PageResultInfo> pageResultInfoList = pageInfoRepository.findAllByFileInfoId(fileId)
+                .stream()
+                .map(PageInfo::getPageResultInfoList)
+                .flatMap(List::stream)
+                .distinct()
+                .toList();
+
+        return pageResultInfoList.stream()
+                .map(PageResultInfo::getCompPageInfo)
+                .distinct()
+                .toList();
+    }
+
+    @Transactional
+    public List<CompFileInfo> getRelatedCompFileInfoList(int fileId) {
+        return getRelatedCompPageInfoList(fileId).stream()
+                .map(CompPageInfo::getCompFileInfo)
+                .distinct()
+                .toList();
     }
 
     @Transactional
@@ -127,6 +155,7 @@ public class FileService {
         compareResultOfFileDto.getPageInfo().forEach(pageInfo -> {
             System.out.println("PageInfo 에서의 pageId : " + pageInfo.getPageId());
         });
+
         compareResultOfFileDto.getPageResultInfo().forEach(pageResultInfoDto -> {
             System.out.println("PageResultInfo 에서의 pageId : " +pageResultInfoDto.getPageId());
         });

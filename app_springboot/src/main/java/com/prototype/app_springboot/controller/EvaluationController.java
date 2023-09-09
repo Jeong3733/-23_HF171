@@ -30,9 +30,9 @@ public class EvaluationController {
         return new ResponseEntity<>("평가 항목 추가 완료", HttpStatus.OK);
     }
 
-    @DeleteMapping("/del/eval")
+    @DeleteMapping("/delete/eval")
     public ResponseEntity<String> deleteEvaluation(@RequestBody Map<String, Integer> evalIdMap) {
-        int evalId = evalIdMap.get("evalId");
+        int evalId = evalIdMap.get("evaluationId");
         evaluationService.deleteEvaluation(evalId);
         return new ResponseEntity<>("평가 항목 삭제 완료", HttpStatus.OK);
     }
@@ -62,16 +62,16 @@ public class EvaluationController {
         return new ResponseEntity<>(resGetScore, HttpStatus.OK);
     }
 
-    @PostMapping("/add/score")
+    @PostMapping("/update/score")
     public ResponseEntity<String> addScoreList(@RequestBody ReqUpdateScore reqUpdateScore) {
         evaluationService.saveAllScoreList(reqUpdateScore.getEvaluation_score_list());
         return new ResponseEntity<>("점수 저장 완료", HttpStatus.OK);
     }
 
-    @PostMapping("/update/score")
-    public ResponseEntity<String> updateScoreList(@RequestBody ReqUpdateScore reqUpdateScore) {
-        evaluationService.updateAllScoreList(reqUpdateScore.getEvaluation_score_list());
-        return new ResponseEntity<>("점수 업데이트 완료", HttpStatus.OK);
+    @PostMapping("/get/score/fileId")
+    public ResponseEntity<ResGetScore> getAllScoreByFileIdAndJudgeId(@RequestBody ReqGetScoreByFileAndJudge reqGetScoreByFileAndJudge) {
+        List<EvaluationScore> evaluationScoreList = evaluationService.getAllEvaluationScoreByFileIdAndJudgeId(reqGetScoreByFileAndJudge.getFileId(), reqGetScoreByFileAndJudge.getJudgeId());
+        ResGetScore resGetScoreList = new ResGetScore(evaluationScoreList);
+        return new ResponseEntity<>(resGetScoreList, HttpStatus.OK);
     }
-
 }

@@ -4,6 +4,8 @@ import com.prototype.app_springboot.data.dto.PostDtos.AddPostRequestDto;
 import com.prototype.app_springboot.data.dto.PostDtos.PostInfoDto;
 import com.prototype.app_springboot.data.dto.PostDtos.PostInfoWithPostTypeDto;
 import com.prototype.app_springboot.data.entity.PostInfo;
+import com.prototype.app_springboot.data.entity.UserInfo;
+import com.prototype.app_springboot.service.AuthService;
 import com.prototype.app_springboot.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 @RestController
 public class PostController {
     private final PostService postService;
+    private final AuthService authService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, AuthService authService) {
         this.postService = postService;
+        this.authService = authService;
     }
 
     @PostMapping("/add/postInfo")
@@ -59,9 +63,11 @@ public class PostController {
     public ResponseEntity<PostInfoWithPostTypeDto> getPostInfoAndFileInfoByPostIdAndUserId(@RequestBody Map<String, String> postIdMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
+        UserInfo userInfo = authService.getUser(userId);
+
         int postId = Integer.parseInt(postIdMap.get("postId"));
         PostInfo postInfo = postService.getPostInfoByPostIdAndUserId(postId, userId);
-        PostInfoWithPostTypeDto postInfoWithPostTypeDto = new PostInfoWithPostTypeDto(postInfo);
+        PostInfoWithPostTypeDto postInfoWithPostTypeDto = new PostInfoWithPostTypeDto(postInfo, userInfo);
         return new ResponseEntity<>(postInfoWithPostTypeDto, HttpStatus.OK);
     }
 }

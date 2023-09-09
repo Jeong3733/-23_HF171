@@ -1,8 +1,6 @@
 package com.prototype.app_springboot.service;
 
-import com.prototype.app_springboot.data.dto.FastApiDtos.CompareResultOfFileDto;
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageContentDto;
-import com.prototype.app_springboot.data.dto.FastApiDtos.PageInfoOfCompFileDto;
+import com.prototype.app_springboot.data.dto.FastApiDtos.*;
 import com.prototype.app_springboot.data.entity.CompFileInfo;
 import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.data.repository.PageInfoRepository;
@@ -15,10 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,16 +30,65 @@ public class FastApiService {
     }
 
     @Transactional
+    public ResGetFileQNA getFileQNA(ReqGetQNA reqGetFileQNA) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", reqGetFileQNA.getFileId());
+        body.put("query", reqGetFileQNA.getQuery());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/file/qna"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResGetFileQNA.class)
+                .block();
+    }
+
+    @Transactional
+    public ResGetFileQNA getCompetitionQNA(ReqGetCompetitionQNA reqGetCompetitionFileQNA) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("competition_id", String.valueOf(reqGetCompetitionFileQNA.getCompetitionId()));
+        body.put("query", reqGetCompetitionFileQNA.getQuery());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/competitionFile/qna"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResGetFileQNA.class)
+                .block();
+    }
+
+    @Transactional
+    public ResFileReport getFileReport(ReqFileReport reqFileReport) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", reqFileReport.getFile_id());
+        body.put("page_id", reqFileReport.getPage_id());
+        body.put("comp_page_id", reqFileReport.getComp_page_id());
+
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/page/report"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(ResFileReport.class)
+                .block();
+    }
+
+    @Transactional
     public CompareResultOfFileDto getCompareResultOfFile(FileInfo fileInfo) throws URISyntaxException {
         WebClient webClient = WebClient.create();
 
-        Map<String, String> body = new HashMap<>();
-        body.put("file_id", String.valueOf(fileInfo.getId()));
+        Map<String, Object> body = new HashMap<>();
+        body.put("file_id", fileInfo.getId());
         body.put("file_extension", fileInfo.getFileExtension());
         body.put("path", fileInfo.getPath().toString());
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/fileInfo/update"))
+                .uri(new URI(FastApiUrl + "/function/get/file/detail"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(CompareResultOfFileDto.class)
@@ -61,7 +105,7 @@ public class FastApiService {
         body.put("path", compFileInfo.getPath().toString());
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/compFileInfo/update"))
+                .uri(new URI(FastApiUrl + "/function/get/compFile/detail"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(PageInfoOfCompFileDto.class)
@@ -69,7 +113,7 @@ public class FastApiService {
     }
 
     @Transactional
-    public PageContentDto getPageContentByPageId(FileInfo fileInfo) throws URISyntaxException {
+    public PageContentDto getPageContentByFile(FileInfo fileInfo) throws URISyntaxException {
         WebClient webClient = WebClient.create();
         List<String> pageIdList = new ArrayList<>();
 
@@ -87,9 +131,22 @@ public class FastApiService {
         Map<String, List<String>> body = new HashMap<>();
         body.put("page_id_list", pageIdList);
 
+        return webClient.post()
+                .uri(new URI(FastApiUrl + "/function/get/compFile/pageId"))
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(PageContentDto.class)
+                .block();
+    }
+
+    @Transactional
+    public PageContentDto getPageContentByPageIdList(List<String> pageIdList) throws URISyntaxException {
+        WebClient webClient = WebClient.create();
+        Map<String, List<String>> body = new HashMap<>();
+        body.put("page_id_list", pageIdList);
 
         return webClient.post()
-                .uri(new URI(FastApiUrl + "/function/compFileInfo/get/pageId"))
+                .uri(new URI(FastApiUrl + "/function/get/file/pageId"))
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(PageContentDto.class)

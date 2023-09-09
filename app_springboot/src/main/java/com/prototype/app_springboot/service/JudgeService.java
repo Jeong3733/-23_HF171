@@ -64,6 +64,12 @@ public class JudgeService {
     }
 
     @Transactional
+    public Boolean getJudgeInfoByJudgeIdAndPostId(String judgeId, int postId) {
+        UUID uuid = UUID.fromString(judgeId);
+        return judgeInfoRepository.existsByIdAndPostInfoId(uuid, postId);
+    }
+
+    @Transactional
     public List<JudgeInfo> getAllJudgeInfoByPostId(int postId) {
         return judgeInfoRepository.findAllByPostInfoId(postId);
     }

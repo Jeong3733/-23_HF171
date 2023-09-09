@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,6 +23,9 @@ public class CompPageInfo {
     private int pageNum;
 
     private int startIndex;
+
+    @OneToMany(mappedBy = "compPageInfo")
+    private final List<PageResultInfo> pageResultInfoList = new ArrayList<PageResultInfo>();
 
     @Builder
     public CompPageInfo(String pageId, CompFileInfo compFileInfo, int pageNum, int startIndex) {
