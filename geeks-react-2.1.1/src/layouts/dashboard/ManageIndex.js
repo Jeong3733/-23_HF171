@@ -76,7 +76,7 @@ const ManageIndex = (props) => {
         setCompetitionInfo(getCompetitionInfo);
         handleLogError(error);
       });
-  }, [isLoggedIn, competition_id]);
+  }, []);
 
   console.log(competitionInfo);
   if (isNotEmptyObj(competitionInfo)) {

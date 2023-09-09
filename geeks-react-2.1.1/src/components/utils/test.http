@@ -1,0 +1,205 @@
+@hostname = ec2-43-200-216-227.ap-northeast-2.compute.amazonaws.com
+@port = 8080
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+@judge_id = "106e0236-4ec7-4f43-9734-71da3aeaacc0"
+###
+# @prompt username
+# @prompt refCode Your reference code display on webpage
+# @prompt otp Your one-time password in your mailbox
+
+
+### 심사위원 추가
+POST http://{{host}}/add/judge
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "postId": "1"
+}
+
+### 심사위원 리스트 조회 by competitionId
+POST http://{{host}}/get/judge/competitionId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "competitionId": "1"
+}
+
+### 심사윙원 리스트 조회 by postId
+POST http://{{host}}/get/judge/postId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "postId": "17"
+}
+
+
+
+
+### 평가 항목 조회 by postId
+POST http://{{host}}/get/eval
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "postId": "1"
+}
+
+
+### 평가 항목 추가
+POST http://{{host}}/add/eval
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"postId" : "1",
+	"name" : "string",
+	"max" : 5
+}
+
+
+### 평가 결과 조회
+POST http://{{host}}/get/allScore
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"postId" : "1"
+}
+
+#######################################
+
+### 심사위원 검증 by judgeId
+POST http://{{host}}/validate/judge
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "judgeId" : {{judge_id}}
+}
+
+
+
+### 심사위원 평가 조회 by judgeId / postId
+POST http://{{host}}/get/score
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"postId" : "1",
+  "judgeId" : {{judge_id}}
+}
+### 심사위원 평가 조회 by judgeId / fileId
+POST http://{{host}}/get/score/fileId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"fileId" : 55,
+  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+}
+
+
+### 심사위원 점수 입력 추가
+POST http://{{host}}/update/score
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "evaluation_score_list": [
+    {
+      "evaluation_id": "3",
+      "post_id": "1",
+      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
+      "user_id": "1",
+      "score": "20",
+      "comment": "김택관 Test 중입니다."
+    },
+    {
+      "evaluation_id": "8",
+      "post_id": "1",
+      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
+      "user_id": "1",
+      "score": "10",
+      "comment": "김택관 Test 중입니다."
+    }
+  ]
+}
+
+
+### 파일 디테일 조회
+POST http://{{host}}/get/fileInfo/fileId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "fileId": "81"
+}
+
+
+
+
+#######################################
+
+### 파일 리스트 요청 by PostId
+POST http://{{host}}/get/fileInfo/postId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "postId": "1"
+}
+
+
+### 참가 인원 수 by competitionId
+POST http://{{host}}/get/userInfo/competitionId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId": "1"
+}
+
+
+### 파일 정보 by fileId
+POST http://{{host}}/get/fileInfo/fileId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "fileId": "74"
+}
+
+
+### 게시물 정보 조회 by postId
+POST http://{{host}}/get/postInfo/postId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "postId": "1"
+}
+
+### 공모전 정보 조회 by competitionId
+POST http://{{host}}/get/competitionInfo/competitionId
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId": "1"
+}
+
+### 게시물 리스트 요청 by BoardType
+POST http://{{host}}/get/postInfo/boardType
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "competitionId":1,
+  "boardType":"NOTICE"
+}
+

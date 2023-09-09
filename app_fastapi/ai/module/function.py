@@ -242,10 +242,8 @@ class AI:
 
         with get_openai_callback() as cb:
             report = chain.run(data_prompt=data_prompt,
-                            format_prompt=config['AI']['format_prompt'])
+                               format_prompt=config['AI']['format_prompt'])
             prompt = chain.prompt
-            print(prompt)
-            print(report)
             # topics = re.findall(r"\d+\.\s(.+)", report)
             res_tokens = cb.total_tokens
         # print(report)
@@ -291,7 +289,7 @@ class DoucmentInit(AI):
         self._delete_AllFiles()
         resDict = {'pageInfo': pageInfo}
         return resDict
-    
+
     def addInCompetitionDB(self, fileInfo):
         file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         docs = self._upload_document(file_path=file_path)
@@ -348,7 +346,7 @@ class DoucmentInit(AI):
 
         pageInfo = []
         getVectorDBInfo = docVectorDB.get(ids=list(set(ids)),
-                                           include=['documents'])
+                                          include=['documents'])
         for pageID, pageContent in zip(getVectorDBInfo['ids'],
                                        getVectorDBInfo['documents']):
             pageInfo.append({
@@ -366,19 +364,33 @@ class DoucmentInit(AI):
             str(fileInfo.file_id)
         docs = self._upload_document(file_path=file_path)
 
-        def _pageSummary(data):
+        def matchPage(pageNum, start_index):
+            # 해당 조건과 일치하는 Document를 찾습니다.
+            for doc in docs:
+                cond_1 = doc.metadata['page'] == pageNum
+                cond_2 = doc.metadata['start_index'] == start_index
+                if cond_1 and cond_2:
+                    return doc
+            # Not Found
+            return None
 
-            # print(data)
-            return 'pageSummary(data)'
+        def _pageSummary(data):
+            docs = [page['summary'] for page in data]
+            llm = OpenAI(temperature=0)
+            chain = load_summarize_chain(llm=llm,
+                                         chain_type="map_reduce",
+                                         verbose=False)
+            output_summary = chain.run(docs)
+            return output_summary
 
         def _fileSummary(docs):
             # map-reduce 를 통해 긴 전체 문서를 요약합니다.
-            # llm = OpenAI(temperature=0)
-            # chain = load_summarize_chain(llm=llm,
-            #                              chain_type="map_reduce",
-            #                              verbose=False)
-            # output_summary = chain.run(docs)
-            return 'output_summary'
+            llm = OpenAI(temperature=0)
+            chain = load_summarize_chain(llm=llm,
+                                         chain_type="map_reduce",
+                                         verbose=False)
+            output_summary = chain.run(docs)
+            return output_summary
 
         # --- QA Setting ---
         docVectorDB = self._get_vectordb(docs=docs,
@@ -399,26 +411,13 @@ class DoucmentInit(AI):
 
         pageResultInfo = []
         pageInfo = []
-        
-        # fileResultInfo = [{
-        #     "fileId": fileInfo.file_id,
-        #     "compFileId": 3,
-        #     "score": 12.3,
-        #     "report": "report report report"
-        # },
-        #     {"fileId": fileInfo.file_id,
-        #      "compFileId": 3,
-        #      "score": 1222.3,
-        #      "report": "report report report"
-        #      }]
-        
         prev_page = None
         prev_page_info = []
         for pageID, pageContent, pageVector, pageMetaDatas in zip(getVectorDBInfo['ids'],
                                                                   getVectorDBInfo['documents'],
                                                                   getVectorDBInfo['embeddings'],
                                                                   getVectorDBInfo['metadatas']):
-            print(len(pageVector))
+            # 표절 검사
             similarPages = compVectorDB.similarity_search_by_vector_with_score(
                 embedding=pageVector,
                 distance_metric="cos",
@@ -433,10 +432,11 @@ class DoucmentInit(AI):
                     'report': report,
                 })
 
-            page = pageMetaDatas['page']
+            # 페이지 요약
+            pageNum = pageMetaDatas['page']
             start_index = pageMetaDatas['start_index']
 
-            if prev_page != page:
+            if prev_page != pageNum:
                 if prev_page is not None:
                     # 이전 페이지 작업 종료 처리
                     # 페이지 요약
@@ -450,26 +450,26 @@ class DoucmentInit(AI):
                     print(f"Finished processing page {prev_page}...")
 
                 # 현재 페이지 작업 시작 처리
-                print(f"Processing page {page}...")
+                print(f"Processing page {pageNum}...")
                 prev_page_info.append({
                     'fileId': fileInfo.file_id,
                     'pageId': pageID,
-                    'pageNum': page,
+                    'pageNum': pageNum,
                     'startIndex': start_index,
-                    'summary': pageContent
+                    'summary': matchPage(pageNum, start_index)
                 })
-                prev_page = page
+                prev_page = pageNum
             else:
                 # 현재 페이지 작업 시작 처리
-                print(f"Processing page {page}...")
+                print(f"Processing page {pageNum}...")
                 prev_page_info.append({
                     'fileId': fileInfo.file_id,
                     'pageId': pageID,
-                    'pageNum': page,
+                    'pageNum': pageNum,
                     'startIndex': start_index,
-                    'summary': pageContent
+                    'summary': matchPage(pageNum, start_index)
                 })
-                prev_page = page
+                prev_page = pageNum
 
         # 마지막 페이지 작업 종료 처리
         if prev_page is not None:
@@ -490,7 +490,7 @@ class DoucmentInit(AI):
                    'pageInfo': pageInfo,
                    'pageResultInfo': pageResultInfo}
         return resDict
-    
+
     def qaAboutFile(self, questionForm):
         # file_path = self._getFileFromBoto3(fileInfo=fileInfo)
         # file_path = self._getFileFromS3(fileInfo=fileInfo)
@@ -507,12 +507,12 @@ class DoucmentInit(AI):
         )
         chain_type_kwargs = {"prompt": PROMPT}
         retriever = docVectorDB.as_retriever(search_kwargs={'k': 3})
-        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
-                                         chain_type="stuff", 
-                                         retriever=retriever, 
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(),
+                                         chain_type="stuff",
+                                         retriever=retriever,
                                          chain_type_kwargs=chain_type_kwargs,
                                          return_source_documents=True)
-        
+
         result = qa({"query": questionForm.query})
         source = [docs.page_content for docs in result["source_documents"]]
         resDict = {'result': result["result"],
@@ -533,12 +533,12 @@ class DoucmentInit(AI):
         )
         chain_type_kwargs = {"prompt": PROMPT}
         retriever = competitionVectorDB.as_retriever(search_kwargs={'k': 3})
-        qa = RetrievalQA.from_chain_type(llm=OpenAI(), 
-                                         chain_type="stuff", 
-                                         retriever=retriever, 
+        qa = RetrievalQA.from_chain_type(llm=OpenAI(),
+                                         chain_type="stuff",
+                                         retriever=retriever,
                                          chain_type_kwargs=chain_type_kwargs,
                                          return_source_documents=True)
-        
+
         result = qa({"query": questionForm.query})
         source = [docs.page_content for docs in result["source_documents"]]
         resDict = {'result': result["result"],
@@ -548,18 +548,19 @@ class DoucmentInit(AI):
     def createReport(self, reqFileReport):
         file = self.getContentsFromFile(
             file_id=reqFileReport.file_id, ids=[reqFileReport.page_id])
-        comp_file = self.getContentsFromCompDB(ids=[reqFileReport.comp_page_id])
-        
+        comp_file = self.getContentsFromCompDB(
+            ids=[reqFileReport.comp_page_id])
+
         def extractContent(file):
-            print(file['pageInfo'])
+            # print(file['pageInfo'])
             return file['pageInfo'][0]['pageContent']
-        
+
         pageContent = extractContent(file)
         compPageContent = extractContent(comp_file)
-                
+
         report = self._pageAnalysisRun(
             pageContent=pageContent, compPageContent=compPageContent)
-        
+
         resDict = {'report': report}
         return resDict
 

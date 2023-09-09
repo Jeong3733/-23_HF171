@@ -11,29 +11,27 @@ import {
   Breadcrumb,
 } from 'react-bootstrap';
 
-// impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
+import SweetPagination from 'sweetpagination';
 
-// import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
-import FileListByFile from 'components/dashboard/courses/contents/FileListByFile';
+const SummaryPopup = ({ fileInfo, pageInfo }) => {
+  const [groupPageList, setGroupPageList] = useState({});
+  const [pageNumList, setPageNumList] = useState([]);
+  const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
 
-// import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
+  function groupPage() {
+    const result = {};
+    for (const item of pageInfo.data) {
+      result[item.page_num] = item.summary;
+    }
+    setGroupPageList(result);
+    setPageNumList(Object.keys(result));
+  }
+  useEffect(() => {
+    groupPage();
+  }, [pageInfo]);
 
-const SummaryPopup = ({ data }) => {
-  const { competition_id, post_id } = useParams();
-  // console.log(competition_id);
-  console.log(data.file_info);
-  console.log(data.page_info);
+  // console.log(groupPageList);
+  // console.log(groupPageList);
   return (
     <Fragment>
       <Row>
@@ -67,16 +65,24 @@ const SummaryPopup = ({ data }) => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    data.file_info.summary: {data.file_info.summary}
+                    {fileInfo.data.summary}
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    data.page_info:{' '}
-                    {data.page_info.map((page) => (
-                      <div key={page.page_id}>
-                        <div>page.page_id: {page.page_id}</div>
-                        <div>page.summary: {page.summary}</div>
-                      </div>
-                    ))}
+                    <div>
+                      {currentPageData.map((item, index) => (
+                        <div key={index}>
+                          <h2>Page # {parseInt(item) + 1}</h2>
+                          <h3>Item # {groupPageList[item]}</h3>
+                        </div>
+                      ))}
+                      <SweetPagination
+                        currentPageData={setCurrentPageData}
+                        dataPerPage={1}
+                        getData={pageNumList}
+                        navigation={true}
+                        getStyle={'style-1'}
+                      />
+                    </div>
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>
@@ -89,3 +95,38 @@ const SummaryPopup = ({ data }) => {
 };
 
 export default SummaryPopup;
+
+// const A = [
+//   {
+//     file_id: 81,
+//     page_num: 0,
+//     start_index: 0,
+//     summary: '0 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 1,
+//     start_index: 0,
+//     summary: '1 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 1,
+//     start_index: 10,
+//     summary: '1 page : summary',
+//   },
+//   {
+//     file_id: 81,
+//     page_num: 2,
+//     start_index: 0,
+//     summary: '2 page : summary',
+//   },
+// ];
+
+// const B = [
+//   {
+//     0: '0 page : summary',
+//     1: '0 page : summary',
+//     2: '0 page : summary',
+//   },
+// ];

@@ -28,8 +28,8 @@ import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
-const FilesTable = ({ table_data }) => {
-  const { competition_id } = useParams();
+const FilesTable = ({ table_data, evaluate }) => {
+  const { judge_id, post_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -77,21 +77,26 @@ const FilesTable = ({ table_data }) => {
     );
   };
 
+  // console.log(table_data);
   const columns = useMemo(
     () => [
-      { accessor: 'file_id', Header: 'ID', show: false },
+      { accessor: 'file_info_id', Header: 'ID', show: false },
       {
         accessor: 'file_title',
         Header: '파일 이름',
         Cell: ({ value, row }) => {
           return (
             <h5 className="mb-0">
-              <Link
-                to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/${row.original.file_id}/`}
-                className="text-inherit"
-              >
-                {value}
-              </Link>
+              {evaluate ? (
+                <Link
+                  to={`/judge/evaluate/${judge_id}/${post_id}/files/${row.original.file_info_id}/`}
+                  className="text-inherit"
+                >
+                  {value}
+                </Link>
+              ) : (
+                <div className="text-inherit">{value}</div>
+              )}
             </h5>
           );
         },
@@ -100,7 +105,7 @@ const FilesTable = ({ table_data }) => {
         accessor: 'file_extension',
         Header: '파일 유형',
         Cell: ({ value }) => {
-          if (value === 'file_extension_1') {
+          if (value === 'PNG' || value === 'JPG' || value === 'JPEG') {
             return (
               <div className="d-flex align-items-center">
                 <ImageIcon
@@ -122,7 +127,7 @@ const FilesTable = ({ table_data }) => {
               </div>
             );
           }
-          if (value === 'file_extension_3') {
+          if (value === 'PDF') {
             return (
               <div className="d-flex align-items-center">
                 <LinkIcon
@@ -135,18 +140,23 @@ const FilesTable = ({ table_data }) => {
           }
         },
       },
-
       {
-        accessor: 'user_id',
+        accessor: 'user_info_id',
         Header: '파일 주인',
         Cell: ({ value, row }) => {
           return (
-            <Link
-              to={`/evaluate/${competition_id}/${row.original.post_info_id}/files/${row.original.file_id}/`}
-              className="text-inherit"
-            >
-              {value}
-            </Link>
+            <div className="mb-0">
+              {evaluate ? (
+                <Link
+                  to={`/judge/evaluate/${judge_id}/${post_id}/files/${row.original.file_info_id}/`}
+                  className="text-inherit"
+                >
+                  {value}
+                </Link>
+              ) : (
+                <div className="text-inherit">{value}</div>
+              )}
+            </div>
           );
         },
       },
@@ -192,18 +202,6 @@ const FilesTable = ({ table_data }) => {
     useGlobalFilter,
     usePagination,
     useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        {
-          id: 'selection',
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <Checkbox {...getToggleAllRowsSelectedProps()} />
-          ),
-          Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
-        },
-        ...columns,
-      ]);
-    },
   );
 
   const { pageIndex, globalFilter } = state;
@@ -216,7 +214,7 @@ const FilesTable = ({ table_data }) => {
             <GlobalFilter
               filter={globalFilter}
               setFilter={setGlobalFilter}
-              placeholder="Search Course"
+              placeholder="Search Files..."
             />
           </Col>
         </Row>

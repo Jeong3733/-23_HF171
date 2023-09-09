@@ -29,11 +29,11 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const FileListPopup = ({ data }) => {
+const FileListPopup = ({ fileList }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
-  console.log(data);
+  console.log(fileList);
   return (
     <Fragment>
       <Row>
@@ -71,7 +71,7 @@ const FileListPopup = ({ data }) => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={data} />
+                    <FilesTable table_data={fileList.data} evaluate={true} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
                     <FilesTable table_data={allPublishedPosts} />

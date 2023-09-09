@@ -110,6 +110,24 @@ const EvaluateVertical = (props) => {
           post_id: post.post_info_id,
           link: 'member',
         },
+        {
+          id: uuid(),
+          name: '심사위원 관리',
+          post_id: post.post_info_id,
+          link: 'judge',
+        },
+        {
+          id: uuid(),
+          name: '평가 항목 관리',
+          post_id: post.post_info_id,
+          link: 'item',
+        },
+        {
+          id: uuid(),
+          name: '결과 조회',
+          post_id: post.post_info_id,
+          link: 'result',
+        },
       ],
     }));
   };
@@ -190,7 +208,7 @@ const EvaluateVertical = (props) => {
     <Fragment>
       <SimpleBar style={{ maxHeight: '100vh' }}>
         <div className="nav-scroller">
-          <Link className="navbar-brand" to="/dashboard/overview">
+          <Link className="navbar-brand" to="/">
             <Image src={InverseLogo} alt="" />
           </Link>
         </div>

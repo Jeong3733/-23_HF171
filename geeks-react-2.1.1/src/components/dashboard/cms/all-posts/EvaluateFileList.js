@@ -198,13 +198,19 @@ const EvaluateFileList = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={fileList} />
+                    <FilesTable table_data={fileList} evaluate={false} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
-                    <FilesTable table_data={allPublishedPosts} />
+                    <FilesTable
+                      table_data={allPublishedPosts}
+                      evaluate={false}
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="done" className="pb-4">
-                    <FilesTable table_data={allScheduledPosts} />
+                    <FilesTable
+                      table_data={allScheduledPosts}
+                      evaluate={false}
+                    />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

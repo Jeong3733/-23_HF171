@@ -17,22 +17,10 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import sub components
-import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
+// import FilesTable from 'components/dashboard/cms/all-posts/FilesTable';
 import ListNav from 'components/dashboard/courses/contents/ListNav';
 
-// import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
-
 const PlagiarismCheckPopup = ({ data }) => {
-  const { competition_id, post_id } = useParams();
-  // console.log(competition_id);
-
   return (
     <Fragment>
       <Row>
