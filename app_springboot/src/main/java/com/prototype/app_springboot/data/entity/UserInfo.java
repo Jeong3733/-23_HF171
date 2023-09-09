@@ -32,7 +32,7 @@ public class UserInfo {
     private SystemRoleType role;
 
     @OneToMany(mappedBy = "userInfo")
-    private final List<FileInfo> fileList = new ArrayList<FileInfo>();
+    private final List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
 
     @OneToMany(mappedBy = "userInfo")
     private final List<EvaluationScore> evaluationScoreList = new ArrayList<EvaluationScore>();

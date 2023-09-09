@@ -2,6 +2,7 @@ package com.prototype.app_springboot.data.dto.PostDtos;
 
 import com.prototype.app_springboot.data.dto.FileDtos.FileInfoDto;
 import com.prototype.app_springboot.data.entity.PostInfo;
+import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.data.type.BoardType;
 import lombok.Getter;
 
@@ -20,7 +21,7 @@ public class PostInfoWithPostTypeDto {
     private List<UploadPostTypeDto> upload_post_type_list;
     private List<FileInfoDto> file_info_list;
 
-    public PostInfoWithPostTypeDto(PostInfo postInfo) {
+    public PostInfoWithPostTypeDto(PostInfo postInfo, UserInfo userInfo) {
         this.post_info_id = postInfo.getId();
         this.user_info_id = postInfo.getUserInfo().getUserId();
         this.competition_id = postInfo.getCompetitionInfo().getId();
@@ -31,7 +32,7 @@ public class PostInfoWithPostTypeDto {
         this.upload_post_type_list = postInfo.getUploadPostTypeList().stream()
                 .map(UploadPostTypeDto::new)
                 .toList();
-        this.file_info_list = postInfo.getFileInfoList().stream()
+        this.file_info_list = userInfo.getFileInfoList().stream()
                 .map(FileInfoDto::new)
                 .toList();
     }

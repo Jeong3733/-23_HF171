@@ -31,7 +31,7 @@ public class UserInfoDto {
         this.email = userInfo.getEmail();
         this.social = userInfo.getSocial();
         this.role = userInfo.getRole();
-        this.file_list = userInfo.getFileList()
+        this.file_list = userInfo.getFileInfoList()
                 .stream()
                 .map(FileInfoDto::new)
                 .toList();
