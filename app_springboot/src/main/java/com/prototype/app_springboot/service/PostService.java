@@ -59,7 +59,7 @@ public class PostService {
             return postInfo;
         } else {
             log.error("UserId : {}의 유저가 CompetitionId : {}의 대회에 참가하지 않았습니다.", userId, competitionId);
-            throw new EntityNotFoundException("해당 유저가 해당 대회에 참가하지 않았습니다.");
+            return null;
         }
     }
 

@@ -17,13 +17,15 @@ import java.util.UUID;
 @Service
 public class EvaluationService {
     private final EvaluationInfoRepository evaluationInfoRepository;
+    private final FileInfoRepository fileInfoRepository;
     private final PostInfoRepository postInfoRepository;
     private final EvaluationScoreRepository evaluationScoreRepository;
     private final JudgeInfoRepository judgeInfoRepository;
     private final UserInfoRepository userInfoRepository;
 
-    public EvaluationService(EvaluationInfoRepository evaluationInfoRepository, PostInfoRepository postInfoRepository, EvaluationScoreRepository evaluationScoreRepository, JudgeInfoRepository judgeInfoRepository, UserInfoRepository userInfoRepository) {
+    public EvaluationService(EvaluationInfoRepository evaluationInfoRepository, FileInfoRepository fileInfoRepository, PostInfoRepository postInfoRepository, EvaluationScoreRepository evaluationScoreRepository, JudgeInfoRepository judgeInfoRepository, UserInfoRepository userInfoRepository) {
         this.evaluationInfoRepository = evaluationInfoRepository;
+        this.fileInfoRepository = fileInfoRepository;
         this.postInfoRepository = postInfoRepository;
         this.evaluationScoreRepository = evaluationScoreRepository;
         this.judgeInfoRepository = judgeInfoRepository;
@@ -72,6 +74,17 @@ public class EvaluationService {
     @Transactional
     public List<EvaluationScore> getAllEvaluationScoreByPostId(int postId) {
         return evaluationScoreRepository.findAllByPostInfoId(postId);
+    }
+
+    @Transactional
+    public List<EvaluationScore> getAllEvaluationScoreByFileIdAndJudgeId(int fileId, UUID judgeId) {
+        FileInfo fileInfo = fileInfoRepository.findById(fileId)
+                .orElseThrow(() -> {
+                    log.error("FileId : {}의 파일이 존재하지 않습니다.", fileId);
+                    throw new EntityNotFoundException("해당 FileId의 파일이 존재하지 않습니다.");
+                });
+
+        return evaluationScoreRepository.findAllByUserInfo_UserIdAndJudgeInfoId(fileInfo.getUserInfo().getUserId(), judgeId);
     }
 
     @Transactional

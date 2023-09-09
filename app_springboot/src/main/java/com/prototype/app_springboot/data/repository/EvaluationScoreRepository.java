@@ -12,5 +12,5 @@ public interface EvaluationScoreRepository extends JpaRepository<EvaluationScore
     List<EvaluationScore> findAllByPostInfoId(int postId);
     List<EvaluationScore> findAllByPostInfoIdAndJudgeInfoId(int postId, UUID judgeId);
     Optional<EvaluationScore> findByPostInfoIdAndEvaluationInfoIdAndJudgeInfoIdAndUserInfo_UserId(int postId, int evalId, UUID judgeId, String userId);
-    Boolean existsByPostInfoIdAndEvaluationInfoIdAndJudgeInfoId(int postId, int evalId, UUID judgeId);
+    List<EvaluationScore> findAllByUserInfo_UserIdAndJudgeInfoId(String userId, UUID judgeId);
 }

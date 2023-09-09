@@ -67,4 +67,11 @@ public class EvaluationController {
         evaluationService.saveAllScoreList(reqUpdateScore.getEvaluation_score_list());
         return new ResponseEntity<>("점수 저장 완료", HttpStatus.OK);
     }
+
+    @PostMapping("/get/score/fileId")
+    public ResponseEntity<ResGetScore> getAllScoreByFileIdAndJudgeId(@RequestBody ReqGetScoreByFileAndJudge reqGetScoreByFileAndJudge) {
+        List<EvaluationScore> evaluationScoreList = evaluationService.getAllEvaluationScoreByFileIdAndJudgeId(reqGetScoreByFileAndJudge.getFileId(), reqGetScoreByFileAndJudge.getJudgeId());
+        ResGetScore resGetScoreList = new ResGetScore(evaluationScoreList);
+        return new ResponseEntity<>(resGetScoreList, HttpStatus.OK);
+    }
 }

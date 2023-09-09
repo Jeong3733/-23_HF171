@@ -1,6 +1,6 @@
 package com.prototype.app_springboot.controller;
 
-import com.prototype.app_springboot.data.dto.PageDtos.CompPageDto;
+import com.prototype.app_springboot.data.dto.PageDtos.CompPageInfoDto;
 import com.prototype.app_springboot.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ public class PageController {
     }
 
     @GetMapping("/get/compPageInfo")
-    public ResponseEntity<List<CompPageDto>> getAllCompPageInfoList() {
-        List<CompPageDto> compPageDtoList = pageService.getAllCompPageInfoList().stream()
-                .map(CompPageDto::new)
+    public ResponseEntity<List<CompPageInfoDto>> getAllCompPageInfoList() {
+        List<CompPageInfoDto> compPageDtoList = pageService.getAllCompPageInfoList().stream()
+                .map(CompPageInfoDto::new)
                 .toList();
         return new ResponseEntity<>(compPageDtoList, HttpStatus.OK);
     }

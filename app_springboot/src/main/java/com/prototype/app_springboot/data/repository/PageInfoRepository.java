@@ -10,6 +10,5 @@ import java.util.Optional;
 public interface PageInfoRepository extends JpaRepository<PageInfo, String>{
     Optional<PageInfo> findByPageId(String pageId);
     List<PageInfo> findAllByFileInfoId(int fileInfoId);
-
     List<PageInfo> findAllByFileInfo(FileInfo fileInfo);
 }

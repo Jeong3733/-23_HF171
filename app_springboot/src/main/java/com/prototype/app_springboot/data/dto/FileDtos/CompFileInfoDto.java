@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class CompFileDto {
+public class CompFileInfoDto {
     private int comp_file_id;
     private String competition_name;
     private String file_extension;
@@ -20,7 +20,7 @@ public class CompFileDto {
     private String path;
     private LocalDateTime upload_datetime;
 
-    public CompFileDto(CompFileInfo compFileInfo) {
+    public CompFileInfoDto(CompFileInfo compFileInfo) {
         this.comp_file_id = compFileInfo.getId();
         this.competition_name = compFileInfo.getCompetitionName();
         this.file_extension = compFileInfo.getFileExtension();
