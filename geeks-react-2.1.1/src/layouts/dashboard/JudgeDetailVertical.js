@@ -22,9 +22,6 @@ import 'simplebar/dist/simplebar.min.css';
 import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
 
 // import sub components
-import AddNewCategoryPopup from 'components/dashboard/courses/CoursesCategory.js';
-
-// import sub components
 import FileListPopup from 'components/dashboard/courses/FileListPopup';
 import SummaryPopup from 'components/dashboard/courses/SummaryPopup';
 import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';

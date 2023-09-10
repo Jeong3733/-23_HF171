@@ -4,7 +4,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
 import JudgeDetailVertical from './JudgeDetailVertical';
-import HeaderDefault from './HeaderDefault';
+import JudgeHeaderDefault from './JudgeHeaderDefault';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
@@ -168,7 +168,7 @@ const JudgeDetailIndex = (props) => {
     },
   };
 
-  console.log(data);
+  // console.log(data);
   return (
     <div
       id="db-wrapper"
@@ -185,7 +185,7 @@ const JudgeDetailIndex = (props) => {
       </div>
       <section id="page-content">
         <div className="header">
-          <HeaderDefault
+          <JudgeHeaderDefault
             data={{
               showMenu: showMenu,
               SidebarToggleMenu: ToggleMenu,
@@ -194,7 +194,7 @@ const JudgeDetailIndex = (props) => {
         </div>
         <div className={`container-fluid ${className ? className : 'p-4'}`}>
           {children}
-          <Outlet />
+          <Outlet context={{ fileInfo }} />
         </div>
       </section>
     </div>
