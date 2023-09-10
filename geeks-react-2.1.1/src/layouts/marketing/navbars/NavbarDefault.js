@@ -12,7 +12,7 @@ import DocumentMenu from 'layouts/marketing/navbars/DocumentMenu';
 import DarkLightMode from 'layouts/DarkLightMode';
 
 // import media files
-import Logo from 'assets/images/brand/logo/logo.svg';
+import Logo from 'assets/images/brand/logo/test-logo-icon.svg';
 
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
