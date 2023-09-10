@@ -42,7 +42,9 @@ const JudgeDetailVertical = ({ data }) => {
     SummaryPopup: (
       <SummaryPopup fileInfo={data.fileInfo} pageInfo={data.pageInfo} />
     ),
-    DocumentQAPopup: <DocumentQAPopup fileInfo={data.fileInfo} />,
+    DocumentQAPopup: (
+      <DocumentQAPopup fileInfo={data.fileInfo} messages={data.messages} />
+    ),
     PlagiarismCheckPopup: <PlagiarismCheckPopup data={data} />,
     EvaluationPopup: <EvaluationPopup data={data} />,
     InfoPopup: <InfoPopup data={data.resultData} />,

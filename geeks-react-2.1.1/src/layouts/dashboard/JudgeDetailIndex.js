@@ -38,6 +38,7 @@ const JudgeDetailIndex = (props) => {
   const [compFileInfo, setCompFileInfo] = useState([]);
   const [compPageInfo, setCompPageInfo] = useState([]);
   const [compPageContent, setCompPageContent] = useState([{}]);
+  const [messages, setMessages] = useState([]);
 
   function getAllData() {
     // FileList
@@ -160,6 +161,10 @@ const JudgeDetailIndex = (props) => {
     scoreList: {
       data: scoreList,
       setData: setScoreList,
+    },
+    messages: {
+      data: messages,
+      setData: setMessages,
     },
   };
 

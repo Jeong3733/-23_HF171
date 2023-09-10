@@ -14,7 +14,7 @@ import ChatThreadsData from 'data/dashboard/chat/ChatThreadsData';
 import { ChatReducer } from 'reducers/ChatReducer';
 
 const ChatProvider = ({ children }) => {
-  const [activeThread, setActiveThread] = useState(ChatThreadsData[0]);
+  const [activeThread, setActiveThread] = useState(ChatThreadsData);
   console.log(activeThread);
   const [ChatState, ChatDispatch] = useReducer(ChatReducer, {
     messages: MessagesData,

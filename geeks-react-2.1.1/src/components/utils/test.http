@@ -163,6 +163,15 @@ Accept: */*
   "compPageId": "4f3850ed-4e12-11ee-9c2a-bf24f907f2a9"
 }
 
+### 제출물 질문 요청
+POST http://{{host}}/get/file/qna
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"fileId": 73,
+  "query": "Corportate Strategic Planning에 대해 설명해줘."	
+}
 
 
 
