@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiUtils } from './ApiUtils';
 import { handleLogError } from './ErrorUtils';
+import { useAuth } from 'components/AuthContext';
 
 /* 게시물 리스트 요청 by BoardType */
 export async function loadPostList(competition_id, boardType) {
@@ -570,6 +571,82 @@ export async function getPageResultInfo(page_id, comp_page_id) {
   const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
   return await apiUtils
     .GetPageResult(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+// const Auth = useAuth();
+
+/* 제출물 파일 업로드 요청 */
+export async function updateFile(user, post_id, fileData) {
+  const formData = {
+    postId: post_id,
+  };
+  const formDataToSend = new FormData();
+  formDataToSend.append(
+    'data',
+    new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+  );
+  if (fileData !== null) {
+    formDataToSend.append('file', fileData);
+  }
+  const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .AddFileInfo(user, formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 게시물 리스트 요청 by BoardType */
+export async function getPostInfoChkByPostId(user, post_id) {
+  const formDataToSend = {
+    postId: post_id,
+  };
+  const sample = {
+    post_info_id: 1,
+    user_info_id: 'www',
+    competition_info_id: 1,
+    board_type: 'SUBMIT',
+    // board_type: 'NOTICE',
+    title: 'API 에러',
+    contents: '공지에요',
+    created_date: '2023-08-04T20:18:21',
+    upload_post_type_list: [
+      {
+        post_info_id: 1,
+        type: 'pdf',
+      },
+      {
+        post_info_id: 1,
+        type: 'ppt',
+      },
+    ],
+    file_info_id: 1,
+    path: '168eeb95-883d-4252-969e-d3fb93f6cf11',
+    file_title: 'API 에러',
+    file_type: null,
+    file_extension: 'HWP',
+    upload_datetime: '2023-08-05T00:09:12',
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+  return await apiUtils
+    .GetPostInfoChkByPostId(user, formDataToSend)
     .then((response) => {
       const getData = response.data;
       return getData;
