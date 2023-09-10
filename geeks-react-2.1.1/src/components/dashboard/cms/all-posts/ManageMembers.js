@@ -1,6 +1,11 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import {
   Col,
   Row,
@@ -31,8 +36,10 @@ import {
   allDraftPosts,
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
+import { loadUserList, validateCreator } from 'components/utils/LoadData';
 
 const ManageMembers = () => {
+  const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
   const { competition_id } = useParams();
   console.log(competition_id);
   const [show, setShow] = useState(false);
@@ -40,50 +47,25 @@ const ManageMembers = () => {
   const handleShow = () => setShow(true);
 
   const [userInfoList, setUserInfoList] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
-    // postList
-    const data10 = {
-      competitionId: competition_id,
-    };
+    const user = Auth.getUser();
+    validateCreator(user, competition_id).then((getData) => {
+      if (getData === 'yes') {
+        // userinfo list
+        loadUserList(competition_id).then((getData) => {
+          setUserInfoList(getData);
+        });
+      } else if (getData === 'no') {
+        alert('권한이 없습니다.');
+        navigate('/');
+      } else {
+        alert('로그인하고 오세요!');
+        navigate('/authentication/sign-in/');
+      }
+    });
+  }, []);
 
-    apiUtils
-      .GetUseInforByCompetitionId(data10)
-      .then((response) => {
-        console.log(response.data);
-        const getUserInfoList = response.data;
-        setUserInfoList(getUserInfoList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getUserInfoList = [
-          {
-            competition_id: 1,
-            team_id: 1,
-            user_id: 1,
-            role_type: 'Creator',
-            email: '',
-            social: 1,
-            user_name: 1,
-            password: 1,
-            role: 1,
-          },
-          {
-            competition_id: 1,
-            team_id: 1,
-            user_id: 1,
-            role_type: 'Creator',
-            email: '',
-            social: 1,
-            user_name: 1,
-            password: 1,
-            role: 1,
-          },
-        ];
-        setUserInfoList(getUserInfoList);
-        handleLogError(error);
-      });
-  }, [competition_id]);
   console.log(userInfoList);
   if (isNotEmptyObj(userInfoList)) {
     return (
@@ -94,8 +76,12 @@ const ManageMembers = () => {
               <div className="mb-3 mb-md-0">
                 <h1 className="mb-1 h2 fw-bold">인원 관리</h1>
                 <Breadcrumb>
-                  <Breadcrumb.Item href="#">공모전 이름</Breadcrumb.Item>
-                  <Breadcrumb.Item href="#">관리</Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    href={`/detail/${competitionInfo.competition_info_id}/`}
+                  >
+                    {competitionInfo.competition_name}
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>관리</Breadcrumb.Item>
                   <Breadcrumb.Item active>인원 관리</Breadcrumb.Item>
                 </Breadcrumb>
               </div>

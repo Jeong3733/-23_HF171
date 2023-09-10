@@ -64,12 +64,6 @@ export const DashboardMenu = [
     icon: 'book-open',
     link: 'submits',
   },
-  {
-    id: uuid(),
-    title: '평가 항목 관리',
-    icon: 'book-open',
-    link: 'evaluate',
-  },
 ];
 
 export default DashboardMenu;

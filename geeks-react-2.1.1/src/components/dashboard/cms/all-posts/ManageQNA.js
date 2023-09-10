@@ -1,6 +1,11 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, useParams, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useOutletContext,
+  useNavigate,
+} from 'react-router-dom';
 import {
   Col,
   Row,
@@ -28,7 +33,7 @@ import {
 } from 'data/courses/AllPostsData';
 
 // impoort Auth module
-import { loadPostList } from 'components/utils/LoadData';
+import { loadPostList, validateCreator } from 'components/utils/LoadData';
 
 const ManageQNA = () => {
   const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
@@ -39,11 +44,24 @@ const ManageQNA = () => {
   const handleShow = () => setShow(true);
 
   const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
-    loadPostList(competition_id, 'QNA').then((postList) => {
-      setPostList(postList);
+    const user = Auth.getUser();
+    validateCreator(user, competition_id).then((getData) => {
+      console.log(getData);
+      if (getData === 'yes') {
+        loadPostList(competition_id, 'QNA').then((getData) => {
+          setPostList(getData);
+        });
+      } else if (getData === 'no') {
+        alert('권한이 없습니다.');
+        navigate('/');
+      } else {
+        alert('로그인하고 오세요!');
+        navigate('/authentication/sign-in/');
+      }
     });
-  }, [show]);
+  }, []);
 
   return (
     <Fragment>

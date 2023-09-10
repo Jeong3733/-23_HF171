@@ -1,6 +1,11 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, useParams, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useOutletContext,
+  useNavigate,
+} from 'react-router-dom';
 import {
   Col,
   Row,
@@ -30,7 +35,7 @@ import {
 // impoort Auth module
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-import { loadPostList } from 'components/utils/LoadData';
+import { loadPostList, validateCreator } from 'components/utils/LoadData';
 
 const ManageAnnouncements = () => {
   const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
@@ -41,11 +46,23 @@ const ManageAnnouncements = () => {
   const handleShow = () => setShow(true);
 
   const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
-    loadPostList(competition_id, 'NOTICE').then((postList) => {
-      setPostList(postList);
+    const user = Auth.getUser();
+    validateCreator(user, competition_id).then((getData) => {
+      if (getData === 'yes') {
+        loadPostList(competition_id, 'NOTICE').then((getData) => {
+          setPostList(getData);
+        });
+      } else if (getData === 'no') {
+        alert('권한이 없습니다.');
+        navigate('/');
+      } else {
+        alert('로그인하고 오세요!');
+        navigate('/authentication/sign-in/');
+      }
     });
-  }, [show]);
+  }, []);
 
   return (
     <Fragment>

@@ -1,6 +1,11 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, useParams, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useOutletContext,
+  useNavigate,
+} from 'react-router-dom';
 import {
   Col,
   Row,
@@ -31,6 +36,7 @@ import {
 // impoort Auth module
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadPostList, validateCreator } from 'components/utils/LoadData';
 
 const ManageSubmits = () => {
   const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
@@ -40,47 +46,24 @@ const ManageSubmits = () => {
   const handleCloseAdd = () => setShowAdd(false);
   const handleShowAdd = () => setShowAdd(true);
 
-  // const [showJudge, setShowJudge] = useState(false);
-  // const handleCloseJudge = () => setShowJudge(false);
-  // const handleShowJudge = () => {
-  //   setShowJudge(true);
-  // };
-
   const [postList, setPostList] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    // postList
-    const data4 = {
-      competitionId: competition_id,
-      boardType: 'SUBMIT',
-    };
-    apiUtils
-      .GetPostInfoByBoardType(data4)
-      .then((response) => {
-        const getPostList = response.data;
-        setPostList(getPostList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getPostList = [
-          {
-            post_id: 1,
-            title: '제출 1',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-          {
-            post_id: 2,
-            title: '제출 2',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setPostList(getPostList);
-        handleLogError(error);
-      });
+    const user = Auth.getUser();
+    validateCreator(user, competition_id).then((getData) => {
+      console.log(getData);
+      if (getData === 'yes') {
+        loadPostList(competition_id, 'SUBMIT').then((getData) => {
+          setPostList(getData);
+        });
+      } else if (getData === 'no') {
+        alert('권한이 없습니다.');
+        navigate('/');
+      } else {
+        alert('로그인하고 오세요!');
+        navigate('/authentication/sign-in/');
+      }
+    });
   }, []);
 
   return (
