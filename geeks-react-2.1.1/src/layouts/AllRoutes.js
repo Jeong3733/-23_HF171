@@ -23,9 +23,7 @@ import SignUpSuccess from 'components/dashboard/authentication/SignUpSuccess';
 
 import About from 'components/marketing/pages/jobs/company/About';
 import Announcements from 'components/marketing/pages/jobs/company/Announcements';
-// import QNA from 'components/marketing/pages/jobs/company/Announcements';
 import QNA from 'components/marketing/pages/jobs/company/QNA';
-// import Submits from 'components/marketing/pages/jobs/company/Announcements';
 import Submits from 'components/marketing/pages/jobs/company/Submits';
 import ItemPage from 'components/marketing/pages/jobs/company/ItemPage';
 

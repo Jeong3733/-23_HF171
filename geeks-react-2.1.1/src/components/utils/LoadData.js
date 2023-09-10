@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiUtils } from './ApiUtils';
 import { handleLogError } from './ErrorUtils';
+import { useAuth } from 'components/AuthContext';
 
 /* 게시물 리스트 요청 by BoardType */
 export async function loadPostList(competition_id, boardType) {
@@ -27,13 +28,14 @@ export async function loadPostList(competition_id, boardType) {
   return await apiUtils
     .GetPostInfoByBoardType(formDataToSend)
     .then((response) => {
-      const getPostList = response.data;
-      return getPostList;
+      const getData = response.data;
+      return getData;
     })
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      return sample;
+      const getData = sample;
+      return getData;
     });
 }
 
@@ -558,6 +560,175 @@ export async function checkJudgeByPostId(judge_id, post_id) {
       handleLogError(error);
       const getData = sample;
       return getData;
+    });
+}
+
+/* PageResultInfo Json 요청 */
+export async function getPageResultInfo(page_id, comp_page_id) {
+  const formDataToSend = {
+    pageId: page_id,
+    compPageId: comp_page_id,
+  };
+  const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetPageResult(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+// const Auth = useAuth();
+
+/* 제출물 파일 업로드 요청 */
+export async function updateFile(user, post_id, fileData) {
+  const formData = {
+    postId: post_id,
+  };
+  const formDataToSend = new FormData();
+  formDataToSend.append(
+    'data',
+    new Blob([JSON.stringify(formData)], { type: 'application/json' }),
+  );
+  if (fileData !== null) {
+    formDataToSend.append('file', fileData);
+  }
+  const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .AddFileInfo(user, formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 게시물 정보 요청 */
+export async function getPostInfoChkByPostId(user, post_id) {
+  const formDataToSend = {
+    postId: post_id,
+  };
+  const sample = {
+    post_info_id: 1,
+    user_info_id: 'www',
+    competition_info_id: 1,
+    board_type: 'SUBMIT',
+    // board_type: 'NOTICE',
+    title: 'API 에러',
+    contents: '공지에요',
+    created_date: '2023-08-04T20:18:21',
+    upload_post_type_list: [
+      {
+        post_info_id: 1,
+        type: 'pdf',
+      },
+      {
+        post_info_id: 1,
+        type: 'ppt',
+      },
+    ],
+    file_info_id: 1,
+    path: '168eeb95-883d-4252-969e-d3fb93f6cf11',
+    file_title: 'API 에러',
+    file_type: null,
+    file_extension: 'HWP',
+    upload_datetime: '2023-08-05T00:09:12',
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+  return await apiUtils
+    .GetPostInfoChkByPostId(user, formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 유저 리스트 요청 */
+export async function loadUserList(competition_id) {
+  const formDataToSend = {
+    competitionId: competition_id,
+  };
+  const sample = [
+    {
+      competition_id: 1,
+      team_id: 1,
+      user_id: 1,
+      role_type: 'Creator',
+      email: '',
+      social: 1,
+      user_name: 1,
+      password: 1,
+      role: 1,
+    },
+    {
+      competition_id: 1,
+      team_id: 1,
+      user_id: 1,
+      role_type: 'Creator',
+      email: '',
+      social: 1,
+      user_name: 1,
+      password: 1,
+      role: 1,
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetUseInforByCompetitionId(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 주최자 검증 */
+export async function validateCreator(user, competition_id) {
+  const formDataToSend = {
+    competitionId: competition_id,
+  };
+  const sample = {
+    competition_id: 2,
+    team_id: -1,
+    user_id: 'www',
+    role_type: 'PARTICIPANT_BASE',
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetUserByCompetition(user, formDataToSend)
+    .then((response) => {
+      // console.log(response.data);
+      if (response.data.role_type === 'CREATOR') {
+        // console.log('주최자입니다.');
+        return 'yes';
+      } else {
+        return 'no';
+      }
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      return 'fail';
     });
 }
 

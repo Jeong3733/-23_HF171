@@ -141,9 +141,42 @@ Accept: */*
 }
 
 
+### 페이지 표절 검사 리포트 요청
+POST http://{{host}}/add/page/report
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "file_id": 81,
+  "page_id": "60328cc9-4e12-11ee-9c2a-bf24f907f2a9",
+  "comp_page_id": "4f3850ed-4e12-11ee-9c2a-bf24f907f2a9"
+}
+
+
+### Page Result Info 조회
+POST http://{{host}}/get/pageResult
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+  "pageId": "60328cc9-4e12-11ee-9c2a-bf24f907f2a9",
+  "compPageId": "4f3850ed-4e12-11ee-9c2a-bf24f907f2a9"
+}
+
+### 제출물 질문 요청
+POST http://{{host}}/get/file/qna
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"fileId": 73,
+  "query": "Corportate Strategic Planning에 대해 설명해줘."	
+}
+
 
 
 #######################################
+
 
 ### 파일 리스트 요청 by PostId
 POST http://{{host}}/get/fileInfo/postId

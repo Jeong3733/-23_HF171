@@ -42,6 +42,7 @@ export const apiUtils = {
   GetAllScore,
   GetUserInfo,
   GetUserInfoList,
+  GetPageResult,
 };
 
 const cookies = new Cookies();
@@ -883,6 +884,16 @@ async function GetCompetitionFileQNA(data) {
  */
 async function GetPageReport(data) {
   const url = `/add/page/report`;
+  return await instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+/* 제출물 페이지 표절 검사 리포트 요청
+ */
+async function GetPageResult(data) {
+  const url = `/get/pageResult`;
   return await instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

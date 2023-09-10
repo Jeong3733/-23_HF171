@@ -15,56 +15,20 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 // import sub components
 import ApplyForm from './ApplyForm.js';
 import { isNotEmptyObj } from 'helper/utils.js';
+import { getPostInfoChkByPostId } from 'components/utils/LoadData.js';
 
 const ItemPage = () => {
   const { competition_id, post_id } = useParams();
   const { Auth } = useOutletContext();
   const [postInfo, setPostInfo] = useState({});
   const navigate = useNavigate();
+
   useEffect(() => {
-    // postInfo
-    const data4 = {
-      postId: post_id,
-    };
     const user = Auth.getUser();
     if (user) {
-      apiUtils
-        .GetPostInfoChkByPostId(user, data4)
-        .then((response) => {
-          const getPostInfo = response.data;
-          setPostInfo(getPostInfo);
-        })
-        .catch((error) => {
-          // alert(error.response.data);
-          const getPostInfo = {
-            post_info_id: 1,
-            user_info_id: 'www',
-            competition_info_id: 1,
-            board_type: 'SUBMIT',
-            // board_type: 'NOTICE',
-            title: 'API 에러',
-            contents: '공지에요',
-            created_date: '2023-08-04T20:18:21',
-            upload_post_type_list: [
-              {
-                post_info_id: 1,
-                type: 'pdf',
-              },
-              {
-                post_info_id: 1,
-                type: 'ppt',
-              },
-            ],
-            file_info_id: 1,
-            path: '168eeb95-883d-4252-969e-d3fb93f6cf11',
-            file_title: 'API 에러',
-            file_type: null,
-            file_extension: 'HWP',
-            upload_datetime: '2023-08-05T00:09:12',
-          }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setPostInfo(getPostInfo);
-          handleLogError(error);
-        });
+      getPostInfoChkByPostId(user, post_id).then((getData) => {
+        setPostInfo(getData);
+      });
     } else {
       alert('로그인하고 오세요!');
       navigate('/authentication/sign-in/');
@@ -93,7 +57,11 @@ const ItemPage = () => {
                 xs={12}
               >
                 {postInfo.file_info_list ? ( // 제출 게시물 - 업로드한 상태
-                  <ApplyForm Auth={Auth} fileList={postInfo.file_info_list} />
+                  <ApplyForm
+                    Auth={Auth}
+                    fileList={postInfo.file_info_list}
+                    setPostInfo={setPostInfo}
+                  />
                 ) : (
                   // 제출 게시물 - 업로드 안한 상태
                   <ApplyForm Auth={Auth} />

@@ -15,8 +15,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import { downloadFile, refreshPage, s3Link } from 'helper/utils';
+import { getPostInfoChkByPostId, updateFile } from 'components/utils/LoadData';
 
-const ApplyForm = ({ Auth, fileList }) => {
+const ApplyForm = ({ Auth, fileList, setPostInfo }) => {
   const { competition_id, post_id } = useParams();
 
   const [fileData, setFileData] = useState(null);
@@ -28,31 +29,18 @@ const ApplyForm = ({ Auth, fileList }) => {
       console.log(e.target.files);
     }
   };
-
-  const handleSubmit = (e) => {
-    console.log(e);
-
-    let formData = { postId: post_id };
-    const formDataToSend = new FormData();
-    formDataToSend.append(
-      'data',
-      new Blob([JSON.stringify(formData)], { type: 'application/json' }),
-    );
-    if (fileData !== null) {
-      formDataToSend.append('file', fileData);
-    }
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = () => {
+    setIsLoading(true);
 
     const user = Auth.getUser();
-    apiUtils
-      .AddFileInfo(user, formDataToSend)
-      .then((response) => {
-        console.log(response.data);
-        refreshPage();
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
+    updateFile(user, post_id, fileData).then(() => {
+      getPostInfoChkByPostId(user, post_id).then((getData) => {
+        setPostInfo(getData);
       });
+      setIsLoading(false);
+      setFileData(null);
+    });
   };
   console.log(fileList);
   return (
@@ -93,7 +81,7 @@ const ApplyForm = ({ Auth, fileList }) => {
         <Card.Body className="p-md-4">
           <h3 className="mb-4">파일 제출 </h3>
           {/* form to apply for the job */}
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group className="mb-3" controlId="formFileData">
               <Form.Label>
                 파일 업로드 <span className="text-danger">*</span>

@@ -20,7 +20,7 @@ import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 
-const FileText = ({ data }) => {
+const FileText = ({ info, data }) => {
   return (
     <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">
@@ -55,16 +55,16 @@ const FileText = ({ data }) => {
         <Card.Body className="p-0">
           <Tab.Content>
             <Tab.Pane eventKey="1" className="pb-4 p-4 ps-0 pe-0">
-              data.file_id: {data.file_id}
+              data.file_id: {info.file_id}
             </Tab.Pane>
             <Tab.Pane eventKey="2" className="pb-4 p-4 ps-0 pe-0">
-              data.comp_file_id: {data.comp_file_id}
+              data.comp_file_id: {info.comp_file_id}
             </Tab.Pane>
             <Tab.Pane eventKey="3" className="pb-4 p-4 ps-0 pe-0">
-              data.score: {data.score}
+              data.score: {info.score}
             </Tab.Pane>
             <Tab.Pane eventKey="4" className="pb-4 p-4 ps-0 pe-0">
-              data.report: {data.report}
+              data.report: {info.report}
             </Tab.Pane>
           </Tab.Content>
         </Card.Body>

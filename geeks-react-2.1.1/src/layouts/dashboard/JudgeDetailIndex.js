@@ -4,7 +4,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
 import JudgeDetailVertical from './JudgeDetailVertical';
-import HeaderDefault from './HeaderDefault';
+import JudgeHeaderDefault from './JudgeHeaderDefault';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
@@ -37,8 +37,8 @@ const JudgeDetailIndex = (props) => {
   const [fileResultInfo, setFileResultInfo] = useState([]);
   const [compFileInfo, setCompFileInfo] = useState([]);
   const [compPageInfo, setCompPageInfo] = useState([]);
-
-  function extractPageResultInfo(params) {}
+  const [compPageContent, setCompPageContent] = useState([{}]);
+  const [messages, setMessages] = useState([]);
 
   function getAllData() {
     // FileList
@@ -73,14 +73,22 @@ const JudgeDetailIndex = (props) => {
       });
 
       setPageInfo(getData.page_info_list);
-      const pageResultInfoLists = getData.page_info_list.map(
-        (item) => item.page_result_info_list,
-      );
+
+      const newPageResultInfo = [];
+      getData.page_info_list.forEach((item) => {
+        newPageResultInfo.push(...item.page_result_info_list);
+      });
       // console.log(pageResultInfoLists);
-      setPageResultInfo(pageResultInfoLists);
+      setPageResultInfo(newPageResultInfo);
       setFileResultInfo(getData.file_result_info_list);
-      setCompFileInfo(getData.comp_file_info_list);
+
+      const newCompFileInfo = {};
+      getData.comp_file_info_list.forEach((item) => {
+        newCompFileInfo[item.comp_file_id] = item;
+      });
+      setCompFileInfo(newCompFileInfo);
       setCompPageInfo(getData.comp_page_info_list);
+      setCompPageContent(getData.page_content_list.pageInfo);
     });
 
     // ScoreList
@@ -142,6 +150,10 @@ const JudgeDetailIndex = (props) => {
       data: compPageInfo,
       setData: setCompPageInfo,
     },
+    compPageContent: {
+      data: compPageContent,
+      setData: setCompPageContent,
+    },
     itemList: {
       data: itemList,
       setData: setItemList,
@@ -150,9 +162,13 @@ const JudgeDetailIndex = (props) => {
       data: scoreList,
       setData: setScoreList,
     },
+    messages: {
+      data: messages,
+      setData: setMessages,
+    },
   };
 
-  console.log(data);
+  // console.log(data);
   return (
     <div
       id="db-wrapper"
@@ -169,7 +185,7 @@ const JudgeDetailIndex = (props) => {
       </div>
       <section id="page-content">
         <div className="header">
-          <HeaderDefault
+          <JudgeHeaderDefault
             data={{
               showMenu: showMenu,
               SidebarToggleMenu: ToggleMenu,
@@ -178,7 +194,7 @@ const JudgeDetailIndex = (props) => {
         </div>
         <div className={`container-fluid ${className ? className : 'p-4'}`}>
           {children}
-          <Outlet />
+          <Outlet context={{ fileInfo }} />
         </div>
       </section>
     </div>
