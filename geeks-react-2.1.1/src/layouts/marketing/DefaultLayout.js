@@ -29,7 +29,7 @@ const DefaultLayout = (props) => {
 
   return (
     <Fragment>
-      <NavbarDefault isLoggedIn={isLoggedIn} doLogOut={doLogOut} />
+      <NavbarDefault isLoggedIn={isLoggedIn} doLogOut={doLogOut} Auth={Auth} />
       <main>
         {props.children}
         <Outlet context={{ isLoggedIn, Auth }} />

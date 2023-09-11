@@ -61,12 +61,12 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/authentication/sign-in/" element={<SignIn />} />
       <Route path="/authentication/sign-up/" element={<SignUp />} />
+      <Route path="/authentication/forget-password/" element={<ComingSoon />} />
       <Route
         path="/authentication/sign-up-success/"
         element={<SignUpSuccess />}
       />
 
-      {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>
         {/* <Route path="/" element={<CourseIndex />} /isLoggedIn> */}
         <Route path="/" element={<IndexPage />} />
@@ -178,6 +178,13 @@ const AllRoutes = () => {
           path="/manage/:competition_id/announcements/"
           element={<ManageAnnouncements />}
         />
+      </Route>
+
+      {/* 마이페이지 */}
+      <Route element={<DefaultLayout />}>
+        <Route path="/dashboard/common/" element={<ComingSoon />} />
+        <Route path="/dashboard/participant/" element={<ComingSoon />} />
+        <Route path="/dashboard/creator/" element={<ComingSoon />} />
       </Route>
 
       {/* Routes with ChatLayout */}

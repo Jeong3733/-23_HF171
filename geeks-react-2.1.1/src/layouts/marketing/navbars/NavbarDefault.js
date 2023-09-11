@@ -20,7 +20,7 @@ import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
 // impoort Auth module
 // import { useAuth } from 'components/AuthContext';
 
-const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
+const NavbarDefault = ({ Auth, isLoggedIn, doLogOut }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
@@ -75,10 +75,10 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
                   );
                 }
               })}
-              <DocumentMenu />
+              {/* <DocumentMenu /> */}
             </Nav>
             {/* Search Form */}
-            <Form className="mt-3 mt-lg-0 ms-lg-3 d-flex align-items-center">
+            {/* <Form className="mt-3 mt-lg-0 ms-lg-3 d-flex align-items-center">
               <span className="position-absolute ps-3 search-icon">
                 <i className="fe fe-search"></i>
               </span>
@@ -88,7 +88,7 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
                 className="ps-6"
                 placeholder="Search Courses"
               />
-            </Form>
+            </Form> */}
             {/* Right side quick / shortcut menu  */}
             <Nav className="navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap">
               {!isLoggedIn && <DarkLightMode className="mt-2 me-2" />}
@@ -120,7 +120,7 @@ const NavbarDefault = ({ headerstyle, isLoggedIn, doLogOut }) => {
                     : 'd-none'
                 }`}
               >
-                <QuickMenu doLogOut={doLogOut} />
+                <QuickMenu doLogOut={doLogOut} Auth={Auth} />
               </span>
             </Nav>
             {/* end of right side quick / shortcut menu  */}
