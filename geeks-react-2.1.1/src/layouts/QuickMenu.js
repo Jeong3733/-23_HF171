@@ -25,19 +25,10 @@ import { useAuth } from 'components/AuthContext';
 import { loadUser } from 'components/utils/LoadData';
 import { isNotEmptyObj } from 'helper/utils';
 
-const QuickMenu = ({ doLogOut, Auth }) => {
+const QuickMenu = ({ doLogOut, UserInfo }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
-  const [userInfo, setUserInfo] = useState({});
-  useEffect(() => {
-    if (Auth) {
-      const user = Auth.getUser();
-      loadUser(user).then((getData) => {
-        setUserInfo(getData);
-      });
-    }
-  }, []);
   const Notifications = () => {
     return (
       <SimpleBar style={{ maxHeight: '300px' }}>
@@ -86,6 +77,7 @@ const QuickMenu = ({ doLogOut, Auth }) => {
       </SimpleBar>
     );
   };
+  // console.log(UserInfo);
   return (
     <Fragment>
       <DarkLightMode />
@@ -155,10 +147,12 @@ const QuickMenu = ({ doLogOut, Auth }) => {
                     className="rounded-circle"
                   />
                 </div>
-                <div className="ms-3 lh-1">
-                  <h5 className="mb-1">{userInfo.user_name}</h5>
-                  <p className="mb-0 text-muted">{userInfo.email}</p>
-                </div>
+                {UserInfo && isNotEmptyObj(UserInfo) && (
+                  <div className="ms-3 lh-1">
+                    <h5 className="mb-1">{UserInfo.user_name}</h5>
+                    <p className="mb-0 text-muted">{UserInfo.email}</p>
+                  </div>
+                )}
               </div>
             </Dropdown.Item>
             <Dropdown.Divider />

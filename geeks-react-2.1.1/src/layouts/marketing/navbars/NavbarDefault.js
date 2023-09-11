@@ -16,11 +16,12 @@ import Logo from 'assets/images/brand/logo/test-logo-icon.svg';
 
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
+import { isNotEmptyObj } from 'helper/utils';
 
 // impoort Auth module
 // import { useAuth } from 'components/AuthContext';
 
-const NavbarDefault = ({ Auth, isLoggedIn, doLogOut }) => {
+const NavbarDefault = ({ UserInfo, isLoggedIn, doLogOut }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
@@ -49,7 +50,7 @@ const NavbarDefault = ({ Auth, isLoggedIn, doLogOut }) => {
                 : 'd-none'
             }`}
           >
-            <QuickMenu doLogOut={doLogOut} />
+            <QuickMenu doLogOut={doLogOut} UserInfo={UserInfo} />
           </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav">
             <span className="icon-bar top-bar mt-0"></span>
@@ -110,7 +111,6 @@ const NavbarDefault = ({ Auth, isLoggedIn, doLogOut }) => {
                   회원가입
                 </Nav.Link>
               </span>
-
               <span
                 className={`${
                   isLoggedIn
@@ -120,7 +120,7 @@ const NavbarDefault = ({ Auth, isLoggedIn, doLogOut }) => {
                     : 'd-none'
                 }`}
               >
-                <QuickMenu doLogOut={doLogOut} Auth={Auth} />
+                <QuickMenu doLogOut={doLogOut} UserInfo={UserInfo} />
               </span>
             </Nav>
             {/* end of right side quick / shortcut menu  */}

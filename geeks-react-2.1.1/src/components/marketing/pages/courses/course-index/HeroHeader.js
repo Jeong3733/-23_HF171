@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 import HeroImage from 'assets/images/hero/hero-img.png';
 
 const HeroHeader = (props) => {
-  const { isLoggedIn } = props;
+  const { isLoggedIn, UserInfo } = props;
+  console.log(UserInfo.role);
   return (
     <section className="bg-primary">
       <Container>
@@ -24,19 +25,22 @@ const HeroHeader = (props) => {
                 Hand-picked Instructor and expertly crafted courses, designed
                 for the modern students and entrepreneur.
               </p>
-              <Link to="/explore" className="btn btn-dark">
+              <Link to="/explore/" className="btn btn-dark">
                 공모전 둘러보기
               </Link>{' '}
+              <Link to="/guide/" className="btn btn-dark">
+                사용 설명서
+              </Link>{' '}
               {isLoggedIn ? (
-                <Link to="/authentication/sign-in/" className="btn btn-white">
-                  로그인 완료 🧐
+                <Link to="/dashboard/common/" className="btn btn-white">
+                  마이페이지 🧐
                 </Link>
               ) : (
                 <Link to="/authentication/sign-in/" className="btn btn-white">
-                  로그인하러 가는 길 🧐
+                  로그인 🧐
                 </Link>
               )}{' '}
-              {isLoggedIn && (
+              {isLoggedIn && UserInfo && UserInfo.role === 'ADMIN' && (
                 <Link to="/dbupload/" className="btn btn-white">
                   표절DB 추가
                 </Link>

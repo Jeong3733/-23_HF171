@@ -1046,6 +1046,15 @@ export async function loadCompetitionDetailList(user) {
 
 /* 유저 정보 로그인 */
 export async function loadUser(user) {
+  const sample = {
+    user_id: 'test_id',
+    email: 'test@test.com',
+    password: 'test_pw',
+    role: 'test_role',
+    social: 'test_social',
+    user_name: 'test_name',
+  };
+
   return await apiUtils
     .getUserInfo(user)
     .then((response) => {
@@ -1055,7 +1064,8 @@ export async function loadUser(user) {
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      return {};
+      const getData = sample;
+      return getData;
     });
 }
 
@@ -1064,6 +1074,15 @@ export async function loadUserByUserId(user_id) {
   const formDataToSend = {
     userId: user_id,
   };
+  const sample = {
+    user_id: 'test_id',
+    email: 'test@test.com',
+    password: 'test_pw',
+    role: 'test_role',
+    social: 'test_social',
+    user_name: 'test_name',
+  };
+
   return await apiUtils
     .GetUserInfo(formDataToSend)
     .then((response) => {
@@ -1073,7 +1092,8 @@ export async function loadUserByUserId(user_id) {
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      return {};
+      const getData = sample;
+      return getData;
     });
 }
 
