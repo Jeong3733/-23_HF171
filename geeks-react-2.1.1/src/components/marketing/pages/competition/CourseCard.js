@@ -1,5 +1,5 @@
 // import node module libraries
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
@@ -10,6 +10,7 @@ import {
   ProgressBar,
   ListGroup,
   Badge,
+  Button,
 } from 'react-bootstrap';
 
 // import custom components
@@ -18,12 +19,51 @@ import LevelIcon from 'components/marketing/common/miscellaneous/LevelIcon';
 import GKTippy from 'components/elements/tooltips/GKTippy';
 
 // import utility file
-import { numberWithCommas, s3Link } from 'helper/utils';
+import {
+  calculateDday,
+  numberWithCommas,
+  s3Link,
+  toDateByYYYYMMDD,
+} from 'helper/utils';
+import { getUserInfo, loadUserList } from 'components/utils/LoadData';
 
 const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
   const link = `/detail/${item.competition_info_id}/`;
-  // console.log(item);
-  /** Used in Course Index, Course Category, Course Filter Page, Student Dashboard etc...  */
+
+  function getCompetitionStatus() {
+    const today = new Date();
+    const start = new Date(item.competition_start_date);
+    const end = new Date(item.competition_end_date);
+    // console.log(today, start, end);
+    if (today < start) {
+      return 'Coming Soon';
+    } else if (today < end) {
+      if (item.role_type === 'PARTICIPANT_BASE') {
+        return '참가 중';
+      } else {
+        return '참가 가능';
+      }
+    } else {
+      return '공모전 종료';
+    }
+  }
+
+  const [userInfo, setUserInfo] = useState({});
+  const [userList, setUserList] = useState([]);
+  useEffect(() => {
+    // console.log(item);
+    loadUserList(item.competition_info_id).then((getData) => {
+      setUserList(getData);
+      getData.map((i) => {
+        if (i.role_type === 'CREATOR') {
+          getUserInfo(i.user_id).then((getData) => {
+            setUserInfo(getData);
+          });
+        }
+      });
+    });
+  }, []);
+
   const GridView = () => {
     return (
       <Link to={link} key={index}>
@@ -42,9 +82,6 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
             <h3 className="h4 text-inherit mb-2 text-truncate-line-2 ">
               {item.competition_name}
             </h3>
-            <span className="h4 text-inherit mb-2 text-truncate-line-2 ">
-              user_id:{item.user_id}
-            </span>
             {/* 공모전 분류 */}
             <ListGroup as="ul" bsPrefix="list-inline" className="mb-2">
               {item.competition_type_list.map((i) => (
@@ -62,32 +99,26 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
             {/* 참가 인원 */}
             <div className="lh-1 mb-2 d-flex align-items-center">
               <span>
-                {item.competition_start_date}
-                {' ~ '} {item.competition_end_date}
+                {toDateByYYYYMMDD(item.competition_start_date)}
+                {' ~ '}
+                {toDateByYYYYMMDD(item.competition_end_date)}
               </span>
             </div>
             {/* 공모전 설명 */}
             <div className={'lh-1 mb-4 d-flex align-items-center'}>
               <span className="fs-6 text-muted">
-                {' '}
-                {item.competition_description}
-                {/* {item.rating.toFixed(1)}-{numberWithCommas(item.ratingby)} */}
-                {/* <GKTippy content={item.competition_description}>
-                  <Link className="text-dark">
-                    {item.competition_description}
-                  </Link>
-                </GKTippy> */}
+                <GKTippy content={item.competition_description}>
+                  <div>{item.competition_description}</div>
+                </GKTippy>
               </span>
             </div>
 
             <div className="lh-1 d-flex align-items-center">
               <Badge pill bg="primary" className="me-1">
-                {/* https://geeks-react.netlify.app/elements/badges */}
-                {'참가가능 여부'}
+                {getCompetitionStatus()}
               </Badge>
               <Badge pill bg="primary" className="me-1">
-                {/* https://geeks-react.netlify.app/elements/badges */}
-                {'+23 day'}
+                {calculateDday(item.competition_start_date)}
               </Badge>
             </div>
 
@@ -101,18 +132,20 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
           {/* Card Footer */}
           <Card.Footer>
             <Row className="align-items-center g-0">
-              <Col className="col-auto">
+              {/* <Col className="col-auto">
                 <Image
                   src={item.instructor_image}
                   className="rounded-circle avatar-xs"
                   alt={item.instructor_image}
                 />
-              </Col>
+              </Col> */}
               <Col className="col ms-2">
-                <span>{`공모전 주최자 이름`}</span>
+                <span>{userInfo.user_name}</span>
               </Col>
               <Col className="col-auto">
-                <span className="text-dark me-1 fw-bold">{'000'}명</span>
+                <span className="text-dark me-1 fw-bold">
+                  {userList.length} 명
+                </span>
               </Col>
             </Row>
           </Card.Footer>

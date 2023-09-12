@@ -17,6 +17,53 @@ export const isNotEmptyObj = (obj) => {
   return true;
 };
 
+function leftPad(value) {
+  if (value >= 10) {
+    return value;
+  }
+
+  return `0${value}`;
+}
+/**
+ * date - > YYYY-MM-DD
+ * v1.0.0
+ */
+export function toDateByYYYYMMDD(source, delimiter = '-') {
+  const date = new Date(source);
+  const year = date.getFullYear();
+  const month = leftPad(date.getMonth() + 1);
+  const day = leftPad(date.getDate());
+
+  return [year, month, day].join(delimiter);
+}
+
+/**
+ * D-Day 계산
+ * v1.0.0
+ */
+export function calculateDday(source) {
+  var targetDate = new Date(source);
+  // 현재 날짜 구하기
+  var currentDate = new Date();
+
+  // 주어진 날짜와 현재 날짜 사이의 시간 차이 계산
+  var timeDifference = currentDate - targetDate;
+
+  // 시간 차이를 밀리초에서 일로 변환
+  var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  // D-Day 문자열 생성
+  var ddayString = '';
+  if (daysDifference > 0) {
+    ddayString = 'D+' + daysDifference + '일';
+  } else if (daysDifference < 0) {
+    ddayString = 'D' + daysDifference + '일';
+  } else {
+    ddayString = 'D-Day';
+  }
+
+  return ddayString;
+}
 /**
  * 페이지 리로드
  * v1.0.0

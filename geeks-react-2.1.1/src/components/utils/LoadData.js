@@ -1069,34 +1069,6 @@ export async function loadUser(user) {
     });
 }
 
-/* 유저 정보 by userId */
-export async function loadUserByUserId(user_id) {
-  const formDataToSend = {
-    userId: user_id,
-  };
-  const sample = {
-    user_id: 'test_id',
-    email: 'test@test.com',
-    password: 'test_pw',
-    role: 'test_role',
-    social: 'test_social',
-    user_name: 'test_name',
-  };
-
-  return await apiUtils
-    .GetUserInfo(formDataToSend)
-    .then((response) => {
-      const getData = response.data;
-      return getData;
-    })
-    .catch((error) => {
-      // alert(error.response.data);
-      handleLogError(error);
-      const getData = sample;
-      return getData;
-    });
-}
-
 // loadSample(competition_id).then((getData) => {
 //   setPostList(getData);
 // });
