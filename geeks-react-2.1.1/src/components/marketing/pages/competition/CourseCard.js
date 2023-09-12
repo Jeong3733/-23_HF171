@@ -48,10 +48,7 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
     }
   }
 
-  const [userInfo, setUserInfo] = useState({});
-  const [userList, setUserList] = useState([]);
-  useEffect(() => {
-    // console.log(item);
+  function loadData() {
     loadUserList(item.competition_info_id).then((getData) => {
       setUserList(getData);
       getData.map((i) => {
@@ -62,6 +59,13 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
         }
       });
     });
+  }
+
+  const [userInfo, setUserInfo] = useState({});
+  const [userList, setUserList] = useState([]);
+  useEffect(() => {
+    // console.log(item);
+    loadData();
   }, []);
 
   const GridView = () => {
@@ -114,12 +118,14 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
             </div>
 
             <div className="lh-1 d-flex align-items-center">
-              <Badge pill bg="primary" className="me-1">
-                {getCompetitionStatus()}
-              </Badge>
-              <Badge pill bg="primary" className="me-1">
-                {calculateDday(item.competition_start_date)}
-              </Badge>
+              <div className="lh-1 d-flex align-items-center">
+                <Badge pill bg="primary" className="me-1">
+                  {getCompetitionStatus()}
+                </Badge>
+                <Badge pill bg="primary" className="me-1">
+                  {calculateDday(item.competition_start_date)}
+                </Badge>
+              </div>
             </div>
 
             {/* <div className="h-1 mt-3">

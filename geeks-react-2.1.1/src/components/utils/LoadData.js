@@ -90,6 +90,60 @@ export async function loadCompetitionInfo(competition_id) {
     });
 }
 
+/* 공모전 정보 요청 by competition_id in 로그인*/
+export async function loadCompetitionInfoByUser(user, competition_id) {
+  const formDataToSend = {
+    competitionId: competition_id,
+  };
+  const sample = {
+    competition_info_id: '11111',
+    competition_name: '11111',
+    competition_image: 'competition_image',
+    competition_readme: 'competition_readme',
+    competition_description: 'competition_description',
+    competition_state: 'competition_state',
+    competition_start_date: 'start_date',
+    competition_end_date: 'end_date',
+    user_id: 'sbe07032',
+    team_id: 'team_id',
+    role_type: 'role_type',
+    competition_type_list: [
+      {
+        competition_info_id: 1,
+        type: '개발',
+      },
+      {
+        competition_info_id: 1,
+        type: '교육',
+      },
+      {
+        competition_info_id: 1,
+        type: '엔터테인먼트',
+      },
+    ],
+    competition_docs_list: [
+      {
+        competition_info_id: 1,
+        docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
+        file_title: 'competitionDocs',
+      },
+    ],
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+  return await apiUtils
+    .GetCompetitionInfoChkByCompetitionId(user, formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
 /* 게시물 정보 요청 by post_id */
 export async function loadPostInfo(post_id) {
   const formDataToSend = {
@@ -1045,7 +1099,7 @@ export async function loadCompetitionDetailList(user) {
 }
 
 /* 유저 정보 로그인 */
-export async function loadUser(user) {
+export function loadUser(user) {
   const sample = {
     user_id: 'test_id',
     email: 'test@test.com',
@@ -1053,9 +1107,8 @@ export async function loadUser(user) {
     role: 'test_role',
     social: 'test_social',
     user_name: 'test_name',
-  };
-
-  return await apiUtils
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return apiUtils
     .getUserInfo(user)
     .then((response) => {
       const getData = response.data;

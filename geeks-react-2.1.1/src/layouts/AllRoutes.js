@@ -188,6 +188,13 @@ const AllRoutes = () => {
         <Route path="/dashboard/creator/" element={<ComingSoon />} />
       </Route>
 
+      {/* 마이페이지 */}
+      <Route element={<DefaultLayout />}>
+        <Route path="/dashboard/common/" element={<ComingSoon />} />
+        <Route path="/dashboard/participant/" element={<ComingSoon />} />
+        <Route path="/dashboard/creator/" element={<ComingSoon />} />
+      </Route>
+
       {/* Routes with ChatLayout */}
       <Route element={<ChatLayout />}>
         <Route path="/chat" element={<Chat />} />
