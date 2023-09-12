@@ -28,7 +28,7 @@ const DetailLayout = () => {
   const { isLoggedIn, Auth } = useOutletContext();
 
   const [competitionInfo, setCompetitionInfo] = useState({});
-  const [userInfo, setUserInfo] = useState({});
+  const [creatorInfo, setCreatorInfo] = useState({});
   const [userList, setUserList] = useState([]);
 
   function loadData() {
@@ -37,7 +37,7 @@ const DetailLayout = () => {
       getData.map((i) => {
         if (i.role_type === 'CREATOR') {
           getUserInfo(i.user_id).then((getData) => {
-            setUserInfo(getData);
+            setCreatorInfo(getData);
           });
         }
       });
@@ -65,7 +65,7 @@ const DetailLayout = () => {
         Auth={Auth}
         isLoggedIn={isLoggedIn}
         competitionInfo={competitionInfo}
-        userInfo={userInfo}
+        creatorInfo={creatorInfo}
         userList={userList}
       >
         <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />

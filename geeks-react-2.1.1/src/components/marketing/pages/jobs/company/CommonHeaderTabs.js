@@ -32,7 +32,7 @@ import { validateCreator } from 'components/utils/LoadData';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { competitionInfo, isLoggedIn, Auth, userInfo, userList } = props;
+  const { competitionInfo, isLoggedIn, Auth, creatorInfo, userList } = props;
   const location = useLocation();
 
   const tabItems = [
@@ -184,7 +184,7 @@ const CommonHeaderTabs = (props) => {
                         </span>
                       </div>
                       <div className="lh-1 mb-2 d-flex align-items-center">
-                        <span>주최자 : {userInfo.user_name}</span>
+                        <span>주최자 : {creatorInfo.user_name}</span>
                       </div>
                       <div>
                         {/* reviews */}
@@ -256,19 +256,37 @@ const CommonHeaderTabs = (props) => {
               <Nav variant="line-bottom">
                 {tabItems.map((item, index) => {
                   if (isLoggedIn) {
-                    return (
-                      <Nav.Item key={index}>
-                        <Nav.Link
-                          as={Link}
-                          to={item.link}
-                          className={
-                            location.pathname === item.link ? 'active' : ''
-                          }
-                        >
-                          {item.title}
-                        </Nav.Link>
-                      </Nav.Item>
-                    );
+                    if (competitionInfo.role_type === 'CREATOR') {
+                      return (
+                        <Nav.Item key={index}>
+                          <Nav.Link
+                            as={Link}
+                            to={item.link}
+                            className={
+                              location.pathname === item.link ? 'active' : ''
+                            }
+                          >
+                            {item.title}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                    } else {
+                      if (item.isLoggedIn) {
+                        return (
+                          <Nav.Item key={index}>
+                            <Nav.Link
+                              as={Link}
+                              to={item.link}
+                              className={
+                                location.pathname === item.link ? 'active' : ''
+                              }
+                            >
+                              {item.title}
+                            </Nav.Link>
+                          </Nav.Item>
+                        );
+                      }
+                    }
                   } else {
                     if (item.isLoggedIn) {
                       return (
