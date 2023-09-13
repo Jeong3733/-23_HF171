@@ -63,7 +63,7 @@ public class AuthController {
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
 
-    @PostMapping("/user")
+    @GetMapping("/get/user")
     public ResponseEntity<UserInfoDto> getLoginUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfo userInfo = authService.getUser(authentication.getName());
