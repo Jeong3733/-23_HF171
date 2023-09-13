@@ -51,22 +51,26 @@ const AddItemForm = ({ Auth, setItemList }) => {
 
   const handleSubmit = () => {
     // alert(JSON.stringify(formData));
-    apiUtils
-      .AddEvaluationItem(formData)
-      .then((response) => {
-        const checkJudge = response.data;
-        alert('평가 항목이 추가되었습니다.');
-        resetForm();
-        loadItemList(post_id).then((getData) => {
-          setItemList(getData.evaluation_info_list);
+    if (formData.name === '') {
+      alert('평가 항목 이름을 입력해주세요.');
+    } else {
+      apiUtils
+        .AddEvaluationItem(formData)
+        .then((response) => {
+          const checkJudge = response.data;
+          alert('평가 항목이 추가되었습니다.');
+          resetForm();
+          loadItemList(post_id).then((getData) => {
+            setItemList(getData.evaluation_info_list);
+          });
+        })
+        .catch((error) => {
+          // alert(error.response.data);
+          alert('에러가 발생했습니다.');
+          handleLogError(error);
+          resetForm();
         });
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        alert('에러가 발생했습니다.');
-        handleLogError(error);
-        resetForm();
-      });
+    }
   };
 
   return (

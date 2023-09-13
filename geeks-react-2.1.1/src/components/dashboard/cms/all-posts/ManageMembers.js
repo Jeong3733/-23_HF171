@@ -85,28 +85,6 @@ const ManageMembers = () => {
                   <Breadcrumb.Item active>인원 관리</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
-              <div>
-                <Button variant="primary" onClick={handleShow}>
-                  Add New Category
-                </Button>
-                <Modal show={show} onHide={handleClose} size="lg">
-                  <Modal.Header closeButton>
-                    <Modal.Title>Create New Category</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <AddNewCategoryPopup />
-                  </Modal.Body>
-                  <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
-                    {/*  Action Buttons  */}
-                    <Button variant="primary" onClick={handleClose}>
-                      Add New Category
-                    </Button>
-                    <Button variant="outline-secondary" onClick={handleClose}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </div>
             </div>
           </Col>
         </Row>
@@ -128,11 +106,6 @@ const ManageMembers = () => {
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link eventKey="2" className="mb-sm-3 mb-md-0">
-                        심사위원
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="3" className="mb-sm-3 mb-md-0">
                         주최자
                       </Nav.Link>
                     </Nav.Item>
@@ -141,16 +114,22 @@ const ManageMembers = () => {
                 <Card.Body className="p-0">
                   <Tab.Content>
                     <Tab.Pane eventKey="All" className="pb-0">
-                      <ManageMebersTable table_data={userInfoList} />
+                      <ManageMebersTable
+                        table_data={userInfoList}
+                        role={'ALL'}
+                      />
                     </Tab.Pane>
                     <Tab.Pane eventKey="1" className="pb-0">
-                      <ManageMebersTable table_data={userInfoList} />
+                      <ManageMebersTable
+                        table_data={userInfoList}
+                        role={'USER'}
+                      />
                     </Tab.Pane>
                     <Tab.Pane eventKey="2" className="pb-4">
-                      <ManageMebersTable table_data={userInfoList} />
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="3" className="pb-4">
-                      <ManageMebersTable table_data={userInfoList} />
+                      <ManageMebersTable
+                        table_data={userInfoList}
+                        role={'CREATOR'}
+                      />
                     </Tab.Pane>
                   </Tab.Content>
                 </Card.Body>

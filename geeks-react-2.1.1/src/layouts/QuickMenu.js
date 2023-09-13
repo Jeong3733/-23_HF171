@@ -1,6 +1,6 @@
 // import node module libraries
 import { Link } from 'react-router-dom';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Row, Col, Image, Dropdown, ListGroup } from 'react-bootstrap';
 
@@ -22,12 +22,13 @@ import NotificationList from 'data/Notification';
 // impoort Auth module
 import { useCookies } from 'react-cookie';
 import { useAuth } from 'components/AuthContext';
+import { loadUser } from 'components/utils/LoadData';
+import { isNotEmptyObj } from 'helper/utils';
 
-const QuickMenu = ({ doLogOut }) => {
+const QuickMenu = ({ doLogOut, UserInfo }) => {
   const isDesktop = useMediaQuery({
     query: '(min-width: 1224px)',
   });
-
   const Notifications = () => {
     return (
       <SimpleBar style={{ maxHeight: '300px' }}>
@@ -76,6 +77,7 @@ const QuickMenu = ({ doLogOut }) => {
       </SimpleBar>
     );
   };
+  // console.log(UserInfo);
   return (
     <Fragment>
       <DarkLightMode />
@@ -84,7 +86,7 @@ const QuickMenu = ({ doLogOut }) => {
         bsPrefix="navbar-nav"
         className="navbar-right-wrap ms-2 d-flex nav-top-wrap"
       >
-        <Dropdown as="li">
+        {/* <Dropdown as="li">
           <Dropdown.Toggle
             as="a"
             bsPrefix=" "
@@ -117,7 +119,7 @@ const QuickMenu = ({ doLogOut }) => {
               </Link>
             </div>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
 
         <Dropdown as="li" className="ms-1">
           <Dropdown.Toggle
@@ -145,21 +147,17 @@ const QuickMenu = ({ doLogOut }) => {
                     className="rounded-circle"
                   />
                 </div>
-                <div className="ms-3 lh-1">
-                  <h5 className="mb-1">Annette Black</h5>
-                  <p className="mb-0 text-muted">annette@geeksui.com</p>
-                </div>
+                {UserInfo && isNotEmptyObj(UserInfo) && (
+                  <div className="ms-3 lh-1">
+                    <h5 className="mb-1">{UserInfo.user_name}</h5>
+                    <p className="mb-0 text-muted">{UserInfo.email}</p>
+                  </div>
+                )}
               </div>
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item eventKey="2">
-              <i className="fe fe-user me-2"></i> Profile
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="3">
-              <i className="fe fe-star me-2"></i> Subscription
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <i className="fe fe-settings me-2"></i> Settings
+            <Dropdown.Item eventKey="2" href="/dashboard/common/">
+              <i className="fe fe-user me-2"></i> MyPage
             </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item className="mb-3" onClick={doLogOut}>

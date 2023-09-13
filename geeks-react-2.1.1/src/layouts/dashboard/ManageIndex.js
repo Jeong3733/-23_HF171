@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { useState, useEffect } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
@@ -11,7 +11,7 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 import ManageVertical from './ManageVertical';
 import HeaderDefault from './HeaderDefault';
 import { isNotEmptyObj } from 'helper/utils';
-import { loadCompetitionInfo } from 'components/utils/LoadData';
+import { loadCompetitionInfo, loadUser } from 'components/utils/LoadData';
 
 const ManageIndex = (props) => {
   const { children, className, overflowHidden } = props;
@@ -26,6 +26,15 @@ const ManageIndex = (props) => {
   const { competition_id } = useParams();
   const [competitionInfo, setCompetitionInfo] = useState({});
 
+  const navigate = useNavigate();
+  function doLogOut() {
+    Auth.userLogout();
+    setIsLoggedIn(false);
+    navigate('/');
+    alert('로그아웃 완료');
+  }
+
+  const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);
@@ -34,6 +43,13 @@ const ManageIndex = (props) => {
     loadCompetitionInfo(competition_id).then((response) => {
       setCompetitionInfo(response);
     });
+
+    if (isLoggedIn) {
+      const user = Auth.getUser();
+      loadUser(user).then((getData) => {
+        setUserInfo(getData);
+      });
+    }
   }, []);
 
   // console.log(competitionInfo);
@@ -58,6 +74,9 @@ const ManageIndex = (props) => {
                 showMenu: showMenu,
                 SidebarToggleMenu: ToggleMenu,
               }}
+              UserInfo={userInfo}
+              isLoggedIn={isLoggedIn}
+              doLogOut={doLogOut}
             />
           </div>
           <div className={`container-fluid ${className ? className : 'p-4'}`}>

@@ -8,19 +8,13 @@ import HeroHeader from 'components/marketing/pages/courses/course-index/HeroHead
 import BrowseCategories from 'components/marketing/pages/competition/competition-filter-page/BrowseCategories';
 import MyCategories from 'components/marketing/pages/competition/competition-filter-page/MyCategories';
 
-// import custom components
-import CourseSlider from 'components/marketing/pages/competition/CourseSlider';
-
-// impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
 const IndexPage = () => {
-  const { isLoggedIn, Auth } = useOutletContext();
+  const { isLoggedIn, Auth, userInfo } = useOutletContext();
+  console.log(userInfo);
   return (
     <Fragment>
       {/*  Page Content  */}
-      <HeroHeader isLoggedIn={isLoggedIn} />
+      <HeroHeader isLoggedIn={isLoggedIn} UserInfo={userInfo} />
 
       <section className="pt-lg-12 pb-lg-3 pt-8 pb-6">
         <Container>

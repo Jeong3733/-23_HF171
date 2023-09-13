@@ -90,6 +90,60 @@ export async function loadCompetitionInfo(competition_id) {
     });
 }
 
+/* 공모전 정보 요청 by competition_id in 로그인*/
+export async function loadCompetitionInfoByUser(user, competition_id) {
+  const formDataToSend = {
+    competitionId: competition_id,
+  };
+  const sample = {
+    competition_info_id: '11111',
+    competition_name: '11111',
+    competition_image: 'competition_image',
+    competition_readme: 'competition_readme',
+    competition_description: 'competition_description',
+    competition_state: 'competition_state',
+    competition_start_date: 'start_date',
+    competition_end_date: 'end_date',
+    user_id: 'sbe07032',
+    team_id: 'team_id',
+    role_type: 'role_type',
+    competition_type_list: [
+      {
+        competition_info_id: 1,
+        type: '개발',
+      },
+      {
+        competition_info_id: 1,
+        type: '교육',
+      },
+      {
+        competition_info_id: 1,
+        type: '엔터테인먼트',
+      },
+    ],
+    competition_docs_list: [
+      {
+        competition_info_id: 1,
+        docs_path: '447d2d03-8d89-4b68-bcf3-20d9cdc864f8',
+        file_title: 'competitionDocs',
+      },
+    ],
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+
+  return await apiUtils
+    .GetCompetitionInfoChkByCompetitionId(user, formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
 /* 게시물 정보 요청 by post_id */
 export async function loadPostInfo(post_id) {
   const formDataToSend = {
@@ -454,10 +508,10 @@ export async function getUserInfoList(user_id_list) {
       user_id: '1',
       email: 'email',
       role: 'ADMIN',
-      user_name: '홍길동',
+      user_name: '123',
     },
     {
-      user_id: '1',
+      user_id: '2',
       email: 'email',
       role: 'ADMIN',
       user_name: '홍길동',
@@ -729,6 +783,364 @@ export async function validateCreator(user, competition_id) {
       // alert(error.response.data);
       handleLogError(error);
       return 'fail';
+    });
+}
+
+/* 유저 참여 공모전 리스트 요청 */
+export async function loadCompetitionListByUserId(user) {
+  const sample = [
+    {
+      competition_info_id: '11111',
+      competition_name: '11111',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '엔터테인먼트' },
+      ],
+    },
+    {
+      competition_info_id: '22222',
+      competition_name: '22222',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: '',
+      team_id: '',
+      role_type: '',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '33333',
+      competition_name: '33333',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: '',
+      team_id: '',
+      role_type: '',
+      competition_type_list: [{ type: '개발' }, { type: '교육' }],
+    },
+    {
+      competition_info_id: '44444',
+      competition_name: '44444',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '55555',
+      competition_name: '55555',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '66666',
+      competition_name: '66666',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '금융' },
+      ],
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetCompetitionInfoByUserId(user)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 공모전 리스트 요청 */
+export async function loadCompetitionList() {
+  const sample = [
+    {
+      competition_info_id: '11111',
+      competition_name: '11111',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '엔터테인먼트' },
+      ],
+    },
+    {
+      competition_info_id: '22222',
+      competition_name: '22222',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '33333',
+      competition_name: '33333',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [{ type: '개발' }, { type: '교육' }],
+    },
+    {
+      competition_info_id: '44444',
+      competition_name: '44444',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '55555',
+      competition_name: '55555',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '66666',
+      competition_name: '66666',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '금융' },
+      ],
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetCompetitionInfo()
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 공모전 리스트 + 디테일 */
+export async function loadCompetitionDetailList(user) {
+  const sample = [
+    {
+      competition_info_id: '11111',
+      competition_name: '11111',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '엔터테인먼트' },
+      ],
+    },
+    {
+      competition_info_id: '22222',
+      competition_name: '22222',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: '',
+      team_id: '',
+      role_type: '',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '33333',
+      competition_name: '33333',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: '',
+      team_id: '',
+      role_type: '',
+      competition_type_list: [{ type: '개발' }, { type: '교육' }],
+    },
+    {
+      competition_info_id: '44444',
+      competition_name: '44444',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '55555',
+      competition_name: '55555',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [{ type: '교육' }, { type: '엔터테인먼트' }],
+    },
+    {
+      competition_info_id: '66666',
+      competition_name: '66666',
+      competition_image: 'competition_image',
+      competition_readme: 'competition_readme',
+      competition_description: 'competition_description',
+      competition_state: 'competition_state',
+      competition_start_date: 'start_date',
+      competition_end_date: 'end_date',
+      user_id: 'sbe07032',
+      team_id: 'team_id',
+      role_type: 'role_type',
+      competition_type_list: [
+        { type: '개발' },
+        { type: '교육' },
+        { type: '금융' },
+      ],
+    },
+  ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return await apiUtils
+    .GetCompetitionInfoChkByUserId(user)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 유저 정보 로그인 */
+export function loadUser(user) {
+  const sample = {
+    user_id: 'test_id',
+    email: 'test@test.com',
+    password: 'test_pw',
+    role: 'test_role',
+    social: 'test_social',
+    user_name: 'test_name',
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return apiUtils
+    .getUserInfo(user)
+    .then((response) => {
+      console.log(response.data);
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* Readme 업데이트 요청 */
+export async function UpdateReadme(competition_id, readme) {
+  const formDataToSend = {
+    competitionId: competition_id,
+    competitionReadme: readme,
+  };
+  const sample = { status: 'error' };
+  return await apiUtils
+    .UpdateReadme(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
     });
 }
 

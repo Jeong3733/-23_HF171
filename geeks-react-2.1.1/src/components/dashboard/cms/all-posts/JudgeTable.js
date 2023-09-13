@@ -36,6 +36,37 @@ import { loadJudgeList } from 'components/utils/LoadData';
 const JudgeTable = ({ table_data, setJudgeList }) => {
   const { post_id } = useParams();
 
+  // The forwardRef is important!!
+  // Dropdown needs access to the DOM node in order to position the Menu
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <Link
+      to=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+      className="btn-icon btn btn-ghost btn-sm rounded-circle"
+    >
+      {children}
+    </Link>
+  ));
+
+  const ActionMenu = () => {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle as={CustomToggle}>
+          <MoreVertical size="15px" className="text-secondary" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu align="end">
+          <Dropdown.Header>SETTINGS</Dropdown.Header>
+          <Dropdown.Item eventKey="1">
+            <Trash size="15px" className="dropdown-item-icon" /> Delete
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
   const handleClick = () => {
     console.log('handleClick');
     let formDataToSend = { postId: post_id };
@@ -70,7 +101,7 @@ const JudgeTable = ({ table_data, setJudgeList }) => {
         accessor: 'options',
         Header: 'Options',
         Cell: ({ value, row }) => {
-          return <h3>test</h3>;
+          return <ActionMenu />;
         },
       },
     ],

@@ -38,7 +38,6 @@ const EvaluateItemList = () => {
   const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
   const [itemList, setItemList] = useState([]);
-
   useEffect(() => {
     // competitionInfo
     loadCompetitionInfo(competition_id).then((getData) => {

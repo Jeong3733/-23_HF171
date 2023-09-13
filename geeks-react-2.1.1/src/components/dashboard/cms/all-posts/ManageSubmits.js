@@ -120,28 +120,12 @@ const ManageSubmits = () => {
                       전체
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="undone" className="mb-sm-3 mb-md-0">
-                      평가 미완료
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="done" className="mb-sm-3 mb-md-0">
-                      평가 완료
-                    </Nav.Link>
-                  </Nav.Item>
                 </Nav>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
                     <ManageSubmitTable table_data={postList} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="undone" className="pb-0">
-                    <ManageSubmitTable table_data={allPublishedPosts} />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="done" className="pb-4">
-                    <ManageSubmitTable table_data={allScheduledPosts} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

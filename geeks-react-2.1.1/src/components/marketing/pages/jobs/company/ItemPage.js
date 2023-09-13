@@ -38,15 +38,13 @@ const ItemPage = () => {
   console.log(postInfo.board_type);
   if (isNotEmptyObj(postInfo)) {
     return (
-      <section className="bg-white">
+      <section className="bg-white mb-5">
         <Container>
-          <Row>
-            <div className="mb-5">
-              {/* heading */}
-              <div className="text-center mb-6">
-                <h1 className="display-3 mb-4 fw-bold">{postInfo.title}</h1>
-                {postInfo.created_date}
-              </div>
+          <Row className="mb-5">
+            {/* heading */}
+            <div className="text-center">
+              <h1 className="display-3 mb-4 fw-bold">{postInfo.title}</h1>
+              {postInfo.created_date}
             </div>
           </Row>
           <Row>
@@ -84,7 +82,12 @@ const ItemPage = () => {
                   <div className="mb-5">
                     {/* heading */}
                     <div className="mt-2">
-                      <div className="mt-4">{postInfo.contents}</div>
+                      <div
+                        style={{ overflow: 'hidden' }}
+                        dangerouslySetInnerHTML={{
+                          __html: postInfo.contents,
+                        }}
+                      ></div>
                     </div>
                     {/* form to apply for this job */}
                   </div>

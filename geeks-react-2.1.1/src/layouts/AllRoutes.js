@@ -54,24 +54,23 @@ import Chat from 'components/dashboard/chat/Chat';
 import LandingCourses from 'components/marketing/landings/landing-courses/LandingCourses';
 import EvaluateResultList from 'components/dashboard/cms/all-posts/EvaluateResultList';
 
-// 심사위원 평가
-
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/authentication/sign-in/" element={<SignIn />} />
       <Route path="/authentication/sign-up/" element={<SignUp />} />
+      <Route path="/authentication/forget-password/" element={<ComingSoon />} />
       <Route
         path="/authentication/sign-up-success/"
         element={<SignUpSuccess />}
       />
 
-      {/* Routes with DefaultLayout */}
       <Route element={<DefaultLayout />}>
         {/* <Route path="/" element={<CourseIndex />} /isLoggedIn> */}
         <Route path="/" element={<IndexPage />} />
 
         <Route path="/dbupload/" element={<DBUpload />} />
+        <Route path="/guide/" element={<ComingSoon />} />
         {/* 1.0 전체 공모전 */}
         <Route path="/explore/" element={<CourseFilterPage />} />
 
@@ -178,6 +177,20 @@ const AllRoutes = () => {
           path="/manage/:competition_id/announcements/"
           element={<ManageAnnouncements />}
         />
+      </Route>
+
+      {/* 마이페이지 */}
+      <Route element={<DefaultLayout />}>
+        <Route path="/dashboard/common/" element={<ComingSoon />} />
+        <Route path="/dashboard/participant/" element={<ComingSoon />} />
+        <Route path="/dashboard/creator/" element={<ComingSoon />} />
+      </Route>
+
+      {/* 마이페이지 */}
+      <Route element={<DefaultLayout />}>
+        <Route path="/dashboard/common/" element={<ComingSoon />} />
+        <Route path="/dashboard/participant/" element={<ComingSoon />} />
+        <Route path="/dashboard/creator/" element={<ComingSoon />} />
       </Route>
 
       {/* Routes with ChatLayout */}

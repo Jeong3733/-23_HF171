@@ -10,6 +10,7 @@ import Footer from 'layouts/marketing/footers/Footer';
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { loadUser } from 'components/utils/LoadData';
 
 const DefaultLayout = (props) => {
   // const [login, setLogin] = useState(true);
@@ -21,18 +22,28 @@ const DefaultLayout = (props) => {
     setIsLoggedIn(false);
     alert('로그아웃 완료');
   }
-
+  const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     const isLoggedInChk = Auth.userIsAuthenticated();
     setIsLoggedIn(isLoggedInChk);
+    if (isLoggedIn) {
+      const user = Auth.getUser();
+      loadUser(user).then((getData) => {
+        setUserInfo(getData);
+      });
+    }
   }, [isLoggedIn]);
 
   return (
     <Fragment>
-      <NavbarDefault isLoggedIn={isLoggedIn} doLogOut={doLogOut} />
+      <NavbarDefault
+        isLoggedIn={isLoggedIn}
+        doLogOut={doLogOut}
+        UserInfo={userInfo}
+      />
       <main>
         {props.children}
-        <Outlet context={{ isLoggedIn, Auth }} />
+        <Outlet context={{ isLoggedIn, Auth, userInfo }} />
       </main>
       <Footer />
     </Fragment>

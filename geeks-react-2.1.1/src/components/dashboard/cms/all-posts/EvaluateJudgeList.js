@@ -60,7 +60,9 @@ const EvaluateJudgeList = () => {
             <div className="mb-3 mb-md-0">
               <h1 className="mb-1 h2 fw-bold">심사위원 관리</h1>
               <Breadcrumb>
-                <Breadcrumb.Item href="#">
+                <Breadcrumb.Item
+                  href={`/detail/${competitionInfo.competition_info_id}/`}
+                >
                   {competitionInfo.competition_name}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item href="#">평가</Breadcrumb.Item>

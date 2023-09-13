@@ -8,7 +8,7 @@ import { competitionCategories } from 'components/marketing/pages/competition/co
 
 const CoursesTabSliderByType = (props) => {
   const { data, isLoggedIn } = props;
-  console.log(data, isLoggedIn);
+  // console.log(data, isLoggedIn);
 
   return (
     <Row>

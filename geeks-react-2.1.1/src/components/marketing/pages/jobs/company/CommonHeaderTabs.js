@@ -16,23 +16,30 @@ import {
 import CompanyBG from 'assets/images/background/company-bg.jpg';
 
 // import utility filedata
-import { isNotEmptyObj, refreshPage, s3Link } from 'helper/utils';
+import {
+  calculateDday,
+  isNotEmptyObj,
+  refreshPage,
+  s3Link,
+  toDateByYYYYMMDD,
+} from 'helper/utils';
 
 // impoort Auth module
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
+import { validateCreator } from 'components/utils/LoadData';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { info, isLoggedIn, Auth } = props;
+  const { competitionInfo, isLoggedIn, Auth, creatorInfo, userList } = props;
   const location = useLocation();
 
   const tabItems = [
     {
       title: '소개글',
       link: '/detail/' + competition_id + '/readme',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     // {
     //   title: "일정 (" + props.data.totalReviews + ")",
@@ -41,66 +48,47 @@ const CommonHeaderTabs = (props) => {
     {
       title: '공지사항',
       link: '/detail/' + competition_id + '/announcements',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     {
       title: 'QA 게시판',
       link: '/detail/' + competition_id + '/qna',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     {
       title: '제출 게시판',
       link: '/detail/' + competition_id + '/submits',
-      isLoggedIn: false,
+      isLoggedIn: 1,
     },
     {
       title: '공모전 관리',
       link: '/manage/' + competition_id,
-      isLoggedIn: false,
+      isLoggedIn: 2,
     },
     {
       title: '평가 관리',
       link: '/evaluate/' + competition_id,
-      isLoggedIn: false,
+      isLoggedIn: 2,
     },
   ];
-  const [status, setStatus] = useState({});
 
-  useEffect(() => {
-    // postList
-    const data8 = {
-      competitionId: competition_id,
-    };
-    const user = Auth.getUser();
-    if (user) {
-      apiUtils
-        .GetUserByCompetition(user, data8)
-        .then((response) => {
-          console.log(response.data);
-          const getStatus = response.data;
-          setStatus(getStatus);
-        })
-        .catch((error) => {
-          // alert(error.response.data);
-          const getStatus = {
-            competition_id: 1,
-            team_id: 1,
-            user_id: 1,
-            role_type: 'Creator',
-          };
-          setStatus(getStatus);
-          handleLogError(error);
-        });
+  function getCompetitionStatus() {
+    const today = new Date();
+    const start = new Date(competitionInfo.competition_start_date);
+    const end = new Date(competitionInfo.competition_end_date);
+    // console.log(today, start, end);
+    if (today < start) {
+      return 'Coming Soon';
+    } else if (today < end) {
+      if (competitionInfo.role_type === 'PARTICIPANT_BASE') {
+        return '참가 중';
+      } else {
+        return '참가 가능';
+      }
     } else {
-      const getStatus = {
-        competition_id: '',
-        team_id: '',
-        user_id: '',
-        role_type: '',
-      };
-      setStatus(getStatus);
+      return '공모전 종료';
     }
-  }, [competition_id]);
+  }
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -124,130 +112,151 @@ const CommonHeaderTabs = (props) => {
       navigate('/authentication/sign-in/');
     }
   };
-  if (isNotEmptyObj(status)) {
-    return (
-      <Fragment>
-        {/* 커버 이미지 (없애도 되려나?) */}
-        <section
-          className="py-10 bg-white"
-          style={{
-            backgroundImage: `url(${CompanyBG})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-        ></section>
 
-        <section className="bg-white">
-          <Container>
-            {/* 헤더 */}
-            <Row as="header" className="mb-4">
-              <Col className="d-md-flex align-items-center">
-                <Col xl={2} lg={2} md={2} sm={2}>
-                  <div className="mt-n5">
-                    <div
+  function userRole() {
+    let txt = '';
+    if (competitionInfo.role_type === 'CREATOR') {
+      txt = '주최자';
+    } else {
+      txt = '참가자';
+    }
+    return txt;
+  }
+  console.log(competitionInfo);
+  return (
+    <Fragment>
+      {/* 커버 이미지 (없애도 되려나?) */}
+      <section
+        className="py-10 bg-white"
+        style={{
+          backgroundImage: `url(${CompanyBG})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+        }}
+      ></section>
+
+      <section className="bg-white">
+        <Container>
+          {/* 헤더 */}
+          <Row as="header" className="mb-4">
+            <Col className="d-md-flex align-items-center">
+              <Col xl={2} lg={2} md={2} sm={2}>
+                <div className="mt-n5">
+                  <div
+                    style={{
+                      height: '160px',
+                      width: '160px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <Image
+                      src={s3Link(competitionInfo.competition_image)}
+                      alt={competitionInfo.competition_image}
+                      className=" rounded-3 border"
                       style={{
-                        height: '160px',
-                        width: '160px',
-                        overflow: 'hidden',
+                        objectFit: 'fill',
+                        width: '100%',
+                        height: '100%',
                       }}
-                    >
-                      <Image
-                        src={s3Link(info.competition_image)}
-                        alt={info.competition_image}
-                        className=" rounded-3 border"
-                        style={{
-                          objectFit: 'fill',
-                          width: '100%',
-                          height: '100%',
-                        }}
-                      />
-                    </div>
+                    />
                   </div>
-                </Col>
-                <Col xl={7} lg={7} md={7} sm={7}>
-                  <div className="w-100 ms-md-4 mt-4">
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        {/* heading */}
-                        <h1 className="mb-0 ">{info.competition_name}</h1>
+                </div>
+              </Col>
+              <Col xl={7} lg={7} md={7} sm={7}>
+                <div className="w-100 ms-md-4 mt-4">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      {/* heading */}
+                      <h1 className="mb-0 ">
+                        {competitionInfo.competition_name}
+                      </h1>
 
-                        <div className="lh-1 mb-2 d-flex align-items-center">
-                          <span>
-                            {info.competition_start_date}
-                            {' ~ '} {info.competition_end_date}
-                          </span>
-                        </div>
-                        <div className="lh-1 mb-2 d-flex align-items-center">
-                          <span>user_id:{info.user_id}</span>
-                        </div>
-                        <div>
-                          {/* reviews */}
-                          <span className="text-dark fw-medium">
-                            뭐 넣지
-                          </span>{' '}
-                          <span className="ms-0">(Reviews)</span>
-                        </div>
+                      <div className="lh-1 mb-2 d-flex align-items-center">
+                        <span>
+                          {toDateByYYYYMMDD(
+                            competitionInfo.competition_start_date,
+                          )}
+                          {' ~ '}
+                          {toDateByYYYYMMDD(
+                            competitionInfo.competition_end_date,
+                          )}
+                        </span>
+                      </div>
+                      <div className="lh-1 mb-2 d-flex align-items-center">
+                        <span>주최자 : {creatorInfo.user_name}</span>
+                      </div>
+                      <div>
+                        {/* reviews */}
+                        <span className="text-dark me-1 fw-bold">
+                          참가자 : {userList.length} 명
+                        </span>
+                        {/* <span className="ms-0">(Reviews)</span> */}
                       </div>
                     </div>
                   </div>
-                </Col>
-                <Col xl={3} lg={3} md={3} sm={3}>
-                  <div className="w-100 ms-md-4 mt-4">
-                    <div className="d-flex justify-content-between">
-                      <div className="d-flex align-items-center gap-2">
-                        {/* button */}
+                </div>
+              </Col>
+              <Col xl={3} lg={3} md={3} sm={3}>
+                <div className="w-100 ms-md-4 mt-4">
+                  <div className="d-flex justify-content-between">
+                    <div className="d-flex align-items-center gap-2">
+                      {' '}
+                      <div className="lh-1 d-flex align-items-center">
                         <Badge pill bg="primary" className="me-1">
-                          <span className="">
-                            {/* https://geeks-react.netlify.app/elements/badges */}
-                            {'+23 day'}
-                          </span>
+                          {getCompetitionStatus()}
                         </Badge>
-                        {info.role_type ? (
-                          // 참가 중
-                          <Badge pill bg="primary" className="me-1">
-                            <span className="">{info.role_type}</span>
-                          </Badge>
-                        ) : (
-                          <Button
-                            to="#"
-                            variant="outline-primary"
-                            onClick={handleClick}
-                          >
-                            참가 신청
-                          </Button>
-                        )}
-
-                        {/* button */}
+                        <Badge pill bg="primary" className="me-1">
+                          {calculateDday(
+                            competitionInfo.competition_start_date,
+                          )}
+                        </Badge>
+                      </div>
+                      {competitionInfo.role_type ? (
+                        // 참가 중
+                        <Badge pill bg="primary" className="me-1">
+                          <span className="">{userRole()}</span>
+                        </Badge>
+                      ) : (
                         <Button
                           to="#"
                           variant="outline-primary"
-                          // onClick={() => handleCopyLinkClipBoard(location.pathname)}
+                          onClick={handleClick}
                         >
-                          링크 공유
+                          참가 신청
                         </Button>
-                      </div>
+                      )}
+                      {/* button */}
+                      <Button
+                        to="#"
+                        variant="outline-primary"
+                        // onClick={() => handleCopyLinkClipBoard(location.pathname)}
+                      >
+                        링크 공유
+                      </Button>
                     </div>
                   </div>
-                </Col>
+                </div>
               </Col>
-            </Row>
-            <Row as="header" className="mb-4">
-              <span className="text-dark ms-3 fw-medium">
-                {info.competition_description}
-                {` `}
-                {info.competition_description}
-                {` `}
-                {info.competition_description}
-              </span>
-            </Row>
-            {/* 내비게이션 탭 */}
-            <Row className="mb-6">
-              <Col>
-                {/* nav */}
-                <Nav variant="line-bottom">
-                  {tabItems.map((item, index) => {
-                    if (isLoggedIn) {
+            </Col>
+          </Row>
+          <Row as="header" className="mb-4">
+            <span className="text-dark ms-3 fw-medium">
+              {competitionInfo.competition_description}
+              {` `}
+              {competitionInfo.competition_description}
+              {` `}
+              {competitionInfo.competition_description}
+            </span>
+          </Row>
+          {/* 내비게이션 탭 */}
+          <Row className="mb-6">
+            <Col>
+              {/* nav */}
+              <Nav variant="line-bottom">
+                {tabItems.map((item, index) => {
+                  if (isLoggedIn) {
+                    if (competitionInfo.role_type === 'CREATOR') {
                       return (
                         <Nav.Item key={index}>
                           <Nav.Link
@@ -262,7 +271,7 @@ const CommonHeaderTabs = (props) => {
                         </Nav.Item>
                       );
                     } else {
-                      if (item.isLoggedIn) {
+                      if (item.isLoggedIn <= 1) {
                         return (
                           <Nav.Item key={index}>
                             <Nav.Link
@@ -278,31 +287,47 @@ const CommonHeaderTabs = (props) => {
                         );
                       }
                     }
-                    // <Nav.Item key={index}>
-                    //   <Nav.Link
-                    //     as={Link}
-                    //     to={item.link}
-                    //     className={
-                    //       location.pathname === item.link ? 'active' : ''
-                    //     }
-                    //   >
-                    //     {item.title}
-                    //   </Nav.Link>
-                    // </Nav.Item>;
-                  })}
-                </Nav>
-              </Col>
-            </Row>
+                  } else {
+                    if (item.isLoggedIn <= 0) {
+                      return (
+                        <Nav.Item key={index}>
+                          <Nav.Link
+                            as={Link}
+                            to={item.link}
+                            className={
+                              location.pathname === item.link ? 'active' : ''
+                            }
+                          >
+                            {item.title}
+                          </Nav.Link>
+                        </Nav.Item>
+                      );
+                    }
+                  }
+                  // <Nav.Item key={index}>
+                  //   <Nav.Link
+                  //     as={Link}
+                  //     to={item.link}
+                  //     className={
+                  //       location.pathname === item.link ? 'active' : ''
+                  //     }
+                  //   >
+                  //     {item.title}
+                  //   </Nav.Link>
+                  // </Nav.Item>;
+                })}
+              </Nav>
+            </Col>
+          </Row>
 
-            {/* 본문 */}
-            <Row as="main">
-              <Col>{props.children}</Col>
-            </Row>
-          </Container>
-        </section>
-      </Fragment>
-    );
-  }
+          {/* 본문 */}
+          <Row as="main">
+            <Col>{props.children}</Col>
+          </Row>
+        </Container>
+      </section>
+    </Fragment>
+  );
 };
 
 export default CommonHeaderTabs;

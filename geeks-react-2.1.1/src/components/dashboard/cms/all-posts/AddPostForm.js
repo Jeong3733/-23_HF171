@@ -204,7 +204,7 @@ const AddPostForm = ({ Auth }) => {
           <Form.Control onChange={handleChange} type="file" accept=".pdf" />
         </Form.Group>
         <Button variant="primary" onClick={handleSubmit}>
-          업로드
+          게시물 추가
         </Button>
       </Form>
     </>
