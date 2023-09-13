@@ -39,7 +39,7 @@ const CommonHeaderTabs = (props) => {
     {
       title: '소개글',
       link: '/detail/' + competition_id + '/readme',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     // {
     //   title: "일정 (" + props.data.totalReviews + ")",
@@ -48,27 +48,27 @@ const CommonHeaderTabs = (props) => {
     {
       title: '공지사항',
       link: '/detail/' + competition_id + '/announcements',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     {
       title: 'QA 게시판',
       link: '/detail/' + competition_id + '/qna',
-      isLoggedIn: true,
+      isLoggedIn: 0,
     },
     {
       title: '제출 게시판',
       link: '/detail/' + competition_id + '/submits',
-      isLoggedIn: false,
+      isLoggedIn: 1,
     },
     {
       title: '공모전 관리',
       link: '/manage/' + competition_id,
-      isLoggedIn: false,
+      isLoggedIn: 2,
     },
     {
       title: '평가 관리',
       link: '/evaluate/' + competition_id,
-      isLoggedIn: false,
+      isLoggedIn: 2,
     },
   ];
 
@@ -271,7 +271,7 @@ const CommonHeaderTabs = (props) => {
                         </Nav.Item>
                       );
                     } else {
-                      if (item.isLoggedIn) {
+                      if (item.isLoggedIn <= 1) {
                         return (
                           <Nav.Item key={index}>
                             <Nav.Link
@@ -288,7 +288,7 @@ const CommonHeaderTabs = (props) => {
                       }
                     }
                   } else {
-                    if (item.isLoggedIn) {
+                    if (item.isLoggedIn <= 0) {
                       return (
                         <Nav.Item key={index}>
                           <Nav.Link

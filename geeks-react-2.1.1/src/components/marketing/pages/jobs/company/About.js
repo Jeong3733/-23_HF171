@@ -12,8 +12,8 @@ import { mdiFacebook, mdiTwitter, mdiLinkedin } from '@mdi/js';
 const About = () => {
   const { competitionInfo } = useOutletContext();
   return (
-    <Container>
-      <Row className="mb-6">
+    <Container className="mb-6">
+      <Row>
         {/* About the company text */}
         <Col
           style={{ maxWidth: '100%', overflow: 'hidden' }}

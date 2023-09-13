@@ -43,6 +43,7 @@ export const apiUtils = {
   GetUserInfo,
   GetUserInfoList,
   GetPageResult,
+  UpdateReadme,
 };
 
 const cookies = new Cookies();
@@ -86,8 +87,12 @@ function signUp(data) {
 // JWT 토큰을 담아서 보내는 예시, 토큰을 갖고 개인 정보를 불러옴
 function getUserInfo(user) {
   const url = `/user`;
-  return instance.get(url, {
-    headers: { Authorization: bearerAccess(user) },
+  // console.log(user);
+  return instance.post(url, {
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: bearerAccess(user),
+    },
   });
 }
 
@@ -99,6 +104,14 @@ function AddCompetition(user, data) {
       'Content-type': 'multipart/form-data',
       Authorization: bearerAccess(user),
     },
+  });
+}
+
+// 소개글 업데이트
+function UpdateReadme(data) {
+  const url = `/update/competitionInfo/readme`;
+  return instance.post(url, data, {
+    headers: { 'Content-type': 'application/json' },
   });
 }
 

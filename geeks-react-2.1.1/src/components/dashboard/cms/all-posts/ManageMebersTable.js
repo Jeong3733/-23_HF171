@@ -1,5 +1,5 @@
 // import node module libraries
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   useTable,
   useFilters,
@@ -28,7 +28,7 @@ import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 
-const ManageMebersTable = ({ table_data }) => {
+const ManageMebersTable = ({ table_data, role }) => {
   const { competition_id } = useParams();
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
@@ -46,6 +46,28 @@ const ManageMebersTable = ({ table_data }) => {
     </Link>
   ));
 
+  console.log(table_data);
+
+  const [filteredData, setFilteredData] = useState(table_data);
+
+  function filterTable(role) {
+    console.log('role', role);
+    if (role === 'ALL') {
+      setFilteredData(table_data);
+    } else if (role === 'CREATOR') {
+      setFilteredData(
+        table_data.filter((item) => item.role_type === 'CREATOR'),
+      );
+    } else {
+      setFilteredData(
+        table_data.filter((item) => item.role_type !== 'CREATOR'),
+      );
+    }
+  }
+  useEffect(() => {
+    filterTable(role);
+  }, [role]);
+
   const ActionMenu = (original) => {
     return (
       <Dropdown>
@@ -55,21 +77,6 @@ const ManageMebersTable = ({ table_data }) => {
         <Dropdown.Menu align="end">
           <Dropdown.Header>SETTINGS</Dropdown.Header>
           <Dropdown.Item eventKey="1">
-            <Edit size="15px" className="dropdown-item-icon" /> Edit
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="2">
-            <Move size="15px" className="dropdown-item-icon" /> Move
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="3">
-            <Copy size="15px" className="dropdown-item-icon" /> Copy
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="4">
-            <ToggleLeft size="15px" className="dropdown-item-icon" /> Publish
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="5">
-            <ToggleRight size="15px" className="dropdown-item-icon" /> Unpublish
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="6">
             <Trash size="15px" className="dropdown-item-icon" /> Delete
           </Dropdown.Item>
         </Dropdown.Menu>
@@ -113,7 +120,7 @@ const ManageMebersTable = ({ table_data }) => {
     [],
   );
 
-  const data = useMemo(() => table_data, [table_data]);
+  const data = useMemo(() => filteredData, [filteredData]);
 
   const {
     getTableProps,

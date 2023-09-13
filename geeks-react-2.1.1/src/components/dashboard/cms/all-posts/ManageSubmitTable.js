@@ -27,6 +27,7 @@ import GlobalFilter from 'components/elements/advance-table/GlobalFilter';
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
+import { toDateByYYYYMMDD } from 'helper/utils';
 
 const ManageSubmitTable = ({ table_data }) => {
   const { competition_id } = useParams();
@@ -45,6 +46,15 @@ const ManageSubmitTable = ({ table_data }) => {
       {children}
     </Link>
   ));
+
+  console.log(table_data);
+
+  // created_datae 순으로 정렬
+  const order_data = table_data.sort((a, b) => {
+    let dateA = new Date(a.created_date);
+    let dateB = new Date(b.created_date);
+    return dateA < dateB ? 1 : dateA > dateB ? -1 : 0;
+  });
 
   const ActionMenu = (original) => {
     return (
@@ -108,7 +118,13 @@ const ManageSubmitTable = ({ table_data }) => {
           );
         },
       },
-      { accessor: 'created_date', Header: '생성일' },
+      {
+        accessor: 'created_date',
+        Header: '생성일',
+        Cell: ({ value }) => {
+          return <div>{toDateByYYYYMMDD(value)}</div>;
+        },
+      },
       {
         accessor: 'shortcutmenu',
         Header: '',
@@ -120,7 +136,7 @@ const ManageSubmitTable = ({ table_data }) => {
     [],
   );
 
-  const data = useMemo(() => table_data, [table_data]);
+  const data = useMemo(() => order_data, [order_data]);
 
   const {
     getTableProps,

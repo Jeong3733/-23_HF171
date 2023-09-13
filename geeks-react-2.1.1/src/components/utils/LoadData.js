@@ -1111,6 +1111,28 @@ export function loadUser(user) {
   return apiUtils
     .getUserInfo(user)
     .then((response) => {
+      console.log(response.data);
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* Readme 업데이트 요청 */
+export async function UpdateReadme(competition_id, readme) {
+  const formDataToSend = {
+    competitionId: competition_id,
+    competitionReadme: readme,
+  };
+  const sample = { status: 'error' };
+  return await apiUtils
+    .UpdateReadme(formDataToSend)
+    .then((response) => {
       const getData = response.data;
       return getData;
     })

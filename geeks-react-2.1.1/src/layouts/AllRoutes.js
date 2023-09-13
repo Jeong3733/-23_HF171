@@ -54,8 +54,6 @@ import Chat from 'components/dashboard/chat/Chat';
 import LandingCourses from 'components/marketing/landings/landing-courses/LandingCourses';
 import EvaluateResultList from 'components/dashboard/cms/all-posts/EvaluateResultList';
 
-// 심사위원 평가
-
 const AllRoutes = () => {
   return (
     <Routes>
