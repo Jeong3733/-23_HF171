@@ -95,9 +95,11 @@ const ResultByUser = ({ resultList, itemList, judgeList }) => {
     setGroupUser(transformGroupUserData(resultList));
     setUserList([...new Set(resultList.map((item) => item.user_id))]);
 
-    getUserInfoList(userList).then((getData) => {
-      setUserInfoList(getData);
-    });
+    getUserInfoList([...new Set(resultList.map((item) => item.user_id))]).then(
+      (getData) => {
+        setUserInfoList(getData);
+      },
+    );
     setCalcScoreList(calcScore());
     setMaxScore(extractMaxScore());
   }, [resultList]);
@@ -114,7 +116,8 @@ const ResultByUser = ({ resultList, itemList, judgeList }) => {
     }
   };
 
-  // console.log(resultList);
+  console.log(userList);
+  console.log(userInfoList);
   if (userList.length !== 0) {
     if (userList.length === userInfoList.length) {
       return (

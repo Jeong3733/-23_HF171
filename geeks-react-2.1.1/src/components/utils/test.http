@@ -190,7 +190,7 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-	"user_id_list": ["www", "1"]
+	"userIdList": ["www", "1"]
 }
 
 

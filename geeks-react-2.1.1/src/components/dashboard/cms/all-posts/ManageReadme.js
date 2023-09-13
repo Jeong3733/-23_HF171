@@ -29,7 +29,7 @@ import {
   allDraftPosts,
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
-import { UpdateReadme, validateCreator } from 'components/utils/LoadData';
+import { updateReadme, validateCreator } from 'components/utils/LoadData';
 import ReactQuillEditor from 'components/elements/editor/ReactQuillEditor';
 
 const ManageReadme = () => {
@@ -66,8 +66,9 @@ const ManageReadme = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(readme);
-    UpdateReadme(competition_id, readme).then((getData) => {
-      if (getData.status === 'success') {
+    updateReadme(competition_id, readme).then((getData) => {
+      console.log(getData);
+      if (getData === 'success') {
         alert('소개글이 수정되었습니다.');
       } else {
         alert('소개글 수정에 실패하였습니다.');
