@@ -34,6 +34,35 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 const ItemTable = ({ table_data, handleShow }) => {
   const { post_id } = useParams();
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <Link
+      to=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+      className="btn-icon btn btn-ghost btn-sm rounded-circle"
+    >
+      {children}
+    </Link>
+  ));
+
+  const ActionMenu = () => {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle as={CustomToggle}>
+          <MoreVertical size="15px" className="text-secondary" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu align="end">
+          <Dropdown.Header>SETTINGS</Dropdown.Header>
+          <Dropdown.Item eventKey="1">
+            <Trash size="15px" className="dropdown-item-icon" /> Delete
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
 
   const columns = useMemo(
     () => [
@@ -65,7 +94,7 @@ const ItemTable = ({ table_data, handleShow }) => {
         accessor: 'shortcutmenu',
         Header: '',
         Cell: () => {
-          return <div>옵션</div>;
+          return <ActionMenu />;
         },
       },
     ],

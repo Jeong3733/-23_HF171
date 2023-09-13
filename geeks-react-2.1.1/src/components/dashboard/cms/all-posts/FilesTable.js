@@ -27,9 +27,23 @@ import GlobalFilter from 'components/elements/advance-table/GlobalFilter';
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
+import { toDateByYYYYMMDD } from 'helper/utils';
 
 const FilesTable = ({ table_data, evaluate }) => {
   const { judge_id, post_id } = useParams();
+
+  // const getUserName = (user_id) => {
+  //   if (userInfoList.length === 0) {
+  //     return 'X';
+  //   } else {
+  //     const foundUser = userInfoList.find((user) => user.user_id === user_id);
+  //     if (foundUser) {
+  //       return foundUser.user_name;
+  //     }
+  //     return 'X';
+  //   }
+  // };
+
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -55,21 +69,6 @@ const FilesTable = ({ table_data, evaluate }) => {
         <Dropdown.Menu align="end">
           <Dropdown.Header>SETTINGS</Dropdown.Header>
           <Dropdown.Item eventKey="1">
-            <Edit size="15px" className="dropdown-item-icon" /> Edit
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="2">
-            <Move size="15px" className="dropdown-item-icon" /> Move
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="3">
-            <Copy size="15px" className="dropdown-item-icon" /> Copy
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="4">
-            <ToggleLeft size="15px" className="dropdown-item-icon" /> Publish
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="5">
-            <ToggleRight size="15px" className="dropdown-item-icon" /> Unpublish
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="6">
             <Trash size="15px" className="dropdown-item-icon" /> Delete
           </Dropdown.Item>
         </Dropdown.Menu>
@@ -160,7 +159,13 @@ const FilesTable = ({ table_data, evaluate }) => {
           );
         },
       },
-      { accessor: 'upload_datetime', Header: '업로드 날짜' },
+      {
+        accessor: 'upload_datetime',
+        Header: '업로드 날짜',
+        Cell: ({ value }) => {
+          return <div>{toDateByYYYYMMDD(value)}</div>;
+        },
+      },
       {
         accessor: 'shortcutmenu',
         Header: '',

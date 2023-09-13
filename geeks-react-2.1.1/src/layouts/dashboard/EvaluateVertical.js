@@ -24,13 +24,14 @@ import 'simplebar/dist/simplebar.min.css';
 
 // import media files
 import InverseLogo from 'assets/images/brand/logo/logo-inverse.svg';
+import { loadPostList } from 'components/utils/LoadData';
+import { truncateString } from 'helper/utils';
 
 // import routes file
 // import { DashboardMenu } from 'routes/dashboard/EvaluateRoutes';
 
-const EvaluateVertical = (props) => {
+const EvaluateVertical = ({ onClick, showMenu, competitionInfo }) => {
   const { competition_id } = useParams();
-  const Auth = useAuth();
   const location = useLocation();
 
   const CustomToggle = ({ children, eventKey, icon }) => {
@@ -67,9 +68,7 @@ const EvaluateVertical = (props) => {
             : ''
         }`}
         to={`/evaluate/${competition_id}/${item.post_id}/${item.link}/`}
-        onClick={(e) =>
-          isMobile ? props.onClick(!props.showMenu) : props.showMenu
-        }
+        onClick={(e) => (isMobile ? onClick(!showMenu) : showMenu)}
       >
         {item.name}
         {''}
@@ -104,12 +103,12 @@ const EvaluateVertical = (props) => {
           post_id: post.post_info_id,
           link: 'files',
         },
-        {
-          id: uuid(),
-          name: '참가자 리스트',
-          post_id: post.post_info_id,
-          link: 'member',
-        },
+        // {
+        //   id: uuid(),
+        //   name: '참가자 리스트',
+        //   post_id: post.post_info_id,
+        //   link: 'member',
+        // },
         {
           id: uuid(),
           name: '심사위원 관리',
@@ -133,76 +132,29 @@ const EvaluateVertical = (props) => {
   };
 
   useEffect(() => {
-    const data4 = {
-      competitionId: competition_id,
-      boardType: 'SUBMIT',
-    };
-    apiUtils
-      .GetPostInfoByBoardType(data4)
-      .then((response) => {
-        const getPostList = response.data;
-        setDashboardMenu([
-          {
-            id: uuid(),
-            title: '평가 페이지(임시)',
-            grouptitle: true,
-          },
-          {
-            id: uuid(),
-            title: '공모전 상세 페이지로 가기',
-            icon: 'help-circle',
-            link: `/detail/${competition_id}/`,
-          },
-          {
-            id: uuid(),
-            title: '제출 리스트',
-            icon: 'help-circle',
-            link: `/evaluate/${competition_id}/submits/`,
-          },
-          ...createMenuItems(getPostList),
-        ]);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
-        const getPostList = [
-          {
-            post_id: '1',
-            title: '제출 1',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-          {
-            post_id: '2',
-            title: '제출 2',
-            user_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setDashboardMenu([
-          {
-            id: uuid(),
-            title: '평가 페이지(임시)',
-            grouptitle: true,
-          },
-          {
-            id: uuid(),
-            title: '공모전 상세 페이지로 가기',
-            icon: 'help-circle',
-            link: `/detail/${competition_id}/`,
-          },
-          {
-            id: uuid(),
-            title: '제출 리스트',
-            icon: 'help-circle',
-            link: `/evaluate/${competition_id}/submits/`,
-          },
-          ...createMenuItems(getPostList),
-        ]);
-      });
-  }, [competition_id]);
+    loadPostList(competition_id, 'SUBMIT').then((getData) => {
+      setDashboardMenu([
+        {
+          id: uuid(),
+          title: `${truncateString(competitionInfo.competition_name)}`,
+          grouptitle: true,
+        },
+        {
+          id: uuid(),
+          title: '공모전 상세 페이지로 가기',
+          icon: 'help-circle',
+          link: `/detail/${competition_id}/`,
+        },
+        {
+          id: uuid(),
+          title: '제출 게시물 리스트',
+          icon: 'help-circle',
+          link: `/evaluate/${competition_id}/submits/`,
+        },
+        ...createMenuItems(getData),
+      ]);
+    });
+  }, [competitionInfo]);
 
   return (
     <Fragment>

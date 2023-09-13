@@ -508,10 +508,10 @@ export async function getUserInfoList(user_id_list) {
       user_id: '1',
       email: 'email',
       role: 'ADMIN',
-      user_name: '홍길동',
+      user_name: '123',
     },
     {
-      user_id: '1',
+      user_id: '2',
       email: 'email',
       role: 'ADMIN',
       user_name: '홍길동',

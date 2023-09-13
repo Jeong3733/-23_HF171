@@ -17,6 +17,18 @@ export const isNotEmptyObj = (obj) => {
   return true;
 };
 
+/**
+ * 문자열 길이 제한
+ * v1.0.0
+ */
+export function truncateString(str, length = 10) {
+  try {
+    return str.length > length ? str.substring(0, length) + '...' : str;
+  } catch (error) {
+    return str;
+  }
+}
+
 function leftPad(value) {
   if (value >= 10) {
     return value;
@@ -24,6 +36,7 @@ function leftPad(value) {
 
   return `0${value}`;
 }
+
 /**
  * date - > YYYY-MM-DD
  * v1.0.0

@@ -184,6 +184,16 @@ Accept: */*
 }
 
 
+### 유저 정보 리스트 조회
+POST http://{{host}}/get/userInfo/userIdList
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+	"user_id_list": ["www", "1"]
+}
+
+
 
 
 

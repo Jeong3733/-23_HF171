@@ -27,6 +27,7 @@ import GlobalFilter from 'components/elements/advance-table/GlobalFilter';
 import Pagination from 'components/elements/advance-table/Pagination';
 import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
+import { toDateByYYYYMMDD } from 'helper/utils';
 
 const EvaluateSubmitTable = ({ table_data }) => {
   const { competition_id } = useParams();
@@ -108,7 +109,13 @@ const EvaluateSubmitTable = ({ table_data }) => {
           );
         },
       },
-      { accessor: 'created_date', Header: '생성일' },
+      {
+        accessor: 'created_date',
+        Header: '생성일',
+        Cell: ({ value }) => {
+          return <div>{toDateByYYYYMMDD(value)}</div>;
+        },
+      },
       {
         accessor: 'shortcutmenu',
         Header: '',

@@ -114,7 +114,7 @@ const ResultByUser = ({ resultList, itemList, judgeList }) => {
     }
   };
 
-  console.log(calcScoreList);
+  // console.log(resultList);
   if (userList.length !== 0) {
     if (userList.length === userInfoList.length) {
       return (
