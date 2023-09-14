@@ -1,34 +1,11 @@
 // import node module libraries
 import React, { Fragment, useEffect, useState } from 'react';
-import {
-  Link,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from 'react-router-dom';
-import {
-  Col,
-  Row,
-  Card,
-  Nav,
-  Button,
-  Modal,
-  Tab,
-  Breadcrumb,
-} from 'react-bootstrap';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { Col, Row, Button, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
-import PostsTable from './PostsTable';
-import AddNewCategoryPopup from './AddNewCategoryPopup';
 
 // import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
 import { updateReadme, validateCreator } from 'components/utils/LoadData';
 import ReactQuillEditor from 'components/elements/editor/ReactQuillEditor';
 
