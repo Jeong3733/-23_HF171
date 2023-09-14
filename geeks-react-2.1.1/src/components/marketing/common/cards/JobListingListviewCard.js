@@ -1,16 +1,18 @@
 // import node module libraries
+import { toDateByYYYYMMDD, truncateString } from 'helper/utils';
 import { Card, Image } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
 // import custom components
 
-const JobListingListviewCard = ({ item, index }) => {
+const JobListingListviewCard = ({ item, index, user_name }) => {
   console.log(item);
   const pathType = {
     NOTICE: 'announcements',
     QNA: 'qna',
     SUBMIT: 'submits',
   };
+  console.log(user_name);
   return (
     <Link
       to={`/detail/${item.competition_info_id}/${pathType[item.board_type]}/${
@@ -40,9 +42,7 @@ const JobListingListviewCard = ({ item, index }) => {
                 <div>
                   <h3 className="mb-1 fs-4 text-inherit me-1">{item.title}</h3>
                   <div>
-                    <span>
-                      {item.contents} {item.board_type}
-                    </span>
+                    <span>{truncateString(item.contents, 100)}</span>
                   </div>
                 </div>
               </div>
@@ -50,11 +50,11 @@ const JobListingListviewCard = ({ item, index }) => {
                 <div className="mb-2 mb-md-0">
                   <div>
                     <i className="fe fe-briefcase text-muted"></i>
-                    <span> {item.user_info_id}</span>
+                    <span> {user_name}</span>
                   </div>
                   <div>
                     <i className="fe fe-clock text-muted"></i>
-                    <span> {item.created_date}</span>
+                    <span> {toDateByYYYYMMDD(item.created_date)}</span>
                   </div>
                 </div>
               </div>

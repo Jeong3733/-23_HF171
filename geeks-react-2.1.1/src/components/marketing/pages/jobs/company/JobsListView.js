@@ -17,45 +17,37 @@ import JobsListingData from 'data/marketing/jobs/JobsListingData';
 
 // import utility file
 import { isNotEmptyObj } from 'helper/utils';
+import { getUserInfoList, loadPostList } from 'components/utils/LoadData';
 
 const JobsListView = ({ boardType }) => {
   const { competition_id } = useParams();
   const [postList, setPostList] = useState([]);
+  const [userInfoList, setUserInfoList] = useState([]);
 
   useEffect(() => {
     // postList
-    const data4 = {
-      competitionId: competition_id,
-      boardType: boardType,
-    };
-    apiUtils
-      .GetPostInfoByBoardType(data4)
-      .then((response) => {
-        const getPostList = response.data;
-        setPostList(getPostList);
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getPostList = [
-          {
-            post_info_id: '1',
-            title: '제출 1',
-            user_info_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-          {
-            post_info_id: '2',
-            title: '제출 2',
-            user_info_id: '1',
-            created_date: '0000-00-00',
-            contents: '',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setPostList(getPostList);
-        handleLogError(error);
+    loadPostList(competition_id, boardType).then((getData) => {
+      setPostList(getData);
+
+      getUserInfoList([
+        ...new Set(getData.map((item) => item.user_info_id)),
+      ]).then((getData) => {
+        setUserInfoList(getData);
       });
+    });
   }, [competition_id, boardType]);
+
+  const getUserName = (user_id) => {
+    if (userInfoList.length === 0) {
+      return 'X';
+    } else {
+      const foundUser = userInfoList.find((user) => user.user_id === user_id);
+      if (foundUser) {
+        return foundUser.user_name;
+      }
+      return 'X';
+    }
+  };
 
   // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
@@ -68,7 +60,13 @@ const JobsListView = ({ boardType }) => {
   const displayRecords = postList
     .slice(pagesVisited, pagesVisited + RecordsPerPage)
     .map((record, index) => {
-      return <JobListingListviewCard item={record} key={index} />;
+      return (
+        <JobListingListviewCard
+          item={record}
+          key={index}
+          user_name={getUserName(record.user_info_id)}
+        />
+      );
     });
   // end of paging setup
   if (postList.length != 0) {

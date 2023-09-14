@@ -87,7 +87,7 @@ const ResultByUser = ({ resultList, itemList, judgeList }) => {
   };
 
   const [userList, setUserList] = useState([]);
-  const [userInfoList, setUserInfoList] = useState({});
+  const [userInfoList, setUserInfoList] = useState([]);
   const [calcScoreList, setCalcScoreList] = useState({});
   const [maxScore, setMaxScore] = useState(0);
 
