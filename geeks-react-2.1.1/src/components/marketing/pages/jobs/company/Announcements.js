@@ -16,12 +16,12 @@ const Announcements = () => {
   // const test_data = { competition_id: 1, schedule_id: 1 };
   return (
     <Container className="mb-6">
-      <Row className="align-items-center mb-4">
+      {/* <Row className="align-items-center mb-4">
         <Col>1 - 20 of 86 IT Manager Jobs in India</Col>
         <Col className="col-auto">
           <FormSelect options={sortByOptions} placeholder="정렬 기준" />
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col>
           <JobsListView boardType={'NOTICE'} />
