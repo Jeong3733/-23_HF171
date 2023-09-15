@@ -52,6 +52,15 @@ const JudgeDetailVertical = ({ data }) => {
     InfoPopup: <InfoPopup data={data.resultData} />,
   };
 
+  const size = {
+    FileListPopup: 'lg',
+    SummaryPopup: '',
+    DocumentQAPopup: '',
+    PlagiarismCheckPopup: 'lg',
+    EvaluationPopup: 'lg',
+    InfoPopup: '',
+  };
+
   const [show, setShow] = useState({
     FileListPopup: false,
     SummaryPopup: false,
@@ -130,7 +139,7 @@ const JudgeDetailVertical = ({ data }) => {
                     key={menu.popup}
                     show={show[menu.popup]}
                     // onHide={test(11)}
-                    size="lg"
+                    size={size[menu.popup]}
                   >
                     <Modal.Header>
                       {/* <Modal.Header closeButton> */}

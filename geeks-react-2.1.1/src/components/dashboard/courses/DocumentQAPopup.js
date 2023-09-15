@@ -12,7 +12,7 @@ const DocumentQAPopup = ({ fileInfo, messages }) => {
 
   return (
     <Fragment>
-      file_info.data.file_id: {fileInfo.data.file_id}
+      {/* file_info.data.file_id: {fileInfo.data.file_id} */}
       {/* <Chat /> */}
       <Chatbot fileInfo={fileInfo} messages={messages} />
     </Fragment>
