@@ -6,7 +6,7 @@ import { Col, Row, Container, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // import media files
-import HeroImage from 'assets/images/hero/hero-img.png';
+import Together from 'assets/images/together-2.png';
 
 const HeroHeader = (props) => {
   const { isLoggedIn, UserInfo } = props;
@@ -47,8 +47,13 @@ const HeroHeader = (props) => {
               )}
             </div>
           </Col>
-          <Col xl={7} lg={6} md={12} className="text-lg-end text-center">
-            <Image src={HeroImage} alt="" className="img-fluid" />
+          <Col
+            xl={7}
+            lg={6}
+            md={12}
+            className="text-lg-end text-center d-flex justify-content-center"
+          >
+            <Image src={Together} alt="" height={400} />
           </Col>
         </Row>
       </Container>
