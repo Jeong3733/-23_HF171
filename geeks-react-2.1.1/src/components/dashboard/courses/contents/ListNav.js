@@ -107,7 +107,7 @@ const ListNav = ({ data, type }) => {
       <Tab.Container defaultActiveKey="1">
         <Row className=" pt-4">
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
-            <Nav className="nav-lb-tab flex-column">
+            <Nav className="nav-lb-tab flex-column pb-4">
               {displayRecords.length > 0 ? (
                 displayRecords
               ) : (
