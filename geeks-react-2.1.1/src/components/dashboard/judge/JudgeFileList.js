@@ -15,6 +15,11 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 import { isNotEmptyObj } from 'helper/utils';
 import FilesTable from '../cms/all-posts/FilesTable';
 import { allPublishedPosts } from 'data/courses/AllPostsData';
+import {
+  checkJudgeByPostId,
+  getUserInfoList,
+  loadFileList,
+} from 'components/utils/LoadData';
 
 const JudgeFileList = () => {
   const { judge_id, post_id } = useParams();
@@ -23,117 +28,35 @@ const JudgeFileList = () => {
 
   //
   const [fileList, setFileList] = useState([]);
-
-  const getFileList = () => {
-    // fileList
-    // alert('파일 리스트를 불러옵니다.');
-    const data3 = {
-      postId: post_id,
-    };
-
-    apiUtils
-      .GetFileInfoByPostId(data3)
-      .then((response) => {
-        const getFileList = response.data;
-        setFileList(getFileList);
-        if (getFileList.length === 0) {
-          const getFileList = [
-            {
-              file_id: 'file_id_1',
-              user_id: 'user_id_1',
-              path: 'path_1',
-              file_title: 'file_title_1',
-              file_extension: 'file_extension_1',
-              upload_datetime: 'upload_datetime_1',
-              post_info_id: 'post_info_id_1',
-            },
-            {
-              file_id: 'file_id_2',
-              user_id: 'user_id_2',
-              path: 'path_2',
-              file_title: 'file_title_2',
-              file_extension: 'file_extension_2',
-              upload_datetime: 'upload_datetime_2',
-              post_info_id: 'post_info_id_2',
-            },
-            {
-              file_id: 'file_id_3',
-              user_id: 'user_id_3',
-              path: 'path_3',
-              file_title: 'file_title_3',
-              file_extension: 'file_extension_3',
-              upload_datetime: 'upload_datetime_3',
-              post_info_id: 'post_info_id_3',
-            },
-          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setFileList(getFileList);
-        }
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        const getFileList = [
-          {
-            file_id: 'file_id_1',
-            user_id: 'user_id_1',
-            path: 'path_1',
-            file_title: 'file_title_1',
-            file_extension: 'file_extension_1',
-            upload_datetime: 'upload_datetime_1',
-            post_info_id: 'post_info_id_1',
-          },
-          {
-            file_id: 'file_id_2',
-            user_id: 'user_id_2',
-            path: 'path_2',
-            file_title: 'file_title_2',
-            file_extension: 'file_extension_2',
-            upload_datetime: 'upload_datetime_2',
-            post_info_id: 'post_info_id_2',
-          },
-          {
-            file_id: 'file_id_3',
-            user_id: 'user_id_3',
-            path: 'path_3',
-            file_title: 'file_title_3',
-            file_extension: 'file_extension_3',
-            upload_datetime: 'upload_datetime_3',
-            post_info_id: 'post_info_id_3',
-          },
-        ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-        setFileList(getFileList);
-        handleLogError(error);
-      });
-  };
+  const [userInfoList, setUserInfoList] = useState([]);
 
   useEffect(() => {
     // 접근 유무 확인
-    const formData = { judgeId: judge_id, postId: post_id };
-    apiUtils
-      .GetCheckJudgeByPostId(formData)
-      .then((response) => {
-        const check = response.data.check;
-        if (check) {
-          getFileList();
-        } else {
-          alert('심사위원 인증을 실패했습니다.');
-          navigate(`/judge/sign-in/`);
-        }
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
-
-        // case 1: 심사위원 인증 실패
-        alert('API 호출 실패했습니다.');
+    checkJudgeByPostId(judge_id, post_id).then((getData) => {
+      const check = getData;
+      if (check) {
+        // fileList
+        loadFileList(post_id).then((getData) => {
+          setFileList(getData);
+          // console.log(getData);
+          getUserInfoList([
+            ...new Set(getData.map((item) => item.user_info_id)),
+          ]).then((getData) => {
+            setUserInfoList(getData);
+          });
+        });
+      } else {
+        alert('심사위원 인증을 실패했습니다.');
         navigate(`/judge/sign-in/`);
-
-        // case 2: 더미데이터를 사용하는 경우
-        // alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
-        // getFileList();
-      });
+      }
+    });
   }, []);
 
-  console.log(fileList);
+  // console.log(fileList);
+  console.log(userInfoList);
+  if (userInfoList.length === 0) {
+    return <Fragment></Fragment>;
+  }
   return (
     <Fragment>
       <Row className="align-items-center justify-content-center g-0 min-vh-100">
@@ -162,7 +85,11 @@ const JudgeFileList = () => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={fileList} evaluate={true} />
+                    <FilesTable
+                      table_data={fileList}
+                      evaluate={true}
+                      userInfoList={userInfoList}
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
                     <FilesTable

@@ -58,6 +58,7 @@ const PageText = ({ info, data }) => {
   useEffect(() => {
     searchCompPage();
   }, [info]);
+  console.log(content);
   return (
     <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">
@@ -91,9 +92,11 @@ const PageText = ({ info, data }) => {
         </Card.Header>
         <Card.Body className="p-0">
           <Tab.Content>
-            <Tab.Pane eventKey="1" className="pb-4 p-4 ps-0 pe-0">
-              info.report: '{info.report}'
-              <br />
+            <Tab.Pane
+              eventKey="1"
+              className="pb-4 p-4 ps-0 pe-0"
+              style={{ whiteSpace: 'pre-line' }}
+            >
               {info.report === '' ? (
                 <CreateReport
                   file_id={data.fileInfo.data.file_id}
@@ -102,15 +105,23 @@ const PageText = ({ info, data }) => {
                   data={data}
                 />
               ) : (
-                ''
+                info.report
               )}
             </Tab.Pane>
-            <Tab.Pane eventKey="2" className="pb-4 p-4 ps-0 pe-0">
-              info.comp_page_id: {info.comp_page_id}
-              <br />
-              pageInfo.comp_file_id: {pageInfo.comp_file_id}
-              <br />
-              content: {content}
+            <Tab.Pane
+              eventKey="2"
+              className="pb-4 p-4 ps-0 pe-0"
+              style={{ whiteSpace: 'pre-line' }}
+            >
+              {content === '' ? (
+                <>
+                  info.comp_page_id: {info.comp_page_id}
+                  <br />
+                  pageInfo.comp_file_id: {pageInfo.comp_file_id}
+                </>
+              ) : (
+                content
+              )}
             </Tab.Pane>
             <Tab.Pane eventKey="3" className="pb-4 p-4 ps-0 pe-0">
               info.page_id: {info.page_id}

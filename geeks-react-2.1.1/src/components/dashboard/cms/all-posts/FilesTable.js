@@ -29,20 +29,22 @@ import Checkbox from 'components/elements/advance-table/Checkbox';
 import DotBadge from 'components/elements/bootstrap/DotBadge';
 import { toDateByYYYYMMDD } from 'helper/utils';
 
-const FilesTable = ({ table_data, evaluate }) => {
+const FilesTable = ({ table_data, evaluate, userInfoList }) => {
   const { judge_id, post_id } = useParams();
+  console.log(userInfoList);
 
-  // const getUserName = (user_id) => {
-  //   if (userInfoList.length === 0) {
-  //     return 'X';
-  //   } else {
-  //     const foundUser = userInfoList.find((user) => user.user_id === user_id);
-  //     if (foundUser) {
-  //       return foundUser.user_name;
-  //     }
-  //     return 'X';
-  //   }
-  // };
+  const getUserName = (user_id) => {
+    if (!userInfoList) return 'X';
+    if (userInfoList.length === 0) {
+      return 'X';
+    } else {
+      const foundUser = userInfoList.find((user) => user.user_id === user_id);
+      if (foundUser) {
+        return foundUser.user_name;
+      }
+      return 'X';
+    }
+  };
 
   // The forwardRef is important!!
   // Dropdown needs access to the DOM node in order to position the Menu
@@ -150,10 +152,10 @@ const FilesTable = ({ table_data, evaluate }) => {
                   to={`/judge/evaluate/${judge_id}/${post_id}/files/${row.original.file_info_id}/`}
                   className="text-inherit"
                 >
-                  {value}
+                  {getUserName(value)}
                 </Link>
               ) : (
-                <div className="text-inherit">{value}</div>
+                <div className="text-inherit">{getUserName(value)}</div>
               )}
             </div>
           );

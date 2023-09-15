@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Chatbot.css';
 import { getFileQNA } from 'components/utils/LoadData';
+import { Container } from 'react-bootstrap';
 
 const Chatbot = ({ fileInfo, messages }) => {
   const [input, setInput] = useState('');
@@ -63,7 +64,8 @@ const Chatbot = ({ fileInfo, messages }) => {
   }, [newAiMessage]);
 
   return (
-    <div className="chatbot-container">
+    <Container>
+      {/* <div className="chatbot-container"> */}
       <div className="chatbot-messages">
         {messages.data.map((message, index) => (
           <div
@@ -85,7 +87,8 @@ const Chatbot = ({ fileInfo, messages }) => {
         />
         <button type="submit">Send</button>
       </form>
-    </div>
+      {/* </div> */}
+    </Container>
   );
 };
 export default Chatbot;

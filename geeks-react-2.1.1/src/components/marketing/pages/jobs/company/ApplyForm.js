@@ -8,6 +8,7 @@ import {
   Col,
   Row,
   Container,
+  Spinner,
 } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -42,7 +43,6 @@ const ApplyForm = ({ Auth, fileList, setPostInfo }) => {
       setFileData(null);
     });
   };
-  console.log(fileList);
   return (
     <div className="mt-2 mb-12">
       <Card className="bg-light shadow-none">
@@ -96,8 +96,13 @@ const ApplyForm = ({ Auth, fileList, setPostInfo }) => {
               {/* 기간 만료 */}
               {/* <Form.Control type="file" disabled /> */}
             </Form.Group>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button
+              className=" d-md-flex align-items-center justify-content-between "
+              variant="primary"
+              onClick={handleSubmit}
+            >
               Submit
+              {isLoading ? <Spinner animation="border" role="status" /> : null}
             </Button>
           </Form>
         </Card.Body>

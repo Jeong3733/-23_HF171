@@ -19,6 +19,10 @@ import { handleLogError } from 'components/utils/ErrorUtils';
 
 // import utility file
 import { isNotEmptyObj } from 'helper/utils';
+import {
+  loadCompetitionList,
+  loadCompetitionListByUserId,
+} from 'components/utils/LoadData';
 // function getDefaultFilter(index) {
 //   let res = [];
 //   for (let i = 0; i < 3; i++) {
@@ -41,217 +45,13 @@ const CourseFilterPage = ({ isLoggedIn }) => {
     if (isLoggedIn) {
       const Auth = useAuth();
       const user = Auth.getUser();
-      apiUtils
-        .GetCompetitionInfoByUserId(user)
-        .then((response) => {
-          const getCompetitionList = response.data;
-          setCompetitionList(getCompetitionList);
-        })
-        .catch((error) => {
-          // alert(error.response.data);
-          const getCompetitionList = [
-            {
-              competition_info_id: '11111',
-              competition_name: '11111',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: 'sbe07032',
-              team_id: 'team_id',
-              role_type: 'role_type',
-              competition_type_list: [
-                { type: '개발' },
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '22222',
-              competition_name: '22222',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: '',
-              team_id: '',
-              role_type: '',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '33333',
-              competition_name: '33333',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: '',
-              team_id: '',
-              role_type: '',
-              competition_type_list: [{ type: '개발' }, { type: '교육' }],
-            },
-            {
-              competition_info_id: '44444',
-              competition_name: '44444',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: 'sbe07032',
-              team_id: 'team_id',
-              role_type: 'role_type',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '55555',
-              competition_name: '55555',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: 'sbe07032',
-              team_id: 'team_id',
-              role_type: 'role_type',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '66666',
-              competition_name: '66666',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              user_id: 'sbe07032',
-              team_id: 'team_id',
-              role_type: 'role_type',
-              competition_type_list: [
-                { type: '개발' },
-                { type: '교육' },
-                { type: '금융' },
-              ],
-            },
-          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setCompetitionList(getCompetitionList);
-          handleLogError(error);
-        });
+      loadCompetitionListByUserId(user).then((getData) => {
+        setCompetitionList(getData);
+      });
     } else {
-      apiUtils
-        .GetCompetitionInfo()
-        .then((response) => {
-          const getCompetitionList = response.data;
-          setCompetitionList(getCompetitionList);
-        })
-        .catch((error) => {
-          // alert(error.response.data);
-          const getCompetitionList = [
-            {
-              competition_info_id: '11111',
-              competition_name: '11111',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [
-                { type: '개발' },
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '22222',
-              competition_name: '22222',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '33333',
-              competition_name: '33333',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [{ type: '개발' }, { type: '교육' }],
-            },
-            {
-              competition_info_id: '44444',
-              competition_name: '44444',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '55555',
-              competition_name: '55555',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [
-                { type: '교육' },
-                { type: '엔터테인먼트' },
-              ],
-            },
-            {
-              competition_info_id: '66666',
-              competition_name: '66666',
-              competition_image: 'competition_image',
-              competition_readme: 'competition_readme',
-              competition_description: 'competition_description',
-              competition_state: 'competition_state',
-              competition_start_date: 'start_date',
-              competition_end_date: 'end_date',
-              competition_type_list: [
-                { type: '개발' },
-                { type: '교육' },
-                { type: '금융' },
-              ],
-            },
-          ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-          setCompetitionList(getCompetitionList);
-          handleLogError(error);
-        });
+      loadCompetitionList().then((getData) => {
+        setCompetitionList(getData);
+      });
     }
   }, []);
   console.log(competitionList);
@@ -261,7 +61,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
     return (
       <Fragment>
         {/* Page header */}
-        <PageHeading pagetitle="공모전 둘러보기" />
+        <PageHeading pagetitle="공모전 탐색" />
 
         {/* Content */}
         <section className="py-6">
@@ -272,7 +72,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
                   <Row className="d-lg-flex justify-content-between align-items-center">
                     <Col md={6} lg={8} xl={9}>
                       <h4 className="mb-3 mb-lg-0">
-                        Displaying 9 out of 68 courses
+                        Displaying {competitionList.length} Competitions
                       </h4>
                     </Col>
                     <Col md={6} lg={4} xl={3} className="d-inline-flex">
@@ -287,7 +87,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
                   </Row>
                 </Col>
                 <Col xl={3} lg={3} md={4} sm={12} className="mb-4 mb-lg-0">
-                  <FilterOptions />
+                  <FilterOptions disa />
                 </Col>
                 {/* Tab content */}
                 <Col xl={9} lg={9} md={8} sm={12}>

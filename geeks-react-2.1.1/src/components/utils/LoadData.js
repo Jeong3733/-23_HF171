@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
 import { apiUtils } from './ApiUtils';
 import { handleLogError } from './ErrorUtils';
 import { useAuth } from 'components/AuthContext';
 
 /* 게시물 리스트 요청 by BoardType */
-export async function loadPostList(competition_id, boardType) {
+export function loadPostList(competition_id, boardType) {
   const formDataToSend = {
     competitionId: competition_id,
     boardType: boardType,
@@ -25,7 +25,7 @@ export async function loadPostList(competition_id, boardType) {
       contents: '',
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetPostInfoByBoardType(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -40,7 +40,7 @@ export async function loadPostList(competition_id, boardType) {
 }
 
 /* 공모전 정보 요청 by competition_id */
-export async function loadCompetitionInfo(competition_id) {
+export function loadCompetitionInfo(competition_id) {
   const formDataToSend = {
     competitionId: competition_id,
   };
@@ -76,7 +76,7 @@ export async function loadCompetitionInfo(competition_id) {
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
 
-  return await apiUtils
+  return apiUtils
     .GetCompetitionInfoByCompetitionId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -91,7 +91,7 @@ export async function loadCompetitionInfo(competition_id) {
 }
 
 /* 공모전 정보 요청 by competition_id in 로그인*/
-export async function loadCompetitionInfoByUser(user, competition_id) {
+export function loadCompetitionInfoByUser(user, competition_id) {
   const formDataToSend = {
     competitionId: competition_id,
   };
@@ -130,7 +130,7 @@ export async function loadCompetitionInfoByUser(user, competition_id) {
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
 
-  return await apiUtils
+  return apiUtils
     .GetCompetitionInfoChkByCompetitionId(user, formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -145,7 +145,7 @@ export async function loadCompetitionInfoByUser(user, competition_id) {
 }
 
 /* 게시물 정보 요청 by post_id */
-export async function loadPostInfo(post_id) {
+export function loadPostInfo(post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -158,7 +158,7 @@ export async function loadPostInfo(post_id) {
     contents: '공지에요',
     created_date: '2023-08-04T20:18:21',
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetPostInfoByPostId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -173,7 +173,7 @@ export async function loadPostInfo(post_id) {
 }
 
 /* 평가 결과 by postId */
-export async function loadResultList(post_id) {
+export function loadResultList(post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -197,7 +197,7 @@ export async function loadResultList(post_id) {
       },
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetAllScore(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -212,7 +212,7 @@ export async function loadResultList(post_id) {
 }
 
 /* 평가 항목 리스트 요청 by post_id */
-export async function loadItemList(post_id) {
+export function loadItemList(post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -228,7 +228,7 @@ export async function loadItemList(post_id) {
       },
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetEvaluationItemByPostId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -243,7 +243,7 @@ export async function loadItemList(post_id) {
 }
 
 /* 심사위원 점수 불러오기 by postId */
-export async function loadScorePost(post_id, judge_id) {
+export function loadScorePost(post_id, judge_id) {
   const formDataToSend = {
     postId: post_id,
     judgeId: judge_id,
@@ -292,7 +292,7 @@ export async function loadScorePost(post_id, judge_id) {
       },
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetScore(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -307,7 +307,7 @@ export async function loadScorePost(post_id, judge_id) {
 }
 
 /* 심사위원 점수 불러오기 by fileId */
-export async function loadScoreFile(file_id, judge_id) {
+export function loadScoreFile(file_id, judge_id) {
   const formDataToSend = {
     fileId: file_id,
     judgeId: judge_id,
@@ -356,7 +356,7 @@ export async function loadScoreFile(file_id, judge_id) {
       },
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetScoreFile(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -371,7 +371,7 @@ export async function loadScoreFile(file_id, judge_id) {
 }
 
 /* 심사위원 리스트 요청 by post_id */
-export async function loadJudgeList(post_id) {
+export function loadJudgeList(post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -387,7 +387,7 @@ export async function loadJudgeList(post_id) {
       },
     ],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetJudgeByPostId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -402,7 +402,7 @@ export async function loadJudgeList(post_id) {
 }
 
 /* 제출물 파일 QNA 요청*/
-export async function getFileQNA(file_id, query) {
+export function getFileQNA(file_id, query) {
   const formDataToSend = {
     fileId: file_id,
     query: query,
@@ -411,7 +411,7 @@ export async function getFileQNA(file_id, query) {
     result: 'result sample',
     source: ['source', 'source', 'source'],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetFileQNA(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -426,7 +426,7 @@ export async function getFileQNA(file_id, query) {
 }
 
 /* 제출물 파일 QNA 요청*/
-export async function getCompetitionFileQNA(competition_id, query) {
+export function getCompetitionFileQNA(competition_id, query) {
   const formDataToSend = {
     competitionId: competition_id,
     query: query,
@@ -435,7 +435,7 @@ export async function getCompetitionFileQNA(competition_id, query) {
     result: 'result sample',
     source: ['source', 'source', 'source'],
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetCompetitionFileQNA(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -450,7 +450,7 @@ export async function getCompetitionFileQNA(competition_id, query) {
 }
 
 /* 제출물 페이지 표절 검사 리포트 요청*/
-export async function getPageReport(file_id, page_id, comp_page_id) {
+export function getPageReport(file_id, page_id, comp_page_id) {
   const formDataToSend = {
     file_id: file_id,
     page_id: page_id,
@@ -459,7 +459,7 @@ export async function getPageReport(file_id, page_id, comp_page_id) {
   const sample = {
     report: 'report sample',
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetPageReport(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -474,7 +474,7 @@ export async function getPageReport(file_id, page_id, comp_page_id) {
 }
 
 /* 유저 정보 by userId */
-export async function getUserInfo(user_id) {
+export function getUserInfo(user_id) {
   const formDataToSend = {
     userId: user_id,
   };
@@ -484,7 +484,7 @@ export async function getUserInfo(user_id) {
     role: 'ADMIN',
     user_name: '홍길동',
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetUserInfo(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -499,9 +499,9 @@ export async function getUserInfo(user_id) {
 }
 
 /* 유저 정보 리스트by userIdList */
-export async function getUserInfoList(user_id_list) {
+export function getUserInfoList(user_id_list) {
   const formDataToSend = {
-    user_id_list: user_id_list,
+    userIdList: user_id_list,
   };
   const sample = [
     {
@@ -517,7 +517,7 @@ export async function getUserInfoList(user_id_list) {
       user_name: '홍길동',
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetUserInfoList(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -532,12 +532,12 @@ export async function getUserInfoList(user_id_list) {
 }
 
 /* 파일 디테일 요청 by file_id */
-export async function loadResultData(file_id) {
+export function loadResultData(file_id) {
   const formDataToSend = {
     fileId: file_id,
   };
   const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetFileInfoByFileId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -552,7 +552,7 @@ export async function loadResultData(file_id) {
 }
 
 /* 파일 리스트 요청 by post_id */
-export async function loadFileList(post_id) {
+export function loadFileList(post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -585,7 +585,7 @@ export async function loadFileList(post_id) {
       post_info_id: 'post_info_id_3',
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetFileInfoByPostId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -600,10 +600,10 @@ export async function loadFileList(post_id) {
 }
 
 /* 게시물 리스트 요청 by BoardType */
-export async function checkJudgeByPostId(judge_id, post_id) {
+export function checkJudgeByPostId(judge_id, post_id) {
   const formDataToSend = { judgeId: judge_id, postId: post_id };
   const sample = false; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetCheckJudgeByPostId(formDataToSend)
     .then((response) => {
       const getData = true;
@@ -618,13 +618,13 @@ export async function checkJudgeByPostId(judge_id, post_id) {
 }
 
 /* PageResultInfo Json 요청 */
-export async function getPageResultInfo(page_id, comp_page_id) {
+export function getPageResultInfo(page_id, comp_page_id) {
   const formDataToSend = {
     pageId: page_id,
     compPageId: comp_page_id,
   };
   const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetPageResult(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -641,7 +641,7 @@ export async function getPageResultInfo(page_id, comp_page_id) {
 // const Auth = useAuth();
 
 /* 제출물 파일 업로드 요청 */
-export async function updateFile(user, post_id, fileData) {
+export function updateFile(user, post_id, fileData) {
   const formData = {
     postId: post_id,
   };
@@ -654,7 +654,7 @@ export async function updateFile(user, post_id, fileData) {
     formDataToSend.append('file', fileData);
   }
   const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .AddFileInfo(user, formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -669,7 +669,7 @@ export async function updateFile(user, post_id, fileData) {
 }
 
 /* 게시물 정보 요청 */
-export async function getPostInfoChkByPostId(user, post_id) {
+export function getPostInfoChkByPostId(user, post_id) {
   const formDataToSend = {
     postId: post_id,
   };
@@ -700,7 +700,7 @@ export async function getPostInfoChkByPostId(user, post_id) {
     upload_datetime: '2023-08-05T00:09:12',
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
 
-  return await apiUtils
+  return apiUtils
     .GetPostInfoChkByPostId(user, formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -715,7 +715,7 @@ export async function getPostInfoChkByPostId(user, post_id) {
 }
 
 /* 유저 리스트 요청 */
-export async function loadUserList(competition_id) {
+export function loadUserList(competition_id) {
   const formDataToSend = {
     competitionId: competition_id,
   };
@@ -743,7 +743,7 @@ export async function loadUserList(competition_id) {
       role: 1,
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetUseInforByCompetitionId(formDataToSend)
     .then((response) => {
       const getData = response.data;
@@ -758,7 +758,7 @@ export async function loadUserList(competition_id) {
 }
 
 /* 주최자 검증 */
-export async function validateCreator(user, competition_id) {
+export function validateCreator(user, competition_id) {
   const formDataToSend = {
     competitionId: competition_id,
   };
@@ -768,7 +768,7 @@ export async function validateCreator(user, competition_id) {
     user_id: 'www',
     role_type: 'PARTICIPANT_BASE',
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetUserByCompetition(user, formDataToSend)
     .then((response) => {
       // console.log(response.data);
@@ -787,7 +787,7 @@ export async function validateCreator(user, competition_id) {
 }
 
 /* 유저 참여 공모전 리스트 요청 */
-export async function loadCompetitionListByUserId(user) {
+export function loadCompetitionListByUserId(user) {
   const sample = [
     {
       competition_info_id: '11111',
@@ -882,7 +882,7 @@ export async function loadCompetitionListByUserId(user) {
       ],
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetCompetitionInfoByUserId(user)
     .then((response) => {
       const getData = response.data;
@@ -897,7 +897,7 @@ export async function loadCompetitionListByUserId(user) {
 }
 
 /* 공모전 리스트 요청 */
-export async function loadCompetitionList() {
+export function loadCompetitionList() {
   const sample = [
     {
       competition_info_id: '11111',
@@ -974,7 +974,7 @@ export async function loadCompetitionList() {
       ],
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetCompetitionInfo()
     .then((response) => {
       const getData = response.data;
@@ -989,7 +989,7 @@ export async function loadCompetitionList() {
 }
 
 /* 공모전 리스트 + 디테일 */
-export async function loadCompetitionDetailList(user) {
+export function loadCompetitionDetailList(user) {
   const sample = [
     {
       competition_info_id: '11111',
@@ -1084,7 +1084,7 @@ export async function loadCompetitionDetailList(user) {
       ],
     },
   ]; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-  return await apiUtils
+  return apiUtils
     .GetCompetitionInfoChkByUserId(user)
     .then((response) => {
       const getData = response.data;
@@ -1124,15 +1124,17 @@ export function loadUser(user) {
 }
 
 /* Readme 업데이트 요청 */
-export async function UpdateReadme(competition_id, readme) {
+export function updateReadme(competition_id, readme) {
+  console.log(parseInt(competition_id), competition_id, readme);
   const formDataToSend = {
-    competitionId: competition_id,
+    competitionId: parseInt(competition_id),
     competitionReadme: readme,
   };
-  const sample = { status: 'error' };
-  return await apiUtils
+  const sample = { data: 'error' };
+  return apiUtils
     .UpdateReadme(formDataToSend)
     .then((response) => {
+      console.log(response);
       const getData = response.data;
       return getData;
     })
@@ -1149,12 +1151,12 @@ export async function UpdateReadme(competition_id, readme) {
 // });
 
 /* 게시물 리스트 요청 by BoardType */
-// export async function loadSample(competition_id) {
+// export  function loadSample(competition_id) {
 //   const formDataToSend = {
 //     competitionId: competition_id,
 //   };
 //   const sample = 'sample'; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
-//   return await apiUtils
+//   return  apiUtils
 //     .GetPostInfoByBoardType(formDataToSend)
 //     .then((response) => {
 //       const getData = response.data;

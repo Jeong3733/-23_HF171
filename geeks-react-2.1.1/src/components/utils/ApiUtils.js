@@ -86,9 +86,9 @@ function signUp(data) {
 
 // JWT 토큰을 담아서 보내는 예시, 토큰을 갖고 개인 정보를 불러옴
 function getUserInfo(user) {
-  const url = `/user`;
+  const url = `/get/user`;
   // console.log(user);
-  return instance.post(url, {
+  return instance.get(url, {
     headers: {
       'Content-type': 'application/json',
       Authorization: bearerAccess(user),
@@ -670,7 +670,7 @@ function GetPostInfoChkByPostId(user, data) {
 }
 
 // 게시물 요청 by BoardType
-async function GetPostInfoByBoardType(data) {
+function GetPostInfoByBoardType(data) {
   const url = `/get/postInfo/boardType`;
   return instance.post(url, data, {
     headers: { 'Content-type': 'application/json' },
@@ -773,9 +773,9 @@ function GetJudgeByPostId(data) {
 
 /* 심사위원 리스트 요청 by competitionId
  */
-async function GetJudgeByCompetitionId(data) {
+function GetJudgeByCompetitionId(data) {
   const url = `/get/judge/competitionId`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -784,9 +784,9 @@ async function GetJudgeByCompetitionId(data) {
 
 /* 심사위원 검증 및 데이터 요청
  */
-async function GetCheckJudge(data) {
+function GetCheckJudge(data) {
   const url = `/validate/judge`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -795,9 +795,9 @@ async function GetCheckJudge(data) {
 
 /* 심사위원 검증 by postId
  */
-async function GetCheckJudgeByPostId(data) {
+function GetCheckJudgeByPostId(data) {
   const url = `/validate/judge/postId`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -806,9 +806,9 @@ async function GetCheckJudgeByPostId(data) {
 
 /* 평가 항목 조회 by postId
  */
-async function GetEvaluationItemByPostId(data) {
+function GetEvaluationItemByPostId(data) {
   const url = `/get/eval`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -817,9 +817,9 @@ async function GetEvaluationItemByPostId(data) {
 
 /* 평가 항목 추가
  */
-async function AddEvaluationItem(data) {
+function AddEvaluationItem(data) {
   const url = `/add/eval`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -828,9 +828,9 @@ async function AddEvaluationItem(data) {
 
 /* 평가 결과 by postId
  */
-async function GetAllScore(data) {
+function GetAllScore(data) {
   const url = `/get/allScore`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -840,9 +840,9 @@ async function GetAllScore(data) {
 // 심사위원 평가 페이지 - 평가
 /* 심사위원 점수 불러오기 by postId
  */
-async function GetScore(data) {
+function GetScore(data) {
   const url = `/get/score`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -851,9 +851,9 @@ async function GetScore(data) {
 
 /* 심사위원 점수 불러오기 by fileId
  */
-async function GetScoreFile(data) {
+function GetScoreFile(data) {
   const url = `/get/score/fileId`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -862,9 +862,9 @@ async function GetScoreFile(data) {
 
 /* 심사위원 점수 업데이트
  */
-async function UpdateScore(data) {
+function UpdateScore(data) {
   const url = `/update/score`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -873,9 +873,9 @@ async function UpdateScore(data) {
 
 /* 제출물 파일 QNA 요청
  */
-async function GetFileQNA(data) {
+function GetFileQNA(data) {
   const url = `/get/file/qna`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -884,9 +884,9 @@ async function GetFileQNA(data) {
 
 /* 제출물 파일 QNA 요청
  */
-async function GetCompetitionFileQNA(data) {
+function GetCompetitionFileQNA(data) {
   const url = `/get/competitionFile/qna`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -895,9 +895,9 @@ async function GetCompetitionFileQNA(data) {
 
 /* 제출물 페이지 표절 검사 리포트 요청
  */
-async function GetPageReport(data) {
+function GetPageReport(data) {
   const url = `/add/page/report`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },
@@ -905,9 +905,9 @@ async function GetPageReport(data) {
 }
 /* 제출물 페이지 표절 검사 리포트 요청
  */
-async function GetPageResult(data) {
+function GetPageResult(data) {
   const url = `/get/pageResult`;
-  return await instance.post(url, data, {
+  return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
     },

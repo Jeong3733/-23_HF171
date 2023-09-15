@@ -34,30 +34,34 @@ const PlagiarismCheckPopup = ({ data }) => {
       </Row>
       <Row>
         <Col md={12}>
-          <Tab.Container defaultActiveKey="File">
+          <Tab.Container defaultActiveKey="Page">
             <Card className="bg-transparent shadow-none ">
               <Card.Header className="border-0 p-0 bg-transparent">
                 <Nav className="nav-lb-tab">
                   <Nav.Item className="ms-0">
-                    <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
+                    <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
                       {' '}
-                      File
+                      Page
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
-                      Page
+                    <Nav.Link
+                      eventKey="File"
+                      className="mb-sm-3 mb-md-0"
+                      disabled
+                    >
+                      File
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
-                  <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    <ListNav data={data} type={'file'} />
-                  </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
                     <ListNav data={data} type={'page'} />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
+                    <ListNav data={data} type={'file'} />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>

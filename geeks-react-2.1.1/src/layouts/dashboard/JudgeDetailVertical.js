@@ -35,7 +35,12 @@ import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 const JudgeDetailVertical = ({ data }) => {
   // console.log(data);
   const popupList = {
-    FileListPopup: <FileListPopup fileList={data.fileList} />,
+    FileListPopup: (
+      <FileListPopup
+        fileList={data.fileList}
+        userInfoList={data.userInfoList}
+      />
+    ),
     SummaryPopup: (
       <SummaryPopup fileInfo={data.fileInfo} pageInfo={data.pageInfo} />
     ),
@@ -45,6 +50,15 @@ const JudgeDetailVertical = ({ data }) => {
     PlagiarismCheckPopup: <PlagiarismCheckPopup data={data} />,
     EvaluationPopup: <EvaluationPopup data={data} />,
     InfoPopup: <InfoPopup data={data.resultData} />,
+  };
+
+  const size = {
+    FileListPopup: 'lg',
+    SummaryPopup: '',
+    DocumentQAPopup: '',
+    PlagiarismCheckPopup: 'lg',
+    EvaluationPopup: 'lg',
+    InfoPopup: '',
   };
 
   const [show, setShow] = useState({
@@ -125,7 +139,7 @@ const JudgeDetailVertical = ({ data }) => {
                     key={menu.popup}
                     show={show[menu.popup]}
                     // onHide={test(11)}
-                    size="lg"
+                    size={size[menu.popup]}
                   >
                     <Modal.Header>
                       {/* <Modal.Header closeButton> */}

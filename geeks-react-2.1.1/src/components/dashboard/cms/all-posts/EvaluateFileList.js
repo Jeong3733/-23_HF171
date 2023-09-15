@@ -32,8 +32,7 @@ const EvaluateFileList = () => {
   // console.log(competition_id);
   const [postInfo, setPostInfo] = useState([]);
   const [fileList, setFileList] = useState([]);
-  const [userList, setUserList] = useState([]);
-  const [userInfoList, setUserInfoList] = useState({});
+  const [userInfoList, setUserInfoList] = useState([]);
 
   useEffect(() => {
     // postInfo
@@ -44,14 +43,13 @@ const EvaluateFileList = () => {
     // fileList
     loadFileList(post_id).then((getData) => {
       setFileList(getData);
+      // console.log(getData);
+      getUserInfoList([
+        ...new Set(getData.map((item) => item.user_info_id)),
+      ]).then((getData) => {
+        setUserInfoList(getData);
+      });
     });
-    // setUserList([...new Set(fileList.map((item) => item.user_info_id))]);
-    // // console.log('userList', userList);
-    // if (userList.length !== 0) {
-    //   getUserInfoList(userList).then((getData) => {
-    //     setUserInfoList(getData);
-    //   });
-    // }
   }, []);
 
   return (
@@ -95,7 +93,7 @@ const EvaluateFileList = () => {
                     <FilesTable
                       table_data={fileList}
                       evaluate={false}
-                      // userInfoList={userInfoList}
+                      userInfoList={userInfoList}
                     />
                   </Tab.Pane>
                 </Tab.Content>

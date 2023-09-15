@@ -22,7 +22,7 @@
   line-height: 1.5;
 }
 .user-message {
-  background-color: #007bff;
+  background-color: #754ffe;
   color: #fff;
   text-align: right;
 }
@@ -44,12 +44,12 @@
 .chatbot-input-form button {
   padding: 8px 16px;
   border: none;
-  background-color: #007bff;
+  background-color: #754ffe;
   color: #fff;
   border-radius: 0 4px 4px 0;
   font-size: 16px;
   cursor: pointer;
 }
 .chatbot-input-form button:hover {
-  background-color: #0056b3;
+  background-color: #754ffe;
 }

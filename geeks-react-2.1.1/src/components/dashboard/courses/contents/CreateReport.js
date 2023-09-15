@@ -46,13 +46,13 @@ const CreateReport = ({ file_id, page_id, comp_page_id, data }) => {
   };
   // console.log(data.pageResultInfo.data);
   return (
-    <Button variant="primary" onClick={handleSubmit}>
-      점수 업데이트
-      {isLoading ? (
-        <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
-      ) : null}
+    <Button
+      className=" d-md-flex align-items-center justify-content-between "
+      variant="primary"
+      onClick={handleSubmit}
+    >
+      리포트 생성
+      {isLoading ? <Spinner animation="border" role="status" /> : null}
     </Button>
   );
 };

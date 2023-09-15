@@ -140,13 +140,13 @@ const QuickMenu = ({ doLogOut, UserInfo }) => {
           >
             <Dropdown.Item className="mt-3">
               <div className="d-flex">
-                <div className="avatar avatar-md avatar-indicators avatar-online">
+                {/* <div className="avatar avatar-md avatar-indicators avatar-online">
                   <Image
                     alt="avatar"
                     src={Avatar1}
                     className="rounded-circle"
                   />
-                </div>
+                </div> */}
                 {UserInfo && isNotEmptyObj(UserInfo) && (
                   <div className="ms-3 lh-1">
                     <h5 className="mb-1">{UserInfo.user_name}</h5>

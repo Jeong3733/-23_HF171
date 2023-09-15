@@ -9,6 +9,7 @@ import {
   Nav,
   Tab,
   Breadcrumb,
+  ListGroup,
 } from 'react-bootstrap';
 
 // import data files
@@ -20,16 +21,15 @@ const EvaluationPopup = ({ data }) => {
 
   return (
     <Fragment>
-      <Row>
-        <Col>
-          <div>{'평가 페이지'}</div>
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12} md={12} sm={12}>
+      <ListGroup>
+        <ListGroup.Item>
+          참여 인원에게 점수 및 코멘트를 남겨주세요. (입력 및 수정 후 업데이트
+          버튼을 눌러주세요.)
+        </ListGroup.Item>
+        <ListGroup.Item>
           <JudgeEvaluationTable table_data={data} />
-        </Col>
-      </Row>
+        </ListGroup.Item>
+      </ListGroup>
     </Fragment>
   );
 };

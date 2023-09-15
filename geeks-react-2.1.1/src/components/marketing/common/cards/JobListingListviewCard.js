@@ -1,15 +1,28 @@
 // import node module libraries
-import { Card, Image } from 'react-bootstrap';
+import { toDateByYYYYMMDD, truncateString } from 'helper/utils';
+import { Badge, Card, Image } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
 // import custom components
 
-const JobListingListviewCard = ({ item, index }) => {
+const JobListingListviewCard = ({ item, index, user_name }) => {
   console.log(item);
   const pathType = {
     NOTICE: 'announcements',
     QNA: 'qna',
     SUBMIT: 'submits',
+  };
+  console.log(user_name);
+
+  const renderContent = () => {
+    switch (item.board_type) {
+      case 'SUBMIT':
+        return 'primary';
+      case 'QNA':
+        return 'success';
+      default:
+        return 'info';
+    }
   };
   return (
     <Link
@@ -21,7 +34,7 @@ const JobListingListviewCard = ({ item, index }) => {
       <Card className="card-bordered mb-4 card-hover cursor-pointer">
         <Card.Body>
           <div className="d-md-flex">
-            <div className="mb-3 mb-md-0">
+            {/* <div className="mb-3 mb-md-0">
               <Image
                 src="https://miro.medium.com/v2/resize:fit:914/format:webp/1*zIxyGH-bIZP4cA7Ho8oilQ.png"
                 alt="Geeks UI - Bootstrap 5 Template"
@@ -34,15 +47,23 @@ const JobListingListviewCard = ({ item, index }) => {
                   <div>마감일까지 기간</div>
                 </div>
               )}
-            </div>
-            <div className="ms-md-3 w-100 mt-3 mt-xl-1">
+            </div> */}
+            <div className="ms-md-2 w-100 mt-1 mt-xl-1">
               <div className="d-flex justify-content-between mb-5">
                 <div>
-                  <h3 className="mb-1 fs-4 text-inherit me-1">{item.title}</h3>
+                  <h3 className="mb-1 fs-4 text-inherit me-1">
+                    <Badge
+                      pill
+                      bg={renderContent()}
+                      text="white"
+                      className="me-1"
+                    >
+                      {item.board_type}
+                    </Badge>
+                    {item.title}
+                  </h3>
                   <div>
-                    <span>
-                      {item.contents} {item.board_type}
-                    </span>
+                    <span>{truncateString(item.contents, 100)}</span>
                   </div>
                 </div>
               </div>
@@ -50,11 +71,11 @@ const JobListingListviewCard = ({ item, index }) => {
                 <div className="mb-2 mb-md-0">
                   <div>
                     <i className="fe fe-briefcase text-muted"></i>
-                    <span> {item.user_info_id}</span>
+                    <span> {user_name}</span>
                   </div>
                   <div>
                     <i className="fe fe-clock text-muted"></i>
-                    <span> {item.created_date}</span>
+                    <span> {toDateByYYYYMMDD(item.created_date)}</span>
                   </div>
                 </div>
               </div>

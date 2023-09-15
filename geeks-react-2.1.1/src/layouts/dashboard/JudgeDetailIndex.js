@@ -12,6 +12,7 @@ import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import {
   checkJudgeByPostId,
+  getUserInfoList,
   loadFileList,
   loadItemList,
   loadResultData,
@@ -39,11 +40,18 @@ const JudgeDetailIndex = (props) => {
   const [compPageInfo, setCompPageInfo] = useState([]);
   const [compPageContent, setCompPageContent] = useState([{}]);
   const [messages, setMessages] = useState([]);
+  const [userInfoList, setUserInfoList] = useState([]);
 
   function getAllData() {
     // FileList
     loadFileList(post_id).then((getData) => {
       setFileList(getData);
+      // console.log(getData);
+      getUserInfoList([
+        ...new Set(getData.map((item) => item.user_info_id)),
+      ]).then((getData) => {
+        setUserInfoList(getData);
+      });
     });
     // ItemList
     loadItemList(post_id).then((getData) => {
@@ -165,6 +173,10 @@ const JudgeDetailIndex = (props) => {
     messages: {
       data: messages,
       setData: setMessages,
+    },
+    userInfoList: {
+      data: userInfoList,
+      setData: setUserInfoList,
     },
   };
 

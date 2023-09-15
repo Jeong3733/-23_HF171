@@ -12,6 +12,8 @@ import {
 } from 'react-bootstrap';
 
 import SweetPagination from 'sweetpagination';
+import ReactPaginate from 'react-paginate';
+import { ChevronLeft, ChevronRight } from 'react-feather';
 
 const SummaryPopup = ({ fileInfo, pageInfo }) => {
   const [groupPageList, setGroupPageList] = useState({});
@@ -30,17 +32,30 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
     groupPage();
   }, [pageInfo]);
 
-  // console.log(groupPageList);
-  // console.log(groupPageList);
+  // paging setup start
+  const [pageNumber, setPageNumber] = useState(0);
+  const RecordsPerPage = 1;
+  const pagesVisited = pageNumber * RecordsPerPage;
+  const pageCount = Math.ceil(pageNumList.length / RecordsPerPage);
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+  const displayRecords = pageNumList
+    .slice(pagesVisited, pagesVisited + RecordsPerPage)
+    .map((item, index) => (
+      <div key={index} className="pb-3">
+        <h2>
+          # {parseInt(item) + 1} Page ({parseInt(item) + 1}/{pageNumList.length}
+          )
+        </h2>
+        <div>Item # {groupPageList[item]}</div>
+      </div>
+    ));
   return (
     <Fragment>
       <Row>
         <Col>
-          <div>
-            {
-              '문서(페이지) 내용과 유사한 문서(페이지)가 있는지 확인하고, 어떠한 부분에서 유사하다고 판단했는지 알려드립니다. '
-            }
-          </div>
+          <div>문서(페이지) 요약 내용을 제공합니다.</div>
         </Col>
       </Row>
       <Row>
@@ -63,26 +78,32 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
                 </Nav>
               </Card.Header>
               <Card.Body className="p-0">
-                <Tab.Content>
+                <Tab.Content className="pt-4">
                   <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
                     {fileInfo.data.summary}
                   </Tab.Pane>
                   <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    <div>
-                      {currentPageData.map((item, index) => (
-                        <div key={index}>
-                          <h2>Page # {parseInt(item) + 1}</h2>
-                          <h3>Item # {groupPageList[item]}</h3>
-                        </div>
-                      ))}
-                      <SweetPagination
-                        currentPageData={setCurrentPageData}
-                        dataPerPage={1}
-                        getData={pageNumList}
-                        navigation={true}
-                        getStyle={'style-1'}
-                      />
-                    </div>
+                    {displayRecords.length > 0 ? (
+                      displayRecords
+                    ) : (
+                      <div>No matching records found.</div>
+                    )}
+                    <ReactPaginate
+                      previousLabel={<ChevronLeft size="14px" />}
+                      nextLabel={<ChevronRight size="14px" />}
+                      pageCount={pageCount}
+                      onPageChange={changePage}
+                      marginPagesDisplayed={0}
+                      containerClassName={
+                        'justify-content-center mb-0 pagination'
+                      }
+                      previousLinkClassName={'page-link mx-1 rounded'}
+                      nextLinkClassName={'page-link mx-1 rounded'}
+                      pageClassName={'page-item'}
+                      pageLinkClassName={'page-link mx-1 rounded'}
+                      disabledClassName={'paginationDisabled'}
+                      activeClassName={'active'}
+                    />
                   </Tab.Pane>
                 </Tab.Content>
               </Card.Body>
