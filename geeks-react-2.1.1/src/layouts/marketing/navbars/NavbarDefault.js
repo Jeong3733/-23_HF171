@@ -12,7 +12,7 @@ import DocumentMenu from 'layouts/marketing/navbars/DocumentMenu';
 import DarkLightMode from 'layouts/DarkLightMode';
 
 // import media files
-import Logo from 'assets/images/brand/logo/test-logo-icon.svg';
+import Logo from 'assets/images/brand/logo/logo.svg';
 
 // import data files
 import NavbarDefaultRoutes from 'routes/marketing/NavbarDefault';
@@ -87,7 +87,7 @@ const NavbarDefault = ({ UserInfo, isLoggedIn, doLogOut }) => {
                 type="Search"
                 id="formSearch"
                 className="ps-6"
-                placeholder="Search Courses"
+                placeholder="Search Items..."
               />
             </Form> */}
             {/* Right side quick / shortcut menu  */}

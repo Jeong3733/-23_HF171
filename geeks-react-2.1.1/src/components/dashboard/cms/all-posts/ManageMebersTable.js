@@ -174,7 +174,7 @@ const ManageMebersTable = ({ table_data, role }) => {
             <GlobalFilter
               filter={globalFilter}
               setFilter={setGlobalFilter}
-              placeholder="Search Course"
+              placeholder="Search Items..."
             />
           </Col>
         </Row>

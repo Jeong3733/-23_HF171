@@ -207,7 +207,7 @@ const CoursesCategory = () => {
                     <GlobalFilter
                       filter={globalFilter}
                       setFilter={setGlobalFilter}
-                      placeholder="Search Course"
+                      placeholder="Search Items..."
                     />
                   </Col>
                 </Row>
