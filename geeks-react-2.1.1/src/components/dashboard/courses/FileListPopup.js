@@ -29,7 +29,7 @@ import {
   allDeletedPosts,
 } from 'data/courses/AllPostsData';
 
-const FileListPopup = ({ fileList }) => {
+const FileListPopup = ({ fileList, userInfoList }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
@@ -38,11 +38,7 @@ const FileListPopup = ({ fileList }) => {
     <Fragment>
       <Row>
         <Col>
-          <div>
-            {
-              '문서 리스트 문서 리스트 문서 리스트 문서 리스트 문서 리스트 문서 리스트'
-            }
-          </div>
+          <div>{'평가를 진행해야 할 파일 리스트 입니다.'}</div>
         </Col>
       </Row>
       <Row>
@@ -71,7 +67,11 @@ const FileListPopup = ({ fileList }) => {
               <Card.Body className="p-0">
                 <Tab.Content>
                   <Tab.Pane eventKey="all" className="pb-0">
-                    <FilesTable table_data={fileList.data} evaluate={true} />
+                    <FilesTable
+                      table_data={fileList.data}
+                      evaluate={true}
+                      userInfoList={userInfoList.data}
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="undone" className="pb-0">
                     <FilesTable table_data={allPublishedPosts} />

@@ -35,7 +35,12 @@ import { DashboardMenu } from 'routes/dashboard/EvaluateDetailRoutes';
 const JudgeDetailVertical = ({ data }) => {
   // console.log(data);
   const popupList = {
-    FileListPopup: <FileListPopup fileList={data.fileList} />,
+    FileListPopup: (
+      <FileListPopup
+        fileList={data.fileList}
+        userInfoList={data.userInfoList}
+      />
+    ),
     SummaryPopup: (
       <SummaryPopup fileInfo={data.fileInfo} pageInfo={data.pageInfo} />
     ),

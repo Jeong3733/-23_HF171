@@ -36,11 +36,7 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
     <Fragment>
       <Row>
         <Col>
-          <div>
-            {
-              '문서(페이지) 내용과 유사한 문서(페이지)가 있는지 확인하고, 어떠한 부분에서 유사하다고 판단했는지 알려드립니다. '
-            }
-          </div>
+          <div>문서(페이지) 요약 내용을 제공합니다.</div>
         </Col>
       </Row>
       <Row>

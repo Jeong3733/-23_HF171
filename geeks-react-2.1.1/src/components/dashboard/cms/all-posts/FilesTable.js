@@ -31,8 +31,10 @@ import { toDateByYYYYMMDD } from 'helper/utils';
 
 const FilesTable = ({ table_data, evaluate, userInfoList }) => {
   const { judge_id, post_id } = useParams();
+  console.log(userInfoList);
 
   const getUserName = (user_id) => {
+    if (!userInfoList) return 'X';
     if (userInfoList.length === 0) {
       return 'X';
     } else {
