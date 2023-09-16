@@ -23,7 +23,7 @@ const HeroHeader = (props) => {
               </h1>
               <p className="text-white-50 mb-4 lead">
                 주최자와 심사위원의 고민을 함께 합니다. <br />
-                AI를 활용한 최적의 공모전 플랫폼. <br />
+                AI를 활용한 최적의 공모전 플랫폼 <br />
                 효율적인 심사 지원부터 표절 검사까지, 공모전의 모든 과정을
                 지원합니다
               </p>
