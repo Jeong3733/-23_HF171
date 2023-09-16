@@ -139,7 +139,7 @@ export function loadCompetitionInfoByUser(user, competition_id) {
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      const getData = sample;
+      const getData = false;
       return getData;
     });
 }

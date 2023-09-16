@@ -7,8 +7,6 @@ import JudgeDetailVertical from './JudgeDetailVertical';
 import JudgeHeaderDefault from './JudgeHeaderDefault';
 
 // impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import {
   checkJudgeByPostId,
@@ -107,26 +105,14 @@ const JudgeDetailIndex = (props) => {
 
   useEffect(() => {
     // 접근 유무 확인
-    checkJudgeByPostId(judge_id, post_id)
-      .then((getData) => {
-        if (getData) {
-          getAllData();
-        } else {
-          alert('심사위원 인증을 실패했습니다.');
-          navigate(`/judge/sign-in/`);
-        }
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
-
-        // case 1: 심사위원 인증 실패
-        alert('API 호출 실패했습니다.');
+    checkJudgeByPostId(judge_id, post_id).then((getData) => {
+      if (getData) {
+        getAllData();
+      } else {
+        alert('심사위원 인증을 실패했습니다.');
         navigate(`/judge/sign-in/`);
-
-        // case 2: 더미데이터를 사용하는 경우
-        // alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
-      });
+      }
+    });
   }, []);
 
   const data = {

@@ -70,6 +70,14 @@ const JudgeDetailVertical = ({ data }) => {
     InfoPopup: false,
   });
 
+  const [showFileListPopup, setShowFileListPopup] = useState(false);
+  const [showSummaryPopup, setShowSummaryPopup] = useState(false);
+  const [showDocumentQAPopup, setShowDocumentQAPopup] = useState(false);
+  const [showPlagiarismCheckPopup, setShowPlagiarismCheckPopup] =
+    useState(false);
+  const [showEvaluationPopup, setShowEvaluationPopup] = useState(false);
+  const [showInfoPopup, setShowInfoPopup] = useState(false);
+
   // const [show, setShow] = useState(false);
   const handleClose = (e) => {
     setShow({

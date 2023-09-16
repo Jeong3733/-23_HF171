@@ -43,13 +43,21 @@ const DetailLayout = () => {
       });
     });
   }
+
   useEffect(() => {
-    // console.log(isLoggedIn);
     if (isLoggedIn) {
       const user = Auth.getUser();
-      // console.log(isLoggedIn);
+      console.log(isLoggedIn);
       loadCompetitionInfoByUser(user, competition_id).then((getData) => {
-        setCompetitionInfo(getData);
+        console.log('loadCompetitionInfoByUser');
+        if (getData) {
+          setCompetitionInfo(getData);
+        } else {
+          console.log('loadCompetitionInfo');
+          loadCompetitionInfo(competition_id).then((getData) => {
+            setCompetitionInfo(getData);
+          });
+        }
       });
     } else {
       loadCompetitionInfo(competition_id).then((getData) => {
@@ -57,7 +65,7 @@ const DetailLayout = () => {
       });
     }
     loadData();
-  }, [isLoggedIn]);
+  }, []);
 
   if (isNotEmptyObj(competitionInfo)) {
     return (
@@ -65,6 +73,7 @@ const DetailLayout = () => {
         Auth={Auth}
         isLoggedIn={isLoggedIn}
         competitionInfo={competitionInfo}
+        setCompetitionInfo={setCompetitionInfo}
         creatorInfo={creatorInfo}
         userList={userList}
       >

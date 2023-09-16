@@ -28,11 +28,22 @@ import {
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-import { validateCreator } from 'components/utils/LoadData';
+import {
+  loadCompetitionInfo,
+  loadCompetitionInfoByUser,
+  validateCreator,
+} from 'components/utils/LoadData';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { competitionInfo, isLoggedIn, Auth, creatorInfo, userList } = props;
+  const {
+    competitionInfo,
+    isLoggedIn,
+    Auth,
+    creatorInfo,
+    userList,
+    setCompetitionInfo,
+  } = props;
   const location = useLocation();
 
   const tabItems = [
@@ -101,7 +112,17 @@ const CommonHeaderTabs = (props) => {
       apiUtils
         .AddParticipation(user, data7)
         .then((response) => {
-          refreshPage();
+          loadCompetitionInfoByUser(user, competition_id).then((getData) => {
+            // console.log('loadCompetitionInfoByUser');
+            if (getData) {
+              setCompetitionInfo(getData);
+            } else {
+              // console.log('loadCompetitionInfo');
+              loadCompetitionInfo(competition_id).then((getData) => {
+                setCompetitionInfo(getData);
+              });
+            }
+          });
         })
         .catch((error) => {
           // alert(error.response.data);
