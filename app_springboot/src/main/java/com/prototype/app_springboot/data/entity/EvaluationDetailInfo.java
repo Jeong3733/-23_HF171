@@ -24,8 +24,6 @@ public class EvaluationDetailInfo {
 
     private String name;
 
-    private int score;
-
     private int max;
 
     @OneToMany(mappedBy = "evaluationDetailInfo")
@@ -44,11 +42,10 @@ public class EvaluationDetailInfo {
     }
 
     @Builder
-    public EvaluationDetailInfo(int id, EvaluationInfo evaluationInfo, String name, int score, int max) {
+    public EvaluationDetailInfo(int id, EvaluationInfo evaluationInfo, String name, int max) {
         this.id = id;
         this.evaluationInfo = evaluationInfo;
         this.name = name;
-        this.score = score;
         this.max = max;
     }
 }

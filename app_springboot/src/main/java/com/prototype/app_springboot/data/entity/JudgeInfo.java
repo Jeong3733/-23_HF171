@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +21,9 @@ public class JudgeInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private PostInfo postInfo;
+
+    @OneToMany(mappedBy = "judgeInfo")
+    private final List<EvaluationCommentInfo> evaluationCommentInfoList = new ArrayList<EvaluationCommentInfo>();
 
     @Builder
     public JudgeInfo(UUID id, PostInfo postInfo) {
