@@ -163,7 +163,7 @@ const CommonHeaderTabs = (props) => {
                   </div>
                 </div>
               </Col>
-              <Col xl={7} lg={7} md={7} sm={7}>
+              <Col xl={6} lg={6} md={6} sm={6}>
                 <div className="w-100 ms-md-4 mt-4">
                   <div className="d-flex justify-content-between">
                     <div>
@@ -197,46 +197,39 @@ const CommonHeaderTabs = (props) => {
                   </div>
                 </div>
               </Col>
-              <Col xl={3} lg={3} md={3} sm={3}>
-                <div className="w-100 ms-md-4 mt-4">
-                  <div className="d-flex justify-content-between">
-                    <div className="d-flex align-items-center gap-2">
-                      {' '}
-                      <div className="lh-1 d-flex align-items-center">
-                        <Badge pill bg="primary" className="me-1">
-                          {getCompetitionStatus()}
-                        </Badge>
-                        <Badge pill bg="primary" className="me-1">
-                          {calculateDday(
-                            competitionInfo.competition_start_date,
-                          )}
-                        </Badge>
-                      </div>
-                      {competitionInfo.role_type ? (
-                        // 참가 중
-                        <Badge pill bg="primary" className="me-1">
-                          <span className="">{userRole()}</span>
-                        </Badge>
-                      ) : (
-                        <Button
-                          to="#"
-                          variant="outline-primary"
-                          onClick={handleClick}
-                        >
-                          참가 신청
-                        </Button>
-                      )}
-                      {/* button */}
-                      <Button
-                        to="#"
-                        variant="outline-primary"
-                        // onClick={() => handleCopyLinkClipBoard(location.pathname)}
-                      >
-                        링크 공유
-                      </Button>
-                    </div>
-                  </div>
+              <Col xl={4} lg={4} md={4} sm={4}>
+                {/* <div className="w-100 ms-md-4 mt-4"> */}
+                <div className="d-flex justify-content-center align-items-center gap-2">
+                  <Badge pill bg="primary" className="me-1">
+                    {getCompetitionStatus()}
+                  </Badge>
+                  <Badge pill bg="primary" className="me-1">
+                    {calculateDday(competitionInfo.competition_start_date)}
+                  </Badge>
+                  {competitionInfo.role_type ? (
+                    // 참가 중
+                    <Badge pill bg="primary" className="me-1">
+                      <span className="">{userRole()}</span>
+                    </Badge>
+                  ) : (
+                    <Button
+                      to="#"
+                      variant="outline-primary"
+                      onClick={handleClick}
+                    >
+                      참가 신청
+                    </Button>
+                  )}
+                  {/* button */}
+                  <Button
+                    to="#"
+                    variant="outline-primary"
+                    // onClick={() => handleCopyLinkClipBoard(location.pathname)}
+                  >
+                    링크 공유
+                  </Button>
                 </div>
+                {/* </div> */}
               </Col>
             </Col>
           </Row>

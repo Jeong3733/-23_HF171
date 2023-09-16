@@ -202,6 +202,9 @@ const JudgeDetailIndex = (props) => {
               showMenu: showMenu,
               SidebarToggleMenu: ToggleMenu,
             }}
+            fileInfo={fileInfo}
+            scoreList={scoreList}
+            itemList={itemList}
           />
         </div>
         <div className={`container-fluid ${className ? className : 'p-4'}`}>
