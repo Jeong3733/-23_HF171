@@ -52,66 +52,54 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
       </div>
     ));
   return (
-    <Fragment>
-      <Row>
-        <Col>
-          <div>문서(페이지) 요약 내용을 제공합니다.</div>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12}>
-          <Tab.Container defaultActiveKey="File">
-            <Card className="bg-transparent shadow-none ">
-              <Card.Header className="border-0 p-0 bg-transparent">
-                <Nav className="nav-lb-tab">
-                  <Nav.Item className="ms-0">
-                    <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
-                      {' '}
-                      File
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
-                      Page
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </Card.Header>
-              <Card.Body className="p-0">
-                <Tab.Content className="pt-4">
-                  <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-                    {fileInfo.data.summary}
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
-                    {displayRecords.length > 0 ? (
-                      displayRecords
-                    ) : (
-                      <div>No matching records found.</div>
-                    )}
-                    <ReactPaginate
-                      previousLabel={<ChevronLeft size="14px" />}
-                      nextLabel={<ChevronRight size="14px" />}
-                      pageCount={pageCount}
-                      onPageChange={changePage}
-                      marginPagesDisplayed={0}
-                      containerClassName={
-                        'justify-content-center mb-0 pagination'
-                      }
-                      previousLinkClassName={'page-link mx-1 rounded'}
-                      nextLinkClassName={'page-link mx-1 rounded'}
-                      pageClassName={'page-item'}
-                      pageLinkClassName={'page-link mx-1 rounded'}
-                      disabledClassName={'paginationDisabled'}
-                      activeClassName={'active'}
-                    />
-                  </Tab.Pane>
-                </Tab.Content>
-              </Card.Body>
-            </Card>
-          </Tab.Container>
-        </Col>
-      </Row>
-    </Fragment>
+    <Card className={`card-hover shadow-none`}>
+      <Card.Header>
+        <div>문서(페이지) 요약 내용을 제공합니다.</div>
+      </Card.Header>
+      <Card.Body>
+        <Tab.Container defaultActiveKey="File">
+          <Nav className="nav-lb-tab">
+            <Nav.Item className="ms-0">
+              <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
+                {' '}
+                File
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
+                Page
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+          <Tab.Content className="pt-4">
+            <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
+              {fileInfo.data.summary}
+            </Tab.Pane>
+            <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
+              {displayRecords.length > 0 ? (
+                displayRecords
+              ) : (
+                <div>No matching records found.</div>
+              )}
+              <ReactPaginate
+                previousLabel={<ChevronLeft size="14px" />}
+                nextLabel={<ChevronRight size="14px" />}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                marginPagesDisplayed={0}
+                containerClassName={'justify-content-center mb-0 pagination'}
+                previousLinkClassName={'page-link mx-1 rounded'}
+                nextLinkClassName={'page-link mx-1 rounded'}
+                pageClassName={'page-item'}
+                pageLinkClassName={'page-link mx-1 rounded'}
+                disabledClassName={'paginationDisabled'}
+                activeClassName={'active'}
+              />
+            </Tab.Pane>
+          </Tab.Content>
+        </Tab.Container>
+      </Card.Body>
+    </Card>
   );
 };
 

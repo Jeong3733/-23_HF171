@@ -1,5 +1,5 @@
 // import node module libraries
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
@@ -16,9 +16,13 @@ import {
   loadResultData,
   loadScoreFile,
 } from 'components/utils/LoadData';
+import { Accordion, Button, Col, Modal, Offcanvas, Row } from 'react-bootstrap';
+import SummaryPopup from 'components/dashboard/courses/SummaryPopup';
+import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
+import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
+import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
 
-const JudgeDetailIndex = (props) => {
-  const { children, className, overflowHidden } = props;
+const JudgeDetailIndex = ({ children }) => {
   const { judge_id, file_id, post_id } = useParams();
   const navigate = useNavigate();
 
@@ -166,39 +170,110 @@ const JudgeDetailIndex = (props) => {
     },
   };
 
+  const [showPlagiarismCheckPopup, setShowPlagiarismCheckPopup] =
+    useState(false);
+
   // console.log(data);
   return (
-    <div
-      id="db-wrapper"
-      className={`${overflowHidden ? 'chat-layout' : ''} ${
-        showMenu ? '' : 'toggled'
-      }`}
-    >
-      <div className="navbar-vertical navbar">
-        <JudgeDetailVertical
-          showMenu={showMenu}
-          onClick={(value) => setShowMenu(value)}
-          data={data}
-        />
-      </div>
-      <section id="page-content">
-        <div className="header">
-          <JudgeHeaderDefault
-            data={{
-              showMenu: showMenu,
-              SidebarToggleMenu: ToggleMenu,
-            }}
-            fileInfo={fileInfo}
-            scoreList={scoreList}
-            itemList={itemList}
-          />
+    <div>
+      <JudgeHeaderDefault
+        data={{
+          showMenu: showMenu,
+          SidebarToggleMenu: ToggleMenu,
+        }}
+        AllData={data}
+        navigate={navigate}
+        setShowPlagiarismCheckPopup={setShowPlagiarismCheckPopup}
+      />
+      <div className="d-flex flex-row w- justify-content-center align-items-stretch">
+        <div className="d-flex w-30 flex-column justify-content-start gap-3 m-3">
+          <Accordion defaultActiveKey="0">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>문서 요약</Accordion.Header>
+              <Accordion.Body>
+                <SummaryPopup
+                  fileInfo={data.fileInfo}
+                  pageInfo={data.pageInfo}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>문서 QNA</Accordion.Header>
+              <Accordion.Body>
+                <DocumentQAPopup
+                  fileInfo={data.fileInfo}
+                  messages={data.messages}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         </div>
-        <div className={`container-fluid ${className ? className : 'p-4'}`}>
+        <div className="d-flex flex-column justify-content-start gap-3 m-3">
           {children}
           <Outlet context={{ fileInfo }} />
         </div>
-      </section>
+      </div>
+      <Modal
+        show={showPlagiarismCheckPopup}
+        onHide={() => setShowPlagiarismCheckPopup(false)}
+        // onHide={test(11)}
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Header closeButton> */}
+          <Modal.Title className="d-flex align-items-center">
+            {/* <i className={`nav-icon fe me-2`}></i> */}
+            {'표절검사 결과 보고서'}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <PlagiarismCheckPopup data={data} />
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+          {/*  Action Buttons  */}
+          <Button
+            variant="outline-secondary"
+            onClick={() => setShowPlagiarismCheckPopup(false)}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 export default JudgeDetailIndex;
+
+{
+  /* <div
+id="db-wrapper"
+className={`${overflowHidden ? 'chat-layout' : ''} ${
+  showMenu ? '' : 'toggled'
+}`}
+>
+<div className="navbar-vertical navbar">
+  <JudgeDetailVertical
+    showMenu={showMenu}
+    onClick={(value) => setShowMenu(value)}
+    data={data}
+  />
+</div>
+<section id="page-content">
+  <div className="header">
+    <JudgeHeaderDefault
+      data={{
+        showMenu: showMenu,
+        SidebarToggleMenu: ToggleMenu,
+      }}
+      fileInfo={fileInfo}
+      scoreList={scoreList}
+      itemList={itemList}
+    />
+  </div>
+  <div className={`container-fluid ${className ? className : 'p-4'}`}>
+    {children}
+    <Outlet context={{ fileInfo }} />
+  </div>
+</section>
+</div> */
+}

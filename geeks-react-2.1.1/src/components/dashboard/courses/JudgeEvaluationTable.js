@@ -105,7 +105,6 @@ const JudgeEvaluationTable = ({ table_data }) => {
       comment: formData[index].comment,
     };
   }
-
   if (formData.length === 0) {
     return <div>데이터가 없습니다.</div>;
   } else {
@@ -115,7 +114,7 @@ const JudgeEvaluationTable = ({ table_data }) => {
           // console.log(item);
           const info = getFormDataById(item.evaluation_id);
           return (
-            <Card className="p-3 mb-2 bg-light shadow-none" key={index}>
+            <Card className="p-3 mb-2 " key={index}>
               <Row>
                 <Col>
                   <Row className="d-flex align-items-center justify-content-between">
