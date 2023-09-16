@@ -11,6 +11,6 @@ import java.util.UUID;
 public class EvaluationScoreId implements Serializable {
     private UUID judgeInfo;
     private int postInfo;
-    private int evaluationInfo;
+    private int evaluationDetailInfo;
     private String userInfo;
 }

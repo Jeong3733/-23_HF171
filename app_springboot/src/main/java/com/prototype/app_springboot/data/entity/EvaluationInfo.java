@@ -1,10 +1,10 @@
 package com.prototype.app_springboot.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,7 +21,11 @@ public class EvaluationInfo {
 
     private String name;
 
+    @Setter
     private int max;
+
+    @OneToMany(mappedBy = "evaluationInfo")
+    private final List<EvaluationDetailInfo> evaluationDetailInfoList = new ArrayList<EvaluationDetailInfo>();
 
     @Builder
     public EvaluationInfo(int id, PostInfo postInfo, String name, int max) {

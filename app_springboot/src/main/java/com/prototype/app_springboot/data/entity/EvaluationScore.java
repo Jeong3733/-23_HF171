@@ -23,8 +23,8 @@ public class EvaluationScore {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evaluation_id")
-    private EvaluationInfo evaluationInfo;
+    @JoinColumn(name = "evaluation_detail_id")
+    private EvaluationDetailInfo evaluationDetailInfo;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,10 +36,10 @@ public class EvaluationScore {
     private String comment;
 
     @Builder
-    public EvaluationScore(JudgeInfo judgeInfo, PostInfo postInfo, EvaluationInfo evaluationInfo, UserInfo userInfo, int score, String comment) {
+    public EvaluationScore(JudgeInfo judgeInfo, PostInfo postInfo, EvaluationDetailInfo evaluationDetailInfo, UserInfo userInfo, int score, String comment) {
         this.judgeInfo = judgeInfo;
         this.postInfo = postInfo;
-        this.evaluationInfo = evaluationInfo;
+        this.evaluationDetailInfo = evaluationDetailInfo;
         this.userInfo = userInfo;
         this.score = score;
         this.comment = comment;

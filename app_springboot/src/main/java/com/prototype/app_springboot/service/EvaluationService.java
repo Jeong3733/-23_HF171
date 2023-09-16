@@ -17,14 +17,16 @@ import java.util.UUID;
 @Service
 public class EvaluationService {
     private final EvaluationInfoRepository evaluationInfoRepository;
+    private final EvaluationDetailInfoRepository evaluationDetailInfoRepository;
     private final FileInfoRepository fileInfoRepository;
     private final PostInfoRepository postInfoRepository;
     private final EvaluationScoreRepository evaluationScoreRepository;
     private final JudgeInfoRepository judgeInfoRepository;
     private final UserInfoRepository userInfoRepository;
 
-    public EvaluationService(EvaluationInfoRepository evaluationInfoRepository, FileInfoRepository fileInfoRepository, PostInfoRepository postInfoRepository, EvaluationScoreRepository evaluationScoreRepository, JudgeInfoRepository judgeInfoRepository, UserInfoRepository userInfoRepository) {
+    public EvaluationService(EvaluationInfoRepository evaluationInfoRepository, EvaluationDetailInfoRepository evaluationDetailInfoRepository, FileInfoRepository fileInfoRepository, PostInfoRepository postInfoRepository, EvaluationScoreRepository evaluationScoreRepository, JudgeInfoRepository judgeInfoRepository, UserInfoRepository userInfoRepository) {
         this.evaluationInfoRepository = evaluationInfoRepository;
+        this.evaluationDetailInfoRepository = evaluationDetailInfoRepository;
         this.fileInfoRepository = fileInfoRepository;
         this.postInfoRepository = postInfoRepository;
         this.evaluationScoreRepository = evaluationScoreRepository;
@@ -97,11 +99,11 @@ public class EvaluationService {
                         throw new EntityNotFoundException("해당 PostId의 게시글이 존재하지 않습니다.");
                     });
 
-            int evalId = evaluationScoreDto.getEvaluation_id();
-            EvaluationInfo evaluationInfo = evaluationInfoRepository.findById(evalId)
+            int evalDetailId = evaluationScoreDto.getEvaluation_detail_id();
+            EvaluationDetailInfo evaluationDetailInfo = evaluationDetailInfoRepository.findById(evalDetailId)
                     .orElseThrow(() -> {
-                        log.error("EvalId : {}의 평가항목이 존재하지 않습니다.", evalId);
-                        throw new EntityNotFoundException("해당 EvalId의 평가항목이 존재하지 않습니다.");
+                        log.error("EvalDetailId : {}의 평가 세부 항목이 존재하지 않습니다.", evalDetailId);
+                        throw new EntityNotFoundException("해당 EvalDetailId의 평가항목이 존재하지 않습니다.");
                     });
 
             UUID judgeId = evaluationScoreDto.getJudge_id();
@@ -118,12 +120,12 @@ public class EvaluationService {
                         throw new EntityNotFoundException("해당 UserId의 사용자가 존재하지 않습니다.");
                     });
 
-            Optional<EvaluationScore> evaluationScoreOptional = evaluationScoreRepository.findByPostInfoIdAndEvaluationInfoIdAndJudgeInfoIdAndUserInfo_UserId(postId, evalId, judgeId, userId);
+            Optional<EvaluationScore> evaluationScoreOptional = evaluationScoreRepository.findByPostInfoIdAndEvaluationDetailInfoIdAndJudgeInfoIdAndUserInfo_UserId(postId, evalDetailId, judgeId, userId);
 
             if (evaluationScoreOptional.isEmpty()) {
                 EvaluationScore evaluationScore = EvaluationScore.builder()
                         .postInfo(postInfo)
-                        .evaluationInfo(evaluationInfo)
+                        .evaluationDetailInfo(evaluationDetailInfo)
                         .judgeInfo(judgeInfo)
                         .userInfo(userInfo)
                         .score(evaluationScoreDto.getScore())
@@ -134,7 +136,7 @@ public class EvaluationService {
             } else {
                 EvaluationScore evaluationScore = evaluationScoreOptional.get();
                 evaluationScore.setPostInfo(postInfo);
-                evaluationScore.setEvaluationInfo(evaluationInfo);
+                evaluationScore.setEvaluationDetailInfo(evaluationDetailInfo);
                 evaluationScore.setJudgeInfo(judgeInfo);
                 evaluationScore.setUserInfo(userInfo);
                 evaluationScore.setScore(evaluationScoreDto.getScore());
