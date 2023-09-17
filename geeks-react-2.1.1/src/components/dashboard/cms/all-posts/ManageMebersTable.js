@@ -46,12 +46,12 @@ const ManageMebersTable = ({ table_data, role }) => {
     </Link>
   ));
 
-  console.log(table_data);
+  // console.log(table_data);
 
   const [filteredData, setFilteredData] = useState(table_data);
 
   function filterTable(role) {
-    console.log('role', role);
+    // console.log('role', role);
     if (role === 'ALL') {
       setFilteredData(table_data);
     } else if (role === 'CREATOR') {

@@ -6,16 +6,17 @@ import { Col, Row, Button, Breadcrumb } from 'react-bootstrap';
 // import sub components
 
 // import data files
-import { updateReadme, validateCreator } from 'components/utils/LoadData';
+import {
+  loadCompetitionInfo,
+  updateReadme,
+  validateCreator,
+} from 'components/utils/LoadData';
 import ReactQuillEditor from 'components/elements/editor/ReactQuillEditor';
 
 const ManageReadme = () => {
-  const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
+  const { Auth, competitionInfo, setCompetitionInfo } = useOutletContext();
   const { competition_id } = useParams();
   // alert(competition_id);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const [readme, setReadme] = useState('');
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const ManageReadme = () => {
     const user = Auth.getUser();
     validateCreator(user, competition_id).then((getData) => {
       if (getData === 'yes') {
-        console.log('관리자입니다.');
+        // console.log('관리자입니다.');
         // console.log(competitionInfo.competition_readme);
         setReadme(competitionInfo.competition_readme);
       } else if (getData === 'no') {
@@ -44,7 +45,10 @@ const ManageReadme = () => {
     event.preventDefault();
     // console.log(readme);
     updateReadme(competition_id, readme).then((getData) => {
-      console.log(getData);
+      // console.log(getData);    // competitionInfo
+      loadCompetitionInfo(competition_id).then((response) => {
+        setCompetitionInfo(response);
+      });
       if (getData === 'success') {
         alert('소개글이 수정되었습니다.');
       } else {

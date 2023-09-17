@@ -55,6 +55,8 @@ const JudgeDetailIndex = ({ children }) => {
         setUserInfoList(getData);
       });
     });
+    console.log(fileList);
+    console.log(userInfoList);
     // ItemList
     loadItemList(post_id).then((getData) => {
       setItemList(getData.evaluation_info_list);

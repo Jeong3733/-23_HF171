@@ -47,13 +47,13 @@ const DetailLayout = () => {
   useEffect(() => {
     if (isLoggedIn) {
       const user = Auth.getUser();
-      console.log(isLoggedIn);
+      // console.log(isLoggedIn);
       loadCompetitionInfoByUser(user, competition_id).then((getData) => {
-        console.log('loadCompetitionInfoByUser');
+        // console.log('loadCompetitionInfoByUser');
         if (getData) {
           setCompetitionInfo(getData);
         } else {
-          console.log('loadCompetitionInfo');
+          // console.log('loadCompetitionInfo');
           loadCompetitionInfo(competition_id).then((getData) => {
             setCompetitionInfo(getData);
           });
@@ -65,7 +65,7 @@ const DetailLayout = () => {
       });
     }
     loadData();
-  }, []);
+  }, [isLoggedIn]);
 
   if (isNotEmptyObj(competitionInfo)) {
     return (

@@ -1,50 +1,21 @@
 // import node module libraries
 import React, { Fragment, useState, useEffect } from 'react';
-import {
-  Link,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from 'react-router-dom';
-import {
-  Col,
-  Row,
-  Card,
-  Nav,
-  Button,
-  Modal,
-  Tab,
-  Breadcrumb,
-} from 'react-bootstrap';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { Col, Row, Card, Nav, Tab, Breadcrumb } from 'react-bootstrap';
 
 // import sub components
-import PostsTable from './PostsTable';
-import AddNewCategoryPopup from './AddNewCategoryPopup';
 import ManageMebersTable from 'components/dashboard/cms/all-posts/ManageMebersTable';
 
 // impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
-import { handleLogError } from 'components/utils/ErrorUtils';
 import { isNotEmptyObj } from 'helper/utils';
 
 // import data files
-import {
-  allposts,
-  allPublishedPosts,
-  allScheduledPosts,
-  allDraftPosts,
-  allDeletedPosts,
-} from 'data/courses/AllPostsData';
 import { loadUserList, validateCreator } from 'components/utils/LoadData';
 
 const ManageMembers = () => {
-  const { isLoggedIn, Auth, competitionInfo } = useOutletContext();
+  const { Auth, competitionInfo } = useOutletContext();
   const { competition_id } = useParams();
-  console.log(competition_id);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // console.log(competition_id);
 
   const [userInfoList, setUserInfoList] = useState({});
   const navigate = useNavigate();
@@ -66,7 +37,7 @@ const ManageMembers = () => {
     });
   }, []);
 
-  console.log(userInfoList);
+  // console.log(userInfoList);
   if (isNotEmptyObj(userInfoList)) {
     return (
       <Fragment>

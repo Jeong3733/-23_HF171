@@ -110,7 +110,7 @@ const AddPostForm = ({ Auth }) => {
     apiUtils
       .AddPost(user, formDataToSend)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -131,7 +131,7 @@ const AddPostForm = ({ Auth }) => {
       });
     }
     setFormData({ ...formData, ...newData });
-    console.log('useEffect');
+    // console.log('useEffect');
   }, [formData.boardType]);
 
   return (

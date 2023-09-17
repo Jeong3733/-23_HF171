@@ -58,7 +58,7 @@ const PageText = ({ info, data }) => {
   useEffect(() => {
     searchCompPage();
   }, [info]);
-  console.log(content);
+  // console.log(content);
   return (
     <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">

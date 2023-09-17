@@ -143,7 +143,7 @@ const CommonHeaderTabs = (props) => {
     }
     return txt;
   }
-  console.log(competitionInfo);
+  // console.log(competitionInfo);
   return (
     <Fragment>
       {/* 커버 이미지 (없애도 되려나?) */}

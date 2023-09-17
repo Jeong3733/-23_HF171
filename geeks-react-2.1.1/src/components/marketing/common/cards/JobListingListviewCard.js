@@ -6,13 +6,13 @@ import { Link, useParams } from 'react-router-dom';
 // import custom components
 
 const JobListingListviewCard = ({ item, index, user_name }) => {
-  console.log(item);
+  // console.log(item);
   const pathType = {
     NOTICE: 'announcements',
     QNA: 'qna',
     SUBMIT: 'submits',
   };
-  console.log(user_name);
+  // console.log(user_name);
 
   const renderContent = () => {
     switch (item.board_type) {
