@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// TODO: 예외 처리하기 (competitionId 가 잘못된 경우, userId 가 잘못된 경우 등등)
 @RestController
 public class CompetitionController {
 
@@ -24,6 +23,16 @@ public class CompetitionController {
 
     public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
+    }
+
+    @PostMapping("/update/competitionInfo/readme")
+    public ResponseEntity<String> updateReadMe(@RequestBody Map<String, Object> competitionInfoMap) {
+        int competitionId = (int) competitionInfoMap.get("competitionId");
+        String readme = (String) competitionInfoMap.get("competitionReadme");
+
+        boolean isUpdated = competitionService.updateReadMe(competitionId, readme);
+        String status = isUpdated ? "success" : "error";
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
     @PostMapping("/add/participation")

@@ -8,9 +8,8 @@ import java.util.UUID;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-public class EvaluationScoreId implements Serializable {
+public class EvaluationCommentInfoId implements Serializable {
     private UUID judgeInfo;
     private int postInfo;
-    private int evaluationDetailInfo;
     private String userInfo;
 }

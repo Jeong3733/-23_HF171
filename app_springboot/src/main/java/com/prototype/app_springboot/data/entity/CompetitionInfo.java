@@ -2,10 +2,7 @@ package com.prototype.app_springboot.data.entity;
 
 import com.prototype.app_springboot.data.type.CompetitionState;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.UUID;
 // TODO: @PrePersist @PreUpdate 를 사용해서 competitionState 를 조회시마다 자동으로 바꿔주기
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompetitionInfo {
     @Id

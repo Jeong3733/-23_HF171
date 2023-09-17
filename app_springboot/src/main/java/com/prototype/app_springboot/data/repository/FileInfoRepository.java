@@ -12,4 +12,5 @@ public interface FileInfoRepository extends JpaRepository<FileInfo, Integer> {
      Optional<List<FileInfo>> findAllByPostInfoId(int postId);
      Optional<FileInfo> findById(int id);
      Optional<FileInfo> findByPath(UUID path);
+     Boolean existsByPostInfoIdAndUserInfo_UserId(int postId, String userId);
 }

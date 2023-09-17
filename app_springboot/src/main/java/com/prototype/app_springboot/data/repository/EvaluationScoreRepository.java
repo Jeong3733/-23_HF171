@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface EvaluationScoreRepository extends JpaRepository<EvaluationScore, EvaluationScoreId> {
     List<EvaluationScore> findAllByPostInfoId(int postId);
     List<EvaluationScore> findAllByPostInfoIdAndJudgeInfoId(int postId, UUID judgeId);
-    Optional<EvaluationScore> findByPostInfoIdAndEvaluationInfoIdAndJudgeInfoIdAndUserInfo_UserId(int postId, int evalId, UUID judgeId, String userId);
+    Optional<EvaluationScore> findByPostInfoIdAndEvaluationDetailInfoIdAndJudgeInfoIdAndUserInfo_UserId(int postId, int evalDetailId, UUID judgeId, String userId);
     List<EvaluationScore> findAllByUserInfo_UserIdAndJudgeInfoId(String userId, UUID judgeId);
 }

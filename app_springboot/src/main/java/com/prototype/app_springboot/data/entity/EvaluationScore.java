@@ -23,8 +23,8 @@ public class EvaluationScore {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evaluation_id")
-    private EvaluationInfo evaluationInfo;
+    @JoinColumn(name = "evaluation_detail_id")
+    private EvaluationDetailInfo evaluationDetailInfo;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,15 +33,21 @@ public class EvaluationScore {
 
     private int score;
 
-    private String comment;
+    @PrePersist
+    @PreUpdate
+    public void validateScore() {
+        if(evaluationDetailInfo != null && score > evaluationDetailInfo.getMax()) {
+            throw new IllegalArgumentException("최대 값보다 많은 점수가 입력되었습니다!");
+        }
+    }
+
 
     @Builder
-    public EvaluationScore(JudgeInfo judgeInfo, PostInfo postInfo, EvaluationInfo evaluationInfo, UserInfo userInfo, int score, String comment) {
+    public EvaluationScore(JudgeInfo judgeInfo, PostInfo postInfo, EvaluationDetailInfo evaluationDetailInfo, UserInfo userInfo, int score) {
         this.judgeInfo = judgeInfo;
         this.postInfo = postInfo;
-        this.evaluationInfo = evaluationInfo;
+        this.evaluationDetailInfo = evaluationDetailInfo;
         this.userInfo = userInfo;
         this.score = score;
-        this.comment = comment;
     }
 }

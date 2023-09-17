@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ReqAddEvaluation {
-    private int postId;
+public class ReqAddEvaluationDetail {
+    private int evaluationId;
     private String name;
+    private int max;
 }

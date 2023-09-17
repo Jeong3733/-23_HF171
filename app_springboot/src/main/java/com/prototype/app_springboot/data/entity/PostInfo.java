@@ -57,8 +57,10 @@ public class PostInfo {
     @OneToMany(mappedBy = "postInfo")
     private final List<PostDocs> postDocsList = new ArrayList<PostDocs>();
 
-    @Builder
+    @OneToMany(mappedBy = "postInfo")
+    private final List<EvaluationCommentInfo> evaluationCommentInfoList = new ArrayList<EvaluationCommentInfo>();
 
+    @Builder
     public PostInfo(int id, BoardType boardType, UserInfo userInfo, String title, String contents, LocalDateTime createdDate, CompetitionInfo competitionInfo) {
         this.id = id;
         this.boardType = boardType;

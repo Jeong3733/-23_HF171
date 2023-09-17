@@ -112,10 +112,4 @@ public class FileController {
         ResGetFileQNA resGetCompetitionQNA = fastApiService.getCompetitionQNA(reqGetCompetitionQNA);
         return new ResponseEntity<>(resGetCompetitionQNA, HttpStatus.OK);
     }
-
-    @PostMapping("/add/page/report")
-    public ResponseEntity<ResFileReport> getFileReport(@RequestBody ReqFileReport reqFileReport) throws URISyntaxException {
-        ResFileReport resFileReport = fastApiService.getFileReport(reqFileReport);
-        return new ResponseEntity<>(resFileReport, HttpStatus.OK);
-    }
 }
