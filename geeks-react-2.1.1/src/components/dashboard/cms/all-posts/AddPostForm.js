@@ -94,6 +94,14 @@ const AddPostForm = ({ Auth }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = () => {
+    if (formData.title === '') {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (formData.boardType === '') {
+      alert('게시물 종류를 선택해주세요..');
+      return;
+    }
     setIsLoading(true); // Start loading
     // alert(JSON.stringify(formData));
     const formDataToSend = new FormData();
@@ -110,7 +118,7 @@ const AddPostForm = ({ Auth }) => {
     apiUtils
       .AddPost(user, formDataToSend)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         // alert(error.response.data);
@@ -131,7 +139,7 @@ const AddPostForm = ({ Auth }) => {
       });
     }
     setFormData({ ...formData, ...newData });
-    console.log('useEffect');
+    // console.log('useEffect');
   }, [formData.boardType]);
 
   return (
@@ -152,7 +160,7 @@ const AddPostForm = ({ Auth }) => {
             required
             aria-label="게시물 종류 선택하기"
           >
-            <option>게시물 종류 선택하기</option>
+            <option value="">게시물 종류 선택하기</option>
             <option value="QNA">QNA</option>
             <option value="SUBMIT">SUBMIT</option>
             <option value="NOTICE">NOTICE</option>

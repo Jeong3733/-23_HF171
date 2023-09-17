@@ -70,6 +70,14 @@ const JudgeDetailVertical = ({ data }) => {
     InfoPopup: false,
   });
 
+  const [showFileListPopup, setShowFileListPopup] = useState(false);
+  const [showSummaryPopup, setShowSummaryPopup] = useState(false);
+  const [showDocumentQAPopup, setShowDocumentQAPopup] = useState(false);
+  const [showPlagiarismCheckPopup, setShowPlagiarismCheckPopup] =
+    useState(false);
+  const [showEvaluationPopup, setShowEvaluationPopup] = useState(false);
+  const [showInfoPopup, setShowInfoPopup] = useState(false);
+
   // const [show, setShow] = useState(false);
   const handleClose = (e) => {
     setShow({
@@ -91,7 +99,10 @@ const JudgeDetailVertical = ({ data }) => {
 
   return (
     <Fragment>
-      <SimpleBar style={{ maxHeight: '100vh' }}>
+      <SimpleBar
+        className="max-weight-20rem"
+        style={{ maxHeight: '100vh', maxWidth: '300px' }}
+      >
         <div className="nav-scroller">
           <Link className="navbar-brand" to="/">
             <Image src={InverseLogo} alt="" />

@@ -27,8 +27,6 @@ const ListNav = ({ data, type }) => {
   // }
 
   const pageResultInfo = data.pageResultInfo.data;
-  const fileResultInfo = data.fileResultInfo.data;
-  const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
   const [getData, setGetData] = useState([]);
 
   function rankByScore() {
@@ -53,22 +51,18 @@ const ListNav = ({ data, type }) => {
   }
 
   useEffect(() => {
-    if (type === 'file') {
-      setGetData(fileResultInfo);
-    } else {
-      rankByScore();
-    }
+    rankByScore();
   }, [data]);
 
   // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
   const RecordsPerPage = 5;
   const pagesVisited = pageNumber * RecordsPerPage;
-  const pageCount = Math.ceil(pageResultInfo.length / RecordsPerPage);
+  const pageCount = Math.ceil(getData.length / RecordsPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-  const displayRecords = pageResultInfo
+  const displayRecords = getData
     .slice(pagesVisited, pagesVisited + RecordsPerPage)
     .map((item, index) => {
       if (item !== undefined) {
@@ -77,10 +71,10 @@ const ListNav = ({ data, type }) => {
           <Nav.Item key={index} className="ms-0">
             <Nav.Link eventKey={index} className="p-1 mb-sm-0 mb-md-0">
               <Row>
-                <Col># {item.rank}</Col>
+                # {item.rank}
                 {/* <Col>{item.page_id}</Col> */}
-                <Col>{compFile.file_title}</Col>
-                <Col>{compFile.competition_name}</Col>
+                {compFile.file_title}
+                {compFile.competition_name}
               </Row>
             </Nav.Link>
           </Nav.Item>
@@ -102,12 +96,23 @@ const ListNav = ({ data, type }) => {
       ) : null,
     );
 
+  // console.log(changePage);
   return (
     <Container>
       <Tab.Container defaultActiveKey="1">
         <Row className=" pt-4">
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
             <Nav className="nav-lb-tab flex-column pb-4">
+              <div className="ms-0">
+                <div className="p-1 mb-sm-0 mb-md-0">
+                  <Row>
+                    # {'랭크'}
+                    {/* <Col>{item.page_id}</Col> */}
+                    {'파일명'}
+                    {'공모전명'}
+                  </Row>
+                </div>
+              </div>
               {displayRecords.length > 0 ? (
                 displayRecords
               ) : (

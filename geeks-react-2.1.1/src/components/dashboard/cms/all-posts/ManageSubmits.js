@@ -51,7 +51,7 @@ const ManageSubmits = () => {
   useEffect(() => {
     const user = Auth.getUser();
     validateCreator(user, competition_id).then((getData) => {
-      console.log(getData);
+      // console.log(getData);
       if (getData === 'yes') {
         loadPostList(competition_id, 'SUBMIT').then((getData) => {
           setPostList(getData);

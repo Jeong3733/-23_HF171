@@ -1,14 +1,12 @@
 // import node module libraries
-import React, { useState, useEffect } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
 import JudgeDetailVertical from './JudgeDetailVertical';
 import JudgeHeaderDefault from './JudgeHeaderDefault';
 
 // impoort Auth module
-import { useAuth } from 'components/AuthContext';
-import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
 import {
   checkJudgeByPostId,
@@ -18,19 +16,29 @@ import {
   loadResultData,
   loadScoreFile,
 } from 'components/utils/LoadData';
+import {
+  Accordion,
+  Button,
+  Col,
+  Modal,
+  Navbar,
+  Offcanvas,
+  Row,
+} from 'react-bootstrap';
+import SummaryPopup from 'components/dashboard/courses/SummaryPopup';
+import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
+import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
+import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
+import { Menu } from 'react-feather';
+import PDFViewer from 'components/dashboard/judge/PDFViewer';
+import { isNotEmptyObj } from 'helper/utils';
 
-const JudgeDetailIndex = (props) => {
-  const { children, className, overflowHidden } = props;
+const JudgeDetailIndex = ({ children }) => {
   const { judge_id, file_id, post_id } = useParams();
   const navigate = useNavigate();
 
-  const [showMenu, setShowMenu] = useState(true);
-  const ToggleMenu = () => {
-    return setShowMenu(!showMenu);
-  };
-
-  const [fileList, setFileList] = useState([]);
   const [itemList, setItemList] = useState([]);
+  const [itemDetailList, setItemDetailList] = useState([]);
   const [scoreList, setScoreList] = useState([]);
   const [fileInfo, setFileInfo] = useState({});
   const [pageInfo, setPageInfo] = useState([]);
@@ -40,22 +48,13 @@ const JudgeDetailIndex = (props) => {
   const [compPageInfo, setCompPageInfo] = useState([]);
   const [compPageContent, setCompPageContent] = useState([{}]);
   const [messages, setMessages] = useState([]);
-  const [userInfoList, setUserInfoList] = useState([]);
+  const [commentJudge, setCommentJudge] = useState('');
 
   function getAllData() {
-    // FileList
-    loadFileList(post_id).then((getData) => {
-      setFileList(getData);
-      // console.log(getData);
-      getUserInfoList([
-        ...new Set(getData.map((item) => item.user_info_id)),
-      ]).then((getData) => {
-        setUserInfoList(getData);
-      });
-    });
     // ItemList
     loadItemList(post_id).then((getData) => {
       setItemList(getData.evaluation_info_list);
+      setItemDetailList(getData.evaluation_detail_info_list);
     });
 
     loadResultData(file_id).then((getData) => {
@@ -101,39 +100,26 @@ const JudgeDetailIndex = (props) => {
 
     // ScoreList
     loadScoreFile(file_id, judge_id).then((getData) => {
+      setItemList(getData.evaluation_info_list);
+      setItemDetailList(getData.evaluation_detail_info_list);
       setScoreList(getData.evaluation_score_list);
+      setCommentJudge(getData.comment_list[0].comment);
     });
   }
 
   useEffect(() => {
     // 접근 유무 확인
-    checkJudgeByPostId(judge_id, post_id)
-      .then((getData) => {
-        if (getData) {
-          getAllData();
-        } else {
-          alert('심사위원 인증을 실패했습니다.');
-          navigate(`/judge/sign-in/`);
-        }
-      })
-      .catch((error) => {
-        // alert(error.response.data);
-        handleLogError(error);
-
-        // case 1: 심사위원 인증 실패
-        alert('API 호출 실패했습니다.');
+    checkJudgeByPostId(judge_id, post_id).then((getData) => {
+      if (getData) {
+        getAllData();
+      } else {
+        alert('심사위원 인증을 실패했습니다.');
         navigate(`/judge/sign-in/`);
-
-        // case 2: 더미데이터를 사용하는 경우
-        // alert('더미데이터를 사용하여 심사위원 인증을 합니다.');
-      });
+      }
+    });
   }, []);
 
   const data = {
-    fileList: {
-      data: fileList,
-      setData: setFileList,
-    },
     fileInfo: {
       data: fileInfo,
       setData: setFileInfo,
@@ -166,6 +152,10 @@ const JudgeDetailIndex = (props) => {
       data: itemList,
       setData: setItemList,
     },
+    itemDetailList: {
+      data: itemDetailList,
+      setData: setItemDetailList,
+    },
     scoreList: {
       data: scoreList,
       setData: setScoreList,
@@ -174,44 +164,116 @@ const JudgeDetailIndex = (props) => {
       data: messages,
       setData: setMessages,
     },
-    userInfoList: {
-      data: userInfoList,
-      setData: setUserInfoList,
+    commentJudge: {
+      data: commentJudge,
+      setData: setCommentJudge,
     },
   };
 
-  // console.log(data);
+  const [showMenu, setShowMenu] = useState(true);
+  const ToggleMenu = () => {
+    return setShowMenu(!showMenu);
+  };
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const toggleShow = () => setShow((s) => !s);
+
+  // console.log(itemList);
+  // console.log(itemDetailList);
+  // console.log(scoreList);
+  // console.log(fileInfo);
+  // console.log(isNaN(fileInfo));
   return (
-    <div
-      id="db-wrapper"
-      className={`${overflowHidden ? 'chat-layout' : ''} ${
-        showMenu ? '' : 'toggled'
-      }`}
-    >
-      <div className="navbar-vertical navbar">
-        <JudgeDetailVertical
-          showMenu={showMenu}
-          onClick={(value) => setShowMenu(value)}
-          data={data}
-        />
+    <div>
+      <Navbar expanded="lg" className="navbar-default">
+        <div className="d-flex justify-content-between w-100">
+          <div className="d-flex align-items-center gap-2 ps-2">
+            <Button
+              onClick={() => {
+                navigate(`/judge/evaluate/${judge_id}/${post_id}/files/`);
+              }}
+            >
+              뒤로가기
+            </Button>
+            <Link id="nav-toggle" onClick={() => ToggleMenu(!showMenu)}>
+              <Menu size="18px" />
+            </Link>
+            {fileInfo.file_title}
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <Button onClick={() => setShowPopup(true)}>표절 검사</Button>
+            <Button variant="primary" onClick={toggleShow}>
+              평가하기
+            </Button>
+            <Offcanvas
+              show={show}
+              placement={'end'}
+              onHide={handleClose}
+              scroll={true}
+              backdrop={false}
+              style={{ '--geeks-offcanvas-width': '500px' }}
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>참가자 평가</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <EvaluationPopup data={data} />
+              </Offcanvas.Body>
+            </Offcanvas>
+          </div>
+        </div>
+      </Navbar>
+      <div className="d-flex flex-row w- justify-content-center align-items-stretch">
+        <div className="d-flex w-30 flex-column justify-content-start gap-3 m-3">
+          <Accordion defaultActiveKey="0">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>문서 요약</Accordion.Header>
+              <Accordion.Body>
+                <SummaryPopup fileInfo={fileInfo} pageInfo={pageInfo} />
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>문서 QNA</Accordion.Header>
+              <Accordion.Body>
+                <DocumentQAPopup
+                  fileInfo={fileInfo}
+                  messages={messages}
+                  setMessages={setMessages}
+                />
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </div>
+        <div className="d-flex flex-column justify-content-start gap-3 m-3">
+          {isNotEmptyObj(fileInfo) && <PDFViewer fileInfo={fileInfo} />}
+        </div>
       </div>
-      <section id="page-content">
-        <div className="header">
-          <JudgeHeaderDefault
-            data={{
-              showMenu: showMenu,
-              SidebarToggleMenu: ToggleMenu,
-            }}
-            fileInfo={fileInfo}
-            scoreList={scoreList}
-            itemList={itemList}
-          />
-        </div>
-        <div className={`container-fluid ${className ? className : 'p-4'}`}>
-          {children}
-          <Outlet context={{ fileInfo }} />
-        </div>
-      </section>
+      <Modal
+        show={showPopup}
+        onHide={() => setShowPopup(false)}
+        // size="lg"
+        style={{ '--geeks-modal-width': '1100px' }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="d-flex align-items-center">
+            {/* <i className={`nav-icon fe me-2`}></i> */}
+            {'표절검사 결과 보고서'}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <PlagiarismCheckPopup data={data} />
+        </Modal.Body>
+        <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
+          <Button
+            variant="outline-secondary"
+            onClick={() => setShowPopup(false)}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

@@ -139,7 +139,7 @@ export function loadCompetitionInfoByUser(user, competition_id) {
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      const getData = sample;
+      const getData = false;
       return getData;
     });
 }
@@ -1111,7 +1111,7 @@ export function loadUser(user) {
   return apiUtils
     .getUserInfo(user)
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const getData = response.data;
       return getData;
     })
@@ -1125,7 +1125,7 @@ export function loadUser(user) {
 
 /* Readme 업데이트 요청 */
 export function updateReadme(competition_id, readme) {
-  console.log(parseInt(competition_id), competition_id, readme);
+  // console.log(parseInt(competition_id), competition_id, readme);
   const formDataToSend = {
     competitionId: parseInt(competition_id),
     competitionReadme: readme,
@@ -1134,7 +1134,7 @@ export function updateReadme(competition_id, readme) {
   return apiUtils
     .UpdateReadme(formDataToSend)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       const getData = response.data;
       return getData;
     })

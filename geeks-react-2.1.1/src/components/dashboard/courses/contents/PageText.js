@@ -58,7 +58,7 @@ const PageText = ({ info, data }) => {
   useEffect(() => {
     searchCompPage();
   }, [info]);
-  console.log(content);
+  // console.log(content);
   return (
     <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">
@@ -67,19 +67,13 @@ const PageText = ({ info, data }) => {
             <Nav.Item className="ms-0">
               <Nav.Link eventKey="1" className="pt-0 mb-sm-3 mb-md-0">
                 {' '}
-                분석 결과
+                결과 보고서
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="2" className="pt-0 mb-sm-3 mb-md-0">
                 {' '}
-                비교 문서 근거
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="3" className="pt-0 mb-sm-3 mb-md-0">
-                {' '}
-                검사 문서
+                표절 근거
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -90,7 +84,7 @@ const PageText = ({ info, data }) => {
             </Nav.Item>
           </Nav>
         </Card.Header>
-        <Card.Body className="p-0">
+        <Card.Body className="p-0 h-30">
           <Tab.Content>
             <Tab.Pane
               eventKey="1"
@@ -107,10 +101,13 @@ const PageText = ({ info, data }) => {
               ) : (
                 info.report
               )}
+              <div>
+                * 상세한 표절 근거는 우측 [표절 근거]에서 확인할 수 있습니다.{' '}
+              </div>
             </Tab.Pane>
             <Tab.Pane
               eventKey="2"
-              className="pb-4 p-4 ps-0 pe-0"
+              className="pb-4 p-4 ps-0 pe-0 "
               style={{ whiteSpace: 'pre-line' }}
             >
               {content === '' ? (
@@ -122,11 +119,6 @@ const PageText = ({ info, data }) => {
               ) : (
                 content
               )}
-            </Tab.Pane>
-            <Tab.Pane eventKey="3" className="pb-4 p-4 ps-0 pe-0">
-              info.page_id: {info.page_id}
-              <br />
-              info.score: {info.score}
             </Tab.Pane>
             <Tab.Pane eventKey="4" className="pb-4 p-4 ps-0 pe-0">
               info.rank: {info.rank}

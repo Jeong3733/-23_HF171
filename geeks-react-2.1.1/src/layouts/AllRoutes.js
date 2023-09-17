@@ -150,12 +150,10 @@ const AllRoutes = () => {
         path="/judge/evaluate/:judge_id/:post_id/files/"
         element={<JudgeFileList />}
       />
-      <Route element={<JudgeDetailIndex />}>
-        <Route
-          path="/judge/evaluate/:judge_id/:post_id/files/:file_id/"
-          element={<EvaluateFile />}
-        />
-      </Route>
+      <Route
+        path="/judge/evaluate/:judge_id/:post_id/files/:file_id/"
+        element={<JudgeDetailIndex />}
+      ></Route>
 
       {/* 6.0 관리 */}
       <Route element={<ManageIndex />}>

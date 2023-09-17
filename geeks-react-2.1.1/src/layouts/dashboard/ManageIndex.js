@@ -81,7 +81,14 @@ const ManageIndex = (props) => {
           </div>
           <div className={`container-fluid ${className ? className : 'p-4'}`}>
             {children}
-            <Outlet context={{ isLoggedIn, Auth, competitionInfo }} />
+            <Outlet
+              context={{
+                isLoggedIn,
+                Auth,
+                competitionInfo,
+                setCompetitionInfo,
+              }}
+            />
           </div>
         </section>
       </div>

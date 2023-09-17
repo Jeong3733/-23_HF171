@@ -47,7 +47,7 @@ const ManageSubmitTable = ({ table_data }) => {
     </Link>
   ));
 
-  console.log(table_data);
+  // console.log(table_data);
 
   // created_datae 순으로 정렬
   const order_data = table_data.sort((a, b) => {

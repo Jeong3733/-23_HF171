@@ -33,9 +33,11 @@ export const apiUtils = {
   GetCheckJudgeByPostId,
   GetEvaluationItemByPostId,
   AddEvaluationItem,
+  AddEvaluationItemDetail,
   GetScore,
   GetScoreFile,
   UpdateScore,
+  UpdateComment,
   GetFileQNA,
   GetCompetitionFileQNA,
   GetPageReport,
@@ -826,6 +828,17 @@ function AddEvaluationItem(data) {
   });
 }
 
+/* 평가 항목 추가
+ */
+function AddEvaluationItemDetail(data) {
+  const url = `/add/eval/detail`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
 /* 평가 결과 by postId
  */
 function GetAllScore(data) {
@@ -864,6 +877,16 @@ function GetScoreFile(data) {
  */
 function UpdateScore(data) {
   const url = `/update/score`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+/* 심사위원 코멘트 업데이트
+ */
+function UpdateComment(data) {
+  const url = `/update/comment`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
