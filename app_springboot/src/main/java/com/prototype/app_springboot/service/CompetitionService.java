@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,6 +35,21 @@ public class CompetitionService {
         this.competitionTypeRepository = competitionTypeRepository;
         this.userByCompetitionRepository = userByCompetitionRepository;
         this.userInfoRepository = userInfoRepository;
+    }
+
+    @Transactional
+    public boolean updateReadMe(int competitionId, String readme) {
+        Optional<CompetitionInfo> competitionInfoOptional = competitionInfoRepository.findById(competitionId);
+
+        if (competitionInfoOptional.isPresent()) {
+            CompetitionInfo competitionInfo = competitionInfoOptional.get();
+            competitionInfo.setCompetitionReadme(readme);
+            competitionInfoRepository.save(competitionInfo);
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
     @Transactional

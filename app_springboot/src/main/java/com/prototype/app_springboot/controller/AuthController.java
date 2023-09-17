@@ -63,6 +63,14 @@ public class AuthController {
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
 
+    @GetMapping("/get/user")
+    public ResponseEntity<UserInfoDto> getLoginUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfo userInfo = authService.getUser(authentication.getName());
+        UserInfoDto userInfoDto = new UserInfoDto(userInfo);
+        return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
+    }
+
     @PostMapping("/get/userInfo/userId")
     public ResponseEntity<UserInfoDto> getUserInfo(@RequestBody Map<String, String> userIdMap) {
         String userId = userIdMap.get("userId");
