@@ -33,6 +33,7 @@ export const apiUtils = {
   GetCheckJudgeByPostId,
   GetEvaluationItemByPostId,
   AddEvaluationItem,
+  AddEvaluationItemDetail,
   GetScore,
   GetScoreFile,
   UpdateScore,
@@ -819,6 +820,17 @@ function GetEvaluationItemByPostId(data) {
  */
 function AddEvaluationItem(data) {
   const url = `/add/eval`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 평가 항목 추가
+ */
+function AddEvaluationItemDetail(data) {
+  const url = `/add/eval/detail`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
