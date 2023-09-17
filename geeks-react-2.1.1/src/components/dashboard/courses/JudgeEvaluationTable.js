@@ -18,91 +18,132 @@ import { loadScoreFile } from 'components/utils/LoadData';
 const JudgeEvaluationTable = ({ table_data }) => {
   const { judge_id, post_id, file_id } = useParams();
 
+  const user_id = table_data.fileInfo.data.user_id;
   const scoreList = table_data.scoreList.data;
   const setScoreList = table_data.scoreList.setData;
+  // const commentJudge = table_data.commentJudge.data;
+  // const setCommentJudge = table_data.commentJudge.setData;
 
   const itemList = table_data.itemList.data;
-
-  const [formData, setFormData] = useState([]);
+  const itemDetailList = table_data.itemDetailList.data;
 
   const initComment = '코멘트를 입력하세요.';
   const initScore = 0;
 
   const handleChange = (e) => {
-    const [parentName, evId] = e.target.id.split(':');
-    const newValue = e.target.value;
-
-    // ID에 해당하는 데이터 찾기
-    const index = formData.findIndex(
-      (item) => item.evaluation_id.toString() === evId,
-    );
-
-    const newScoreList = [...formData];
-    if (parentName === 'score') {
-      newScoreList[index].score = parseInt(newValue);
-    } else {
-      newScoreList[index].comment = newValue;
+    if (e.target.type === 'number') {
+      const id = parseInt(e.target.id);
+      const value = parseInt(e.target.value);
+      // 값이 정수이며 10에서 50 사이인지 검사
+      if (!isNaN(value)) {
+        if (value >= 0 && value <= e.target.max) {
+          const index = formData.findIndex(
+            (item) => item.evaluation_detail_id === id,
+          );
+          // console.log(index);
+          let updatedFormData = [...formData];
+          updatedFormData[index].score = parseInt(value);
+          setFormData(updatedFormData);
+        }
+      } else {
+        const index = formData.findIndex(
+          (item) => item.evaluation_detail_id === id,
+        );
+        // console.log(index);
+        let updatedFormData = [...formData];
+        updatedFormData[index].score = parseInt(value);
+        setFormData(updatedFormData);
+      }
     }
-    setFormData(newScoreList);
+    if (e.target.type === 'text') {
+      const value = e.target.value;
+      setComment(value);
+    }
   };
 
   const handleSubmit = () => {
-    const reqData = { evaluation_score_list: formData };
-    apiUtils
-      .UpdateScore(reqData)
-      .then((response) => {
-        const getData = response.data;
-
-        loadScoreFile(file_id, judge_id).then((getData) => {
-          setScoreList(getData.evaluation_score_list);
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        handleLogError(error);
-        // 임시 데이터
-      });
-    console.log(reqData);
-  };
-
-  useEffect(() => {
-    const updatedFormData = itemList.map((item) => {
-      const foundScore = scoreList.find(
-        (score) => score.evaluation_id === item.evaluation_id,
-      );
-
-      if (foundScore) {
-        return {
-          evaluation_id: item.evaluation_id,
-          judge_id: judge_id,
-          user_id: table_data.fileInfo.data.user_id,
-          post_id: parseInt(post_id),
-          score: foundScore.score,
-          comment: foundScore.comment,
-        };
-      } else {
-        return {
-          evaluation_id: item.evaluation_id,
-          judge_id: judge_id,
-          user_id: table_data.fileInfo.data.user_id,
-          post_id: parseInt(post_id),
-          score: initScore, // 기본값 설정
-          comment: initComment, // 기본값 설정
-        };
+    formData.map((item) => {
+      if (isNaN(item.score)) {
+        alert('점수를 입력해주세요.');
+        return;
       }
     });
 
-    setFormData(updatedFormData);
+    const formScoreData = { evaluation_score_list: formData };
+
+    const commentData = {
+      post_id: parseInt(post_id),
+      judge_id: judge_id,
+      user_id: user_id,
+      comment: comment,
+    };
+
+    console.log(formScoreData);
+    alert(JSON.stringify(formScoreData));
+    apiUtils
+      .UpdateScore(formScoreData)
+      .then(() => {
+        alert('점수가 업데이트 되었습니다.');
+        apiUtils
+          .UpdateComment(commentData)
+          .then((response) => {
+            console.log(response);
+            alert('코멘트가 업데이트 되었습니다.');
+            loadScoreFile(file_id, judge_id).then((getData) => {
+              setScoreList(getData);
+            });
+          })
+          .catch((error) => {
+            handleLogError(error);
+          });
+      })
+      .catch((error) => {
+        handleLogError(error);
+      });
+  };
+
+  const [comment, setComment] = useState(initComment);
+  const [formData, setFormData] = useState([]);
+
+  useEffect(() => {
+    const initData = [];
+    itemList.map((item) => {
+      const detailScoreList = itemDetailList[item.evaluation_id].map(
+        ({ evaluation_detail_id }) => {
+          const foundScore = scoreList.find(
+            (score) => score.evaluation_detail_id === evaluation_detail_id,
+          );
+          if (foundScore) {
+            return {
+              evaluation_detail_id: evaluation_detail_id,
+              judge_id: judge_id,
+              post_id: parseInt(post_id),
+              user_id: user_id,
+              score: foundScore.score,
+            };
+          } else {
+            return {
+              evaluation_detail_id: evaluation_detail_id,
+              judge_id: judge_id,
+              post_id: parseInt(post_id),
+              user_id: user_id,
+              score: initScore, // 기본값 설정
+            };
+          }
+        },
+      );
+      initData.push(...detailScoreList);
+    });
+    setFormData(initData);
   }, [scoreList]);
 
-  function getFormDataById(evaluation_id) {
+  function getFormScoreById(evaluation_detail_id) {
     const index = formData.findIndex(
-      (item) => item.evaluation_id === evaluation_id,
+      (item) => item.evaluation_detail_id === evaluation_detail_id,
     );
 
     return {
       score: formData[index].score,
-      comment: formData[index].comment,
     };
   }
   if (formData.length === 0) {
@@ -110,57 +151,80 @@ const JudgeEvaluationTable = ({ table_data }) => {
   } else {
     return (
       <Fragment>
-        {itemList.map((item, index) => {
-          // console.log(item);
-          const info = getFormDataById(item.evaluation_id);
-          return (
-            <Card className="p-3 mb-2 " key={index}>
-              <Row>
-                <Col>
-                  <Row className="d-flex align-items-center justify-content-between">
-                    <Col>
-                      항목 이름 <h3>{item.name}</h3>
-                    </Col>
-                    <Col className="d-flex align-items-center">
-                      <div>
-                        최대 점수 <h3>{item.max}</h3>
-                      </div>
-                      <div>
-                        입력 점수 <h3>{info.score}</h3>
-                      </div>
-                      <input
-                        type="range"
-                        id={'score:' + item.evaluation_id}
-                        name={'score:' + item.evaluation_id}
-                        min="0"
-                        max={item.max}
-                        onChange={handleChange}
-                        value={info.score}
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      코멘트
-                      <br />
-                      {/* <h3>{info.comment}</h3> */}
-                      <input
-                        type="text"
-                        id={'comment:' + item.evaluation_id}
-                        name={'comment:' + item.evaluation_id}
-                        value={info.comment}
-                        onChange={handleChange}
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Card>
-          );
-        })}
-        <Button variant="primary" onClick={handleSubmit}>
-          점수 업데이트
-        </Button>
+        <Table className="text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">항목명</th>
+              <th scope="col">점수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {itemList.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td scope="col" className="fw-bold">
+                    {index + 1}
+                  </td>
+                  <td scope="col" className="fw-bold">
+                    {item.name}
+                  </td>
+                  <td scope="col" className="fw-bold">
+                    {item.max}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Table className="text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">항목명</th>
+              <th scope="col">점수</th>
+            </tr>
+          </thead>
+          <tbody>
+            {itemList.map(({ evaluation_id }, index) => {
+              return itemDetailList[evaluation_id].map(
+                (itemDetail, detailIndex) => {
+                  // console.log(itemDetail);
+                  return (
+                    <tr key={detailIndex}>
+                      <td scope="col">
+                        {index + 1} - {detailIndex + 1}
+                      </td>
+                      <td scope="col">{itemDetail.name}</td>
+                      <td scope="col">
+                        <input
+                          type="number"
+                          id={itemDetail.evaluation_detail_id}
+                          min={0}
+                          max={itemDetail.max}
+                          step="1"
+                          onChange={handleChange}
+                          value={
+                            getFormScoreById(itemDetail.evaluation_detail_id)
+                              .score
+                          }
+                        />
+                        {' / '}
+                        {itemDetail.max}
+                      </td>
+                    </tr>
+                  );
+                },
+              );
+            })}
+          </tbody>
+        </Table>
+        <div className="d-flex flex-column justify-content-center align-items-stretch gap-2">
+          <input type="text" value={comment} onChange={handleChange} />
+          <Button variant="primary" onClick={handleSubmit}>
+            점수 업데이트
+          </Button>
+        </div>
       </Fragment>
     );
   }

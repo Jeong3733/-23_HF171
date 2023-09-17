@@ -3,7 +3,7 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-@judge_id = "106e0236-4ec7-4f43-9734-71da3aeaacc0"
+@judge_id = "76a75d9b-ba53-4f19-b3a0-388757278cda"
 ###
 # @prompt username
 # @prompt refCode Your reference code display on webpage
@@ -46,7 +46,7 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-    "postId": "1"
+    "postId": "3"
 }
 
 
@@ -68,7 +68,7 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-	"postId" : "1"
+	"postId" : "3"
 }
 
 #######################################
@@ -99,8 +99,8 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-	"fileId" : 55,
-  "judgeId" : "32af249e-96e3-4524-a46d-c973c0d1b839"
+	"fileId" : "1",
+  "judgeId" : {{judge_id}}
 }
 
 
@@ -112,22 +112,27 @@ Accept: */*
 {
   "evaluation_score_list": [
     {
-      "evaluation_id": "3",
-      "post_id": "1",
-      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
-      "user_id": "1",
-      "score": "20",
-      "comment": "김택관 Test 중입니다."
+      "evaluation_detail_id": 1,
+      "judge_id": "76a75d9b-ba53-4f19-b3a0-388757278cda",
+      "post_id": 3,
+      "user_id": "user",
+      "score": 22,
     },
     {
-      "evaluation_id": "8",
-      "post_id": "1",
-      "judge_id": "32af249e-96e3-4524-a46d-c973c0d1b839",
-      "user_id": "1",
-      "score": "10",
-      "comment": "김택관 Test 중입니다."
-    }
-  ]
+      "evaluation_detail_id": 3,
+      "judge_id": "76a75d9b-ba53-4f19-b3a0-388757278cda",
+      "post_id": 3,
+      "user_id": "user",
+      "score": 20,
+    },
+    {
+      "evaluation_detail_id": 2,
+      "judge_id": "76a75d9b-ba53-4f19-b3a0-388757278cda",
+      "post_id": 3,
+      "user_id": "user",
+      "score": 3,
+    },
+  ],
 }
 
 

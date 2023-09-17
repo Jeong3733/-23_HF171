@@ -7,7 +7,7 @@ import Chat from 'components/dashboard/chat/Chat';
 import Chatbot from './Chatbot';
 import { Card, Col, ListGroup, Row } from 'react-bootstrap';
 
-const DocumentQAPopup = ({ fileInfo, messages }) => {
+const DocumentQAPopup = ({ fileInfo, messages, setMessages }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
@@ -18,7 +18,11 @@ const DocumentQAPopup = ({ fileInfo, messages }) => {
         정보 안에서 답변을 드립니다.
       </Card.Header>
       <Card.Body>
-        <Chatbot fileInfo={fileInfo} messages={messages} />
+        <Chatbot
+          fileInfo={fileInfo}
+          messages={messages}
+          setMessages={setMessages}
+        />
       </Card.Body>
     </Card>
   );

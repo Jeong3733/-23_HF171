@@ -30,12 +30,14 @@ import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
 import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
 import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
 import { Menu } from 'react-feather';
+import PDFViewer from 'components/dashboard/judge/PDFViewer';
 
 const JudgeDetailIndex = ({ children }) => {
   const { judge_id, file_id, post_id } = useParams();
   const navigate = useNavigate();
 
   const [itemList, setItemList] = useState([]);
+  const [itemDetailList, setItemDetailList] = useState([]);
   const [scoreList, setScoreList] = useState([]);
   const [fileInfo, setFileInfo] = useState({});
   const [pageInfo, setPageInfo] = useState([]);
@@ -50,6 +52,7 @@ const JudgeDetailIndex = ({ children }) => {
     // ItemList
     loadItemList(post_id).then((getData) => {
       setItemList(getData.evaluation_info_list);
+      setItemDetailList(getData.evaluation_detail_info_list);
     });
 
     loadResultData(file_id).then((getData) => {
@@ -95,7 +98,7 @@ const JudgeDetailIndex = ({ children }) => {
 
     // ScoreList
     loadScoreFile(file_id, judge_id).then((getData) => {
-      setScoreList(getData.evaluation_score_list);
+      setScoreList(getData);
     });
   }
 
@@ -144,6 +147,10 @@ const JudgeDetailIndex = ({ children }) => {
       data: itemList,
       setData: setItemList,
     },
+    itemDetailList: {
+      data: itemDetailList,
+      setData: setItemDetailList,
+    },
     scoreList: {
       data: scoreList,
       setData: setScoreList,
@@ -163,20 +170,12 @@ const JudgeDetailIndex = ({ children }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
-  console.log(data);
 
+  console.log(itemList);
+  console.log(itemDetailList);
+  console.log(scoreList);
   return (
     <div>
-      <JudgeHeaderDefault
-        data={{
-          showMenu: showMenu,
-          SidebarToggleMenu: ToggleMenu,
-        }}
-        AllData={data}
-        navigate={navigate}
-        setShowPopup={setShowPopup}
-      />
-
       <Navbar expanded="lg" className="navbar-default">
         <div className="d-flex justify-content-between w-100">
           <div className="d-flex align-items-center gap-2 ps-2">
@@ -192,7 +191,6 @@ const JudgeDetailIndex = ({ children }) => {
             </Link>
             {fileInfo.file_title}
           </div>
-
           <div className="d-flex align-items-center gap-2">
             <Button onClick={() => setShowPopup(true)}>표절 검사</Button>
             <Button variant="primary" onClick={toggleShow}>
@@ -204,9 +202,10 @@ const JudgeDetailIndex = ({ children }) => {
               onHide={handleClose}
               scroll={true}
               backdrop={false}
+              style={{ '--geeks-offcanvas-width': '500px' }}
             >
               <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title>참가자 평가</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <EvaluationPopup data={data} />
@@ -221,29 +220,31 @@ const JudgeDetailIndex = ({ children }) => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>문서 요약</Accordion.Header>
               <Accordion.Body>
-                <SummaryPopup
-                  fileInfo={data.fileInfo}
-                  pageInfo={data.pageInfo}
-                />
+                <SummaryPopup fileInfo={fileInfo} pageInfo={pageInfo} />
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
               <Accordion.Header>문서 QNA</Accordion.Header>
               <Accordion.Body>
                 <DocumentQAPopup
-                  fileInfo={data.fileInfo}
-                  messages={data.messages}
+                  fileInfo={fileInfo}
+                  messages={messages}
+                  setMessages={setMessages}
                 />
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </div>
         <div className="d-flex flex-column justify-content-start gap-3 m-3">
-          {children}
-          <Outlet context={{ fileInfo }} />
+          {fileInfo && <PDFViewer fileInfo={fileInfo} />}
         </div>
       </div>
-      <Modal show={showPopup} onHide={() => setShowPopup(false)} size="lg">
+      <Modal
+        show={showPopup}
+        onHide={() => setShowPopup(false)}
+        // size="lg"
+        style={{ '--geeks-modal-width': '1100px' }}
+      >
         <Modal.Header closeButton>
           <Modal.Title className="d-flex align-items-center">
             {/* <i className={`nav-icon fe me-2`}></i> */}

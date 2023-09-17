@@ -18,11 +18,11 @@ import { ChevronLeft, ChevronRight } from 'react-feather';
 const SummaryPopup = ({ fileInfo, pageInfo }) => {
   const [groupPageList, setGroupPageList] = useState({});
   const [pageNumList, setPageNumList] = useState([]);
-  const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
+  // const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
 
   function groupPage() {
     const result = {};
-    for (const item of pageInfo.data) {
+    for (const item of pageInfo) {
       result[item.page_num] = item.summary;
     }
     setGroupPageList(result);
@@ -73,7 +73,7 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
           </Nav>
           <Tab.Content className="pt-4">
             <Tab.Pane eventKey="File" className="pb-4 p-0 ps-0 pe-0">
-              {fileInfo.data.summary}
+              {fileInfo.summary}
             </Tab.Pane>
             <Tab.Pane eventKey="Page" className="pb-4 p-0 ps-0 pe-0">
               {displayRecords.length > 0 ? (

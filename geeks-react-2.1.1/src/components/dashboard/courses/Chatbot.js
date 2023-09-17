@@ -4,7 +4,7 @@ import './Chatbot.css';
 import { getFileQNA } from 'components/utils/LoadData';
 import { Container } from 'react-bootstrap';
 
-const Chatbot = ({ fileInfo, messages }) => {
+const Chatbot = ({ fileInfo, messages, setMessages }) => {
   const [input, setInput] = useState('');
   const [newAiMessage, setNewAiMessage] = useState({
     text: '',
@@ -16,12 +16,12 @@ const Chatbot = ({ fileInfo, messages }) => {
     e.preventDefault();
     if (!input.trim()) return;
     const userMessage = { text: input, user: true };
-    messages.setData((prevMessages) => [...prevMessages, userMessage]);
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
     const aiMessage = { text: '...', source: [], user: false };
-    messages.setData((prevMessages) => [...prevMessages, aiMessage]);
+    setMessages((prevMessages) => [...prevMessages, aiMessage]);
 
     // QA 요청
-    getFileQNA(fileInfo.data.file_id, input)
+    getFileQNA(fileInfo.file_id, input)
       .then((getData) => {
         // console.log(getData);
         // console.log(getData.result);
@@ -39,27 +39,24 @@ const Chatbot = ({ fileInfo, messages }) => {
   };
 
   useEffect(() => {
-    console.log(messages.data);
+    // console.log(messages.data);
     if (newAiMessage.text !== '') {
       const aiMessage = {
         text: newAiMessage.text,
         source: newAiMessage.source,
         user: false,
       };
-      messages.setData((prevMessages) => [
-        ...prevMessages.slice(0, -1),
-        aiMessage,
-      ]);
-      console.log(messages.data);
+      setMessages((prevMessages) => [...prevMessages.slice(0, -1), aiMessage]);
+      // console.log(messages.data);
       setInput('');
-    } else if (messages.data.length === 0) {
+    } else if (messages.length === 0) {
       const aiMessage = {
         text: '이 문서에 대한 질문을 해주세요.',
         source: [],
         user: false,
       };
-      messages.setData((prevMessages) => [...prevMessages, aiMessage]);
-      console.log(messages.data);
+      setMessages((prevMessages) => [...prevMessages, aiMessage]);
+      // console.log(messages.data);
     }
   }, [newAiMessage]);
 
@@ -67,7 +64,7 @@ const Chatbot = ({ fileInfo, messages }) => {
     <Container>
       {/* <div className="chatbot-container"> */}
       <div className="chatbot-messages">
-        {messages.data.map((message, index) => (
+        {messages.map((message, index) => (
           <div
             key={index}
             className={`message ${

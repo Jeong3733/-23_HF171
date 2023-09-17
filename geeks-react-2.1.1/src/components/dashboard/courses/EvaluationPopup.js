@@ -20,12 +20,13 @@ const EvaluationPopup = ({ data }) => {
     <Card className={`card-hover shadow-none`}>
       <Card.Header>
         <div>
-          참여 인원에게 점수 및 코멘트를 남겨주세요. (입력 및 수정 후 업데이트
-          버튼을 눌러주세요.)
+          참여 인원에게 점수 및 코멘트를 남겨주세요.
+          <br />
+          (입력 및 수정 후 업데이트 버튼을 눌러주세요.)
         </div>
       </Card.Header>
 
-      <Card.Body>
+      <Card.Body className="d-flex flex-column justify-content-center align-items-stretch">
         <JudgeEvaluationTable table_data={data} />
       </Card.Body>
     </Card>

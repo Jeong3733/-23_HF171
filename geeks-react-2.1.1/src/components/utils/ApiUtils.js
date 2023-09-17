@@ -37,6 +37,7 @@ export const apiUtils = {
   GetScore,
   GetScoreFile,
   UpdateScore,
+  UpdateComment,
   GetFileQNA,
   GetCompetitionFileQNA,
   GetPageReport,
@@ -876,6 +877,16 @@ function GetScoreFile(data) {
  */
 function UpdateScore(data) {
   const url = `/update/score`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+/* 심사위원 코멘트 업데이트
+ */
+function UpdateComment(data) {
+  const url = `/update/comment`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
