@@ -185,12 +185,12 @@ public class EvaluationService {
                         throw new EntityNotFoundException("해당 UserId의 사용자가 존재하지 않습니다.");
                     });
 
-            if (userByCompetitionRepository.existsByUserInfo_UserIdAndCompetitionInfoId(userId, postInfo.getCompetitionInfo().getId())) {
+            if (!userByCompetitionRepository.existsByUserInfo_UserIdAndCompetitionInfoId(userId, postInfo.getCompetitionInfo().getId())) {
                 log.error("UserId : {}의 사용자가 CompetitionId : {}의 대회에 참가하지 않았습니다.", userId, postInfo.getCompetitionInfo().getId());
                 throw new EntityNotFoundException("해당 사용자가 대회에 참가하지 않았습니다.");
             }
 
-            if (fileInfoRepository.existsByPostInfoIdAndUserInfo_UserId(postId, userId)) {
+            if (!fileInfoRepository.existsByPostInfoIdAndUserInfo_UserId(postId, userId)) {
                 log.error("PostId : {}의 게시글에 UserId : {}의 사용자가 파일을 업로드하지 않았습니다.", postId, userId);
                 throw new EntityNotFoundException("해당 사용자가 파일을 업로드하지 않았습니다.");
             }
