@@ -14,7 +14,6 @@ public class EvaluationScoreDto {
     private UUID judge_id;
     private String user_id;
     private int score;
-    private String comment;
 
     public EvaluationScoreDto(EvaluationScore evaluationScore) {
         this.evaluation_detail_id = evaluationScore.getEvaluationDetailInfo().getId();
@@ -22,6 +21,5 @@ public class EvaluationScoreDto {
         this.judge_id = evaluationScore.getJudgeInfo().getId();
         this.user_id = evaluationScore.getUserInfo().getUserId();
         this.score = evaluationScore.getScore();
-        this.comment = evaluationScore.getComment();
     }
 }
