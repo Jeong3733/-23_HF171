@@ -31,6 +31,7 @@ import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPo
 import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
 import { Menu } from 'react-feather';
 import PDFViewer from 'components/dashboard/judge/PDFViewer';
+import { isNotEmptyObj } from 'helper/utils';
 
 const JudgeDetailIndex = ({ children }) => {
   const { judge_id, file_id, post_id } = useParams();
@@ -171,9 +172,11 @@ const JudgeDetailIndex = ({ children }) => {
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  console.log(itemList);
-  console.log(itemDetailList);
-  console.log(scoreList);
+  // console.log(itemList);
+  // console.log(itemDetailList);
+  // console.log(scoreList);
+  // console.log(fileInfo);
+  // console.log(isNaN(fileInfo));
   return (
     <div>
       <Navbar expanded="lg" className="navbar-default">
@@ -181,7 +184,7 @@ const JudgeDetailIndex = ({ children }) => {
           <div className="d-flex align-items-center gap-2 ps-2">
             <Button
               onClick={() => {
-                navigate(-1);
+                navigate(`/judge/evaluate/${judge_id}/${post_id}/files/`);
               }}
             >
               뒤로가기
@@ -236,7 +239,7 @@ const JudgeDetailIndex = ({ children }) => {
           </Accordion>
         </div>
         <div className="d-flex flex-column justify-content-start gap-3 m-3">
-          {fileInfo && <PDFViewer fileInfo={fileInfo} />}
+          {isNotEmptyObj(fileInfo) && <PDFViewer fileInfo={fileInfo} />}
         </div>
       </div>
       <Modal

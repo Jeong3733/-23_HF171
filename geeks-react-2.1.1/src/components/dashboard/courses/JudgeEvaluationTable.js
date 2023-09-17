@@ -35,6 +35,7 @@ const JudgeEvaluationTable = ({ table_data }) => {
       const id = parseInt(e.target.id);
       const value = parseInt(e.target.value);
       // 값이 정수이며 10에서 50 사이인지 검사
+      // console.log(value, !isNaN(value));
       if (!isNaN(value)) {
         if (value >= 0 && value <= e.target.max) {
           const index = formData.findIndex(
@@ -200,9 +201,7 @@ const JudgeEvaluationTable = ({ table_data }) => {
                         <input
                           type="number"
                           id={itemDetail.evaluation_detail_id}
-                          min={0}
                           max={itemDetail.max}
-                          step="1"
                           onChange={handleChange}
                           value={
                             getFormScoreById(itemDetail.evaluation_detail_id)
