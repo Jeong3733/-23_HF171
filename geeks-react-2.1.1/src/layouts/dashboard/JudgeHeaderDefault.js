@@ -26,21 +26,13 @@ const JudgeHeaderDefault = ({
   if (!fileInfo || !itemList || !scoreList) {
     return <Fragment />;
   }
-
-  // itemlist에서 evaluation_id를 찾아서 해당 item의 정보를 가져온다.
-  function searchItem(evaluation_id) {
-    for (let score of scoreList) {
-      if (score.evaluation_id === evaluation_id) {
-        return score;
-      }
-    }
-    return { score: 'X' };
-  }
+  console.log('JudgeHeaderDefault');
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
+  console.log('>>>>');
   return (
     <Fragment>
       <Navbar expanded="lg" className="navbar-default">
@@ -61,14 +53,6 @@ const JudgeHeaderDefault = ({
               <Menu size="18px" />
             </Link>
             {fileInfo.file_title}
-            {itemList.map((item, index) => {
-              const info = searchItem(item.evaluation_id);
-              return (
-                <Badge pill bg="light" text="dark" className="me-1" key={index}>
-                  [{item.name}] <b>{info.score}</b>/{item.max}
-                </Badge>
-              );
-            })}
           </div>
 
           <div className="d-flex align-items-center gap-2">

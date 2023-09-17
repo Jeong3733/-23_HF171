@@ -1,6 +1,6 @@
 // import node module libraries
 import React, { useState, useEffect, Fragment } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 
 // import sub components
 import JudgeDetailVertical from './JudgeDetailVertical';
@@ -16,22 +16,25 @@ import {
   loadResultData,
   loadScoreFile,
 } from 'components/utils/LoadData';
-import { Accordion, Button, Col, Modal, Offcanvas, Row } from 'react-bootstrap';
+import {
+  Accordion,
+  Button,
+  Col,
+  Modal,
+  Navbar,
+  Offcanvas,
+  Row,
+} from 'react-bootstrap';
 import SummaryPopup from 'components/dashboard/courses/SummaryPopup';
 import DocumentQAPopup from 'components/dashboard/courses/DocumentQAPopup';
 import PlagiarismCheckPopup from 'components/dashboard/courses/PlagiarismCheckPopup';
 import EvaluationPopup from 'components/dashboard/courses/EvaluationPopup';
+import { Menu } from 'react-feather';
 
 const JudgeDetailIndex = ({ children }) => {
   const { judge_id, file_id, post_id } = useParams();
   const navigate = useNavigate();
 
-  const [showMenu, setShowMenu] = useState(true);
-  const ToggleMenu = () => {
-    return setShowMenu(!showMenu);
-  };
-
-  const [fileList, setFileList] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [scoreList, setScoreList] = useState([]);
   const [fileInfo, setFileInfo] = useState({});
@@ -42,21 +45,8 @@ const JudgeDetailIndex = ({ children }) => {
   const [compPageInfo, setCompPageInfo] = useState([]);
   const [compPageContent, setCompPageContent] = useState([{}]);
   const [messages, setMessages] = useState([]);
-  const [userInfoList, setUserInfoList] = useState([]);
 
   function getAllData() {
-    // FileList
-    loadFileList(post_id).then((getData) => {
-      setFileList(getData);
-      // console.log(getData);
-      getUserInfoList([
-        ...new Set(getData.map((item) => item.user_info_id)),
-      ]).then((getData) => {
-        setUserInfoList(getData);
-      });
-    });
-    console.log(fileList);
-    console.log(userInfoList);
     // ItemList
     loadItemList(post_id).then((getData) => {
       setItemList(getData.evaluation_info_list);
@@ -122,10 +112,6 @@ const JudgeDetailIndex = ({ children }) => {
   }, []);
 
   const data = {
-    fileList: {
-      data: fileList,
-      setData: setFileList,
-    },
     fileInfo: {
       data: fileInfo,
       setData: setFileInfo,
@@ -166,16 +152,19 @@ const JudgeDetailIndex = ({ children }) => {
       data: messages,
       setData: setMessages,
     },
-    userInfoList: {
-      data: userInfoList,
-      setData: setUserInfoList,
-    },
   };
 
-  const [showPlagiarismCheckPopup, setShowPlagiarismCheckPopup] =
-    useState(false);
+  const [showMenu, setShowMenu] = useState(true);
+  const ToggleMenu = () => {
+    return setShowMenu(!showMenu);
+  };
 
-  // console.log(data);
+  const [showPopup, setShowPopup] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const toggleShow = () => setShow((s) => !s);
+  console.log(data);
+
   return (
     <div>
       <JudgeHeaderDefault
@@ -185,8 +174,47 @@ const JudgeDetailIndex = ({ children }) => {
         }}
         AllData={data}
         navigate={navigate}
-        setShowPlagiarismCheckPopup={setShowPlagiarismCheckPopup}
+        setShowPopup={setShowPopup}
       />
+
+      <Navbar expanded="lg" className="navbar-default">
+        <div className="d-flex justify-content-between w-100">
+          <div className="d-flex align-items-center gap-2 ps-2">
+            <Button
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              뒤로가기
+            </Button>
+            <Link id="nav-toggle" onClick={() => ToggleMenu(!showMenu)}>
+              <Menu size="18px" />
+            </Link>
+            {fileInfo.file_title}
+          </div>
+
+          <div className="d-flex align-items-center gap-2">
+            <Button onClick={() => setShowPopup(true)}>표절 검사</Button>
+            <Button variant="primary" onClick={toggleShow}>
+              평가하기
+            </Button>
+            <Offcanvas
+              show={show}
+              placement={'end'}
+              onHide={handleClose}
+              scroll={true}
+              backdrop={false}
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <EvaluationPopup data={data} />
+              </Offcanvas.Body>
+            </Offcanvas>
+          </div>
+        </div>
+      </Navbar>
       <div className="d-flex flex-row w- justify-content-center align-items-stretch">
         <div className="d-flex w-30 flex-column justify-content-start gap-3 m-3">
           <Accordion defaultActiveKey="0">
@@ -215,14 +243,8 @@ const JudgeDetailIndex = ({ children }) => {
           <Outlet context={{ fileInfo }} />
         </div>
       </div>
-      <Modal
-        show={showPlagiarismCheckPopup}
-        onHide={() => setShowPlagiarismCheckPopup(false)}
-        // onHide={test(11)}
-        size="lg"
-      >
+      <Modal show={showPopup} onHide={() => setShowPopup(false)} size="lg">
         <Modal.Header closeButton>
-          {/* <Modal.Header closeButton> */}
           <Modal.Title className="d-flex align-items-center">
             {/* <i className={`nav-icon fe me-2`}></i> */}
             {'표절검사 결과 보고서'}
@@ -232,10 +254,9 @@ const JudgeDetailIndex = ({ children }) => {
           <PlagiarismCheckPopup data={data} />
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-start border-0 pt-0">
-          {/*  Action Buttons  */}
           <Button
             variant="outline-secondary"
-            onClick={() => setShowPlagiarismCheckPopup(false)}
+            onClick={() => setShowPopup(false)}
           >
             Close
           </Button>
@@ -245,37 +266,3 @@ const JudgeDetailIndex = ({ children }) => {
   );
 };
 export default JudgeDetailIndex;
-
-{
-  /* <div
-id="db-wrapper"
-className={`${overflowHidden ? 'chat-layout' : ''} ${
-  showMenu ? '' : 'toggled'
-}`}
->
-<div className="navbar-vertical navbar">
-  <JudgeDetailVertical
-    showMenu={showMenu}
-    onClick={(value) => setShowMenu(value)}
-    data={data}
-  />
-</div>
-<section id="page-content">
-  <div className="header">
-    <JudgeHeaderDefault
-      data={{
-        showMenu: showMenu,
-        SidebarToggleMenu: ToggleMenu,
-      }}
-      fileInfo={fileInfo}
-      scoreList={scoreList}
-      itemList={itemList}
-    />
-  </div>
-  <div className={`container-fluid ${className ? className : 'p-4'}`}>
-    {children}
-    <Outlet context={{ fileInfo }} />
-  </div>
-</section>
-</div> */
-}
