@@ -20,6 +20,26 @@ import { Card } from 'react-bootstrap';
 // 하단에 설명 참조
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+// const styles = StyleSheet.create({
+//   body: {
+//     padding: 35,
+//   },
+//   content: {
+//     padding: 20,
+//     '@media max-width: 400': {
+//       flexDirection: 'column',
+//     },
+//     '@media min-width: 400': {
+//       flexDirection: 'row',
+//     },
+//   },
+//   block: {
+//     height: 150,
+//     width: 150,
+//     backgroundColor: 'red',
+//   },
+// });
+
 const PDFViewer = (props) => {
   // const classes = usePageStyles();
 
@@ -58,7 +78,7 @@ const PDFViewer = (props) => {
 
   return (
     <div className="d-flex align-items-center flex-column gap-2">
-      <Card className={` shadow-none`}>
+      <Card className={` hadow-none`}>
         <Document
           inputRef={pdfRef}
           file={selectedPdf}
@@ -69,6 +89,7 @@ const PDFViewer = (props) => {
           }}
         >
           <Page
+            // style={styles.body}
             pageNumber={pageNumber}
             // width={pdfRef.current?.clientWidth}
             // height={pdfRef.current?.clientHeight}

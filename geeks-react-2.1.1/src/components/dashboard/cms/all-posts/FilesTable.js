@@ -143,7 +143,7 @@ const FilesTable = ({ table_data, evaluate, userInfoList }) => {
       },
       {
         accessor: 'user_info_id',
-        Header: '파일 주인',
+        Header: '파일 유저',
         Cell: ({ value, row }) => {
           return (
             <div className="mb-0">

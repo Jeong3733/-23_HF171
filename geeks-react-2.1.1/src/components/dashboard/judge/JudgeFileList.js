@@ -60,7 +60,7 @@ const JudgeFileList = () => {
   return (
     <Fragment>
       <Row className="align-items-center justify-content-center g-0 min-vh-100">
-        <Col lg={12} md={12} sm={12}>
+        <Col lg={8} md={8} sm={12}>
           <Tab.Container defaultActiveKey="all">
             <Card>
               <Card.Header className="border-bottom-0 p-0 bg-white">

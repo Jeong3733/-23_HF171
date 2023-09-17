@@ -21,8 +21,8 @@ const JudgeEvaluationTable = ({ table_data }) => {
   const user_id = table_data.fileInfo.data.user_id;
   const scoreList = table_data.scoreList.data;
   const setScoreList = table_data.scoreList.setData;
-  // const commentJudge = table_data.commentJudge.data;
-  // const setCommentJudge = table_data.commentJudge.setData;
+  const commentJudge = table_data.commentJudge.data;
+  const setCommentJudge = table_data.commentJudge.setData;
 
   const itemList = table_data.itemList.data;
   const itemDetailList = table_data.itemDetailList.data;
@@ -79,19 +79,20 @@ const JudgeEvaluationTable = ({ table_data }) => {
       comment: comment,
     };
 
-    console.log(formScoreData);
-    alert(JSON.stringify(formScoreData));
+    // console.log(formScoreData);
+    // alert(JSON.stringify(formScoreData));
     apiUtils
       .UpdateScore(formScoreData)
       .then(() => {
-        alert('점수가 업데이트 되었습니다.');
         apiUtils
           .UpdateComment(commentData)
           .then((response) => {
             console.log(response);
-            alert('코멘트가 업데이트 되었습니다.');
+            alert('점수 및 코멘트가 업데이트 되었습니다.');
+            // ScoreList
             loadScoreFile(file_id, judge_id).then((getData) => {
-              setScoreList(getData);
+              setScoreList(getData.evaluation_score_list);
+              setCommentJudge(getData.comment_list[0].comment);
             });
           })
           .catch((error) => {
@@ -103,10 +104,13 @@ const JudgeEvaluationTable = ({ table_data }) => {
       });
   };
 
-  const [comment, setComment] = useState(initComment);
+  const [comment, setComment] = useState(
+    commentJudge ? commentJudge : initComment,
+  );
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
+    console.log(scoreList);
     const initData = [];
     itemList.map((item) => {
       const detailScoreList = itemDetailList[item.evaluation_id].map(
@@ -147,6 +151,22 @@ const JudgeEvaluationTable = ({ table_data }) => {
       score: formData[index].score,
     };
   }
+
+  function calcSumScore(evaluation_id) {
+    let sum = 0;
+    itemDetailList[evaluation_id].map(({ evaluation_detail_id }) => {
+      const foundScore = scoreList.find(
+        (score) => score.evaluation_detail_id === evaluation_detail_id,
+      );
+      if (foundScore) {
+        sum += foundScore.score;
+      } else {
+        sum += initScore; // 기본값 설정
+      }
+    });
+    return sum;
+  }
+
   if (formData.length === 0) {
     return <div>데이터가 없습니다.</div>;
   } else {
@@ -162,6 +182,7 @@ const JudgeEvaluationTable = ({ table_data }) => {
           </thead>
           <tbody>
             {itemList.map((item, index) => {
+              console.log(item);
               return (
                 <tr key={index}>
                   <td scope="col" className="fw-bold">
@@ -170,8 +191,14 @@ const JudgeEvaluationTable = ({ table_data }) => {
                   <td scope="col" className="fw-bold">
                     {item.name}
                   </td>
-                  <td scope="col" className="fw-bold">
-                    {item.max}
+                  <td scope="col" className="d-flex flex-row gap-1">
+                    <div className="fw-bold">
+                      {calcSumScore(item.evaluation_id)}
+                    </div>
+                    <div>
+                      {'/ '}
+                      {item.max}
+                    </div>
                   </td>
                 </tr>
               );

@@ -103,6 +103,16 @@ const ListNav = ({ data, type }) => {
         <Row className=" pt-4">
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
             <Nav className="nav-lb-tab flex-column pb-4">
+              <div className="ms-0">
+                <div className="p-1 mb-sm-0 mb-md-0">
+                  <Row>
+                    # {'랭크'}
+                    {/* <Col>{item.page_id}</Col> */}
+                    {'파일명'}
+                    {'공모전명'}
+                  </Row>
+                </div>
+              </div>
               {displayRecords.length > 0 ? (
                 displayRecords
               ) : (

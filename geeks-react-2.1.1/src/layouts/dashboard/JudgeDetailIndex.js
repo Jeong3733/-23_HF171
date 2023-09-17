@@ -48,6 +48,7 @@ const JudgeDetailIndex = ({ children }) => {
   const [compPageInfo, setCompPageInfo] = useState([]);
   const [compPageContent, setCompPageContent] = useState([{}]);
   const [messages, setMessages] = useState([]);
+  const [commentJudge, setCommentJudge] = useState('');
 
   function getAllData() {
     // ItemList
@@ -99,7 +100,10 @@ const JudgeDetailIndex = ({ children }) => {
 
     // ScoreList
     loadScoreFile(file_id, judge_id).then((getData) => {
-      setScoreList(getData);
+      setItemList(getData.evaluation_info_list);
+      setItemDetailList(getData.evaluation_detail_info_list);
+      setScoreList(getData.evaluation_score_list);
+      setCommentJudge(getData.comment_list[0].comment);
     });
   }
 
@@ -159,6 +163,10 @@ const JudgeDetailIndex = ({ children }) => {
     messages: {
       data: messages,
       setData: setMessages,
+    },
+    commentJudge: {
+      data: commentJudge,
+      setData: setCommentJudge,
     },
   };
 
