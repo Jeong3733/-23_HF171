@@ -65,6 +65,15 @@ public class EvaluationController {
         return new ResponseEntity<>(resGetEvaluation, HttpStatus.OK);
     }
 
+    @PostMapping("/get/eval/detail")
+    public ResponseEntity<List<EvaluationDetailInfoDto>> getEvaluationDetailByPostId(@RequestBody Map<String, Integer> postIdMap) {
+        int postId = postIdMap.get("postId");
+        List<EvaluationDetailInfoDto> evaluationDetailInfoDtoList = evaluationService.getEvaluationDetailByPostId(postId).stream()
+                .map(EvaluationDetailInfoDto::new)
+                .toList();
+        return new ResponseEntity<>(evaluationDetailInfoDtoList, HttpStatus.OK);
+    }
+
     @PostMapping("/get/score")
     public ResponseEntity<ResGetScore> getAllScoreByPostIdAndJudgeId(@RequestBody ReqGetScore reqGetScore) {
         List<EvaluationScore> evaluationScoreList = evaluationService.getAllEvaluationScoreByPostIdAndJudgeId(reqGetScore.getPostId(), reqGetScore.getJudgeId());

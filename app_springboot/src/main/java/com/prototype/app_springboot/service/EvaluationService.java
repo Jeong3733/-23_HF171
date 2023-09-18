@@ -97,6 +97,11 @@ public class EvaluationService {
     }
 
     @Transactional
+    public List<EvaluationDetailInfo> getEvaluationDetailByPostId(int postId) {
+        return evaluationDetailInfoRepository.findAllByEvaluationInfoPostInfoId(postId);
+    }
+
+    @Transactional
     public List<EvaluationInfo> getAllEvaluationByPostId(int postId) {
         return evaluationInfoRepository.findAllByPostInfoId(postId);
     }
