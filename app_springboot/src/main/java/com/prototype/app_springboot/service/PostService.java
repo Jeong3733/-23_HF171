@@ -93,7 +93,7 @@ public class PostService {
                 .competitionInfo(competitionInfo)
                 .userInfo(userInfo)
                 .boardType(BoardType.valueOf(addPostRequestDto.getBoardType()))
-                .contents(addPostRequestDto.getTitle())
+                .contents(addPostRequestDto.getContents())
                 .title(addPostRequestDto.getTitle())
                 .build();
 
