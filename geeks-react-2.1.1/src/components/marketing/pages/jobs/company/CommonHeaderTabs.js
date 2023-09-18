@@ -220,16 +220,16 @@ const CommonHeaderTabs = (props) => {
               </Col>
               <Col xl={4} lg={4} md={4} sm={4}>
                 {/* <div className="w-100 ms-md-4 mt-4"> */}
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <Badge pill bg="primary" className="me-1">
+                <div className="d-flex justify-content-end align-items-center gap-2">
+                  <Badge pill bg="primary" className="me-1 p-2">
                     {getCompetitionStatus()}
                   </Badge>
-                  <Badge pill bg="primary" className="me-1">
+                  <Badge pill bg="primary" className="me-1 p-2">
                     {calculateDday(competitionInfo.competition_start_date)}
                   </Badge>
                   {competitionInfo.role_type ? (
                     // 참가 중
-                    <Badge pill bg="primary" className="me-1">
+                    <Badge pill bg="primary" className="me-1 p-2">
                       <span className="">{userRole()}</span>
                     </Badge>
                   ) : (
@@ -256,10 +256,6 @@ const CommonHeaderTabs = (props) => {
           </Row>
           <Row as="header" className="mb-4">
             <span className="text-dark ms-3 fw-medium">
-              {competitionInfo.competition_description}
-              {` `}
-              {competitionInfo.competition_description}
-              {` `}
               {competitionInfo.competition_description}
             </span>
           </Row>

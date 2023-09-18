@@ -78,7 +78,7 @@ const AddNewCourse = () => {
       newData[event.target.name] = event.target.value;
     }
     setFormData({ ...formData, ...newData });
-    console.log(newData);
+    // console.log(newData);
   };
 
   const pageCount = 3;

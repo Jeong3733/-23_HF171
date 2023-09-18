@@ -54,7 +54,7 @@ const CourseFilterPage = ({ isLoggedIn }) => {
       });
     }
   }, []);
-  console.log(competitionList);
+  // console.log(competitionList);
 
   // const [selectedFilters, setSelectedFilters] = useState(getDefaultFilter( || -1));
   if (isNotEmptyObj(competitionList)) {

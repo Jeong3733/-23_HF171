@@ -32,9 +32,11 @@ const ApplyForm = ({ Auth, fileList, setPostInfo }) => {
   };
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = () => {
+    // console.log('handleSubmit 입니다.');
     setIsLoading(true);
 
     const user = Auth.getUser();
+    // console.log(user, post_id, fileData);
     updateFile(user, post_id, fileData).then(() => {
       getPostInfoChkByPostId(user, post_id).then((getData) => {
         setPostInfo(getData);
@@ -43,6 +45,7 @@ const ApplyForm = ({ Auth, fileList, setPostInfo }) => {
       setFileData(null);
     });
   };
+
   return (
     <div className="mt-2 mb-12">
       <Card className="bg-light shadow-none">
