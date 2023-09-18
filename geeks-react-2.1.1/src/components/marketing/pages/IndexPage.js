@@ -10,7 +10,7 @@ import MyCategories from 'components/marketing/pages/competition/competition-fil
 
 const IndexPage = () => {
   const { isLoggedIn, Auth, userInfo } = useOutletContext();
-  console.log(userInfo);
+  // console.log(userInfo);
   return (
     <Fragment>
       {/*  Page Content  */}
