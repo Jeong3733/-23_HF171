@@ -3,9 +3,10 @@ package com.prototype.app_springboot.controller;
 import com.prototype.app_springboot.data.dto.PostDtos.AddPostRequestDto;
 import com.prototype.app_springboot.data.dto.PostDtos.PostInfoDto;
 import com.prototype.app_springboot.data.dto.PostDtos.PostInfoWithPostTypeDto;
+import com.prototype.app_springboot.data.entity.FileInfo;
 import com.prototype.app_springboot.data.entity.PostInfo;
-import com.prototype.app_springboot.data.entity.UserInfo;
 import com.prototype.app_springboot.service.AuthService;
+import com.prototype.app_springboot.service.FileService;
 import com.prototype.app_springboot.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,12 @@ import java.util.stream.Collectors;
 public class PostController {
     private final PostService postService;
     private final AuthService authService;
+    private final FileService fileService;
 
-    public PostController(PostService postService, AuthService authService) {
+    public PostController(PostService postService, AuthService authService, FileService fileService) {
         this.postService = postService;
         this.authService = authService;
+        this.fileService = fileService;
     }
 
     @PostMapping("/add/postInfo")
@@ -63,11 +66,11 @@ public class PostController {
     public ResponseEntity<PostInfoWithPostTypeDto> getPostInfoAndFileInfoByPostIdAndUserId(@RequestBody Map<String, String> postIdMap) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
-        UserInfo userInfo = authService.getUser(userId);
 
         int postId = Integer.parseInt(postIdMap.get("postId"));
         PostInfo postInfo = postService.getPostInfoByPostIdAndUserId(postId, userId);
-        PostInfoWithPostTypeDto postInfoWithPostTypeDto = new PostInfoWithPostTypeDto(postInfo, userInfo);
+        List<FileInfo> fileInfoList = fileService.getAllPostInfoByPostIdAndUserId(postId, userId);
+        PostInfoWithPostTypeDto postInfoWithPostTypeDto = new PostInfoWithPostTypeDto(postInfo, fileInfoList);
         return new ResponseEntity<>(postInfoWithPostTypeDto, HttpStatus.OK);
     }
 }

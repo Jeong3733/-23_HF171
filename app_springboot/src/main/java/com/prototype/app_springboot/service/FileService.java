@@ -59,6 +59,11 @@ public class FileService {
     }
 
     @Transactional
+    public List<FileInfo> getAllPostInfoByPostIdAndUserId(int postId, String userId) {
+        return fileInfoRepository.findAllByPostInfoIdAndUserInfo_UserId(postId, userId);
+    }
+
+    @Transactional
     public List<CompPageInfo> getRelatedCompPageInfoList(int fileId) {
         FileInfo fileInfo = fileInfoRepository.findById(fileId).orElseThrow(() -> {
             log.error("FileId의 : {}의 파일이 존재하지 않습니다.", fileId);
