@@ -115,17 +115,27 @@ const JudgeEvaluationTable = ({ table_data }) => {
     itemList.map((item) => {
       const detailScoreList = itemDetailList[item.evaluation_id].map(
         ({ evaluation_detail_id }) => {
-          const foundScore = scoreList.find(
-            (score) => score.evaluation_detail_id === evaluation_detail_id,
-          );
-          if (foundScore) {
-            return {
-              evaluation_detail_id: evaluation_detail_id,
-              judge_id: judge_id,
-              post_id: parseInt(post_id),
-              user_id: user_id,
-              score: foundScore.score,
-            };
+          if (scoreList) {
+            const foundScore = scoreList.find(
+              (score) => score.evaluation_detail_id === evaluation_detail_id,
+            );
+            if (foundScore) {
+              return {
+                evaluation_detail_id: evaluation_detail_id,
+                judge_id: judge_id,
+                post_id: parseInt(post_id),
+                user_id: user_id,
+                score: foundScore.score,
+              };
+            } else {
+              return {
+                evaluation_detail_id: evaluation_detail_id,
+                judge_id: judge_id,
+                post_id: parseInt(post_id),
+                user_id: user_id,
+                score: initScore, // 기본값 설정
+              };
+            }
           } else {
             return {
               evaluation_detail_id: evaluation_detail_id,
@@ -155,11 +165,15 @@ const JudgeEvaluationTable = ({ table_data }) => {
   function calcSumScore(evaluation_id) {
     let sum = 0;
     itemDetailList[evaluation_id].map(({ evaluation_detail_id }) => {
-      const foundScore = scoreList.find(
-        (score) => score.evaluation_detail_id === evaluation_detail_id,
-      );
-      if (foundScore) {
-        sum += foundScore.score;
+      if (scoreList) {
+        const foundScore = scoreList.find(
+          (score) => score.evaluation_detail_id === evaluation_detail_id,
+        );
+        if (foundScore) {
+          sum += foundScore.score;
+        } else {
+          sum += initScore; // 기본값 설정
+        }
       } else {
         sum += initScore; // 기본값 설정
       }

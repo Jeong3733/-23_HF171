@@ -103,7 +103,9 @@ const JudgeDetailIndex = ({ children }) => {
       setItemList(getData.evaluation_info_list);
       setItemDetailList(getData.evaluation_detail_info_list);
       setScoreList(getData.evaluation_score_list);
-      setCommentJudge(getData.comment_list[0].comment);
+      setCommentJudge(
+        getData.comment_list ? getData.comment_list[0].comment : '',
+      );
     });
   }
 

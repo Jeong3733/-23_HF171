@@ -34,7 +34,7 @@ Content-Type: {{contentType}}
 Accept: */*
 
 {
-    "postId": "17"
+    "postId": "3"
 }
 
 
@@ -48,6 +48,17 @@ Accept: */*
 {
     "postId": "3"
 }
+
+
+### 평가 디테일 항목 조회 by postId
+POST http://{{host}}/get/eval/detail
+Content-Type: {{contentType}}
+Accept: */*
+
+{
+    "postId": "3"
+}
+
 
 
 ### 평가 항목 추가

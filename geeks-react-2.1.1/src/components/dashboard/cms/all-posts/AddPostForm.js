@@ -73,7 +73,7 @@ const AddPostForm = ({ Auth }) => {
       newData[e.target.id] = e.target.value;
     }
     setFormData({ ...formData, ...newData });
-    // console.log(formData);
+    console.log(formData);
   };
 
   const resetForm = () => {
@@ -114,6 +114,7 @@ const AddPostForm = ({ Auth }) => {
       formDataToSend.append('file', fileData);
     }
 
+    alert(JSON.stringify(formData));
     const user = Auth.getUser();
     apiUtils
       .AddPost(user, formDataToSend)
