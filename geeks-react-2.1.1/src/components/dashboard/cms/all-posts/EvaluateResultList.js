@@ -58,6 +58,12 @@ const EvaluateResultList = () => {
     });
   }, [isLoggedIn]);
 
+  console.log(competitionInfo);
+  console.log(postInfo);
+  console.log(resultList);
+  console.log(itemList);
+  console.log(judgeList);
+
   // console.log(resultList);
   // console.log(itemList);
   return (

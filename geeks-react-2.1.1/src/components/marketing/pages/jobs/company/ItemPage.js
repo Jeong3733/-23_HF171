@@ -28,6 +28,7 @@ const ItemPage = () => {
     if (user) {
       getPostInfoChkByPostId(user, post_id).then((getData) => {
         setPostInfo(getData);
+        // console.log(getData);
       });
     } else {
       alert('로그인하고 오세요!');
@@ -35,7 +36,7 @@ const ItemPage = () => {
     }
   }, [post_id]);
 
-  console.log(postInfo.board_type);
+  // console.log(postInfo.board_type);
   if (isNotEmptyObj(postInfo)) {
     return (
       <section className="bg-white mb-5">
