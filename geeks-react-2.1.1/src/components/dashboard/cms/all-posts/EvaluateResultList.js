@@ -14,6 +14,7 @@ import ResultTable from './ResultTable';
 // import data files
 import {
   loadCompetitionInfo,
+  loadItemDetailList,
   loadItemList,
   loadJudgeList,
   loadPostInfo,
@@ -28,9 +29,13 @@ const EvaluateResultList = () => {
 
   const [competitionInfo, setCompetitionInfo] = useState({});
   const [postInfo, setPostInfo] = useState([]);
-  const [resultList, setResultList] = useState([]);
+
+  const [userInfoList, setUserInfoList] = useState([]);
   const [itemList, setItemList] = useState([]);
+  const [itemDetailList, setItemDetailList] = useState([]);
   const [judgeList, setJudgeList] = useState([]);
+  const [resultList, setResultList] = useState([]);
+  const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
     // competitionInfo
@@ -43,23 +48,26 @@ const EvaluateResultList = () => {
       setPostInfo(getData);
     });
 
-    // resultList
-    loadResultList(post_id).then((getData) => {
-      setResultList(getData.evaluation_score_list);
-    });
-
-    // itemList
-    loadItemList(post_id).then((getData) => {
-      setItemList(getData.evaluation_info_list);
-    });
-
     loadJudgeList(post_id).then((getData) => {
       setJudgeList(getData.judge_info_list);
     });
+
+    // resultList
+    loadResultList(post_id).then((getData) => {
+      setUserInfoList(getData.user_info_list);
+      setItemList(getData.evaluation_info_list);
+      setItemDetailList(getData.evaluation_detail_info_list);
+      setResultList(getData.evaluation_score_list);
+      setCommentList(getData.comment_list);
+    });
   }, [isLoggedIn]);
 
-  // console.log(resultList);
+  // console.log(userInfoList);
   // console.log(itemList);
+  // console.log(itemDetailList);
+  // console.log(judgeList);
+  // console.log(resultList);
+  // console.log(commentList);
   return (
     <Fragment>
       <Row>
@@ -85,9 +93,12 @@ const EvaluateResultList = () => {
       <Row>
         <Col lg={12} md={12} sm={12}>
           <ResultByUser
-            resultList={resultList}
+            userInfoList={userInfoList}
             itemList={itemList}
+            itemDetailList={itemDetailList}
             judgeList={judgeList}
+            resultList={resultList}
+            commentList={commentList}
           />
         </Col>
       </Row>

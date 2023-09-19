@@ -32,10 +32,13 @@ export const apiUtils = {
   GetCheckJudge,
   GetCheckJudgeByPostId,
   GetEvaluationItemByPostId,
+  GetEvaluationItemDetailByPostId,
   AddEvaluationItem,
+  AddEvaluationItemDetail,
   GetScore,
   GetScoreFile,
   UpdateScore,
+  UpdateComment,
   GetFileQNA,
   GetCompetitionFileQNA,
   GetPageReport,
@@ -815,10 +818,32 @@ function GetEvaluationItemByPostId(data) {
   });
 }
 
+/* 평가 항목 조회 by postId
+ */
+function GetEvaluationItemDetailByPostId(data) {
+  const url = `/get/eval/detail`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
 /* 평가 항목 추가
  */
 function AddEvaluationItem(data) {
   const url = `/add/eval`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+
+/* 평가 항목 추가
+ */
+function AddEvaluationItemDetail(data) {
+  const url = `/add/eval/detail`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',
@@ -864,6 +889,16 @@ function GetScoreFile(data) {
  */
 function UpdateScore(data) {
   const url = `/update/score`;
+  return instance.post(url, data, {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+}
+/* 심사위원 코멘트 업데이트
+ */
+function UpdateComment(data) {
+  const url = `/update/comment`;
   return instance.post(url, data, {
     headers: {
       'Content-type': 'application/json',

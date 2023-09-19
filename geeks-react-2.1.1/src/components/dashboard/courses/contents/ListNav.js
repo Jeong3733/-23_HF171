@@ -27,8 +27,6 @@ const ListNav = ({ data, type }) => {
   // }
 
   const pageResultInfo = data.pageResultInfo.data;
-  const fileResultInfo = data.fileResultInfo.data;
-  const [currentPageData, setCurrentPageData] = useState(new Array(2).fill());
   const [getData, setGetData] = useState([]);
 
   function rankByScore() {
@@ -53,22 +51,18 @@ const ListNav = ({ data, type }) => {
   }
 
   useEffect(() => {
-    if (type === 'file') {
-      setGetData(fileResultInfo);
-    } else {
-      rankByScore();
-    }
+    rankByScore();
   }, [data]);
 
   // paging setup start
   const [pageNumber, setPageNumber] = useState(0);
   const RecordsPerPage = 5;
   const pagesVisited = pageNumber * RecordsPerPage;
-  const pageCount = Math.ceil(pageResultInfo.length / RecordsPerPage);
+  const pageCount = Math.ceil(getData.length / RecordsPerPage);
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-  const displayRecords = pageResultInfo
+  const displayRecords = getData
     .slice(pagesVisited, pagesVisited + RecordsPerPage)
     .map((item, index) => {
       if (item !== undefined) {
@@ -76,12 +70,16 @@ const ListNav = ({ data, type }) => {
         return (
           <Nav.Item key={index} className="ms-0">
             <Nav.Link eventKey={index} className="p-1 mb-sm-0 mb-md-0">
-              <Row>
-                <Col># {item.rank}</Col>
-                {/* <Col>{item.page_id}</Col> */}
-                <Col>{compFile.file_title}</Col>
-                <Col>{compFile.competition_name}</Col>
-              </Row>
+              <div className="d-flex flex-column justify-content-center align-items-start gap-1">
+                <div className="d-flex justify-content-start align-items-center gap-1">
+                  <div># {item.rank}</div>
+                  <div>(score: {item.score.toFixed(3)})</div>
+                </div>
+                <div className="d-flex justify-content-start align-items-center gap-1">
+                  <div>비교 문서: {compFile.file_title}</div>
+                  <div>/ {compFile.competition_name}</div>
+                </div>
+              </div>
             </Nav.Link>
           </Nav.Item>
         );
@@ -102,12 +100,22 @@ const ListNav = ({ data, type }) => {
       ) : null,
     );
 
+  // console.log(changePage);
   return (
     <Container>
       <Tab.Container defaultActiveKey="1">
         <Row className=" pt-4">
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
-            <Nav className="nav-lb-tab flex-column pb-4">
+            <Nav className="nav-lb-tab flex-column pb-4 gap-3">
+              {/* <div className="ms-0">
+                <div className="p-1 mb-sm-0 mb-md-0">
+                  <Row>
+                    # {'랭크'}
+                    {'파일명'}
+                    {'공모전명'}
+                  </Row>
+                </div>
+              </div> */}
               {displayRecords.length > 0 ? (
                 displayRecords
               ) : (

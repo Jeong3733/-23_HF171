@@ -48,7 +48,7 @@ const ManageQNA = () => {
   useEffect(() => {
     const user = Auth.getUser();
     validateCreator(user, competition_id).then((getData) => {
-      console.log(getData);
+      // console.log(getData);
       if (getData === 'yes') {
         loadPostList(competition_id, 'QNA').then((getData) => {
           setPostList(getData);

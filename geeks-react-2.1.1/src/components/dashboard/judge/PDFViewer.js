@@ -10,6 +10,7 @@ import { createStyles, makeStyles } from '@mui/styles';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Card } from 'react-bootstrap';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 //   'pdfjs-dist/build/pdf.worker.min.js',
@@ -19,8 +20,28 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 // 하단에 설명 참조
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+// const styles = StyleSheet.create({
+//   body: {
+//     padding: 35,
+//   },
+//   content: {
+//     padding: 20,
+//     '@media max-width: 400': {
+//       flexDirection: 'column',
+//     },
+//     '@media min-width: 400': {
+//       flexDirection: 'row',
+//     },
+//   },
+//   block: {
+//     height: 150,
+//     width: 150,
+//     backgroundColor: 'red',
+//   },
+// });
+
 const PDFViewer = (props) => {
-  const classes = usePageStyles();
+  // const classes = usePageStyles();
 
   const pdfRef = useRef();
   const [numPages, setNumPages] = useState();
@@ -50,138 +71,57 @@ const PDFViewer = (props) => {
         if (pageNumber > numPages) {
           return;
         }
-
         setPageNumber(pageNumber + 1);
       }, 300),
     [numPages, pageNumber],
   );
 
   return (
-    <Box className={classes.modalPdf}>
-      <Document
-        inputRef={pdfRef}
-        file={selectedPdf}
-        onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={() => {
-          alert('load error');
-          // handleCloseModal();
-        }}
-      >
-        <Page
-          pageNumber={pageNumber}
-          width={pdfRef.current?.clientWidth}
-          height={pdfRef.current?.clientHeight}
-          renderTextLayer={false}
-        />
-      </Document>
-      <Box className={classes.pageNumber}>
-        <IconButton
-          // color="secondary"
-          disabled={!(pageNumber > 1)}
-          onClick={handlePagePrev}
+    <div className="d-flex align-items-center flex-column gap-2">
+      <Card className={` hadow-none`}>
+        <Document
+          inputRef={pdfRef}
+          file={selectedPdf}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={() => {
+            alert('load error');
+            // handleCloseModal();
+          }}
         >
-          <ArrowCircleLeftOutlinedIcon />
-        </IconButton>
+          <Page
+            // style={styles.body}
+            pageNumber={pageNumber}
+            // width={pdfRef.current?.clientWidth}
+            // height={pdfRef.current?.clientHeight}
+            renderTextLayer={true}
+          />
+        </Document>
+      </Card>
+      <Card className={`shadow-none d-flex align-items-center`}>
+        <div className="d-flex align-items-center">
+          <IconButton
+            // color="secondary"
+            disabled={!(pageNumber > 1)}
+            onClick={handlePagePrev}
+          >
+            <ArrowCircleLeftOutlinedIcon />
+          </IconButton>
 
-        <Typography>
-          {pageNumber} / {numPages}
-        </Typography>
+          <Typography>
+            {pageNumber} / {numPages}
+          </Typography>
 
-        <IconButton
-          // color="secondary"
-          disabled={pageNumber >= numPages}
-          onClick={handlePageNext}
-        >
-          <ArrowCircleRightOutlinedIcon />
-        </IconButton>
-      </Box>
-
-      {/* <Box className={classes.closeButton}>
-        <IconButton size="large" onClick={handleCloseModal}>
-          <HighlightOffIcon />
-        </IconButton>
-      </Box> */}
-    </Box>
+          <IconButton
+            // color="secondary"
+            disabled={pageNumber >= numPages}
+            onClick={handlePageNext}
+          >
+            <ArrowCircleRightOutlinedIcon />
+          </IconButton>
+        </div>
+      </Card>
+    </div>
   );
 };
 
 export default PDFViewer;
-
-const usePageStyles = makeStyles((theme) =>
-  createStyles({
-    modalPdf: {
-      // position: 'fixed',
-      // zIndex: 0,
-      // top: 0,
-      // left: 0,
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-
-      '& .react-pdf__Document': {
-        display: 'flex',
-        width: '100% !important',
-        height: '100% !important',
-        justifyContent: 'center',
-      },
-
-      '& .react-pdf__Page': {
-        boxShadow: '0 0 8px rgba(0, 0, 0, 0.5)',
-        margin: '1em',
-      },
-
-      '& .react-pdf__Document Canvas': {
-        margin: '0 auto',
-        width: '100% !important',
-        // height: '100% !important',
-        // width: 'auto',
-        maxHeight: 'calc(100vh - 5em)',
-        maxWidth: 'fit-content',
-        objectFit: 'contain',
-      },
-    },
-
-    pageNumber: {
-      display: 'flex',
-      gap: '1em',
-      width: '100%',
-      justifyContent: 'center',
-      '& p': {
-        fontSize: 18,
-        fontWeight: 700,
-        alignSelf: 'center',
-      },
-
-      '& button': {
-        width: 'auto',
-        height: 'auto',
-        '& svg': {
-          width: '30px',
-          height: '30px',
-        },
-      },
-    },
-
-    closeButton: {
-      position: 'absolute',
-      display: 'flex',
-      top: 0,
-      left: 0,
-      width: '100%',
-      justifyContent: 'flex-end',
-
-      '& button': {
-        width: 'auto',
-        height: 'auto',
-
-        '& svg': {
-          width: '40px',
-          height: '40px',
-        },
-      },
-    },
-  }),
-);

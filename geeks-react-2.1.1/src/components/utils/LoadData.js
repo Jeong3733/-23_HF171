@@ -139,7 +139,7 @@ export function loadCompetitionInfoByUser(user, competition_id) {
     .catch((error) => {
       // alert(error.response.data);
       handleLogError(error);
-      const getData = sample;
+      const getData = false;
       return getData;
     });
 }
@@ -230,6 +230,37 @@ export function loadItemList(post_id) {
   }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
   return apiUtils
     .GetEvaluationItemByPostId(formDataToSend)
+    .then((response) => {
+      const getData = response.data;
+      return getData;
+    })
+    .catch((error) => {
+      // alert(error.response.data);
+      handleLogError(error);
+      const getData = sample;
+      return getData;
+    });
+}
+
+/* 평가 항목 리스트 요청 by post_id */
+export function loadItemDetailList(post_id) {
+  const formDataToSend = {
+    postId: post_id,
+  };
+  const sample = {
+    judge_info_list: [
+      {
+        judge_id: '32af249e-96e3-4524-a46d-c973c0d1b839',
+        post_id: 1,
+      },
+      {
+        judge_id: '365e1ca6-bd3d-413d-ba09-eb31c54849e2',
+        post_id: 1,
+      },
+    ],
+  }; // 실제로는 API 등을 통해 얻어온 데이터를 사용합니다.
+  return apiUtils
+    .GetEvaluationItemDetailByPostId(formDataToSend)
     .then((response) => {
       const getData = response.data;
       return getData;
@@ -1111,7 +1142,7 @@ export function loadUser(user) {
   return apiUtils
     .getUserInfo(user)
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const getData = response.data;
       return getData;
     })
@@ -1125,7 +1156,7 @@ export function loadUser(user) {
 
 /* Readme 업데이트 요청 */
 export function updateReadme(competition_id, readme) {
-  console.log(parseInt(competition_id), competition_id, readme);
+  // console.log(parseInt(competition_id), competition_id, readme);
   const formDataToSend = {
     competitionId: parseInt(competition_id),
     competitionReadme: readme,
@@ -1134,7 +1165,7 @@ export function updateReadme(competition_id, readme) {
   return apiUtils
     .UpdateReadme(formDataToSend)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       const getData = response.data;
       return getData;
     })

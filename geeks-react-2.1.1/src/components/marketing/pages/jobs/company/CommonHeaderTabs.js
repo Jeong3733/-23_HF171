@@ -28,11 +28,22 @@ import {
 import { useAuth } from 'components/AuthContext';
 import { apiUtils } from 'components/utils/ApiUtils';
 import { handleLogError } from 'components/utils/ErrorUtils';
-import { validateCreator } from 'components/utils/LoadData';
+import {
+  loadCompetitionInfo,
+  loadCompetitionInfoByUser,
+  validateCreator,
+} from 'components/utils/LoadData';
 
 const CommonHeaderTabs = (props) => {
   const { competition_id } = useParams();
-  const { competitionInfo, isLoggedIn, Auth, creatorInfo, userList } = props;
+  const {
+    competitionInfo,
+    isLoggedIn,
+    Auth,
+    creatorInfo,
+    userList,
+    setCompetitionInfo,
+  } = props;
   const location = useLocation();
 
   const tabItems = [
@@ -101,7 +112,17 @@ const CommonHeaderTabs = (props) => {
       apiUtils
         .AddParticipation(user, data7)
         .then((response) => {
-          refreshPage();
+          loadCompetitionInfoByUser(user, competition_id).then((getData) => {
+            // console.log('loadCompetitionInfoByUser');
+            if (getData) {
+              setCompetitionInfo(getData);
+            } else {
+              // console.log('loadCompetitionInfo');
+              loadCompetitionInfo(competition_id).then((getData) => {
+                setCompetitionInfo(getData);
+              });
+            }
+          });
         })
         .catch((error) => {
           // alert(error.response.data);
@@ -122,7 +143,7 @@ const CommonHeaderTabs = (props) => {
     }
     return txt;
   }
-  console.log(competitionInfo);
+  // console.log(competitionInfo);
   return (
     <Fragment>
       {/* 커버 이미지 (없애도 되려나?) */}
@@ -199,16 +220,16 @@ const CommonHeaderTabs = (props) => {
               </Col>
               <Col xl={4} lg={4} md={4} sm={4}>
                 {/* <div className="w-100 ms-md-4 mt-4"> */}
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <Badge pill bg="primary" className="me-1">
+                <div className="d-flex justify-content-end align-items-center gap-2">
+                  <Badge pill bg="primary" className="me-1 p-2">
                     {getCompetitionStatus()}
                   </Badge>
-                  <Badge pill bg="primary" className="me-1">
+                  <Badge pill bg="primary" className="me-1 p-2">
                     {calculateDday(competitionInfo.competition_start_date)}
                   </Badge>
                   {competitionInfo.role_type ? (
                     // 참가 중
-                    <Badge pill bg="primary" className="me-1">
+                    <Badge pill bg="primary" className="me-1 p-2">
                       <span className="">{userRole()}</span>
                     </Badge>
                   ) : (
@@ -235,10 +256,6 @@ const CommonHeaderTabs = (props) => {
           </Row>
           <Row as="header" className="mb-4">
             <span className="text-dark ms-3 fw-medium">
-              {competitionInfo.competition_description}
-              {` `}
-              {competitionInfo.competition_description}
-              {` `}
               {competitionInfo.competition_description}
             </span>
           </Row>

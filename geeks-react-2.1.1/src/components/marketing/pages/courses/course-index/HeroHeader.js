@@ -10,7 +10,7 @@ import Together from 'assets/images/together-2.png';
 
 const HeroHeader = (props) => {
   const { isLoggedIn, UserInfo } = props;
-  console.log(UserInfo.role);
+  // console.log(UserInfo.role);
   return (
     <section className="bg-primary">
       <Container>

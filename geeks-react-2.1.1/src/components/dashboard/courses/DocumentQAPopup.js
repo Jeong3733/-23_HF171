@@ -5,24 +5,26 @@ import { Link, useParams } from 'react-router-dom';
 // import sub components
 import Chat from 'components/dashboard/chat/Chat';
 import Chatbot from './Chatbot';
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { Card, Col, ListGroup, Row } from 'react-bootstrap';
 
-const DocumentQAPopup = ({ fileInfo, messages }) => {
+const DocumentQAPopup = ({ fileInfo, messages, setMessages }) => {
   const { competition_id, post_id } = useParams();
   // console.log(competition_id);
 
   return (
-    <Fragment>
-      <ListGroup>
-        <ListGroup.Item>
-          해당 문서에 정보를 찾기 위한 질문을 하면, 문서 내에 있는 얻을 수 있는
-          정보 안에서 답변을 드립니다.
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <Chatbot fileInfo={fileInfo} messages={messages} />
-        </ListGroup.Item>
-      </ListGroup>
-    </Fragment>
+    <Card>
+      <Card.Header className="p-2">
+        해당 문서에 정보를 찾기 위한 질문을 하면, 문서 내에 있는 얻을 수 있는
+        정보 안에서 답변을 드립니다.
+      </Card.Header>
+      <Card.Body className="p-2">
+        <Chatbot
+          fileInfo={fileInfo}
+          messages={messages}
+          setMessages={setMessages}
+        />
+      </Card.Body>
+    </Card>
   );
 };
 

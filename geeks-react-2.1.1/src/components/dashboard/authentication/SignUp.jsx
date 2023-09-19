@@ -36,7 +36,7 @@ const SignUp = () => {
       postObject[t.id] = t.value;
     }
 
-    alert(JSON.stringify(postObject));
+    // alert(JSON.stringify(postObject));
 
     apiUtils
       .signUp(postObject)

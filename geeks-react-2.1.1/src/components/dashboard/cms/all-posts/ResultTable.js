@@ -8,7 +8,7 @@ import {
   useRowSelect,
 } from 'react-table';
 import { Link, useParams } from 'react-router-dom';
-import { Col, Row, Dropdown, Image, Table, Button } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 
 const ResultTable = ({
   evaluations,

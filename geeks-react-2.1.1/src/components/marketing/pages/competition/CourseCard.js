@@ -24,6 +24,7 @@ import {
   numberWithCommas,
   s3Link,
   toDateByYYYYMMDD,
+  truncateString,
 } from 'helper/utils';
 import { getUserInfo, loadUserList } from 'components/utils/LoadData';
 
@@ -109,10 +110,13 @@ const CourseCard = ({ item, index, isLoggedIn, viewby, extraclass }) => {
               </span>
             </div>
             {/* 공모전 설명 */}
-            <div className={'lh-1 mb-4 d-flex align-items-center'}>
+            <div
+              className={'lh-1 mb-4 d-flex align-items-start'}
+              style={{ height: '40px' }}
+            >
               <span className="fs-6 text-muted">
                 <GKTippy content={item.competition_description}>
-                  <div>{item.competition_description}</div>
+                  <div>{truncateString(item.competition_description, 100)}</div>
                 </GKTippy>
               </span>
             </div>
