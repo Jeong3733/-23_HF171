@@ -65,7 +65,7 @@ public class PostService {
 
     @Transactional
     public List<PostInfo> getPostInfoListByCompetitionIdAndBoardType(int competitionId, String boardType) {
-        return postInfoRepository.findAllByCompetitionInfoIdAndBoardType(competitionId, BoardType.valueOf(boardType.toUpperCase()));
+        return postInfoRepository.findAllByCompetitionInfoIdAndBoardTypeOrderByCreatedDateDesc(competitionId, BoardType.valueOf(boardType.toUpperCase()));
     }
 
     @Transactional

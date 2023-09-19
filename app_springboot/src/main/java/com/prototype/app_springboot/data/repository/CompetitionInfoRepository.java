@@ -10,4 +10,5 @@ import java.util.List;
 public interface CompetitionInfoRepository extends JpaRepository<CompetitionInfo, Integer> {
     @Query("SELECT c, u FROM CompetitionInfo c LEFT JOIN UserByCompetition u ON c.id = u.competitionInfo.id AND u.userInfo.userId = :userId")
     List<Object[]> findAllLeftJoinWithUserByCompetition(@Param("userId") String userId);
+    List<CompetitionInfo> findAllByOrderByCompetitionStartDateDesc();
 }

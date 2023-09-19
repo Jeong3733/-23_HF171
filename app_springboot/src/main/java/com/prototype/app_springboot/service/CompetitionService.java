@@ -95,7 +95,7 @@ public class CompetitionService {
 
     @Transactional
     public List<CompetitionInfo> getAllCompetitionInfoList() {
-        return competitionInfoRepository.findAll();
+        return competitionInfoRepository.findAllByOrderByCompetitionStartDateDesc();
     }
 
     /**
@@ -113,7 +113,7 @@ public class CompetitionService {
 
     @Transactional
     public List<UserByCompetition> getCompetitionInfoListByUserId(String userId) {
-        return userByCompetitionRepository.findAllByUserInfo_UserId(userId);
+        return userByCompetitionRepository.findAllByUserInfo_UserIdOrderByCompetitionInfo_CompetitionStartDateDesc(userId);
     }
 
     @Transactional

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface UserByCompetitionRepository extends JpaRepository<UserByCompetition, UserByCompetitionId> {
     List<UserByCompetition> findAllByUserInfo_UserId(String userInfoId);
+    List<UserByCompetition> findAllByUserInfo_UserIdOrderByCompetitionInfo_CompetitionStartDateDesc(String userInfoId);
     List<UserByCompetition> findAllByCompetitionInfoId(int competitionInfoId);
     Optional<UserByCompetition> findByUserInfo_UserIdAndCompetitionInfoId(String userInfoId, int competitionInfoId);
     boolean existsByUserInfo_UserIdAndCompetitionInfoId(String userInfoId, int competitionInfoId);
