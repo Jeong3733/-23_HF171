@@ -60,7 +60,7 @@ const PageText = ({ info, data }) => {
   }, [info]);
   // console.log(content);
   return (
-    <Tab.Container defaultActiveKey="1">
+    <Tab.Container defaultActiveKey="3">
       <Card className="bg-transparent shadow-none ">
         <Card.Header className="border-0 p-0 bg-transparent">
           <Nav className="nav-lb-tab">
@@ -73,11 +73,11 @@ const PageText = ({ info, data }) => {
             <Nav.Item>
               <Nav.Link eventKey="2" className="pt-0 mb-sm-3 mb-md-0">
                 {' '}
-                표절 근거
+                비교 문장
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="4" className="pt-0 mb-sm-3 mb-md-0">
+              <Nav.Link eventKey="3" className="pt-0 mb-sm-3 mb-md-0">
                 {' '}
                 Info
               </Nav.Link>
@@ -102,7 +102,7 @@ const PageText = ({ info, data }) => {
                 info.report
               )}
               <div>
-                * 상세한 표절 근거는 우측 [표절 근거]에서 확인할 수 있습니다.{' '}
+                * 상세한 비교 문장는 우측 [비교 문장]에서 확인할 수 있습니다.{' '}
               </div>
             </Tab.Pane>
             <Tab.Pane
@@ -120,7 +120,7 @@ const PageText = ({ info, data }) => {
                 content
               )}
             </Tab.Pane>
-            <Tab.Pane eventKey="4" className="pb-4 p-4 ps-0 pe-0">
+            <Tab.Pane eventKey="3" className="pb-4 p-4 ps-0 pe-0">
               info.rank: {info.rank}
               <br />
               data.fileInfo.data.file_id: {data.fileInfo.data.file_id}

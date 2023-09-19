@@ -12,12 +12,12 @@ const DocumentQAPopup = ({ fileInfo, messages, setMessages }) => {
   // console.log(competition_id);
 
   return (
-    <Card className={`card-hover shadow-none`}>
-      <Card.Header>
+    <Card>
+      <Card.Header className="p-2">
         해당 문서에 정보를 찾기 위한 질문을 하면, 문서 내에 있는 얻을 수 있는
         정보 안에서 답변을 드립니다.
       </Card.Header>
-      <Card.Body>
+      <Card.Body className="p-2">
         <Chatbot
           fileInfo={fileInfo}
           messages={messages}

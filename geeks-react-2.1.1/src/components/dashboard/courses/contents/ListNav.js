@@ -70,12 +70,16 @@ const ListNav = ({ data, type }) => {
         return (
           <Nav.Item key={index} className="ms-0">
             <Nav.Link eventKey={index} className="p-1 mb-sm-0 mb-md-0">
-              <Row>
-                # {item.rank}
-                {/* <Col>{item.page_id}</Col> */}
-                {compFile.file_title}
-                {compFile.competition_name}
-              </Row>
+              <div className="d-flex flex-column justify-content-center align-items-start gap-1">
+                <div className="d-flex justify-content-start align-items-center gap-1">
+                  <div># {item.rank}</div>
+                  <div>(score: {item.score.toFixed(3)})</div>
+                </div>
+                <div className="d-flex justify-content-start align-items-center gap-1">
+                  <div>비교 문서: {compFile.file_title}</div>
+                  <div>/ {compFile.competition_name}</div>
+                </div>
+              </div>
             </Nav.Link>
           </Nav.Item>
         );
@@ -102,17 +106,16 @@ const ListNav = ({ data, type }) => {
       <Tab.Container defaultActiveKey="1">
         <Row className=" pt-4">
           <Col xl={{ span: 4, offset: 0 }} lg={4} xs={12}>
-            <Nav className="nav-lb-tab flex-column pb-4">
-              <div className="ms-0">
+            <Nav className="nav-lb-tab flex-column pb-4 gap-3">
+              {/* <div className="ms-0">
                 <div className="p-1 mb-sm-0 mb-md-0">
                   <Row>
                     # {'랭크'}
-                    {/* <Col>{item.page_id}</Col> */}
                     {'파일명'}
                     {'공모전명'}
                   </Row>
                 </div>
-              </div>
+              </div> */}
               {displayRecords.length > 0 ? (
                 displayRecords
               ) : (

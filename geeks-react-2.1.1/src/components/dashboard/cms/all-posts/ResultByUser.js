@@ -221,13 +221,13 @@ const ResultByUser = (props) => {
                                         user_id,
                                         judge_id,
                                       );
-                                      sumItemDetail += score;
+                                      if (score !== 'X') {
+                                        sumItemDetail += score;
+                                      }
                                       return (
                                         <td scope="col" key={judgeIndex}>
                                           <div className="d-flex flex-row gap-1">
-                                            <div className="fw-bold">
-                                              {score}
-                                            </div>
+                                            <div>{score}</div>
                                             <div>/ {item_detail_max}</div>
                                           </div>
                                         </td>
@@ -236,9 +236,7 @@ const ResultByUser = (props) => {
 
                                     <td scope="col">
                                       <div className="d-flex flex-row gap-1">
-                                        <div className="fw-bold">
-                                          {sumItemDetail}
-                                        </div>
+                                        <div>{sumItemDetail}</div>
                                         <div>
                                           /{item_detail_max * itemList.length}
                                         </div>

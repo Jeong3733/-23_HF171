@@ -44,30 +44,27 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
     .slice(pagesVisited, pagesVisited + RecordsPerPage)
     .map((item, index) => (
       <div key={index} className="pb-3">
-        <h2>
-          # {parseInt(item) + 1} Page ({parseInt(item) + 1}/{pageNumList.length}
-          )
-        </h2>
-        <div>Item # {groupPageList[item]}</div>
+        <h4>
+          # {parseInt(item) + 1} 페이지 요약 ({parseInt(item) + 1}/
+          {pageNumList.length})
+        </h4>
+        <div>{groupPageList[item]}</div>
       </div>
     ));
   return (
-    <Card className={`card-hover shadow-none`}>
-      <Card.Header>
-        <div>문서(페이지) 요약 내용을 제공합니다.</div>
-      </Card.Header>
-      <Card.Body>
+    <Card>
+      <Card.Body className="p-2">
         <Tab.Container defaultActiveKey="File">
           <Nav className="nav-lb-tab">
             <Nav.Item className="ms-0">
-              <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0">
+              <Nav.Link eventKey="File" className="mb-sm-3 mb-md-0 p-0 pb-2">
                 {' '}
-                File
+                파일 요약
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0">
-                Page
+              <Nav.Link eventKey="Page" className="mb-sm-3 mb-md-0 p-0 pb-2">
+                페이지 요약
               </Nav.Link>
             </Nav.Item>
           </Nav>
@@ -104,38 +101,3 @@ const SummaryPopup = ({ fileInfo, pageInfo }) => {
 };
 
 export default SummaryPopup;
-
-// const A = [
-//   {
-//     file_id: 81,
-//     page_num: 0,
-//     start_index: 0,
-//     summary: '0 page : summary',
-//   },
-//   {
-//     file_id: 81,
-//     page_num: 1,
-//     start_index: 0,
-//     summary: '1 page : summary',
-//   },
-//   {
-//     file_id: 81,
-//     page_num: 1,
-//     start_index: 10,
-//     summary: '1 page : summary',
-//   },
-//   {
-//     file_id: 81,
-//     page_num: 2,
-//     start_index: 0,
-//     summary: '2 page : summary',
-//   },
-// ];
-
-// const B = [
-//   {
-//     0: '0 page : summary',
-//     1: '0 page : summary',
-//     2: '0 page : summary',
-//   },
-// ];

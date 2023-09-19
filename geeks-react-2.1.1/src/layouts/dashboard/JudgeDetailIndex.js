@@ -187,6 +187,7 @@ const JudgeDetailIndex = ({ children }) => {
   // console.log(scoreList);
   // console.log(fileInfo);
   // console.log(isNaN(fileInfo));
+  console.log(data);
   return (
     <div>
       <Navbar expanded="lg" className="navbar-default">
@@ -228,7 +229,7 @@ const JudgeDetailIndex = ({ children }) => {
         </div>
       </Navbar>
       <div className="d-flex flex-row w- justify-content-center align-items-stretch">
-        <div className="d-flex w-30 flex-column justify-content-start gap-3 m-3">
+        <div className="d-flex w-30 flex-column justify-content-start m-3">
           <Accordion defaultActiveKey="0">
             <Accordion.Item eventKey="0">
               <Accordion.Header>문서 요약</Accordion.Header>
