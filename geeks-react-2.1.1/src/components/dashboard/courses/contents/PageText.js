@@ -60,7 +60,7 @@ const PageText = ({ info, data }) => {
   }, [info]);
   // console.log(content);
   return (
-    <Tab.Container defaultActiveKey="3">
+    <Tab.Container defaultActiveKey="1">
       <Card className="bg-transparent shadow-none ">
         <Card.Header className="border-0 p-0 bg-transparent">
           <Nav className="nav-lb-tab">
